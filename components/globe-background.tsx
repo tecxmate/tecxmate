@@ -3,6 +3,12 @@
 import { useEffect, useRef, useState } from "react"
 import createGlobe from "cobe"
 
+/** Detect Android (incl. WebView in Messenger, Instagram, etc.) for performance tweaks */
+function isAndroid(): boolean {
+  if (typeof navigator === "undefined") return false
+  return /Android/i.test(navigator.userAgent)
+}
+
 /** Purple (gradient start) */
 const BASE = [0.4, 0.25, 0.95] as [number, number, number]
 /** Pink/magenta (gradient middle) */
@@ -33,6 +39,7 @@ export function GlobeBackground() {
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 })
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isInView, setIsInView] = useState(true)
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -67,6 +74,19 @@ export function GlobeBackground() {
     return () => ro.disconnect()
   }, [])
 
+  // Pause globe animation when off-screen to reduce GPU load and scroll jank on Android
+  useEffect(() => {
+    const hero = document.getElementById("hero")
+    if (!hero) return
+
+    const io = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      { threshold: 0.05, rootMargin: "50px" }
+    )
+    io.observe(hero)
+    return () => io.disconnect()
+  }, [])
+
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -80,6 +100,8 @@ export function GlobeBackground() {
     canvas.style.width = `${width}px`
     canvas.style.height = `${height}px`
 
+    const mapSamples = isAndroid() ? (isMobile ? 4000 : 8000) : isMobile ? 8000 : 20000
+
     const globe = createGlobe(canvas, {
       devicePixelRatio: dpr,
       width,
@@ -89,7 +111,7 @@ export function GlobeBackground() {
       dark: 0,
       diffuse: 1.2,
       scale: 2.8,
-      mapSamples: isMobile ? 8000 : 20000,
+      mapSamples,
       mapBrightness: 8,
       mapBaseBrightness: 0,
       opacity: isMobile ? 0.78 : 1,
@@ -99,7 +121,7 @@ export function GlobeBackground() {
       markers: MARKERS,
       offset: [width * 0.72, -height * 0.52],
       onRender: (state) => {
-        if (!prefersReducedMotion) {
+        if (!prefersReducedMotion && isInView) {
           phiRef.current += 0.001
           state.phi = phiRef.current
         }
@@ -107,7 +129,7 @@ export function GlobeBackground() {
     })
 
     return () => globe.destroy()
-  }, [dimensions, isMobile, prefersReducedMotion])
+  }, [dimensions, isMobile, prefersReducedMotion, isInView])
 
   return (
     <div

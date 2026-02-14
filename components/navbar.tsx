@@ -42,8 +42,7 @@ export function Navbar() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 w-full border-b border-white/15 bg-white/25 backdrop-blur-2xl shadow-[0_1px_0_0_rgba(255,255,255,0.35)_inset,0_10px_30px_rgba(0,0,0,0.06)] supports-[backdrop-filter]:bg-white/20"
-        style={{ WebkitBackdropFilter: "saturate(190%) blur(26px)" }}
+        className="fixed top-0 left-0 right-0 z-50 w-full border-b border-white/20 bg-white/95 md:bg-white/25 md:backdrop-blur-2xl shadow-sm md:shadow-[0_1px_0_0_rgba(255,255,255,0.35)_inset,0_10px_30px_rgba(0,0,0,0.06)]"
       >
         <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
