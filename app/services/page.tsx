@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
-import { Brain, Zap, Bot, Leaf, MonitorSmartphone, ServerCog, ArrowRight } from "lucide-react"
+import { Brain, Zap, Bot, Megaphone, MonitorSmartphone, ServerCog, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import type { Metadata } from "next"
 import Script from "next/script"
@@ -113,18 +113,18 @@ const services = [
     ],
   },
   {
-    id: "esg-tech",
-    slug: "esg-carbon-footprint",
-    icon: Leaf,
-    title: "ESG Tech & Carbon Footprint",
-    description: "Support traditional manufacturers with carbon footprint calculations and compliance-ready ESG data for the latest EU reporting requirements.",
+    id: "ai-marketing",
+    slug: "ai-marketing-lead-generation",
+    icon: Megaphone,
+    title: "AI Marketing and Lead Generation",
+    description: "Use AI to reach the right audience, generate qualified leads, and convert them into customers. From content creation to campaigns and attribution, we help you grow predictably.",
     features: [
-      "Product & process carbon footprint calculations",
-      "Emission factor and material library setup",
-      "Dashboards for plant- and job-level CO2e",
-      "Customer-ready carbon footprint certificates",
-      "Data exports aligned with EU reporting formats",
-      "Integration hooks for ERP/MES data sources"
+      "AI-powered content creation and copy optimization",
+      "Lead generation funnels and landing page optimization",
+      "Campaign automation and multi-channel orchestration",
+      "Lead scoring and CRM integration",
+      "Attribution and ROI tracking",
+      "Personalization and audience segmentation"
     ],
   },
   {
@@ -255,7 +255,7 @@ export default function ServicesPage() {
                           bullet: "text-sky-500",
                           button: "border-sky-400 text-sky-600",
                         }
-                      : service.id === "esg-tech"
+                      : service.id === "ai-marketing"
                       ? {
                           iconBg: "bg-emerald-50",
                           iconColor: "text-emerald-600",
@@ -293,7 +293,7 @@ export default function ServicesPage() {
                             ? "hover:border-amber-400/60 hover:shadow-[0_0_40px_rgba(245,158,11,0.25)]"
                             : service.id === "ai-integration"
                             ? "hover:border-sky-400/60 hover:shadow-[0_0_40px_rgba(56,189,248,0.25)]"
-                            : service.id === "esg-tech"
+                            : service.id === "ai-marketing"
                             ? "hover:border-emerald-400/60 hover:shadow-[0_0_40px_rgba(52,211,153,0.25)]"
                             : service.id === "web-dev"
                             ? "hover:border-indigo-400/60 hover:shadow-[0_0_40px_rgba(129,140,248,0.25)]"

@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { ContactFormTrigger } from "@/components/contact-form-trigger"
-import { Brain, Zap, Bot, Leaf, MonitorSmartphone, ServerCog, ArrowLeft, Check, TrendingUp, Users } from "lucide-react"
+import { Brain, Zap, Bot, Megaphone, MonitorSmartphone, ServerCog, ArrowLeft, Check, TrendingUp, Users } from "lucide-react"
 import Link from "next/link"
 import type { Metadata } from "next"
 import Script from "next/script"
@@ -142,45 +142,45 @@ const services = {
       "Building AI capabilities within your team"
     ],
   },
-  "esg-carbon-footprint": {
-    id: "esg-tech",
-    icon: Leaf,
-    title: "ESG Tech & Carbon Footprint",
-    description: "Help traditional manufacturers calculate product and process carbon footprints and prepare compliance-ready data for the latest EU carbon reporting requirements.",
+  "ai-marketing-lead-generation": {
+    id: "ai-marketing",
+    icon: Megaphone,
+    title: "AI Marketing and Lead Generation",
+    description: "Use AI to reach the right audience, generate qualified leads, and convert them into customers. From content creation to campaigns and attribution, we help you grow predictably.",
     longDescription:
-      "Stay ahead of fast-changing ESG and carbon regulations without drowning in spreadsheets. We design and implement carbon footprint systems for traditional manufacturers—especially metal and CNC shops—that turn your production data into compliant, audit-friendly CO2e metrics. From data collection and emission factor modeling to dashboards and customer-facing certificates, we make it practical to respond to EU carbon laws and buyer requests.",
+      "Stop guessing which content and campaigns work. We help you use AI to create high-converting content, run targeted lead generation campaigns, and turn prospects into customers. From landing pages and funnels to CRM integration and attribution, we build systems that scale your pipeline without scaling headcount.",
     valueOutcomes: {
       moreCustomers: [
-        "Win RFQs from EU and global buyers that now require product-level carbon data as part of vendor qualification.",
-        "Differentiate from low-cost competitors by offering transparent, verifiable carbon footprint reports with every quote.",
-        "Build trust with existing customers by proactively providing ESG data instead of waiting for them to chase you."
+        "Attract more qualified leads with AI-optimized content and targeted campaigns across search, social, and email.",
+        "Convert more visitors with personalized experiences, smart forms, and conversion-focused landing pages.",
+        "Build a predictable pipeline with lead scoring, nurture sequences, and clear attribution."
       ],
       moreRevenue: [
-        "Protect and expand export revenue by staying compliant with emerging EU carbon disclosure rules and buyer scorecards.",
-        "Turn ESG from a cost center into a sales asset—use carbon data to justify premium positioning and long-term contracts.",
-        "Reduce the internal cost of ESG reporting by automating repeat data pulls and calculations instead of manual Excel workflows."
+        "Reduce cost per lead by automating content creation and campaign optimization with AI.",
+        "Increase deal velocity with CRM integration, lead routing, and sales-ready insights.",
+        "Scale marketing without linear headcount—use AI and automation to do more with less."
       ]
     },
     features: [
-      "Product and process-level carbon footprint modeling (energy, materials, overhead)",
-      "Configurable emission factor library for common materials and machine types",
-      "Dashboards for plant, line, and job-level CO2e trends",
-      "Customer- and auditor-ready carbon footprint certificates",
-      "Data exports aligned with EU-style carbon reporting structures",
-      "Integration hooks for ERP/MES and CSV-based production data"
+      "AI-powered content creation and copy optimization",
+      "Lead generation funnels and landing page optimization",
+      "Campaign automation and multi-channel orchestration",
+      "Lead scoring and CRM integration",
+      "Attribution and ROI tracking",
+      "Personalization and audience segmentation"
     ],
     benefits: [
-      "Stay compliant with fast-evolving EU and buyer carbon reporting expectations",
-      "Answer carbon footprint questions in minutes instead of weeks of manual work",
-      "Create a single source of truth for emissions across machines, materials, and jobs",
-      "Equip sales and account teams with ESG data they can confidently share",
-      "Lay the groundwork for broader ESG and sustainability initiatives"
+      "Predictable pipeline growth with data-driven campaigns",
+      "Higher-quality leads through better targeting and segmentation",
+      "Faster time-to-lead with automated funnels and nurturing",
+      "Clear visibility into what drives revenue",
+      "Marketing systems that scale with your business"
     ],
     useCases: [
-      "CNC or metal shop needing part-level CO2e to respond to EU customer RFQs",
-      "Tier-1 or Tier-2 automotive supplier preparing product carbon footprint files",
-      "Industrial manufacturer consolidating energy, material, and production data into a single ESG view",
-      "Factory building a lightweight carbon dashboard ahead of full ESG transformation"
+      "B2B company needing a steady flow of qualified leads and demo bookings",
+      "SaaS or service business wanting to automate content and campaign optimization",
+      "Startup scaling marketing without hiring a full team",
+      "Established brand modernizing lead gen with AI and automation"
     ]
   },
   "website-design-development": {
@@ -333,7 +333,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   }
 
   const IconComponent = service.icon
-  const isESG = service.id === "esg-tech"
+  const isAIMarketing = service.id === "ai-marketing"
 
   const serviceStructuredData = {
     "@context": "https://schema.org",
@@ -393,7 +393,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       <div className="min-h-screen bg-white">
         <Navbar />
         <main>
-          <section className={isESG ? "bg-emerald-50 py-16 md:py-24" : "bg-primary/5 py-16 md:py-24"}>
+          <section className={isAIMarketing ? "bg-emerald-50 py-16 md:py-24" : "bg-primary/5 py-16 md:py-24"}>
             <div className="container px-4 md:px-6">
               <Link href="/services" className="inline-flex items-center gap-2 text-primary hover:underline mb-8">
                 <ArrowLeft className="h-4 w-4" />
@@ -401,8 +401,8 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               </Link>
               <div className="mx-auto max-w-3xl">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className={isESG ? "w-16 h-16 bg-emerald-100 rounded-lg flex items-center justify-center" : "w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center"}>
-                    <IconComponent className={isESG ? "w-8 h-8 text-emerald-600" : "w-8 h-8 text-primary"} />
+                  <div className={isAIMarketing ? "w-16 h-16 bg-emerald-100 rounded-lg flex items-center justify-center" : "w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center"}>
+                    <IconComponent className={isAIMarketing ? "w-8 h-8 text-emerald-600" : "w-8 h-8 text-primary"} />
                   </div>
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                     {service.title}
@@ -423,7 +423,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                   <ul className="space-y-3">
                     {service.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start">
-                        <Check className={isESG ? "h-5 w-5 text-emerald-600 mr-3 mt-0.5 flex-shrink-0" : "h-5 w-5 text-primary mr-3 mt-0.5 flex-shrink-0"} />
+                        <Check className={isAIMarketing ? "h-5 w-5 text-emerald-600 mr-3 mt-0.5 flex-shrink-0" : "h-5 w-5 text-primary mr-3 mt-0.5 flex-shrink-0"} />
                         <span className="text-gray-700">{feature}</span>
                       </li>
                     ))}
@@ -435,7 +435,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                   <ul className="space-y-3">
                     {service.benefits.map((benefit, idx) => (
                       <li key={idx} className="flex items-start">
-                        <Check className={isESG ? "h-5 w-5 text-emerald-600 mr-3 mt-0.5 flex-shrink-0" : "h-5 w-5 text-primary mr-3 mt-0.5 flex-shrink-0"} />
+                        <Check className={isAIMarketing ? "h-5 w-5 text-emerald-600 mr-3 mt-0.5 flex-shrink-0" : "h-5 w-5 text-primary mr-3 mt-0.5 flex-shrink-0"} />
                         <span className="text-gray-700">{benefit}</span>
                       </li>
                     ))}
@@ -457,7 +457,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               <div className="mt-12 text-center">
                 <ContactFormTrigger
                   size="lg"
-                  className={isESG ? "bg-emerald-500 hover:bg-emerald-600 text-white" : "bg-primary hover:bg-primary-dark text-white"}
+                  className={isAIMarketing ? "bg-emerald-500 hover:bg-emerald-600 text-white" : "bg-primary hover:bg-primary-dark text-white"}
                 >
                   Book a Call
                 </ContactFormTrigger>

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Brain, Zap, Bot, Leaf, MonitorSmartphone, ServerCog } from "lucide-react"
+import { Brain, Zap, Bot, Megaphone, MonitorSmartphone, ServerCog } from "lucide-react"
 
 export function ServicesSection() {
 
@@ -26,10 +26,10 @@ export function ServicesSection() {
       description: "Integrate existing AI tools into your workflow or get expert guidance on AI strategy. We help you identify automation opportunities and implement the right solutions.",
     },
     {
-      id: "esg-tech",
-      icon: Leaf,
-      title: "ESG Tech & Carbon Footprint",
-      description: "Help traditional manufacturers calculate product and process carbon footprints and prepare data for the latest EU carbon reporting requirements.",
+      id: "ai-marketing",
+      icon: Megaphone,
+      title: "AI Marketing and Lead Generation",
+      description: "Use AI to reach the right audience, generate qualified leads, and convert them into customers. From content to campaigns and attribution, we help you grow predictably.",
     },
     {
       id: "web-dev",
@@ -77,7 +77,7 @@ export function ServicesSection() {
                     iconColor: "group-hover:text-sky-500",
                     link: "text-sky-600",
                   }
-                : service.id === "esg-tech"
+                : service.id === "ai-marketing"
                 ? {
                     iconBg: "group-hover:bg-emerald-50",
                     iconColor: "group-hover:text-emerald-600",
@@ -112,7 +112,7 @@ export function ServicesSection() {
                       ? "hover:border-amber-400/60 hover:shadow-[0_0_40px_rgba(245,158,11,0.25)]"
                       : service.id === "ai-integration"
                       ? "hover:border-sky-400/60 hover:shadow-[0_0_40px_rgba(56,189,248,0.25)]"
-                      : service.id === "esg-tech"
+                      : service.id === "ai-marketing"
                       ? "hover:border-emerald-400/60 hover:shadow-[0_0_40px_rgba(52,211,153,0.25)]"
                       : service.id === "web-dev"
                       ? "hover:border-indigo-400/60 hover:shadow-[0_0_40px_rgba(129,140,248,0.25)]"
@@ -139,8 +139,8 @@ export function ServicesSection() {
                       ? 'ai-application-development'
                       : service.id === 'ai-integration'
                       ? 'ai-integration-consulting'
-                      : service.id === 'esg-tech'
-                      ? 'esg-carbon-footprint'
+                      : service.id === 'ai-marketing'
+                      ? 'ai-marketing-lead-generation'
                       : service.id === 'web-dev'
                       ? 'website-design-development'
                       : service.id === 'custom-erp'
