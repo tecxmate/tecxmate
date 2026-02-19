@@ -13,6 +13,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'v0-exocar-experience.vercel.app',
+      },
+      {
+        protocol: 'https',
         hostname: '**.wordpress.com',
       },
       {

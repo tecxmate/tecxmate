@@ -15,6 +15,14 @@ export function DemoProductsSection() {
   // Combine all projects into a single array
   const allProjects = [
     {
+      title: "EXOCAR - Luxury & Exotic Car Rental",
+      description: "Luxury & Exotic Car Rental in California. Drive The Extraordinary.",
+      link: "https://v0-exocar-experience.vercel.app/",
+      image: "/products/exocar.png",
+      icon: ExternalLink,
+      actionText: "Learn More",
+    },
+    {
       title: "Crypted - Harvard Innovation Labs",
       description: "Pioneering Blockchain Education Platform",
       link: "https://innovationlabs.harvard.edu/venture/crypted",
