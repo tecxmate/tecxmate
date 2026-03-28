@@ -15,10 +15,11 @@ export function DemoProductsSection() {
   // Combine all projects into a single array
   const allProjects = [
     {
-      title: "EXOCAR - Luxury & Exotic Car Rental",
-      description: "Luxury & Exotic Car Rental in California. Drive The Extraordinary.",
-      link: "https://v0-exocar-experience.vercel.app/",
-      image: "/products/exocar.png",
+      title: "Vietnamy",
+      description: "AI-powered Vietnamese language learning platform",
+      link: "http://vietnamy.zeabur.app",
+      image: "/products/vietnamy.png",
+      imageBg: "#DC2626",
       icon: ExternalLink,
       actionText: "Learn More",
     },
@@ -181,12 +182,12 @@ export function DemoProductsSection() {
       aria-label={`${project.actionText} - ${project.title}`}
     >
       {/* Image - Fixed aspect ratio to prevent layout shift */}
-      <div className="w-full bg-[#e3e3e3] flex-shrink-0 relative aspect-[4/3] overflow-hidden">
+      <div className="w-full flex-shrink-0 relative aspect-[4/3] overflow-hidden" style={{ backgroundColor: project.imageBg || '#e3e3e3' }}>
         <Image
           src={project.image || "/placeholder.svg"}
           alt={project.title}
           fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className={`${project.imageBg ? 'object-contain p-4' : 'object-cover'} transition-transform duration-300 group-hover:scale-105`}
           sizes="(max-width: 768px) 288px, 320px"
           quality={75}
           loading="lazy"
