@@ -177,7 +177,7 @@ export function DemoProductsSection() {
       href={project.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="group block rounded-lg border border-alt-gray-200 bg-white shadow-sm overflow-hidden hover:border-primary hover:shadow-md transition-all duration-300 flex flex-col h-full w-full"
+      className="group block rounded-none border border-alt-gray-200 bg-white shadow-sm overflow-hidden hover:border-primary hover:shadow-md transition-all duration-300 flex flex-col h-full w-full"
       aria-label={`${project.actionText} - ${project.title}`}
     >
       {/* Image - Fixed aspect ratio to prevent layout shift */}

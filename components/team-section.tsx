@@ -22,6 +22,24 @@ export function TeamSection() {
       description: 'MS Gamification Engineering (NTUST, exp. \'27). Built 3+ apps on App Store. Specialist in game mechanics for learning.',
       twitter: 'https://www.tecxmate.com',
       linkedin: 'https://www.linkedin.com/in/brian-nguyen-587825235/'
+    },
+    {
+      id: 'ellis',
+      name: 'Ellis Wu 吳賢政',
+      role: 'Business Development',
+      photo: '/avatars/ellis_avatar.jpeg',
+      description: 'Business development specialist focused on strategic partnerships and market expansion.',
+      twitter: 'https://www.tecxmate.com',
+      linkedin: 'https://www.linkedin.com/in/hsien-cheng-ellis-wu-6a1044297/'
+    },
+    {
+      id: 'jane',
+      name: 'Jane Liu 劉美娟',
+      role: 'Creative Director',
+      photo: '/avatars/jane_avatar.jpeg',
+      description: 'Creative director with expertise in UI/UX design and brand identity development.',
+      twitter: 'https://www.tecxmate.com',
+      linkedin: 'https://www.linkedin.com/in/jane-liu/'
     }
   ]
 
@@ -29,20 +47,17 @@ export function TeamSection() {
     <>
       <section id="team" className="bg-white py-24 md:py-28 lg:py-32">
         <div className="container px-4 md:px-6 max-w-6xl">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
-            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900">Meet the Founders</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">The masterminds of TECXMATE - Dedicated to your success.</p>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900">The Team</h2>
           </div>
 
-          <div className="mt-16 overflow-x-auto overflow-y-hidden scrollbar-hide">
-            <div className="flex gap-4 pb-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {teamMembers.map((member) => (
                 <div
                   key={member.id}
-                  className="flex-shrink-0 w-80 md:w-96"
                 >
                   <div
-                    className="rounded-lg border border-alt-gray-200 bg-white shadow-sm overflow-hidden h-full hover:border-primary hover:shadow-md transition-all duration-300"
+                    className="rounded-none border border-alt-gray-200 bg-white shadow-sm overflow-hidden h-full hover:border-primary hover:shadow-md transition-all duration-300"
                   >
                 <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
                   <Image
@@ -53,14 +68,14 @@ export function TeamSection() {
                     className="w-full h-full object-cover object-center"
                   />
                 </div>
-                    <div className="p-4 md:p-6 text-center">
-                      <h3 className="text-lg md:text-xl font-semibold text-alt-black mb-2">{member.name}</h3>
-                      <p className="text-sm md:text-base text-primary font-medium mb-3">{member.role}</p>
-                      <div className="flex items-center justify-center gap-3">
+                    <div className="p-3 md:p-4 text-center">
+                      <h3 className="text-sm md:text-base font-semibold text-alt-black mb-1">{member.name}</h3>
+                      <p className="text-xs md:text-sm text-primary font-medium mb-2">{member.role}</p>
+                      <div className="flex items-center justify-center gap-2">
                         <a 
                           href={member.linkedin} 
                           aria-label="LinkedIn" 
-                          className="p-2 rounded-full bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
+                          className="p-2 rounded-none bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -69,7 +84,7 @@ export function TeamSection() {
                         <a 
                           href={member.twitter} 
                           aria-label={member.id === 'brian' ? 'Company' : 'Academic'} 
-                          className="p-2 rounded-full bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
+                          className="p-2 rounded-none bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -84,15 +99,10 @@ export function TeamSection() {
                   </div>
                 </div>
               ))}
-            </div>
           </div>
         </div>
       </section>
 
-      <style jsx global>{`
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-      `}</style>
     </>
   )
 }

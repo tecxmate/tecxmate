@@ -82,7 +82,7 @@ export function CampaignsSection() {
               <Link
                 key={post.id}
                 href={`/blog/${post.slug}`}
-                className="group block rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden h-full hover:border-primary hover:shadow-md transition-all duration-300"
+                className="group block rounded-none border border-gray-200 bg-white shadow-sm overflow-hidden h-full hover:border-primary hover:shadow-md transition-all duration-300"
               >
                 <div className="aspect-video w-full overflow-hidden bg-gray-100 relative">
                   <Image

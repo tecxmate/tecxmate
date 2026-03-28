@@ -45,11 +45,11 @@ export function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 w-full border-b border-white/20 bg-white/95 md:bg-white/25 md:backdrop-blur-2xl shadow-sm md:shadow-[0_1px_0_0_rgba(255,255,255,0.35)_inset,0_10px_30px_rgba(0,0,0,0.06)]"
       >
         <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex flex-col md:flex-row md:items-baseline md:gap-2">
           <span className="text-2xl font-accent italic tracking-wide text-primary">
             <span className="font-thin">tecx</span><span className="font-thin">mate</span>
           </span>
-          <span className="text-2xl font-accent italic tracking-wide text-primary">達盟科技</span>
+          <span className="text-sm md:text-lg font-accent italic tracking-wide text-primary whitespace-nowrap">達盟科技</span>
         </Link>
         <nav className="hidden md:flex gap-6">
           <Link
@@ -59,7 +59,7 @@ export function Navbar() {
             {t("home")}
           </Link>
           <Link 
-            href="/services" 
+            href="/#services" 
             className={`text-sm font-medium transition-colors ${isActive("/services") ? "text-primary" : "hover:text-primary"}`}
           >
             {t("services")}
@@ -113,7 +113,7 @@ export function Navbar() {
               {t("home")}
             </Link>
             <Link
-              href="/services"
+              href="/#services"
               className={`text-sm font-medium transition-colors ${isActive("/services") ? "text-primary" : "hover:text-primary"}`}
               onClick={closeMenu}
             >

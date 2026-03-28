@@ -21,10 +21,8 @@ export const company = {
     country: "Vietnam",
     countryCode: "VN",
   },
-  /** US address */
-  addressUS: "30 N Gould St Ste N, Sheridan, WY 82801, USA",
-  /** Taiwan address */
-  addressTW: "No. 93, Wansheng Street, Wenshan District, Taipei 116059, Taiwan",
+  /** Tax identification number */
+  taxNumber: "0319431089",
   /** Operating markets */
   operatingMarkets: ["Taiwan", "US", "Vietnam"],
   /** Contact email */
