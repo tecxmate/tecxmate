@@ -51,6 +51,7 @@
     "cobe": "latest",
     "date-fns": "3.6.0",
     "embla-carousel-react": "8.5.1",
+    "fast-xml-parser": "^5.5.9",
     "firebase": "^12.5.0",
     "framer-motion": "latest",
     "input-otp": "1.4.1",
