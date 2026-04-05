@@ -21,6 +21,7 @@ export function Footer() {
                 <span className="font-thin">tecx</span>
                 <span className="font-thin">mate</span>
               </span>
+              <span className="text-2xl font-accent italic tracking-wide text-white whitespace-nowrap">達盟科技</span>
             </Link>
             <p className="text-sm text-gray-300 leading-relaxed">{t("got_idea")}</p>
             <div className="flex flex-wrap items-center gap-3">

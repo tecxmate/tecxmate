@@ -58,6 +58,7 @@ export function Navbar() {
           <span className="text-2xl font-accent italic tracking-wide text-primary">
             <span className="font-thin">tecx</span><span className="font-thin">mate</span>
           </span>
+          <span className="text-2xl font-accent italic tracking-wide text-primary whitespace-nowrap">達盟科技</span>
         </Link>
         <nav className="hidden md:flex gap-6">
           <Link

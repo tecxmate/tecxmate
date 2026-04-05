@@ -40,8 +40,14 @@ export async function GET(request: Request) {
     console.log('📡 API route /api/blog/posts called')
     const url = new URL(request.url)
     const categoryParam = url.searchParams.get("lang")?.toLowerCase() || "en"
-    const posts = await wpGetAllPosts(categoryParam)
-    console.log('📡 Posts fetched:', posts.length)
+    let posts = await wpGetAllPosts(categoryParam)
+    console.log(`📡 Posts fetched for ${categoryParam}:`, posts.length)
+    
+    // Fallback to English if no posts found for the requested language
+    if (categoryParam !== 'en' && (!posts || posts.length === 0)) {
+      console.log(`⚠️ No posts found for ${categoryParam}, falling back to en`)
+      posts = await wpGetAllPosts('en')
+    }
     
     if (posts && posts.length > 0) {
       console.log('✅ Returning WordPress posts:', posts.length)

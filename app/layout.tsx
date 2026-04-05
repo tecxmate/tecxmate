@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${baseUrl}/tecxmate-logo-cropped.png`,
+        url: `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
         width: 1200,
         height: 630,
         alt: "TECXMATE - Premier Technology Partner of SMEsand Startups",
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "TECXMATE - Premier Technology Partner of SMEs     & Startups",
     description: "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting.",
-    images: [`${baseUrl}/tecxmate-logo-cropped.png`],
+    images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
     creator: "@tecxmate",
   },
   verification: {
@@ -141,9 +141,9 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://www.googleapis.com" />
         <link rel="dns-prefetch" href="https://www.gstatic.com" />
-        <link rel="preload" as="image" href="/tecxmate-logo-cropped.png" />
+        <link rel="preload" as="image" href="/graphics/tecxmate-logo-cropped.png" />
         <link rel="alternate" type="application/rss+xml" title="Tecxmate Blog RSS Feed" href={`${baseUrl}/feed.xml`} />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         {gtmId ? (
           <script
             dangerouslySetInnerHTML={{

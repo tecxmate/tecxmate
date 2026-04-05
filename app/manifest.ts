@@ -13,10 +13,20 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: '#F6F3F1',
     icons: [
       {
-        src: '/tecxmate-logo-cropped.png',
+        src: '/graphics/tecxmate-logo-cropped.png',
         sizes: 'any',
         type: 'image/png',
       },
+      {
+        src: '/icon.png',
+        sizes: '32x32',
+        type: 'image/png',
+      },
+      {
+        src: '/apple-icon.png',
+        sizes: '180x180',
+        type: 'image/png',
+      }
     ],
     categories: ['business', 'technology', 'consulting'],
     lang: 'en',

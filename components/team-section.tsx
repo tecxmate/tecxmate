@@ -18,7 +18,7 @@ export function TeamSection() {
       id: 'brian',
       name: 'Brian Nguyen 阮文貴',
       role: 'CTO & COO',
-      photo: '/avatars/brian_avatar.png',
+      photo: '/avatars/brian_avatar.jpg',
       description: 'MS Gamification Engineering (NTUST, exp. \'27). Built 3+ apps on App Store. Specialist in game mechanics for learning.',
       twitter: 'https://www.tecxmate.com',
       linkedin: 'https://www.linkedin.com/in/brian-nguyen-587825235/'

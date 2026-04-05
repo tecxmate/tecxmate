@@ -34,8 +34,8 @@ export default function Home() {
             "name": "Tecxmate",
             "alternateName": ["tecxmate", "TECXMATE Corporation Ltd.", "CÔNG TY TNHH TECXMATE"],
             "url": process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com",
-            "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"}/tecxmate-logo-cropped.png`,
-            "image": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"}/tecxmate-logo-cropped.png`,
+            "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"}/graphics/tecxmate-logo-cropped.png`,
+            "image": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"}/graphics/tecxmate-logo-cropped.png`,
             "description": "Premier technology consultancy providing AI development, web development, business automation, and digital transformation services for SMEs and startups.",
             "address": {
               "@type": "PostalAddress",
@@ -192,7 +192,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: `${baseUrl}/tecxmate-logo-cropped.png`,
+          url: `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
           width: 1200,
           height: 630,
           alt: "TECXMATE - Premier Technology Partner of SMEsand Startups",
@@ -204,7 +204,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: "TECXMATE - Premier Technology Partner of SMEs       & Startups",
       description: "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting.",
-      images: [`${baseUrl}/tecxmate-logo-cropped.png`],
+      images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
       creator: "@tecxmate",
     },
   }
