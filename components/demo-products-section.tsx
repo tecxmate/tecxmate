@@ -1,9 +1,103 @@
 "use client"
 
-import { ExternalLink, Smartphone, Palette, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
-import Link from "next/link"
+import { ExternalLink, ChevronLeft, ChevronRight, X } from "lucide-react"
 import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
+import type { WPProject } from "@/app/api/projects/route"
+
+// Static fallback projects shown while WordPress loads or if no WP projects exist
+const FALLBACK_PROJECTS: WPProject[] = [
+  {
+    id: 1,
+    slug: "vietnamy",
+    title: "Vietnamy",
+    excerpt: "AI-powered Vietnamese language learning platform",
+    content: "",
+    date: new Date().toISOString(),
+    coverImage: "/products/vietnamy.png",
+    link: "http://vietnamy.zeabur.app",
+  },
+  {
+    id: 2,
+    slug: "crypted-harvard",
+    title: "Crypted - Harvard Innovation Labs",
+    excerpt: "Pioneering Blockchain Education Platform",
+    content: "",
+    date: new Date().toISOString(),
+    coverImage: "/products/cryptedvc.jpg",
+    link: "https://innovationlabs.harvard.edu/venture/crypted",
+  },
+  {
+    id: 3,
+    slug: "rising-star",
+    title: "Rising Star Startup Competition",
+    excerpt: "Representing Vietnamese students in Taiwanese startup competitions",
+    content: "",
+    date: new Date().toISOString(),
+    coverImage: "/products/risingstar.png",
+    link: "https://www.youtube.com/watch?v=uRUHCy9IGps",
+  },
+  {
+    id: 4,
+    slug: "healthmaxers",
+    title: "HealthMaxers",
+    excerpt: "Performance health insights at scale",
+    content: "",
+    date: new Date().toISOString(),
+    coverImage: "/products/healthmaxer.png",
+    link: "https://healthmaxers.com",
+  },
+  {
+    id: 5,
+    slug: "crypted-app",
+    title: "CryptED",
+    excerpt: "Gamified Blockchain and Web3 education through interactive gameplay",
+    content: "",
+    date: new Date().toISOString(),
+    coverImage: "/products/cryptedapp.png",
+    link: "https://apps.apple.com/tw/app/crypted-blockchain-education/id6747925774?l=en-GB",
+  },
+  {
+    id: 6,
+    slug: "tailu",
+    title: "TailU",
+    excerpt: "Taiwan's Premier AI Pet Care Platform",
+    content: "",
+    date: new Date().toISOString(),
+    coverImage: "/products/tailu-app.jpeg",
+    link: "#",
+  },
+  {
+    id: 7,
+    slug: "classz",
+    title: "ClassZ",
+    excerpt: "Hong Kong's Premier Afterschool Center Management System",
+    content: "",
+    date: new Date().toISOString(),
+    coverImage: "/products/classz.jpg",
+    link: "#",
+  },
+  {
+    id: 8,
+    slug: "waterwise",
+    title: "WaterWise",
+    excerpt: "National Water Tax management system concept",
+    content: "",
+    date: new Date().toISOString(),
+    coverImage: "/products/waterwise.jpg",
+    link: "http://waterwise-eta.vercel.app",
+  },
+  {
+    id: 9,
+    slug: "iprpshield",
+    title: "IPRPSHIELD Copyright Protection Service",
+    excerpt: "Protect your brand against counterfeits, piracy, and online threats",
+    content: "",
+    date: new Date().toISOString(),
+    coverImage: "/products/iprpshield.png",
+    link: "https://iprpshield.com/",
+  },
+]
 
 export function DemoProductsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -11,107 +105,65 @@ export function DemoProductsSection() {
   const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
+  const [projects, setProjects] = useState<WPProject[]>(FALLBACK_PROJECTS)
+  const [selectedProject, setSelectedProject] = useState<WPProject | null>(null)
 
-  // Combine all projects into a single array
-  const allProjects = [
-    {
-      title: "Vietnamy",
-      description: "AI-powered Vietnamese language learning platform",
-      link: "http://vietnamy.zeabur.app",
-      image: "/products/vietnamy.png",
-      imageBg: "#DC2626",
-      icon: ExternalLink,
-      actionText: "Learn More",
-    },
-    {
-      title: "Crypted - Harvard Innovation Labs",
-      description: "Pioneering Blockchain Education Platform",
-      link: "https://innovationlabs.harvard.edu/venture/crypted",
-      image: "/products/cryptedvc.jpg",
-      icon: ExternalLink,
-      actionText: "Learn More",
-    },
-    {
-      title: "Rising Star Startup Competition",
-      description: "Representing Vietnamese students in Taiwanese startup competitions",
-      link: "https://www.youtube.com/watch?v=uRUHCy9IGps",
-      image: "/products/risingstar.png",
-      icon: ExternalLink,
-      actionText: "Learn More",
-    },
-    {
-      title: "HealthMaxers",
-      description: "Performance health insights at scale",
-      link: "https://healthmaxers.com",
-      image: "/products/healthmaxer.png",
-      icon: ExternalLink,
-      actionText: "Learn More",
-    },
-    {
-      title: "CryptED",
-      description: "Gamified Blockchain and Web3 education through interactive gameplay",
-      link: "https://apps.apple.com/tw/app/crypted-blockchain-education/id6747925774?l=en-GB",
-      image: "/products/cryptedapp.png",
-      icon: ExternalLink,
-      actionText: "Learn More",
-    },
-    {
-      title: "TailU",
-      description: "Taiwan's Premier AI Pet Care Platform",
-      link: "#",
-      image: "/products/tailu-app.jpeg",
-      icon: ExternalLink,
-      actionText: "Learn More",
-    },
-    {
-      title: "ClassZ",
-      description: "Hong Kong's Premier Afterschool Center Management System",
-      link: "#",
-      image: "/products/classz.jpg",
-      icon: ExternalLink,
-      actionText: "Learn More",
-    },
-    {
-      title: "WaterWise",
-      description: "National Water Tax management system concept",
-      link: "http://waterwise-eta.vercel.app",
-      image: "/products/waterwise.jpg",
-      icon: ExternalLink,
-      actionText: "Learn More",
-    },
-    {
-      title: "IPRPSHIELD Copyright Protection Service",
-      description: "Protect your brand against counterfeits, piracy, and online threats",
-      link: "https://iprpshield.com/",
-      image: "/products/iprpshield.png",
-      icon: ExternalLink,
-      actionText: "Learn More",
-    },
-  ]
+  // Fetch WordPress projects
+  useEffect(() => {
+    let mounted = true
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch("/api/projects")
+        if (!res.ok) return
+        const data: WPProject[] = await res.json()
+        if (mounted && data.length > 0) {
+          setProjects(data)
+        }
+      } catch {
+        // Keep fallback projects
+      }
+    }
 
-  // Check scroll position for arrow buttons
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      requestIdleCallback(fetchProjects, { timeout: 3000 })
+    } else {
+      setTimeout(fetchProjects, 500)
+    }
+
+    return () => { mounted = false }
+  }, [])
+
+  // Close modal on Escape key
+  useEffect(() => {
+    if (!selectedProject) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedProject(null)
+    }
+    document.body.style.overflow = "hidden"
+    window.addEventListener("keydown", handleKeyDown)
+    return () => {
+      document.body.style.overflow = ""
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [selectedProject])
+
   const checkScroll = () => {
     const container = scrollContainerRef.current
     if (!container) return
-
     const { scrollLeft, scrollWidth, clientWidth } = container
     setCanScrollLeft(scrollLeft > 0)
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10)
   }
 
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -320, behavior: 'smooth' })
-    }
+  const handleScrollLeft = () => {
+    scrollContainerRef.current?.scrollBy({ left: -320, behavior: "smooth" })
   }
 
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 320, behavior: 'smooth' })
-    }
+  const handleScrollRight = () => {
+    scrollContainerRef.current?.scrollBy({ left: 320, behavior: "smooth" })
   }
 
-  // Prevent link clicks during horizontal scrolling only
+  // Prevent card clicks during horizontal scrolling
   useEffect(() => {
     const container = scrollContainerRef.current
     if (!container) return
@@ -123,16 +175,11 @@ export function DemoProductsSection() {
       checkScroll()
       const currentScrollLeft = container.scrollLeft
       const now = Date.now()
-      
-      // Detect if horizontal scrolling occurred (use smaller threshold when zoomed)
-      const threshold = 2 // Smaller threshold to work better when zoomed
-      if (Math.abs(currentScrollLeft - lastScrollLeft) > threshold) {
+      if (Math.abs(currentScrollLeft - lastScrollLeft) > 2) {
         isScrollingRef.current = true
         lastScrollTime = now
-        
         clearTimeout(scrollTimeoutRef.current)
         scrollTimeoutRef.current = setTimeout(() => {
-          // Only clear if enough time has passed since last scroll
           if (Date.now() - lastScrollTime >= 250) {
             isScrollingRef.current = false
           }
@@ -141,187 +188,282 @@ export function DemoProductsSection() {
       lastScrollLeft = currentScrollLeft
     }
 
-    // Use event delegation to prevent clicks on links only after scroll
-    const handleClick = (e: MouseEvent) => {
-      // Only prevent if we were scrolling recently and it's a mouse click (not touch)
-      if (isScrollingRef.current && e.type === 'click') {
-        const target = e.target as HTMLElement
-        const link = target.closest('a')
-        if (link) {
-          e.preventDefault()
-          e.stopPropagation()
-        }
-      }
-    }
-
     checkScroll()
-    container.addEventListener('scroll', handleScroll, { passive: true })
-    // Use bubble phase, not capture, to avoid interfering with scroll
-    container.addEventListener('click', handleClick, false)
-
-    // Check on resize
-    window.addEventListener('resize', checkScroll)
+    container.addEventListener("scroll", handleScroll, { passive: true })
+    window.addEventListener("resize", checkScroll)
 
     return () => {
-      container.removeEventListener('scroll', handleScroll)
-      container.removeEventListener('click', handleClick, false)
-      window.removeEventListener('resize', checkScroll)
+      container.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", checkScroll)
       clearTimeout(scrollTimeoutRef.current)
     }
   }, [])
 
-  const ProjectCard = ({ project }: { project: typeof allProjects[0] }) => {
-    const Icon = project.icon
-    
-    return (
-    <Link
-      href={project.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block rounded-none border border-alt-gray-200 bg-white shadow-sm overflow-hidden hover:border-primary hover:shadow-md transition-all duration-300 flex flex-col h-full w-full"
-      aria-label={`${project.actionText} - ${project.title}`}
-    >
-      {/* Image - Fixed aspect ratio to prevent layout shift */}
-      <div className="w-full flex-shrink-0 relative aspect-[4/3] overflow-hidden" style={{ backgroundColor: project.imageBg || '#e3e3e3' }}>
-        <Image
-          src={project.image || "/placeholder.svg"}
-          alt={project.title}
-          fill
-          className={`${project.imageBg ? 'object-contain p-4' : 'object-cover'} transition-transform duration-300 group-hover:scale-105`}
-          sizes="(max-width: 768px) 288px, 320px"
-          quality={75}
-          loading="lazy"
-        />
-      </div>
-      
-      {/* Content - Fixed height area */}
-      <div className="p-4 flex flex-col flex-1 min-h-[200px]">
-        <div className="flex-1 flex flex-col mb-3">
-          <h3 className="text-lg font-semibold text-alt-black mb-2 text-left line-clamp-2 h-14 flex items-start group-hover:text-primary transition-colors">{project.title}</h3>
-          <p className="text-sm text-gray-600 text-left line-clamp-2 h-10 flex items-start">{project.description}</p>
-        </div>
-        <div className="flex items-center justify-center text-primary font-medium mt-auto">
-          <span>{project.actionText}</span>
-          <Icon className="w-4 h-4 ml-1" />
-        </div>
-      </div>
-    </Link>
-          )
+  const handleCardClick = useCallback((project: WPProject) => {
+    if (isScrollingRef.current) return
+    // If the project has WordPress content, open modal
+    if (project.content) {
+      setSelectedProject(project)
+    } else if (project.link && project.link !== "#") {
+      // Fallback projects without content — open link directly
+      window.open(project.link, "_blank", "noopener,noreferrer")
     }
-  
+  }, [])
+
   return (
-    <section id="portfolio" className="bg-primary py-20 md:py-24 lg:py-28">
-      <div className="container px-4 md:px-6 max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6 text-white">Our Projects</h2>
-        </div>
-
-        <div className="relative">
-          {/* Left Arrow */}
-          <button
-            onClick={scrollLeft}
-            disabled={!canScrollLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed hidden md:flex items-center justify-center"
-            aria-label="Scroll left"
-          >
-            <ChevronLeft className="h-6 w-6 text-white" />
-          </button>
-
-          <div 
-            ref={scrollContainerRef}
-            className="overflow-x-auto pb-4 scrollbar-hide -mx-4 md:mx-0 px-4 md:px-0 carousel-scroll"
-            style={{ 
-              WebkitOverflowScrolling: 'touch',
-              transform: 'translateZ(0)',
-              WebkitTapHighlightColor: 'transparent',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none'
-            }}
-          >
-            <div className="flex gap-6 pb-4 min-w-max pl-4 md:pl-8 pr-4 md:pr-8 items-stretch">
-              {allProjects.map((project, index) => (
-                <div key={index} className="project-card-wrapper first:ml-0 last:mr-0 flex items-stretch">
-                  <ProjectCard project={project} />
-                </div>
-              ))}
-            </div>
+    <>
+      <section id="portfolio" className="bg-primary py-20 md:py-24 lg:py-28">
+        <div className="container px-4 md:px-6 max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6 text-white">Our Projects</h2>
           </div>
 
-          {/* Right Arrow */}
-          <button
-            onClick={scrollRight}
-            disabled={!canScrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed hidden md:flex items-center justify-center"
-            aria-label="Scroll right"
-          >
-            <ChevronRight className="h-6 w-6 text-white" />
-          </button>
-
-          {/* Mobile arrows */}
-          <div className="flex md:hidden justify-center gap-4 mt-4">
+          <div className="relative">
+            {/* Left Arrow */}
             <button
-              onClick={scrollLeft}
+              onClick={handleScrollLeft}
               disabled={!canScrollLeft}
-              className="p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed hidden md:flex items-center justify-center"
               aria-label="Scroll left"
             >
-              <ChevronLeft className="h-5 w-5 text-white" />
+              <ChevronLeft className="h-6 w-6 text-white" />
             </button>
+
+            <div
+              ref={scrollContainerRef}
+              className="overflow-x-auto pb-4 scrollbar-hide -mx-4 md:mx-0 px-4 md:px-0 carousel-scroll"
+              style={{
+                WebkitOverflowScrolling: "touch",
+                transform: "translateZ(0)",
+                WebkitTapHighlightColor: "transparent",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+              }}
+            >
+              <div className="flex gap-6 pb-4 min-w-max pl-4 md:pl-8 pr-4 md:pr-8 items-stretch">
+                {projects.map((project) => (
+                  <div key={project.id} className="project-card-wrapper first:ml-0 last:mr-0 flex items-stretch">
+                    <button
+                      onClick={() => handleCardClick(project)}
+                      className="group block rounded-none border border-alt-gray-200 bg-white shadow-sm overflow-hidden hover:border-primary hover:shadow-md transition-all duration-300 flex flex-col h-full w-full text-left cursor-pointer"
+                      aria-label={`View project - ${project.title}`}
+                    >
+                      {/* Image */}
+                      <div className="w-full flex-shrink-0 relative aspect-[4/3] overflow-hidden bg-[#e3e3e3]">
+                        {project.coverImage ? (
+                          <Image
+                            src={project.coverImage}
+                            alt={project.title}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            sizes="(max-width: 768px) 288px, 320px"
+                            quality={75}
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-primary/10">
+                            <span className="text-primary/40 text-2xl font-bold">{project.title[0]}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-4 flex flex-col flex-1 min-h-[140px]">
+                        <h3 className="text-lg font-semibold text-alt-black mb-2 text-left line-clamp-2 group-hover:text-primary transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-sm text-gray-600 text-left line-clamp-2 mb-3">
+                          {project.excerpt}
+                        </p>
+                        <div className="flex items-center text-primary font-medium mt-auto">
+                          <span>Learn More</span>
+                          <ExternalLink className="w-4 h-4 ml-1" />
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Arrow */}
             <button
-              onClick={scrollRight}
+              onClick={handleScrollRight}
               disabled={!canScrollRight}
-              className="p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed hidden md:flex items-center justify-center"
               aria-label="Scroll right"
             >
-              <ChevronRight className="h-5 w-5 text-white" />
+              <ChevronRight className="h-6 w-6 text-white" />
             </button>
+
+            {/* Mobile arrows */}
+            <div className="flex md:hidden justify-center gap-4 mt-4">
+              <button
+                onClick={handleScrollLeft}
+                disabled={!canScrollLeft}
+                className="p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="h-5 w-5 text-white" />
+              </button>
+              <button
+                onClick={handleScrollRight}
+                disabled={!canScrollRight}
+                className="p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="h-5 w-5 text-white" />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <style jsx global>{`
-        .scrollbar-hide::-webkit-scrollbar { 
-          display: none; 
-        }
-        .scrollbar-hide { 
-          -ms-overflow-style: none; 
-          scrollbar-width: none; 
-        }
-        .carousel-scroll {
-          -webkit-overflow-scrolling: touch;
-          scroll-padding-left: 1rem;
-          scroll-padding-right: 1rem;
-        }
-        @media (min-width: 768px) {
-          .carousel-scroll {
-            scroll-padding-left: 2rem;
-            scroll-padding-right: 2rem;
-          }
-        }
-        /* Mobile: Enable native touch scrolling */
-        @media (max-width: 768px) {
+        <style jsx global>{`
+          .scrollbar-hide::-webkit-scrollbar { display: none; }
+          .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
           .carousel-scroll {
             -webkit-overflow-scrolling: touch;
-            overflow-x: auto;
-            cursor: default;
-            user-select: auto;
+            scroll-padding-left: 1rem;
+            scroll-padding-right: 1rem;
           }
-        }
-        /* Ensure all project cards have consistent width */
-        .project-card-wrapper {
-          flex-shrink: 0 !important;
-          flex-grow: 0 !important;
-          width: 288px !important;
-          min-width: 288px !important;
-          max-width: 288px !important;
-        }
-        @media (min-width: 768px) {
+          @media (min-width: 768px) {
+            .carousel-scroll {
+              scroll-padding-left: 2rem;
+              scroll-padding-right: 2rem;
+            }
+          }
+          @media (max-width: 768px) {
+            .carousel-scroll {
+              -webkit-overflow-scrolling: touch;
+              overflow-x: auto;
+              cursor: default;
+              user-select: auto;
+            }
+          }
           .project-card-wrapper {
-            width: 320px !important;
-            min-width: 320px !important;
-            max-width: 320px !important;
+            flex-shrink: 0 !important;
+            flex-grow: 0 !important;
+            width: 288px !important;
+            min-width: 288px !important;
+            max-width: 288px !important;
           }
-        }
-      `}</style>
-    </section>
+          @media (min-width: 768px) {
+            .project-card-wrapper {
+              width: 320px !important;
+              min-width: 320px !important;
+              max-width: 320px !important;
+            }
+          }
+          .wp-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.25rem;
+          }
+          .wp-content p {
+            margin-bottom: 1rem;
+            line-height: 1.75;
+          }
+          .wp-content h2, .wp-content h3, .wp-content h4 {
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+          }
+          .wp-content ul, .wp-content ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+          }
+          .wp-content li {
+            margin-bottom: 0.25rem;
+          }
+          .wp-content a {
+            color: hsl(271 76% 53%);
+            text-decoration: underline;
+          }
+          .wp-content blockquote {
+            border-left: 4px solid hsl(271 76% 53%);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #666;
+            font-style: italic;
+          }
+        `}</style>
+      </section>
+
+      {/* Project Detail Modal */}
+      {selectedProject && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+          onClick={() => setSelectedProject(null)}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+
+          {/* Modal */}
+          <div
+            className="relative bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-lg shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setSelectedProject(null)}
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/90 hover:bg-gray-100 transition-colors shadow-sm"
+              aria-label="Close"
+            >
+              <X className="h-5 w-5 text-gray-700" />
+            </button>
+
+            {/* Cover image */}
+            {selectedProject.coverImage && (
+              <div className="relative w-full aspect-video bg-[#e3e3e3]">
+                <Image
+                  src={selectedProject.coverImage}
+                  alt={selectedProject.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 768px"
+                  priority
+                />
+              </div>
+            )}
+
+            {/* Content */}
+            <div className="p-6 md:p-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                {selectedProject.title}
+              </h2>
+              <p className="text-sm text-gray-500 mb-6">
+                {new Date(selectedProject.date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+
+              {selectedProject.content ? (
+                <div
+                  className="wp-content text-gray-700 prose prose-sm max-w-none"
+                  dangerouslySetInnerHTML={{ __html: selectedProject.content }}
+                />
+              ) : (
+                <p className="text-gray-600">{selectedProject.excerpt}</p>
+              )}
+
+              {selectedProject.link && selectedProject.link !== "#" && (
+                <div className="mt-8 pt-6 border-t border-gray-200">
+                  <a
+                    href={selectedProject.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors"
+                  >
+                    Visit Project
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
