@@ -5,107 +5,14 @@ import Image from "next/image"
 import { useEffect, useRef, useState, useCallback } from "react"
 import type { WPProject } from "@/app/api/projects/route"
 
-// Static fallback projects shown while WordPress loads or if no WP projects exist
-const FALLBACK_PROJECTS: WPProject[] = [
-  {
-    id: 1,
-    slug: "vietnamy",
-    title: "Vietnamy",
-    excerpt: "AI-powered Vietnamese language learning platform",
-    content: "",
-    date: new Date().toISOString(),
-    coverImage: "/products/vietnamy.png",
-    link: "http://vietnamy.zeabur.app",
-  },
-  {
-    id: 2,
-    slug: "crypted-harvard",
-    title: "Crypted - Harvard Innovation Labs",
-    excerpt: "Pioneering Blockchain Education Platform",
-    content: "",
-    date: new Date().toISOString(),
-    coverImage: "/products/cryptedvc.jpg",
-    link: "https://innovationlabs.harvard.edu/venture/crypted",
-  },
-  {
-    id: 3,
-    slug: "rising-star",
-    title: "Rising Star Startup Competition",
-    excerpt: "Representing Vietnamese students in Taiwanese startup competitions",
-    content: "",
-    date: new Date().toISOString(),
-    coverImage: "/products/risingstar.png",
-    link: "https://www.youtube.com/watch?v=uRUHCy9IGps",
-  },
-  {
-    id: 4,
-    slug: "healthmaxers",
-    title: "HealthMaxers",
-    excerpt: "Performance health insights at scale",
-    content: "",
-    date: new Date().toISOString(),
-    coverImage: "/products/healthmaxer.png",
-    link: "https://healthmaxers.com",
-  },
-  {
-    id: 5,
-    slug: "crypted-app",
-    title: "CryptED",
-    excerpt: "Gamified Blockchain and Web3 education through interactive gameplay",
-    content: "",
-    date: new Date().toISOString(),
-    coverImage: "/products/cryptedapp.png",
-    link: "https://apps.apple.com/tw/app/crypted-blockchain-education/id6747925774?l=en-GB",
-  },
-  {
-    id: 6,
-    slug: "tailu",
-    title: "TailU",
-    excerpt: "Taiwan's Premier AI Pet Care Platform",
-    content: "",
-    date: new Date().toISOString(),
-    coverImage: "/products/tailu-app.jpeg",
-    link: "#",
-  },
-  {
-    id: 7,
-    slug: "classz",
-    title: "ClassZ",
-    excerpt: "Hong Kong's Premier Afterschool Center Management System",
-    content: "",
-    date: new Date().toISOString(),
-    coverImage: "/products/classz.jpg",
-    link: "#",
-  },
-  {
-    id: 8,
-    slug: "waterwise",
-    title: "WaterWise",
-    excerpt: "National Water Tax management system concept",
-    content: "",
-    date: new Date().toISOString(),
-    coverImage: "/products/waterwise.jpg",
-    link: "http://waterwise-eta.vercel.app",
-  },
-  {
-    id: 9,
-    slug: "iprpshield",
-    title: "IPRPSHIELD Copyright Protection Service",
-    excerpt: "Protect your brand against counterfeits, piracy, and online threats",
-    content: "",
-    date: new Date().toISOString(),
-    coverImage: "/products/iprpshield.png",
-    link: "https://iprpshield.com/",
-  },
-]
-
 export function DemoProductsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const isScrollingRef = useRef(false)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
-  const [projects, setProjects] = useState<WPProject[]>(FALLBACK_PROJECTS)
+  const [projects, setProjects] = useState<WPProject[]>([])
+  const [loading, setLoading] = useState(true)
   const [selectedProject, setSelectedProject] = useState<WPProject | null>(null)
 
   // Fetch WordPress projects
@@ -116,19 +23,17 @@ export function DemoProductsSection() {
         const res = await fetch("/api/projects")
         if (!res.ok) return
         const data: WPProject[] = await res.json()
-        if (mounted && data.length > 0) {
+        if (mounted) {
           setProjects(data)
         }
       } catch {
-        // Keep fallback projects
+        // No projects to show
+      } finally {
+        if (mounted) setLoading(false)
       }
     }
 
-    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-      requestIdleCallback(fetchProjects, { timeout: 3000 })
-    } else {
-      setTimeout(fetchProjects, 500)
-    }
+    fetchProjects()
 
     return () => { mounted = false }
   }, [])
@@ -210,6 +115,8 @@ export function DemoProductsSection() {
     }
   }, [])
 
+  if (!loading && projects.length === 0) return null
+
   return (
     <>
       <section id="portfolio" className="bg-primary py-20 md:py-24 lg:py-28">
@@ -217,6 +124,12 @@ export function DemoProductsSection() {
           <div className="text-center mb-16">
             <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6 text-white">Our Projects</h2>
           </div>
+
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-white border-t-transparent" />
+            </div>
+          ) : (
 
           <div className="relative">
             {/* Left Arrow */}
@@ -316,6 +229,7 @@ export function DemoProductsSection() {
               </button>
             </div>
           </div>
+          )}
         </div>
         <style jsx global>{`
           .scrollbar-hide::-webkit-scrollbar { display: none; }
