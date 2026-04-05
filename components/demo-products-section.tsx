@@ -210,10 +210,10 @@ export function DemoProductsSection() {
     }
   
   return (
-    <section id="portfolio" className="bg-alt-gray-100 py-20 md:py-24 lg:py-28 border-t border-b border-[rgba(55,50,47,0.12)]">
+    <section id="portfolio" className="bg-primary py-20 md:py-24 lg:py-28">
       <div className="container px-4 md:px-6 max-w-6xl">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6">Our Projects</h2>
+          <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6 text-white">Our Projects</h2>
         </div>
 
         <div className="relative">
@@ -221,10 +221,10 @@ export function DemoProductsSection() {
           <button
             onClick={scrollLeft}
             disabled={!canScrollLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition-all disabled:opacity-30 disabled:cursor-not-allowed hidden md:flex items-center justify-center"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed hidden md:flex items-center justify-center"
             aria-label="Scroll left"
           >
-            <ChevronLeft className="h-6 w-6 text-gray-700" />
+            <ChevronLeft className="h-6 w-6 text-white" />
           </button>
 
           <div 
@@ -251,10 +251,10 @@ export function DemoProductsSection() {
           <button
             onClick={scrollRight}
             disabled={!canScrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition-all disabled:opacity-30 disabled:cursor-not-allowed hidden md:flex items-center justify-center"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed hidden md:flex items-center justify-center"
             aria-label="Scroll right"
           >
-            <ChevronRight className="h-6 w-6 text-gray-700" />
+            <ChevronRight className="h-6 w-6 text-white" />
           </button>
 
           {/* Mobile arrows */}
@@ -262,18 +262,18 @@ export function DemoProductsSection() {
             <button
               onClick={scrollLeft}
               disabled={!canScrollLeft}
-              className="p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Scroll left"
             >
-              <ChevronLeft className="h-5 w-5 text-gray-700" />
+              <ChevronLeft className="h-5 w-5 text-white" />
             </button>
             <button
               onClick={scrollRight}
               disabled={!canScrollRight}
-              className="p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="p-2 rounded-full bg-white/20 shadow-md hover:bg-white/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Scroll right"
             >
-              <ChevronRight className="h-5 w-5 text-gray-700" />
+              <ChevronRight className="h-5 w-5 text-white" />
             </button>
           </div>
         </div>

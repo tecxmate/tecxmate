@@ -35,9 +35,9 @@ export function TeamSection() {
     {
       id: 'ellis',
       name: 'Ellis Wu 吳賢政',
-      role: 'Business Development',
+      role: 'Business Developer',
       photo: '/avatars/ellis_avatar.jpeg',
-      description: 'Business development specialist focused on strategic partnerships and market expansion.',
+      description: 'Business Developer specialist focused on strategic partnerships and market expansion.',
       twitter: 'https://www.tecxmate.com',
       linkedin: 'https://www.linkedin.com/in/hsien-cheng-ellis-wu-6a1044297/'
     },
@@ -61,55 +61,55 @@ export function TeamSection() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              {teamMembers.map((member) => (
+            {teamMembers.map((member) => (
+              <div
+                key={member.id}
+              >
                 <div
-                  key={member.id}
+                  className="rounded-none border border-alt-gray-200 bg-white shadow-sm overflow-hidden h-full hover:border-primary hover:shadow-md transition-all duration-300"
                 >
-                  <div
-                    className="rounded-none border border-alt-gray-200 bg-white shadow-sm overflow-hidden h-full hover:border-primary hover:shadow-md transition-all duration-300"
-                  >
-                <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
-                  <Image
-                    src={member.photo}
-                    alt={member.name}
-                    width={600}
-                    height={800}
-                    className="w-full h-full object-cover object-center"
-                  />
-                </div>
-                    <div className="p-3 md:p-4 text-center">
-                      <h3 className="text-sm md:text-base font-semibold text-alt-black mb-1">{member.name}</h3>
-                      <p className="text-xs md:text-sm text-primary font-medium mb-2">{member.role}</p>
-                      <div className="flex items-center justify-center gap-2">
+                  <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
+                    <Image
+                      src={member.photo}
+                      alt={member.name}
+                      width={600}
+                      height={800}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                  <div className="p-3 md:p-4 text-center">
+                    <h3 className="text-sm md:text-base font-semibold text-alt-black mb-1">{member.name}</h3>
+                    <p className="text-xs md:text-sm text-primary font-medium mb-2">{member.role}</p>
+                    <div className="flex items-center justify-center gap-2">
+                      <a
+                        href={member.linkedin}
+                        aria-label="LinkedIn"
+                        className="p-2 rounded-none bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Linkedin className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
+                      </a>
+                      {member.twitter && (
                         <a
-                          href={member.linkedin}
-                          aria-label="LinkedIn"
+                          href={member.twitter}
+                          aria-label={member.id === 'brian' ? 'Company' : 'Academic'}
                           className="p-2 rounded-none bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <Linkedin className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
+                          {member.id === 'brian' ? (
+                            <Building2 className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
+                          ) : (
+                            <GraduationCap className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
+                          )}
                         </a>
-                        {member.twitter && (
-                          <a
-                            href={member.twitter}
-                            aria-label={member.id === 'brian' ? 'Company' : 'Academic'}
-                            className="p-2 rounded-none bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {member.id === 'brian' ? (
-                              <Building2 className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
-                            ) : (
-                              <GraduationCap className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
-                            )}
-                          </a>
-                        )}
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
         </div>
       </section>
