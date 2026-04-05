@@ -114,7 +114,7 @@ We encourage you to review this Privacy Policy periodically.
 
 If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:
 
-**TECXMATE Corporation Ltd.** (CÔNG TY TNHH TECXMATE / 達盟科技有限公司)  
+**TECXMATE Corporation Ltd.** (CÔNG TY TNHH TECXMATE)  
 Villa Park Complex, Phu Huu Ward, Ho Chi Minh City, Vietnam  
 Email: ceo@tecxmate.com  
 Website: https://www.tecxmate.com

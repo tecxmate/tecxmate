@@ -21,7 +21,6 @@ export function Footer() {
                 <span className="font-thin">tecx</span>
                 <span className="font-thin">mate</span>
               </span>
-              <span className="text-2xl font-accent italic tracking-wide text-white whitespace-nowrap">達盟科技</span>
             </Link>
             <p className="text-sm text-gray-300 leading-relaxed">{t("got_idea")}</p>
             <div className="flex flex-wrap items-center gap-3">
@@ -115,7 +114,7 @@ export function Footer() {
               <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:gap-8">
                 {/* Vietnam */}
                 <div className="space-y-2 rounded-none border border-gray-700/50 p-4 sm:p-5 lg:p-6">
-                  <p className="font-medium text-white text-sm sm:text-base">{language === "en" ? "TECXMATE Company Limited" : language === "zh" ? company.legalName.zh : company.legalName.vi}</p>
+                  <p className="font-medium text-white text-sm sm:text-base">{language === "vi" ? company.legalName.vi : company.legalName.en}</p>
                   <p className="text-white text-xs sm:text-sm leading-relaxed">{t("address")}</p>
                   <p className="text-white text-xs sm:text-sm">MST: {company.taxNumber}</p>
                   <a

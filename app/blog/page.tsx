@@ -80,7 +80,7 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   const posts = await wpGetAllPosts()
-  
+
   // Generate structured data for blog listing page
   const blogStructuredData = {
     "@context": "https://schema.org",
@@ -146,7 +146,7 @@ export default async function BlogPage() {
               <div className="mx-auto max-w-2xl text-center">
                 <h1 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6">News & Insights</h1>
                 <p className="mt-4 text-gray-500 md:text-xl/relaxed">
-                  Stay updated with the latest trends and insights in web development and design
+                  Stay updated with the latest trends and insights
                 </p>
               </div>
             </div>
@@ -159,7 +159,7 @@ export default async function BlogPage() {
                   <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
                 </div>
               }>
-              <BlogListing />
+                <BlogListing />
               </Suspense>
             </div>
           </section>

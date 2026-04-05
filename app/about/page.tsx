@@ -7,9 +7,9 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 
 export const metadata: Metadata = {
   title: "About Us - Technology Consultancy Team | Tecxmate",
-  description: "Learn about Tecxmate - a premier technology consultancy specializing in AI development, business automation, and digital transformation for SMEs and startups. LLC headquartered in Ho Chi Minh City, Vietnam. Operating in Taiwan, US, and Vietnam.",
+  description: "Learn About TECXMATE - a premier technology consultancy specializing in AI development, business automation, and digital transformation for SMEs and startups. LLC headquartered in Ho Chi Minh City, Vietnam. Operating in Taiwan, US, and Vietnam.",
   keywords: [
-    "about tecxmate",
+    "About TECXMATE",
     "technology consultancy team",
     "AI development company",
     "Vietnam tech consultancy",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "About Us - Technology Consultancy Team | Tecxmate",
-    description: "Learn about Tecxmate - a premier technology consultancy specializing in AI development, business automation, and digital transformation for SMEs and startups.",
+    description: "Learn About TECXMATE - a premier technology consultancy specializing in AI development, business automation, and digital transformation for SMEs and startups.",
     url: `${baseUrl}/about`,
     siteName: "Tecxmate",
     locale: "en_US",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
         url: `${baseUrl}/tecxmate-logo-cropped.png`,
         width: 1200,
         height: 630,
-        alt: "About Tecxmate - Technology Consultancy Team",
+        alt: "About TECXMATE - Technology Consultancy Team",
         type: "image/png",
       }
     ],
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "About Us - Technology Consultancy Team | Tecxmate",
-    description: "Learn about Tecxmate - a premier technology consultancy specializing in AI development, business automation, and digital transformation.",
+    description: "Learn About TECXMATE - a premier technology consultancy specializing in AI development, business automation, and digital transformation.",
     images: [`${baseUrl}/tecxmate-logo-cropped.png`],
   },
 }
@@ -104,7 +104,7 @@ export default function AboutPage() {
             <div className="container px-4 md:px-6">
               <div className="mx-auto max-w-3xl text-center">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">
-                  About Tecxmate
+                  About TECXMATE
                 </h1>
                 <p className="text-lg text-gray-600 md:text-xl/relaxed">
                   Empowering SMEs and Founders with premier technology consultancy and solutions
@@ -177,10 +177,6 @@ export default function AboutPage() {
                     <div>
                       <dt className="font-medium text-gray-900">Legal Name (VN)</dt>
                       <dd>CÔNG TY TNHH TECXMATE</dd>
-                    </div>
-                    <div>
-                      <dt className="font-medium text-gray-900">Legal Name (ZH-TW)</dt>
-                      <dd>達盟科技有限公司</dd>
                     </div>
                     <div>
                       <dt className="font-medium text-gray-900">Operating Markets</dt>

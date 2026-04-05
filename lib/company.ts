@@ -10,7 +10,6 @@ export const company = {
   legalName: {
     en: "TECXMATE Corporation Ltd.",
     vi: "CÔNG TY TNHH TECXMATE",
-    zh: "達盟科技有限公司",
   },
   /** Business formation type */
   formation: "Limited Liability Company (LLC)",

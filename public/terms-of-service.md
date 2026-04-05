@@ -8,7 +8,7 @@ Welcome to Tecxmate. We are TECXMATE Corporation Ltd. (CÔNG TY TNHH TECXMATE), 
 
 By accessing our website or engaging our services, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use our website or services.
 
-## 2. About tecxmate
+## 2. About TECXMATE
 
 tecxmate is an independent development team specializing in:
 
@@ -163,7 +163,7 @@ These Terms, together with any Service Agreements, constitute the entire agreeme
 
 If you have any questions about these Terms of Service, please contact us:
 
-**TECXMATE Corporation Ltd.** (CÔNG TY TNHH TECXMATE / 達盟科技有限公司)  
+**TECXMATE Corporation Ltd.** (CÔNG TY TNHH TECXMATE)  
 Villa Park Complex, Phu Huu Ward, Ho Chi Minh City, Vietnam  
 Email: ceo@tecxmate.com  
 Website: https://www.tecxmate.com

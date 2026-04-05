@@ -32,7 +32,7 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "ProfessionalService",
             "name": "Tecxmate",
-            "alternateName": ["tecxmate", "TECXMATE Corporation Ltd.", "CÔNG TY TNHH TECXMATE", "達盟科技有限公司"],
+            "alternateName": ["tecxmate", "TECXMATE Corporation Ltd.", "CÔNG TY TNHH TECXMATE"],
             "url": process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com",
             "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"}/tecxmate-logo-cropped.png`,
             "image": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"}/tecxmate-logo-cropped.png`,
