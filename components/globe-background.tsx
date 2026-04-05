@@ -62,16 +62,23 @@ export function GlobeBackground() {
     const container = containerRef.current
     if (!container) return
 
+    let resizeTimer: ReturnType<typeof setTimeout>
     const updateDimensions = () => {
-      const rect = container.getBoundingClientRect()
-      setDimensions({ width: rect.width, height: rect.height })
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(() => {
+        const rect = container.getBoundingClientRect()
+        setDimensions({ width: rect.width, height: rect.height })
+      }, 200)
     }
 
-    updateDimensions()
+    // Initial measurement (no debounce)
+    const rect = container.getBoundingClientRect()
+    setDimensions({ width: rect.width, height: rect.height })
+
     const ro = new ResizeObserver(updateDimensions)
     ro.observe(container)
 
-    return () => ro.disconnect()
+    return () => { ro.disconnect(); clearTimeout(resizeTimer) }
   }, [])
 
   // Pause globe animation when off-screen via ref (no re-render, no globe recreation)
@@ -91,7 +98,8 @@ export function GlobeBackground() {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const dpr = Math.min(window.devicePixelRatio ?? 1, 2)
+    const android = isAndroid()
+    const dpr = Math.min(window.devicePixelRatio ?? 1, android ? 1 : isMobile ? 1.5 : 2)
     const width = dimensions.width
     const height = dimensions.height
 
@@ -100,7 +108,10 @@ export function GlobeBackground() {
     canvas.style.width = `${width}px`
     canvas.style.height = `${height}px`
 
-    const mapSamples = isAndroid() ? (isMobile ? 4000 : 8000) : isMobile ? 8000 : 12000
+    const mapSamples = android ? (isMobile ? 3000 : 6000) : isMobile ? 5000 : 8000
+
+    let lastRenderTime = 0
+    const frameInterval = android ? 50 : 33 // ~20fps Android, ~30fps otherwise
 
     const globe = createGlobe(canvas, {
       devicePixelRatio: dpr,
@@ -121,6 +132,10 @@ export function GlobeBackground() {
       markers: MARKERS,
       offset: [width * 0.72, -height * 0.52],
       onRender: (state) => {
+        const now = performance.now()
+        if (now - lastRenderTime < frameInterval) return
+        lastRenderTime = now
+
         if (!prefersReducedMotionRef.current && isInViewRef.current) {
           phiRef.current += 0.001
           state.phi = phiRef.current

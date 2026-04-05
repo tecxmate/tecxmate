@@ -189,8 +189,19 @@ export async function GET() {
       fetchHackerNews().catch(() => []),
     ])
 
+    const sourcePriority: Record<string, number> = {
+      "Ars Technica": 0,
+      "The Verge": 0,
+      "Hacker News": 1,
+    }
+
     const all = [...ars, ...verge, ...hn]
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .sort((a, b) => {
+        const pa = sourcePriority[a.source] ?? 1
+        const pb = sourcePriority[b.source] ?? 1
+        if (pa !== pb) return pa - pb
+        return new Date(b.date).getTime() - new Date(a.date).getTime()
+      })
       .slice(0, 12)
 
     if (all.length === 0) {

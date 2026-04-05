@@ -135,8 +135,8 @@ export default function Home() {
       <HeroSection />
       <ServicesSection />
       <DemoProductsSection />
-      <CampaignsSection />
       <TeamSection />
+      <CampaignsSection />
       <Footer />
     </main>
   )
