@@ -1,143 +1,121 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Calendar, ExternalLink } from "lucide-react"
-import type { NewsItem } from "@/lib/news-types"
-
-const SOURCE_STYLES: Record<string, string> = {
-  "Ars Technica": "bg-green-100 text-green-700",
-  "The Verge": "bg-purple-100 text-purple-700",
-  "Hacker News": "bg-orange-100 text-orange-700",
-}
-
-const SOURCE_PLACEHOLDER_BG: Record<string, string> = {
-  "Ars Technica": "bg-green-600",
-  "The Verge": "bg-purple-600",
-  "Hacker News": "bg-orange-500",
-}
-
-function formatDate(iso: string): string {
-  try {
-    return new Date(iso).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    })
-  } catch {
-    return ""
-  }
-}
+import { Calendar, ArrowRight, Clock } from "lucide-react"
+import Link from "next/link"
+import { useLanguage } from "@/components/language-provider"
+import type { WPBlogPost as BlogPost } from "@/lib/wordpress"
 
 export function CampaignsSection() {
-  const [news, setNews] = useState<NewsItem[]>([])
+  const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
+  const { language, t } = useLanguage()
 
   useEffect(() => {
     let mounted = true
-    const fetchNews = async () => {
+    const fetchPosts = async () => {
       try {
-        await new Promise(resolve => setTimeout(resolve, 500))
-        if (!mounted) return
-
-        const response = await fetch("/api/news")
+        setLoading(true)
+        const response = await fetch(`/api/blog/posts?lang=${encodeURIComponent(language)}`)
         if (!response.ok) throw new Error(`Failed: ${response.status}`)
         const data = await response.json()
         if (mounted) {
-          setNews(data.slice(0, 6))
+          setPosts(data.slice(0, 3)) // Show top 3 recent posts
           setLoading(false)
         }
-      } catch {
+      } catch (err) {
+        console.error("Error fetching blog posts for campaigns:", err)
         if (mounted) {
-          setNews([])
+          setPosts([])
           setLoading(false)
         }
       }
     }
 
-    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-      requestIdleCallback(fetchNews, { timeout: 3000 })
-    } else {
-      setTimeout(fetchNews, 1000)
-    }
+    fetchPosts()
 
     return () => { mounted = false }
-  }, [])
+  }, [language])
 
   if (loading) {
     return (
       <section id="campaigns" className="bg-gray-50/80 py-24 md:py-28 lg:py-32">
-        <div className="container px-4 md:px-6 max-w-7xl">
-          <div className="text-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto" />
-          </div>
+        <div className="container px-4 md:px-6 max-w-7xl text-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto" />
         </div>
       </section>
     )
   }
 
+  if (posts.length === 0) return null
+
   return (
     <section id="campaigns" className="bg-gray-50/80 py-24 md:py-28 lg:py-32">
       <div className="container px-4 md:px-6 max-w-7xl">
-        <div className="text-center mb-16 max-w-3xl mx-auto">
-          <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900">
-            Tech News
-          </h2>
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900 mb-4">
+              {t("news_insights")}
+            </h2>
+            <p className="text-gray-600 text-lg">
+              Stay updated with the latest trends and insights from our technology experts.
+            </p>
+          </div>
+          <Link 
+            href="/blog" 
+            className="inline-flex items-center text-primary font-semibold hover:underline group"
+          >
+            View all posts
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
 
-        {news.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {news.map((item) => (
-              <a
-                key={item.id}
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block rounded-none border border-gray-200 bg-white shadow-sm overflow-hidden h-full hover:border-primary hover:shadow-md transition-all duration-300"
-              >
-                {item.imageUrl ? (
-                  <div className="aspect-video w-full overflow-hidden bg-gray-100 relative">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                  </div>
-                ) : (
-                  <div className={`aspect-video w-full flex items-center justify-center ${SOURCE_PLACEHOLDER_BG[item.source] || "bg-gray-400"}`}>
-                    <span className="text-white/80 text-2xl font-bold tracking-wide">{item.source}</span>
-                  </div>
-                )}
-                <div className="p-4">
-                  <div className="mb-2">
-                    <span className={`inline-block px-2.5 py-0.5 text-xs font-medium ${SOURCE_STYLES[item.source] || "bg-gray-100 text-gray-700"}`}>
-                      {item.source}
-                    </span>
-                  </div>
-                  <div className="mb-3 flex items-center gap-1 text-xs text-gray-500">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => (
+            <Link
+              key={post.id}
+              href={`/blog/${post.slug}`}
+              className="group block bg-white border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 h-full flex flex-col"
+            >
+              <div className="aspect-video w-full overflow-hidden bg-gray-100 relative">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={post.coverImage || "/placeholder.svg?height=200&width=400"}
+                  alt={post.title}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute top-4 left-4">
+                  <span className="bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-primary shadow-sm uppercase tracking-wider">
+                    {post.category}
+                  </span>
+                </div>
+              </div>
+              <div className="p-6 flex flex-col flex-1">
+                <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
+                  <div className="flex items-center gap-1">
                     <Calendar className="h-3 w-3" />
-                    <span>{formatDate(item.date)}</span>
+                    <span>{post.date}</span>
                   </div>
-                  <h3 className="mb-2 text-lg font-semibold text-gray-900 line-clamp-2 group-hover:text-primary transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 line-clamp-2 mb-3">
-                    {item.excerpt}
-                  </p>
-                  <div className="inline-flex items-center text-sm font-medium text-primary">
-                    <span>Read Article</span>
-                    <ExternalLink className="w-4 h-4 ml-1" />
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    <span>{post.readTime}</span>
                   </div>
                 </div>
-              </a>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No news available at the moment.</p>
-          </div>
-        )}
+                <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                  {post.title}
+                </h3>
+                <p className="text-gray-600 text-sm line-clamp-3 mb-6 flex-1">
+                  {post.excerpt}
+                </p>
+                <div className="inline-flex items-center text-sm font-bold text-primary group-hover:gap-2 transition-all">
+                  <span>Read Full Article</span>
+                  <ArrowRight className="h-4 w-4 ml-1" />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   )

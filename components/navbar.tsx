@@ -86,6 +86,12 @@ export function Navbar() {
             {t("team")}
           </Link>
           <Link
+            href="/blog"
+            className={`text-sm font-medium transition-colors ${isActive("/blog") ? "text-primary" : "hover:text-primary"}`}
+          >
+            {t("news_insights")}
+          </Link>
+          <Link
             href="/about"
             className={`text-sm font-medium transition-colors ${isActive("/about") ? "text-primary" : "hover:text-primary"}`}
           >
@@ -153,6 +159,13 @@ export function Navbar() {
               onClick={closeMenu}
             >
               {t("team")}
+            </Link>
+            <Link
+              href="/blog"
+              className={`text-sm font-medium transition-colors ${isActive("/blog") ? "text-primary" : "hover:text-primary"}`}
+              onClick={closeMenu}
+            >
+              {t("news_insights")}
             </Link>
             <Link
               href="/about"
