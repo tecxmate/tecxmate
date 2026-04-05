@@ -60,27 +60,30 @@ export function TeamSection() {
             <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white">Our Team</h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="flex md:grid md:grid-cols-5 gap-4 overflow-x-auto pb-4 md:pb-0 scrollbar-hide snap-x snap-mandatory -mx-4 px-4 md:mx-0 md:px-0">
             {teamMembers.map((member) => (
               <div
                 key={member.id}
+                className="min-w-[200px] flex-shrink-0 md:min-w-0 snap-center h-full"
               >
                 <div
-                  className="rounded-none border border-white/10 bg-white shadow-sm overflow-hidden h-full hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                  className="rounded-none border border-white/10 bg-white shadow-sm overflow-hidden h-full hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
                 >
-                  <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
+                  <div className="w-full aspect-[3/4] bg-[#e3e3e3] shrink-0">
                     <Image
                       src={member.photo}
                       alt={member.name}
                       width={600}
                       height={800}
                       className="w-full h-full object-cover object-center"
+                      priority={member.id === 'brian'}
+                      unoptimized={member.id === 'brian'}
                     />
                   </div>
-                  <div className="p-3 md:p-4 text-center">
-                    <h3 className="text-sm md:text-base font-semibold text-alt-black mb-1">{member.name}</h3>
-                    <p className="text-xs md:text-sm text-primary font-medium mb-2">{member.role}</p>
-                    <div className="flex items-center justify-center gap-2">
+                  <div className="p-3 md:p-4 text-center flex flex-col flex-grow">
+                    <h3 className="text-sm md:text-base font-semibold text-alt-black mb-1 line-clamp-1">{member.name}</h3>
+                    <p className="text-xs md:text-sm text-primary font-medium mb-2 line-clamp-1">{member.role}</p>
+                    <div className="flex items-center justify-center gap-2 mt-auto">
                       <a
                         href={member.linkedin}
                         aria-label="LinkedIn"
@@ -113,7 +116,10 @@ export function TeamSection() {
           </div>
         </div>
       </section>
-
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </>
   )
 }
