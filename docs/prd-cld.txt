@@ -1,0 +1,228 @@
+**Product: CarbonTrack CNC - Carbon Footprint Module for Mid-Sized Machine Shops**
+
+**Technical Product Specification for Demo v1.0**
+
+---
+
+**1. SYSTEM ARCHITECTURE**
+
+**Backend:**
+- Python/Node.js API server
+- PostgreSQL database for emissions data, calculation logs, and product catalog
+- REST API architecture for ERP/MES integration
+- Authentication via API keys and OAuth 2.0
+
+**Frontend:**
+- Web-based dashboard (React or Vue.js)
+- Responsive design for desktop and tablet
+- Real-time data visualization using Chart.js or D3.js
+
+**Deployment:**
+- Cloud-hosted SaaS (AWS/Azure) for demo
+- Docker containers for easy on-premise deployment option
+
+---
+
+**2. CORE MODULES TO BUILD FOR DEMO**
+
+**Module A: Data Integration Layer**
+
+*Purpose:* Pull production data from existing systems
+
+*Demo implementation:*
+- CSV file upload interface (simulates ERP data import)
+- Manual job entry form as fallback
+- Mock API connector showing how it would pull from common ERP systems
+
+*Data fields to capture:*
+- Job/work order number
+- Part number and description
+- Material type and weight (kg)
+- Machine ID/name
+- Machine runtime hours per job
+- Production quantity
+- Date completed
+
+---
+
+**Module B: Emissions Calculation Engine**
+
+*Purpose:* Calculate carbon footprint per job/part
+
+*Technical approach:*
+
+Create calculation logic based on:
+```
+Total CO2e = (Energy Emissions) + (Material Emissions) + (Consumables) + (Overhead Allocation)
+
+Where:
+Energy Emissions = (Machine Hours × Machine Power Rating × Grid Emission Factor)
+Material Emissions = (Material Weight × Material Emission Factor)
+Consumables = (Coolant, compressed air - simplified for demo)
+Overhead = (Facility baseline / total production hours)
+```
+
+*Emission factor database to build:*
+- Taiwan electricity grid: ~0.495 kg CO2e/kWh (2024 average)
+- Common materials: Aluminum (8-12 kg CO2e/kg), Steel (1.8-2.5 kg CO2e/kg), Stainless steel (6-7 kg CO2e/kg), Titanium (20-35 kg CO2e/kg)
+- Machine power ratings: typical 3-axis CNC mill (15-25 kW), 5-axis machining center (30-50 kW), CNC lathe (10-20 kW)
+
+*For demo:* Hard-code 5-6 common materials and 3-4 typical machine types. Make emission factors editable in admin panel.
+
+---
+
+**Module C: Dashboard & Reporting**
+
+*Demo screens to build:*
+
+**Screen 1: Overview Dashboard**
+- Total CO2e emissions this month/year (big number display)
+- Trend chart: monthly emissions over past 6 months
+- Top 5 highest-carbon jobs/parts
+- Emissions by material type (pie chart)
+- Emissions by machine (bar chart)
+
+**Screen 2: Job/Part Search & Detail**
+- Search bar for job number or part number
+- Results table showing: job ID, part name, quantity, total CO2e, CO2e per unit
+- Click into detail view showing emissions breakdown (energy vs material vs overhead)
+
+**Screen 3: Product Carbon Certificate Generator**
+- Input: part number or job number
+- Output: PDF certificate with:
+  - Company letterhead area
+  - Part identification
+  - Carbon footprint: X.XX kg CO2e per unit
+  - Calculation methodology summary
+  - Date and certificate ID
+- "Download PDF" and "Email to customer" buttons
+
+**Screen 4: Settings/Admin**
+- Manage emission factors (editable table)
+- Manage machine catalog (name, power rating, type)
+- Manage material library
+- Set facility overhead baseline
+- Company profile settings
+
+---
+
+**3. SAMPLE DATA FOR DEMO**
+
+Create realistic mock data:
+- 3-4 fictional machines ("CNC Mill #1 - Haas VF-2", "CNC Lathe #2 - DMG MORI NLX")
+- 20-30 sample jobs over 3 months
+- Mix of materials (mostly aluminum and steel)
+- Various part complexities (some high machine hours, some low)
+
+---
+
+**4. KEY DEMO FEATURES TO HIGHLIGHT**
+
+**Easy data input:**
+- Show CSV upload with sample file
+- Show manual job entry form (takes <1 minute)
+
+**Instant calculation:**
+- Upload job data → see emissions calculated immediately
+- Emphasize "no manual calculation needed"
+
+**Customer-ready outputs:**
+- Generate a professional-looking carbon certificate in <10 seconds
+- Show how easy it is to email to customer
+
+**Actionable insights:**
+- Dashboard shows "Your most carbon-intensive part is X - consider material substitution"
+- "Machine Y has highest emissions per hour - schedule maintenance or upgrade"
+
+---
+
+**5. INTEGRATION POINTS (Show in Demo, Don't Fully Build)**
+
+Create mock integration screens showing:
+- "Connect to SAP" (connection form, but doesn't need to actually work)
+- "Connect to machine IoT sensors" (show what real-time energy data would look like)
+- "Import supplier emission data" (upload interface for Scope 3)
+
+This demonstrates future capabilities without building full integrations for demo.
+
+---
+
+**6. DEMO SCRIPT/FLOW**
+
+**Scenario:** "ABC Precision Machining needs to provide carbon data to their automotive customer"
+
+1. **Setup (30 seconds):** Show company profile already configured
+2. **Data import (1 minute):** Upload CSV with 10 recent jobs → system processes and calculates
+3. **Dashboard view (1 minute):** Walk through insights - total emissions, trends, hotspots
+4. **Search specific part (30 seconds):** Customer asked about part #12345 → search → see carbon footprint
+5. **Generate certificate (30 seconds):** Click "generate certificate" → download PDF → show professional output
+6. **Settings peek (30 seconds):** Show how emission factors are managed and can be customized
+
+**Total demo time: 3-4 minutes**
+
+---
+
+**7. TECHNICAL REQUIREMENTS FOR MVP DEMO**
+
+**Must have:**
+- CSV import functionality
+- Emissions calculation engine with basic factors
+- Dashboard with 3-4 key charts
+- Job search and detail view
+- PDF certificate generation
+- Basic admin settings
+
+**Nice to have (if time permits):**
+- API documentation page
+- Mock mobile view
+- Export data to Excel feature
+- Comparison tool (this month vs last month)
+
+**Can skip for initial demo:**
+- User authentication (single demo login is fine)
+- Multi-tenant architecture
+- Real ERP integrations
+- Real-time machine monitoring
+- Advanced analytics/ML predictions
+
+---
+
+**8. TECH STACK RECOMMENDATION FOR FAST DEMO BUILD**
+
+- **Backend:** Python Flask/FastAPI (quick to build, good libraries for PDF generation)
+- **Database:** PostgreSQL or even SQLite for demo
+- **Frontend:** React with a UI library (Material-UI or Ant Design for quick professional look)
+- **PDF generation:** ReportLab (Python) or jsPDF (JavaScript)
+- **Charts:** Chart.js or Recharts (React-friendly)
+- **Hosting:** Heroku or Vercel for quick deployment
+
+---
+
+**9. DATA MODELS (Simplified for Demo)**
+
+**Jobs Table:**
+- job_id, part_number, part_name, material_type, material_weight_kg, machine_id, runtime_hours, quantity_produced, date_completed, total_co2e_kg, co2e_per_unit
+
+**Machines Table:**
+- machine_id, machine_name, machine_type, power_rating_kw
+
+**Materials Table:**
+- material_name, emission_factor_kg_co2e_per_kg
+
+**Company Settings:**
+- grid_emission_factor, facility_overhead_co2e_per_hour
+
+---
+
+**DELIVERABLE TIMELINE ESTIMATE**
+
+- Week 1: Backend API + calculation engine + database
+- Week 2: Frontend dashboard + data import
+- Week 3: Certificate generation + polish UI
+- Week 4: Testing + demo data + deployment
+
+**Total: 4 weeks for working demo with realistic data**
+
+---
+
+This spec gives your engineering team everything they need to build a compelling demo that shows real value to a mid-sized CNC shop owner in under 5 minutes. Focus on simplicity and clear value demonstration rather than feature completeness.

@@ -24,6 +24,15 @@ export function TeamSection() {
       linkedin: 'https://www.linkedin.com/in/brian-nguyen-587825235/'
     },
     {
+      id: 'lynn',
+      name: 'Lynn Ta 謝宛伶',
+      role: 'Project Manager',
+      photo: '/avatars/lynn_avatar.JPG',
+      description: '',
+      twitter: '',
+      linkedin: 'https://www.linkedin.com/in/uyen-linh-ta-a970b1188/'
+    },
+    {
       id: 'ellis',
       name: 'Ellis Wu 吳賢政',
       role: 'Business Development',
@@ -51,7 +60,7 @@ export function TeamSection() {
             <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900">The Team</h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {teamMembers.map((member) => (
                 <div
                   key={member.id}
@@ -72,28 +81,30 @@ export function TeamSection() {
                       <h3 className="text-sm md:text-base font-semibold text-alt-black mb-1">{member.name}</h3>
                       <p className="text-xs md:text-sm text-primary font-medium mb-2">{member.role}</p>
                       <div className="flex items-center justify-center gap-2">
-                        <a 
-                          href={member.linkedin} 
-                          aria-label="LinkedIn" 
+                        <a
+                          href={member.linkedin}
+                          aria-label="LinkedIn"
                           className="p-2 rounded-none bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           <Linkedin className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
                         </a>
-                        <a 
-                          href={member.twitter} 
-                          aria-label={member.id === 'brian' ? 'Company' : 'Academic'} 
-                          className="p-2 rounded-none bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {member.id === 'brian' ? (
-                            <Building2 className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
-                          ) : (
-                            <GraduationCap className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
-                          )}
-                        </a>
+                        {member.twitter && (
+                          <a
+                            href={member.twitter}
+                            aria-label={member.id === 'brian' ? 'Company' : 'Academic'}
+                            className="p-2 rounded-none bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {member.id === 'brian' ? (
+                              <Building2 className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
+                            ) : (
+                              <GraduationCap className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
+                            )}
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
