@@ -1,11 +1,23 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Brain, Zap, Bot, ServerCog } from "lucide-react"
+import { Brain, Zap, Bot, ServerCog, Smartphone, Layout } from "lucide-react"
 
 export function ServicesSection() {
 
   const services = [
+    {
+      id: "mobile-app-development",
+      icon: Smartphone,
+      title: "iOS & Android App Development",
+      description: "Native and cross-platform mobile applications built for performance and user experience.",
+    },
+    {
+      id: "website-development",
+      icon: Layout,
+      title: "Website Development",
+      description: "Responsive, high-performance websites and modern web applications built to scale.",
+    },
     {
       id: "ai-applications",
       icon: Brain,
@@ -33,17 +45,21 @@ export function ServicesSection() {
   ]
 
   return (
-    <section id="services" className="bg-white py-24 md:py-28 lg:py-32">
+    <section id="services" className="bg-white py-20 md:py-24">
       <div className="container px-4 md:px-6 max-w-6xl">
-            <div className="text-center mb-20 max-w-3xl mx-auto">
+            <div className="text-center mb-12 md:mb-16 max-w-3xl mx-auto">
               <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900">Our Services</h2>
             </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {services.map((service) => {
             const IconComponent = service.icon
             const accentClasses =
-              service.id === "ai-applications"
+              service.id === "mobile-app-development"
+                ? { iconBg: "group-hover:bg-blue-50", iconColor: "group-hover:text-blue-500" }
+                : service.id === "website-development"
+                ? { iconBg: "group-hover:bg-sky-50", iconColor: "group-hover:text-sky-500" }
+                : service.id === "ai-applications"
                 ? { iconBg: "group-hover:bg-primary/10", iconColor: "group-hover:text-primary" }
                 : service.id === "business-automation"
                 ? { iconBg: "group-hover:bg-amber-50", iconColor: "group-hover:text-amber-500" }
@@ -56,9 +72,13 @@ export function ServicesSection() {
             return (
               <div
                 key={service.id}
-                className={`bg-gray-50/50 p-8 rounded-none border border-gray-100 transition-all duration-300 group flex flex-col h-full
+                className={`bg-gray-50/50 p-5 md:p-6 rounded-none border border-gray-100 transition-all duration-300 group flex flex-col h-full
                   ${
-                    service.id === "ai-applications"
+                    service.id === "mobile-app-development"
+                      ? "hover:border-blue-400/60 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)]"
+                      : service.id === "website-development"
+                      ? "hover:border-sky-400/60 hover:shadow-[0_0_40px_rgba(56,189,248,0.25)]"
+                      : service.id === "ai-applications"
                       ? "hover:border-primary/40 hover:shadow-[0_0_40px_rgba(139,92,246,0.28)]"
                       : service.id === "business-automation"
                       ? "hover:border-amber-400/60 hover:shadow-[0_0_40px_rgba(245,158,11,0.25)]"
@@ -69,16 +89,16 @@ export function ServicesSection() {
                       : "hover:border-primary/30 hover:shadow-lg"
                   }`}
               >
-                <div className="mb-6 flex-1">
+                <div className="mb-3 flex-1">
                   <div
-                    className={`w-14 h-14 bg-white rounded-none flex items-center justify-center mb-5 shadow-sm transition-all duration-200 ${accentClasses.iconBg}`}
+                    className={`w-10 h-10 bg-white rounded-none flex items-center justify-center mb-3 shadow-sm transition-all duration-200 ${accentClasses.iconBg}`}
                   >
                     <IconComponent
-                      className={`w-6 h-6 text-alt-gray-600 transition-colors duration-200 ${accentClasses.iconColor}`}
+                      className={`w-5 h-5 text-alt-gray-600 transition-colors duration-200 ${accentClasses.iconColor}`}
                     />
                   </div>
-                  <h3 className="text-xl font-semibold text-alt-black mb-3">{service.title}</h3>
-                  <p className="text-alt-gray-500 leading-relaxed">{service.description}</p>
+                  <h3 className="text-lg font-semibold text-alt-black mb-2">{service.title}</h3>
+                  <p className="text-alt-gray-500 leading-relaxed text-sm">{service.description}</p>
                 </div>
               </div>
             )

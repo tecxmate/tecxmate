@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import Link from "next/link"
 import { Menu, X, Globe } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -10,8 +10,13 @@ import { useLanguage, type Language } from "@/components/language-provider"
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
   const { language, setLanguage, t } = useLanguage()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const languageLabels: Record<Language, string> = {
     en: "English",
@@ -20,8 +25,12 @@ export function Navbar() {
   }
 
   const isActive = useCallback((path: string) => {
+    if (!mounted) return false
+    // For homepage hash links, they are only "active" if we are on the homepage AND the hash matches
+    // But since usePathname doesn't give us the hash, we'll just match the path part
+    // To avoid all hash links being active on home, we only highlight the exact path match
     return pathname === path
-  }, [pathname])
+  }, [pathname, mounted])
   
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prev => !prev)
@@ -59,16 +68,28 @@ export function Navbar() {
             {t("home")}
           </Link>
           <Link 
+            href="/#portfolio" 
+            className={`text-sm font-medium transition-colors ${isActive("/#portfolio") ? "text-primary" : "hover:text-primary"}`}
+          >
+            {t("projects")}
+          </Link>
+          <Link 
             href="/#services" 
-            className={`text-sm font-medium transition-colors ${isActive("/services") ? "text-primary" : "hover:text-primary"}`}
+            className={`text-sm font-medium transition-colors ${isActive("/#services") ? "text-primary" : "hover:text-primary"}`}
           >
             {t("services")}
           </Link>
-          <Link
-            href="/blog"
-            className={`text-sm font-medium transition-colors ${isActive("/blog") ? "text-primary" : "hover:text-primary"}`}
+          <Link 
+            href="/#team" 
+            className={`text-sm font-medium transition-colors ${isActive("/#team") ? "text-primary" : "hover:text-primary"}`}
           >
-            {t("news_insights")}
+            {t("team")}
+          </Link>
+          <Link
+            href="/about"
+            className={`text-sm font-medium transition-colors ${isActive("/about") ? "text-primary" : "hover:text-primary"}`}
+          >
+            {t("about")}
           </Link>
         </nav>
         <div className="flex items-center gap-4">
@@ -76,7 +97,7 @@ export function Navbar() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="hidden md:flex items-center gap-2">
                 <Globe className="h-4 w-4" />
-                <span>{languageLabels[language]}</span>
+                <span>{mounted ? languageLabels[language] : languageLabels.en}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -84,7 +105,7 @@ export function Navbar() {
                 <DropdownMenuItem
                   key={code}
                   onClick={() => handleLanguageSelect(code as Language)}
-                  className={code === language ? "bg-muted/50" : undefined}
+                  className={mounted && code === language ? "bg-muted/50" : undefined}
                 >
                   {label}
                 </DropdownMenuItem>
@@ -113,25 +134,39 @@ export function Navbar() {
               {t("home")}
             </Link>
             <Link
+              href="/#portfolio"
+              className={`text-sm font-medium transition-colors ${isActive("/#portfolio") ? "text-primary" : "hover:text-primary"}`}
+              onClick={closeMenu}
+            >
+              {t("projects")}
+            </Link>
+            <Link
               href="/#services"
-              className={`text-sm font-medium transition-colors ${isActive("/services") ? "text-primary" : "hover:text-primary"}`}
+              className={`text-sm font-medium transition-colors ${isActive("/#services") ? "text-primary" : "hover:text-primary"}`}
               onClick={closeMenu}
             >
               {t("services")}
             </Link>
             <Link
-              href="/blog"
-              className={`text-sm font-medium transition-colors ${isActive("/blog") ? "text-primary" : "hover:text-primary"}`}
+              href="/#team"
+              className={`text-sm font-medium transition-colors ${isActive("/#team") ? "text-primary" : "hover:text-primary"}`}
               onClick={closeMenu}
             >
-              {t("news_insights")}
+              {t("team")}
+            </Link>
+            <Link
+              href="/about"
+              className={`text-sm font-medium transition-colors ${isActive("/about") ? "text-primary" : "hover:text-primary"}`}
+              onClick={closeMenu}
+            >
+              {t("about")}
             </Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="w-full flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Globe className="h-4 w-4" />
-                    <span>{languageLabels[language]}</span>
+                    <span>{mounted ? languageLabels[language] : languageLabels.en}</span>
                   </div>
                 </Button>
               </DropdownMenuTrigger>
@@ -140,7 +175,7 @@ export function Navbar() {
                   <DropdownMenuItem
                     key={code}
                     onClick={() => handleLanguageSelect(code as Language)}
-                    className={code === language ? "bg-muted/50" : undefined}
+                    className={mounted && code === language ? "bg-muted/50" : undefined}
                   >
                     {label}
                   </DropdownMenuItem>

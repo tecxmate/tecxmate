@@ -133,8 +133,8 @@ export default function Home() {
         }}
       />
       <HeroSection />
-      <ServicesSection />
       <DemoProductsSection />
+      <ServicesSection />
       <TeamSection />
       <CampaignsSection />
       <Footer />
@@ -145,9 +145,9 @@ export default function Home() {
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
   const { generateCountryKeywords } = await import("@/lib/keywords")
-  
+
   return {
-    title: "Tecxmate - Premier Technology Consultancy for SMEs & Startups | AI Development & Web Solutions",
+    title: "TECXMATE - Premier Technology Partner of SMEs     & Startups | AI Development & Web Solutions",
     description: "Transform your business with Tecxmate's cutting-edge technology solutions. Expert AI integration, web development, business automation, and digital transformation services. Fast delivery, innovative solutions for SMEs and founders. Book your free consultation today.",
     keywords: generateCountryKeywords([
       "technology consultancy",
@@ -183,7 +183,7 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: "Tecxmate - Premier Technology Consultancy for SMEs & Startups",
+      title: "TECXMATE - Premier Technology Partner of SMEs     & Startups",
       description: "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting for SMEs and founders. Book your free discovery call.",
       url: baseUrl,
       siteName: "Tecxmate",
@@ -195,14 +195,14 @@ export async function generateMetadata(): Promise<Metadata> {
           url: `${baseUrl}/tecxmate-logo-cropped.png`,
           width: 1200,
           height: 630,
-          alt: "Tecxmate - Premier Technology Consultancy for SMEs and Startups",
+          alt: "TECXMATE - Premier Technology Partner of SMEsand Startups",
           type: "image/png",
         }
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Tecxmate - Premier Technology Consultancy for SMEs & Startups",
+      title: "TECXMATE - Premier Technology Partner of SMEs       & Startups",
       description: "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting.",
       images: [`${baseUrl}/tecxmate-logo-cropped.png`],
       creator: "@tecxmate",
