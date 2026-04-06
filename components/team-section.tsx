@@ -2,8 +2,10 @@
 
 import { Linkedin, GraduationCap, PenTool, Building2 } from "lucide-react"
 import Image from "next/image"
+import { useLanguage } from "@/components/language-provider"
 
 export function TeamSection() {
+  const { t } = useLanguage()
   const teamMembers = [
     {
       id: 'nikolas',
@@ -57,7 +59,7 @@ export function TeamSection() {
       <section id="team" className="bg-primary py-24 md:py-28 lg:py-32">
         <div className="container px-4 md:px-6 max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white">Our Team</h2>
+            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white">{t("team")}</h2>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -66,7 +68,7 @@ export function TeamSection() {
                 key={member.id}
               >
                 <div
-                  className="rounded-none border border-white/10 bg-white shadow-sm overflow-hidden h-full hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                  className="rounded-none bg-white shadow-sm overflow-hidden h-full hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
                     <Image

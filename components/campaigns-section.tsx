@@ -58,14 +58,14 @@ export function CampaignsSection() {
               {t("news_insights")}
             </h2>
             <p className="text-gray-600 text-lg">
-              Stay updated with the latest trends and insights from our technology experts.
+              {t("news_insights_subtitle")}
             </p>
           </div>
           <Link 
             href="/blog" 
             className="inline-flex items-center text-primary font-semibold hover:underline group"
           >
-            View all posts
+            {t("view_all_posts")}
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
@@ -109,7 +109,7 @@ export function CampaignsSection() {
                   {post.excerpt}
                 </p>
                 <div className="inline-flex items-center text-sm font-bold text-primary group-hover:gap-2 transition-all">
-                  <span>Read Full Article</span>
+                  <span>{t("read_full_article")}</span>
                   <ArrowRight className="h-4 w-4 ml-1" />
                 </div>
               </div>

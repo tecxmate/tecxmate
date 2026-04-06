@@ -3,12 +3,10 @@
 import Link from "next/link"
 import { Facebook, Twitter, Instagram, Linkedin, Video, Phone } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
-import { useContactForm } from "@/components/contact-form-provider"
 import { company } from "@/lib/company"
 
 export function Footer() {
   const { language, t } = useLanguage()
-  const { openContactForm } = useContactForm()
 
   return (
     <footer id="footer" className="bg-alt-black py-12 md:py-16 border-0">
@@ -25,14 +23,15 @@ export function Footer() {
             </Link>
             <p className="text-sm text-gray-300 leading-relaxed">{t("got_idea")}</p>
             <div className="flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                onClick={openContactForm}
+              <a
+                href="https://cal.com/nikolasdoan/30min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer"
               >
                 <Video className="h-5 w-5 shrink-0" />
                 <span className="text-sm">{t("book_discovery_call")}</span>
-              </button>
+              </a>
               <div className="flex gap-3">
                 <a
                   href="https://www.facebook.com/tecxmate"

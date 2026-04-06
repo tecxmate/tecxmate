@@ -4,8 +4,10 @@ import { ExternalLink, ChevronLeft, ChevronRight, X } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useRef, useState, useCallback } from "react"
 import type { WPProject } from "@/app/api/projects/route"
+import { useLanguage } from "@/components/language-provider"
 
 export function DemoProductsSection() {
+  const { t } = useLanguage()
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const isScrollingRef = useRef(false)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
@@ -122,7 +124,7 @@ export function DemoProductsSection() {
       <section id="portfolio" className="bg-primary py-20 md:py-24 lg:py-28">
         <div className="container px-4 md:px-6 max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6 text-white">Our Projects</h2>
+            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6 text-white">{t("projects_title")}</h2>
           </div>
 
           {loading ? (
@@ -189,7 +191,7 @@ export function DemoProductsSection() {
                           {project.excerpt}
                         </p>
                         <div className="flex items-center text-primary font-medium mt-auto">
-                          <span>Learn More</span>
+                          <span>{t("learn_more")}</span>
                           <ExternalLink className="w-4 h-4 ml-1" />
                         </div>
                       </div>
@@ -369,7 +371,7 @@ export function DemoProductsSection() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors"
                   >
-                    Visit Project
+                    {t("visit_project")}
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 </div>

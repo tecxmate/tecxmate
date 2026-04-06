@@ -7,7 +7,6 @@ import { GoogleAnalytics } from "@/components/google-analytics"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
 import { Analytics } from '@vercel/analytics/react'
 import { LanguageProvider } from "@/components/language-provider"
-import { ContactFormProvider } from "@/components/contact-form-provider"
 import { generateCountryKeywords } from "@/lib/keywords"
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
@@ -171,10 +170,8 @@ export default function RootLayout({
         <Analytics />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <LanguageProvider>
-            <ContactFormProvider>
-              {children}
-              <BackToTop />
-            </ContactFormProvider>
+            {children}
+            <BackToTop />
           </LanguageProvider>
         </ThemeProvider>
       </body>

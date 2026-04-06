@@ -2,45 +2,47 @@
 
 import { Button } from "@/components/ui/button"
 import { Brain, Zap, Bot, ServerCog, Smartphone, Layout } from "lucide-react"
+import { useLanguage } from "@/components/language-provider"
 
 export function ServicesSection() {
+  const { t } = useLanguage()
 
   const services = [
     {
       id: "mobile-app-development",
       icon: Smartphone,
-      title: "iOS & Android App Development",
-      description: "Native and cross-platform mobile applications built for performance and user experience.",
+      title: t("service_mobile_title"),
+      description: t("service_mobile_desc"),
     },
     {
       id: "website-development",
       icon: Layout,
-      title: "Website Development",
-      description: "Responsive, high-performance websites and modern web applications built to scale.",
+      title: t("service_web_title"),
+      description: t("service_web_desc"),
     },
     {
       id: "ai-applications",
       icon: Brain,
-      title: "AI Application Development",
-      description: "ML, NLP, and computer vision solutions — from chatbots to predictive analytics.",
+      title: t("service_ai_title"),
+      description: t("service_ai_desc"),
     },
     {
       id: "business-automation",
       icon: Zap,
-      title: "Business Automation",
-      description: "Workflow automation, system integration, and operational streamlining.",
+      title: t("service_automation_title"),
+      description: t("service_automation_desc"),
     },
     {
       id: "ai-integration",
       icon: Bot,
-      title: "AI Integration & Consulting",
-      description: "AI strategy, tool selection, and hands-on implementation support.",
+      title: t("service_consulting_title"),
+      description: t("service_consulting_desc"),
     },
     {
       id: "custom-erp",
       icon: ServerCog,
-      title: "Custom ERP & Operations Systems",
-      description: "Lightweight ERP systems built around your actual workflows.",
+      title: t("service_erp_title"),
+      description: t("service_erp_desc"),
     },
   ]
 
@@ -48,7 +50,7 @@ export function ServicesSection() {
     <section id="services" className="bg-white py-20 md:py-24">
       <div className="container px-4 md:px-6 max-w-6xl">
             <div className="text-center mb-12 md:mb-16 max-w-3xl mx-auto">
-              <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900">Our Services</h2>
+              <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900">{t("services_title")}</h2>
             </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -113,7 +115,7 @@ export function ServicesSection() {
             asChild
           >
             <a href="https://cal.com/nikolasdoan/30min" target="_blank" rel="noopener noreferrer">
-              Book a Consultation Call
+              {t("book_consultation")}
             </a>
           </Button>
         </div>
