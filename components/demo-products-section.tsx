@@ -124,7 +124,7 @@ export function DemoProductsSection() {
       <section id="portfolio" className="bg-primary py-20 md:py-24 lg:py-28">
         <div className="container px-4 md:px-6 max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6 text-white">{t("projects_title")}</h2>
+            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6 text-white" suppressHydrationWarning>{t("projects_title")}</h2>
           </div>
 
           {loading ? (
@@ -347,11 +347,11 @@ export function DemoProductsSection() {
                 {selectedProject.title}
               </h2>
               <p className="text-sm text-gray-500 mb-6">
-                {new Date(selectedProject.date).toLocaleDateString("en-US", {
+                {selectedProject.date ? new Date(selectedProject.date).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
-                })}
+                }) : ""}
               </p>
 
               {selectedProject.content ? (

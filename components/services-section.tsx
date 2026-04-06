@@ -50,7 +50,7 @@ export function ServicesSection() {
     <section id="services" className="bg-white py-20 md:py-24">
       <div className="container px-4 md:px-6 max-w-6xl">
             <div className="text-center mb-12 md:mb-16 max-w-3xl mx-auto">
-              <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900">{t("services_title")}</h2>
+              <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900" suppressHydrationWarning>{t("services_title")}</h2>
             </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">

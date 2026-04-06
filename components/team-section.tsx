@@ -20,7 +20,7 @@ export function TeamSection() {
       id: 'brian',
       name: 'Brian Nguyen 阮文貴',
       role: 'CTO & COO',
-      photo: '/avatars/brian_avatar.jpg',
+      photo: '/avatars/brian_avatar.png',
       description: 'MS Gamification Engineering (NTUST, exp. \'27). Built 3+ apps on App Store. Specialist in game mechanics for learning.',
       twitter: 'https://www.tecxmate.com',
       linkedin: 'https://www.linkedin.com/in/brian-nguyen-587825235/'
@@ -59,7 +59,7 @@ export function TeamSection() {
       <section id="team" className="bg-primary py-24 md:py-28 lg:py-32">
         <div className="container px-4 md:px-6 max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white">{t("team")}</h2>
+            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white" suppressHydrationWarning>{t("team")}</h2>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -77,8 +77,6 @@ export function TeamSection() {
                       width={600}
                       height={800}
                       className="w-full h-full object-cover object-center"
-                      priority={member.id === 'brian'}
-                      unoptimized={member.id === 'brian'}
                     />
                   </div>
                   <div className="p-3 md:p-4 text-center">
