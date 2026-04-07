@@ -10,6 +10,8 @@ import type { VCardData } from "@/lib/vcard"
 const CARD_W = 650
 const CARD_H = 1074
 
+const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+
 interface BusinessCardExportProps {
   card: VCardData
   siteUrl: string
@@ -37,7 +39,6 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
       link.href = canvas.toDataURL("image/png")
       link.click()
     } else {
-      // Vertical: 2.17 x 3.58 inches
       const pdf = new jsPDF({ orientation: "portrait", unit: "in", format: [2.17, 3.58] })
       const imgData = canvas.toDataURL("image/png")
       pdf.addImage(imgData, "PNG", 0, 0, 2.17, 3.58)
@@ -49,7 +50,6 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
   const hasAddress = card.address?.city || card.address?.country
   const addressLine = [card.address?.city, card.address?.country].filter(Boolean).join(", ")
 
-  // Preview scale to fit on screen
   const previewScale = 0.45
 
   return (
@@ -67,7 +67,7 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
             style={{
               width: CARD_W,
               height: CARD_H,
-              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+              fontFamily: FONT,
               position: "relative",
               background: "#f5f4f0",
               overflow: "hidden",
@@ -80,17 +80,17 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
             <div
               style={{
                 background: "#8c52ff",
-                height: 120,
+                height: 130,
                 display: "flex",
                 alignItems: "center",
-                paddingLeft: 45,
+                paddingLeft: 48,
               }}
             >
               <span
                 style={{
                   color: "#ffffff",
-                  fontSize: 46,
-                  letterSpacing: 8,
+                  fontSize: 52,
+                  letterSpacing: 10,
                   fontWeight: 300,
                 }}
               >
@@ -102,20 +102,20 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
             <div style={{ height: 4, background: "#7a3df5" }} />
 
             {/* Content area */}
-            <div style={{ padding: "55px 45px 40px 45px", display: "flex", flexDirection: "column", justifyContent: "space-between", height: CARD_H - 124 }}>
+            <div style={{ padding: "60px 48px 48px 48px", display: "flex", flexDirection: "column", justifyContent: "space-between", height: CARD_H - 134 }}>
               {/* Top — name + title + details */}
               <div>
                 {/* Name */}
-                <div style={{ fontSize: 48, fontWeight: 800, color: "#1a1a1a", marginBottom: 10, lineHeight: 1.1 }}>
+                <div style={{ fontSize: 58, fontWeight: 700, color: "#1a1a1a", marginBottom: 12, lineHeight: 1.1 }}>
                   {fullName}
                 </div>
                 {/* Title */}
-                <div style={{ fontSize: 20, fontWeight: 400, color: "#555", letterSpacing: 4, textTransform: "uppercase", marginBottom: 40 }}>
+                <div style={{ fontSize: 24, fontWeight: 400, color: "#555", letterSpacing: 5, textTransform: "uppercase", marginBottom: 44 }}>
                   {card.title}
                 </div>
 
                 {/* Contact details */}
-                <div style={{ fontSize: 20, color: "#333", lineHeight: 2.1 }}>
+                <div style={{ fontSize: 26, color: "#333", lineHeight: 2.2 }}>
                   {hasAddress && (
                     <div><span style={{ fontWeight: 700 }}>Office</span>: {addressLine}</div>
                   )}
@@ -135,16 +135,16 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
               </div>
 
               {/* Bottom — QR code + "ADD MY CONTACT" */}
-              <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: 30 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 30 }}>
                 <QRCodeSVG
                   value={vcardUrl}
-                  size={120}
+                  size={140}
                   bgColor="transparent"
                   fgColor="#1a1a1a"
                   level="M"
                   includeMargin={false}
                 />
-                <div style={{ fontSize: 22, fontWeight: 400, color: "#333", letterSpacing: 3, lineHeight: 1.6 }}>
+                <div style={{ fontSize: 26, fontWeight: 400, color: "#333", letterSpacing: 4, lineHeight: 1.6 }}>
                   ADD<br />MY CONTACT
                 </div>
               </div>
