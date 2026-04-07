@@ -22,7 +22,6 @@ const emptyCard: VCardData = {
 }
 
 export default function VCardAdminPage() {
-  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [authenticated, setAuthenticated] = useState(false)
   const [cards, setCards] = useState<VCardData[]>([])
@@ -35,7 +34,7 @@ export default function VCardAdminPage() {
 
   const siteUrl = typeof window !== "undefined" ? window.location.origin : ""
 
-  const authHeaders = { "x-admin-username": username, "x-admin-password": password }
+  const authHeaders = { "x-admin-password": password }
 
   const fetchCards = useCallback(async () => {
     setLoading(true)
@@ -52,7 +51,7 @@ export default function VCardAdminPage() {
       setLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [username, password])
+  }, [password])
 
   const handleLogin = async () => {
     const res = await fetch("/api/vcards", { headers: authHeaders })
@@ -60,7 +59,7 @@ export default function VCardAdminPage() {
       setAuthenticated(true)
       setCards(await res.json())
     } else {
-      setMessage("Invalid username or password")
+      setMessage("Invalid password")
     }
   }
 
@@ -195,13 +194,6 @@ export default function VCardAdminPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
           <h1 className="text-2xl font-bold text-gray-900 mb-6">vCard Admin</h1>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
           <input
             type="password"
             value={password}
@@ -502,7 +494,6 @@ export default function VCardAdminPage() {
             <button
               onClick={() => {
                 setAuthenticated(false)
-                setUsername("")
                 setPassword("")
               }}
               className="text-sm text-gray-500 hover:text-gray-700"

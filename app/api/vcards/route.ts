@@ -5,18 +5,16 @@ import type { VCardData } from "@/lib/vcard"
 
 const redis = Redis.fromEnv()
 
-const ADMIN_USERNAME = process.env.VCARD_ADMIN_USERNAME || "admin"
-const ADMIN_PASSWORD = process.env.VCARD_ADMIN_PASSWORD || "changeme"
+const ADMIN_PASSWORD = process.env.VCARD_ADMIN_PASSWORD || "tecxmate2026"
 
 function unauthorized() {
   return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 }
 
 function checkAuth(request: NextRequest): boolean {
-  const username = request.headers.get("x-admin-username")
   const password = request.headers.get("x-admin-password")
-  if (!username || !password) return false
-  return username === ADMIN_USERNAME && password === ADMIN_PASSWORD
+  if (!password) return false
+  return password === ADMIN_PASSWORD
 }
 
 // GET: list all vCards (defaults + custom additions)
