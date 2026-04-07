@@ -148,11 +148,9 @@ export function DemoProductsSection() {
               ref={scrollContainerRef}
               className="overflow-x-auto pb-4 scrollbar-hide -mx-4 md:mx-0 px-4 md:px-0 carousel-scroll"
               style={{
-                WebkitOverflowScrolling: "touch",
-                transform: "translateZ(0)",
-                WebkitTapHighlightColor: "transparent",
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
+                contain: "layout style",
               }}
             >
               <div className="flex gap-6 pb-4 min-w-max pl-4 md:pl-8 pr-4 md:pr-8 items-stretch">
@@ -160,7 +158,7 @@ export function DemoProductsSection() {
                   <div key={project.id} className="project-card-wrapper first:ml-0 last:mr-0 flex items-stretch">
                     <button
                       onClick={() => handleCardClick(project)}
-                      className="group block rounded-none border border-alt-gray-200 bg-white shadow-sm overflow-hidden hover:border-primary hover:shadow-md transition-all duration-300 flex flex-col h-full w-full text-left cursor-pointer"
+                      className="group block rounded-none border border-alt-gray-200 bg-white shadow-sm overflow-hidden hover:border-primary hover:shadow-md transition-shadow transition-[border-color] duration-300 flex flex-col h-full w-full text-left cursor-pointer"
                       aria-label={`View project - ${project.title}`}
                     >
                       {/* Image */}
@@ -311,7 +309,7 @@ export function DemoProductsSection() {
           onClick={() => setSelectedProject(null)}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black/70" />
 
           {/* Modal */}
           <div

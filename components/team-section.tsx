@@ -68,7 +68,7 @@ export function TeamSection() {
                 key={member.id}
               >
                 <div
-                  className="rounded-none bg-white shadow-sm overflow-hidden h-full hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                  className="rounded-none bg-white shadow-sm overflow-hidden h-full hover:shadow-xl hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
                 >
                   <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
                     <Image

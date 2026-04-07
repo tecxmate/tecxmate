@@ -75,7 +75,7 @@ export function CampaignsSection() {
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}
-              className="group block bg-white border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 h-full flex flex-col"
+              className="group block bg-white border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 h-full flex flex-col"
             >
               <div className="aspect-video w-full overflow-hidden bg-gray-100 relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -86,7 +86,7 @@ export function CampaignsSection() {
                   loading="lazy"
                 />
                 <div className="absolute top-4 left-4">
-                  <span className="bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-primary shadow-sm uppercase tracking-wider">
+                  <span className="bg-white/95 px-3 py-1 text-xs font-semibold text-primary shadow-sm uppercase tracking-wider">
                     {post.category}
                   </span>
                 </div>
