@@ -147,7 +147,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { generateCountryKeywords } = await import("@/lib/keywords")
 
   return {
-    title: "TECXMATE - Premier Technology Partner of SMEs     & Startups | AI Development & Web Solutions",
+    title: "TECXMATE - Premier Technology Partner | AI Software Solutions",
     description: "Transform your business with Tecxmate's cutting-edge technology solutions. Expert AI integration, web development, business automation, and digital transformation services. Fast delivery, innovative solutions for SMEs and founders. Book your free consultation today.",
     keywords: generateCountryKeywords([
       "technology consultancy",
@@ -183,7 +183,7 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: "TECXMATE - Premier Technology Partner of SMEs     & Startups",
+      title: "TECXMATE - Premier Technology Partner | AI Software Solutions",
       description: "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting for SMEs and founders. Book your free discovery call.",
       url: baseUrl,
       siteName: "Tecxmate",
@@ -195,14 +195,14 @@ export async function generateMetadata(): Promise<Metadata> {
           url: `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
           width: 1200,
           height: 630,
-          alt: "TECXMATE - Premier Technology Partner of SMEsand Startups",
+          alt: "TECXMATE - Premier Technology Partner | AI Software Solutions",
           type: "image/png",
         }
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "TECXMATE - Premier Technology Partner of SMEs       & Startups",
+      title: "TECXMATE - Premier Technology Partner | AI Software Solutions",
       description: "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting.",
       images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
       creator: "@tecxmate",
