@@ -129,10 +129,16 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 text-center text-sm text-white">
+        <div className="mt-10 pt-6 text-center text-sm text-white flex items-center justify-center gap-4">
           <p className="text-white">
             © {new Date().getFullYear()} {company.name.toUpperCase()}. {t("all_rights_reserved")}
           </p>
+          <Link
+            href="/admin/vcards"
+            className="border border-gray-500 text-gray-300 hover:border-white hover:text-white transition-colors duration-200 text-sm px-3 py-1 rounded-md"
+          >
+            Admin
+          </Link>
         </div>
       </div>
     </footer>
