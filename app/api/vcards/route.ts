@@ -3,7 +3,16 @@ import { Redis } from "@upstash/redis"
 import { defaultVCards } from "@/lib/vcard"
 import type { VCardData } from "@/lib/vcard"
 
-const redis = Redis.fromEnv()
+let _redis: Redis | null = null
+function getRedis(): Redis | null {
+  if (_redis) return _redis
+  try {
+    _redis = Redis.fromEnv()
+    return _redis
+  } catch {
+    return null
+  }
+}
 
 const ADMIN_PASSWORD = process.env.VCARD_ADMIN_PASSWORD || "tecxmate2026"
 
@@ -21,23 +30,23 @@ function checkAuth(request: NextRequest): boolean {
 export async function GET(request: NextRequest) {
   if (!checkAuth(request)) return unauthorized()
 
+  const redis = getRedis()
   try {
     const results: VCardData[] = []
 
-    // Load defaults (with Redis overrides)
     for (const def of defaultVCards) {
-      const stored = await redis.get<VCardData>(`vcard:${def.id}`)
+      const stored = redis ? await redis.get<VCardData>(`vcard:${def.id}`) : null
       results.push(stored ?? def)
     }
 
-    // Load custom-added cards
-    const customIds = await redis.smembers("vcard:custom-ids")
-    if (customIds && customIds.length > 0) {
-      for (const id of customIds) {
-        // Skip if it's also a default (shouldn't happen, but safe)
-        if (defaultVCards.some((d) => d.id === id)) continue
-        const card = await redis.get<VCardData>(`vcard:${id}`)
-        if (card) results.push(card)
+    if (redis) {
+      const customIds = await redis.smembers("vcard:custom-ids")
+      if (customIds && customIds.length > 0) {
+        for (const id of customIds) {
+          if (defaultVCards.some((d) => d.id === id)) continue
+          const card = await redis.get<VCardData>(`vcard:${id}`)
+          if (card) results.push(card)
+        }
       }
     }
 
@@ -51,13 +60,15 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   if (!checkAuth(request)) return unauthorized()
 
+  const redis = getRedis()
+  if (!redis) return NextResponse.json({ error: "Storage not configured" }, { status: 503 })
+
   try {
     const data: VCardData = await request.json()
     if (!data.id || !data.firstName || !data.lastName) {
       return NextResponse.json({ error: "Missing required fields (id, firstName, lastName)" }, { status: 400 })
     }
 
-    // Check for duplicate ID
     const existing = await redis.get(`vcard:${data.id}`)
     const isDefault = defaultVCards.some((d) => d.id === data.id)
     if (existing || isDefault) {
@@ -77,6 +88,9 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   if (!checkAuth(request)) return unauthorized()
 
+  const redis = getRedis()
+  if (!redis) return NextResponse.json({ error: "Storage not configured" }, { status: 503 })
+
   try {
     const data: VCardData = await request.json()
     if (!data.id) {
@@ -94,6 +108,9 @@ export async function PUT(request: NextRequest) {
 // DELETE: remove a custom-added person
 export async function DELETE(request: NextRequest) {
   if (!checkAuth(request)) return unauthorized()
+
+  const redis = getRedis()
+  if (!redis) return NextResponse.json({ error: "Storage not configured" }, { status: 503 })
 
   try {
     const { id } = await request.json()

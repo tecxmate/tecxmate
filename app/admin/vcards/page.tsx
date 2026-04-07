@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import { QRCodeSVG } from "qrcode.react"
+import { BusinessCardExport } from "@/components/business-card-export"
 import { defaultVCards } from "@/lib/vcard"
 import type { VCardData } from "@/lib/vcard"
 
@@ -27,6 +28,7 @@ export default function VCardAdminPage() {
   const [cards, setCards] = useState<VCardData[]>([])
   const [editing, setEditing] = useState<VCardData | null>(null)
   const [isNew, setIsNew] = useState(false)
+  const [exporting, setExporting] = useState<VCardData | null>(null)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
@@ -571,13 +573,12 @@ export default function VCardAdminPage() {
                     >
                       Edit
                     </button>
-                    <a
-                      href={vcardUrl}
-                      download
-                      className="flex-1 bg-gray-100 text-gray-700 py-2 rounded-md text-sm font-medium hover:bg-gray-200 text-center"
+                    <button
+                      onClick={() => setExporting({ ...card })}
+                      className="flex-1 bg-gray-800 text-white py-2 rounded-md text-sm font-medium hover:bg-gray-700"
                     >
-                      Download
-                    </a>
+                      Export
+                    </button>
                     {isCustom && (
                       <button
                         onClick={() => handleDelete(card.id)}
@@ -593,6 +594,15 @@ export default function VCardAdminPage() {
           </div>
         )}
       </div>
+
+      {/* Export modal */}
+      {exporting && (
+        <BusinessCardExport
+          card={exporting}
+          siteUrl={siteUrl}
+          onClose={() => setExporting(null)}
+        />
+      )}
     </div>
   )
 }
