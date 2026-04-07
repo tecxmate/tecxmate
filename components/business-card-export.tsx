@@ -10,7 +10,7 @@ import type { VCardData } from "@/lib/vcard"
 const CARD_W = 650
 const CARD_H = 1074
 
-const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+const FONT = "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
 
 interface BusinessCardExportProps {
   card: VCardData
@@ -60,6 +60,10 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
         </div>
 
+        {/* Load round font */}
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;700;800&display=swap" rel="stylesheet" />
+
         {/* Card preview — centered, scaled down */}
         <div className="flex justify-center mb-4" style={{ height: CARD_H * previewScale + 10, overflow: "hidden" }}>
           <div
@@ -83,7 +87,7 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
                 height: 130,
                 display: "flex",
                 alignItems: "center",
-                paddingLeft: 48,
+                justifyContent: "center",
               }}
             >
               <span
@@ -102,34 +106,34 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
             <div style={{ height: 4, background: "#7a3df5" }} />
 
             {/* Content area */}
-            <div style={{ padding: "60px 48px 48px 48px", display: "flex", flexDirection: "column", justifyContent: "space-between", height: CARD_H - 134 }}>
+            <div style={{ padding: "65px 60px 55px 60px", display: "flex", flexDirection: "column", justifyContent: "space-between", height: CARD_H - 134 }}>
               {/* Top — name + title + details */}
               <div>
                 {/* Name */}
-                <div style={{ fontSize: 58, fontWeight: 700, color: "#1a1a1a", marginBottom: 12, lineHeight: 1.1 }}>
+                <div style={{ fontSize: 58, fontWeight: 800, color: "#1a1a1a", marginBottom: 12, lineHeight: 1.1 }}>
                   {fullName}
                 </div>
                 {/* Title */}
-                <div style={{ fontSize: 24, fontWeight: 400, color: "#555", letterSpacing: 5, textTransform: "uppercase", marginBottom: 44 }}>
+                <div style={{ fontSize: 24, fontWeight: 500, color: "#444", letterSpacing: 5, textTransform: "uppercase", marginBottom: 44 }}>
                   {card.title}
                 </div>
 
                 {/* Contact details */}
-                <div style={{ fontSize: 26, color: "#333", lineHeight: 2.2 }}>
+                <div style={{ fontSize: 26, color: "#222", fontWeight: 500, lineHeight: 2.2 }}>
                   {hasAddress && (
-                    <div><span style={{ fontWeight: 700 }}>Office</span>: {addressLine}</div>
+                    <div><span style={{ fontWeight: 800 }}>Office</span>: {addressLine}</div>
                   )}
                   {card.emails.length > 0 && (
-                    <div><span style={{ fontWeight: 700 }}>Email</span>: {card.emails[0].address}</div>
+                    <div><span style={{ fontWeight: 800 }}>Email</span>: {card.emails[0].address}</div>
                   )}
                   {card.note && card.note.includes("WeChat") && (
-                    <div><span style={{ fontWeight: 700 }}>WeChat</span>: {card.note.replace(/WeChat\s*ID:\s*/i, "")}</div>
+                    <div><span style={{ fontWeight: 800 }}>WeChat</span>: {card.note.replace(/WeChat\s*ID:\s*/i, "")}</div>
                   )}
                   {card.phones.length > 0 && (
-                    <div><span style={{ fontWeight: 700 }}>Mobile:</span> {card.phones[0].number}</div>
+                    <div><span style={{ fontWeight: 800 }}>Mobile:</span> {card.phones[0].number}</div>
                   )}
                   {card.phones.length > 0 && (
-                    <div><span style={{ fontWeight: 700 }}>WhatsApp & Zalo:</span> {card.phones[0].number}</div>
+                    <div><span style={{ fontWeight: 800 }}>WhatsApp & Zalo:</span> {card.phones[0].number}</div>
                   )}
                 </div>
               </div>
@@ -144,7 +148,7 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
                   level="M"
                   includeMargin={false}
                 />
-                <div style={{ fontSize: 26, fontWeight: 400, color: "#333", letterSpacing: 4, lineHeight: 1.6 }}>
+                <div style={{ fontSize: 26, fontWeight: 500, color: "#222", letterSpacing: 4, lineHeight: 1.6 }}>
                   ADD<br />MY CONTACT
                 </div>
               </div>
