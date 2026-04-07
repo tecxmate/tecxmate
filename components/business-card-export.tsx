@@ -6,9 +6,9 @@ import html2canvas from "html2canvas"
 import { jsPDF } from "jspdf"
 import type { VCardData } from "@/lib/vcard"
 
-// Standard business card at 300 DPI: 3.5" x 2" = 1050 x 600px
-const CARD_W = 1050
-const CARD_H = 600
+// Vertical business card at 300 DPI: 2.17" x 3.58" ≈ 650 x 1074px
+const CARD_W = 650
+const CARD_H = 1074
 
 interface BusinessCardExportProps {
   card: VCardData
@@ -37,10 +37,10 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
       link.href = canvas.toDataURL("image/png")
       link.click()
     } else {
-      // Standard business card: 3.5 x 2 inches
-      const pdf = new jsPDF({ orientation: "landscape", unit: "in", format: [3.5, 2] })
+      // Vertical: 2.17 x 3.58 inches
+      const pdf = new jsPDF({ orientation: "portrait", unit: "in", format: [2.17, 3.58] })
       const imgData = canvas.toDataURL("image/png")
-      pdf.addImage(imgData, "PNG", 0, 0, 3.5, 2)
+      pdf.addImage(imgData, "PNG", 0, 0, 2.17, 3.58)
       pdf.save(`${card.firstName}_${card.lastName}_card.pdf`)
     }
   }, [card])
@@ -49,27 +49,30 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
   const hasAddress = card.address?.city || card.address?.country
   const addressLine = [card.address?.city, card.address?.country].filter(Boolean).join(", ")
 
+  // Preview scale to fit on screen
+  const previewScale = 0.45
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60" onClick={onClose}>
-      <div className="bg-white rounded-lg shadow-2xl p-6 max-w-4xl w-full" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-white rounded-lg shadow-2xl p-6 max-w-lg w-full" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-bold text-gray-900">Export Business Card</h3>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
         </div>
 
-        {/* Card preview — centered */}
-        <div className="flex justify-center mb-6 overflow-auto">
+        {/* Card preview — centered, scaled down */}
+        <div className="flex justify-center mb-4" style={{ height: CARD_H * previewScale + 10, overflow: "hidden" }}>
           <div
             ref={cardRef}
             style={{
               width: CARD_W,
               height: CARD_H,
-              fontFamily: "Helvetica, Arial, sans-serif",
+              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
               position: "relative",
-              background: "#faf9f6",
+              background: "#f5f4f0",
               overflow: "hidden",
               flexShrink: 0,
-              transform: "scale(0.5)",
+              transform: `scale(${previewScale})`,
               transformOrigin: "top center",
             }}
           >
@@ -77,17 +80,17 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
             <div
               style={{
                 background: "#8c52ff",
-                height: 100,
+                height: 120,
                 display: "flex",
                 alignItems: "center",
-                paddingLeft: 50,
+                paddingLeft: 45,
               }}
             >
               <span
                 style={{
                   color: "#ffffff",
-                  fontSize: 36,
-                  letterSpacing: 6,
+                  fontSize: 46,
+                  letterSpacing: 8,
                   fontWeight: 300,
                 }}
               >
@@ -95,66 +98,62 @@ export function BusinessCardExport({ card, siteUrl, onClose }: BusinessCardExpor
               </span>
             </div>
 
-            {/* Content area */}
-            <div style={{ padding: "40px 50px 30px 50px", display: "flex", justifyContent: "space-between", height: CARD_H - 100 }}>
-              {/* Left side — contact info */}
-              <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", flex: 1 }}>
-                <div>
-                  {/* Name */}
-                  <div style={{ fontSize: 38, fontWeight: 700, color: "#1a1a1a", marginBottom: 6 }}>
-                    {fullName}
-                  </div>
-                  {/* Title */}
-                  <div style={{ fontSize: 18, fontWeight: 400, color: "#555", letterSpacing: 3, textTransform: "uppercase", marginBottom: 30 }}>
-                    {card.title}
-                  </div>
+            {/* Divider line */}
+            <div style={{ height: 4, background: "#7a3df5" }} />
 
-                  {/* Contact details */}
-                  <div style={{ fontSize: 16, color: "#333", lineHeight: 2.2 }}>
-                    {hasAddress && (
-                      <div><span style={{ fontWeight: 700 }}>Office: </span>{addressLine}</div>
-                    )}
-                    {card.emails.length > 0 && (
-                      <div><span style={{ fontWeight: 700 }}>Email: </span>{card.emails[0].address}</div>
-                    )}
-                    {card.note && card.note.includes("WeChat") && (
-                      <div><span style={{ fontWeight: 700 }}>WeChat: </span>{card.note.replace(/WeChat\s*ID:\s*/i, "")}</div>
-                    )}
-                    {card.phones.length > 0 && (
-                      <div><span style={{ fontWeight: 700 }}>Mobile: </span>{card.phones[0].number}</div>
-                    )}
-                    {card.phones.length > 0 && (
-                      <div><span style={{ fontWeight: 700 }}>WhatsApp & Zalo: </span>{card.phones[0].number}</div>
-                    )}
-                  </div>
+            {/* Content area */}
+            <div style={{ padding: "55px 45px 40px 45px", display: "flex", flexDirection: "column", justifyContent: "space-between", height: CARD_H - 124 }}>
+              {/* Top — name + title + details */}
+              <div>
+                {/* Name */}
+                <div style={{ fontSize: 48, fontWeight: 800, color: "#1a1a1a", marginBottom: 10, lineHeight: 1.1 }}>
+                  {fullName}
+                </div>
+                {/* Title */}
+                <div style={{ fontSize: 20, fontWeight: 400, color: "#555", letterSpacing: 4, textTransform: "uppercase", marginBottom: 40 }}>
+                  {card.title}
+                </div>
+
+                {/* Contact details */}
+                <div style={{ fontSize: 20, color: "#333", lineHeight: 2.1 }}>
+                  {hasAddress && (
+                    <div><span style={{ fontWeight: 700 }}>Office</span>: {addressLine}</div>
+                  )}
+                  {card.emails.length > 0 && (
+                    <div><span style={{ fontWeight: 700 }}>Email</span>: {card.emails[0].address}</div>
+                  )}
+                  {card.note && card.note.includes("WeChat") && (
+                    <div><span style={{ fontWeight: 700 }}>WeChat</span>: {card.note.replace(/WeChat\s*ID:\s*/i, "")}</div>
+                  )}
+                  {card.phones.length > 0 && (
+                    <div><span style={{ fontWeight: 700 }}>Mobile:</span> {card.phones[0].number}</div>
+                  )}
+                  {card.phones.length > 0 && (
+                    <div><span style={{ fontWeight: 700 }}>WhatsApp & Zalo:</span> {card.phones[0].number}</div>
+                  )}
                 </div>
               </div>
 
-              {/* Right side — QR code + branding */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "flex-end", marginLeft: 30 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                  <QRCodeSVG
-                    value={vcardUrl}
-                    size={100}
-                    bgColor="transparent"
-                    fgColor="#1a1a1a"
-                    level="M"
-                    includeMargin={false}
-                  />
-                  <span style={{ fontSize: 18, fontWeight: 400, color: "#333", letterSpacing: 3 }}>
-                    TECXMATE.COM
-                  </span>
+              {/* Bottom — QR code + "ADD MY CONTACT" */}
+              <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: 30 }}>
+                <QRCodeSVG
+                  value={vcardUrl}
+                  size={120}
+                  bgColor="transparent"
+                  fgColor="#1a1a1a"
+                  level="M"
+                  includeMargin={false}
+                />
+                <div style={{ fontSize: 22, fontWeight: 400, color: "#333", letterSpacing: 3, lineHeight: 1.6 }}>
+                  ADD<br />MY CONTACT
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Scaled height spacer */}
-        <div style={{ marginTop: -CARD_H * 0.5 + 20 }} />
-
         {/* Export buttons */}
-        <div className="flex gap-3 justify-center">
+        <div className="flex gap-3 justify-center flex-wrap">
           <button
             onClick={() => exportAs("png")}
             className="px-6 py-2 bg-primary text-white rounded-md font-medium hover:bg-primary/90"
