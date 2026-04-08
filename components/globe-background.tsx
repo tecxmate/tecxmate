@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useCallback, useState } from "react"
 import createGlobe from "cobe"
 
 /** Detect Android (incl. WebView in Messenger, Instagram, etc.) for performance tweaks */
@@ -32,12 +32,19 @@ const MARKERS = [
   { location: [-7.2575, 112.7521] as [number, number], size: 0.04 }, // Surabaya
 ]
 
+// Target fps: low enough to keep devices cool, high enough for smooth rotation
+const TARGET_FPS = 15
+const FRAME_INTERVAL = 1000 / TARGET_FPS
+
 export function GlobeBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const phiRef = useRef(0)
-  const isInViewRef = useRef(true)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const globeRef = useRef<any>(null)
+  const rafRef = useRef<number>(0)
   const prefersReducedMotionRef = useRef(false)
+  const isInViewRef = useRef(true)
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 })
   const [isMobile, setIsMobile] = useState(false)
 
@@ -71,7 +78,6 @@ export function GlobeBackground() {
       }, 200)
     }
 
-    // Initial measurement (no debounce)
     const rect = container.getBoundingClientRect()
     setDimensions({ width: rect.width, height: rect.height })
 
@@ -81,7 +87,7 @@ export function GlobeBackground() {
     return () => { ro.disconnect(); clearTimeout(resizeTimer) }
   }, [])
 
-  // Pause globe animation when off-screen via ref (no re-render, no globe recreation)
+  // Track visibility via ref (no re-render needed)
   useEffect(() => {
     const hero = document.getElementById("hero")
     if (!hero) return
@@ -110,9 +116,6 @@ export function GlobeBackground() {
 
     const mapSamples = android ? (isMobile ? 3000 : 6000) : isMobile ? 5000 : 8000
 
-    let lastRenderTime = 0
-    const frameInterval = android ? 50 : 33 // ~20fps Android, ~30fps otherwise
-
     const globe = createGlobe(canvas, {
       devicePixelRatio: dpr,
       width,
@@ -132,18 +135,39 @@ export function GlobeBackground() {
       markers: MARKERS,
       offset: [width * 0.72, -height * 0.52],
       onRender: (state) => {
-        const now = performance.now()
-        if (now - lastRenderTime < frameInterval) return
-        lastRenderTime = now
-
-        if (!prefersReducedMotionRef.current && isInViewRef.current) {
+        if (!prefersReducedMotionRef.current) {
           phiRef.current += 0.001
           state.phi = phiRef.current
         }
       },
     })
 
-    return () => globe.destroy()
+    globeRef.current = globe
+
+    // Kill cobe's internal 60fps rAF loop — we'll drive rendering ourselves
+    globe.toggle(false)
+
+    // Our own rAF loop, throttled to TARGET_FPS
+    let lastFrameTime = 0
+    const tick = (now: number) => {
+      rafRef.current = requestAnimationFrame(tick)
+
+      if (!isInViewRef.current) return // skip GPU work entirely when off-screen
+
+      if (now - lastFrameTime < FRAME_INTERVAL) return
+      lastFrameTime = now
+
+      // Render exactly one frame: enable → draw → disable
+      globe.shouldRender = false
+      globe.render()
+    }
+    rafRef.current = requestAnimationFrame(tick)
+
+    return () => {
+      cancelAnimationFrame(rafRef.current)
+      globe.destroy()
+      globeRef.current = null
+    }
   }, [dimensions, isMobile])
 
   return (
