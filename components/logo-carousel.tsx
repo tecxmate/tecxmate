@@ -7,22 +7,6 @@ export function LogoCarousel() {
   // Removed mobile detection to reduce TBT - use CSS media queries instead
   const logos = [
     {
-      name: "Harvard",
-      src: "/logos/harvard.png",
-    },
-    {
-      name: "HKU",
-      src: "/logos/hku.png",
-    },
-    {
-      name: "NTUST",
-      src: "/logos/ntust-logo-transparent.png",
-    },
-    {
-      name: "NTUT",
-      src: "/logos/ntut.png",
-    },
-    {
       name: "Crypted",
       src: "/logos/crypted.png",
     },
