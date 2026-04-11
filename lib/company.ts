@@ -8,7 +8,7 @@ export const company = {
   name: "Tecxmate",
   /** Legal names by locale */
   legalName: {
-    en: "TECXMATE Corporation Ltd.",
+    en: "TECXMATE COMPANY LIMITED",
     vi: "CÔNG TY TNHH TECXMATE",
   },
   /** Business formation type */

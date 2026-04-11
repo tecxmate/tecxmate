@@ -5,13 +5,29 @@
     "firstName": "Nikolas",
     "lastName": "Doan",
     "suffix": "",
-    "org": "TECXMATE Corporation Ltd.",
+    "org": "TECXMATE COMPANY LIMITED",
     "title": "CEO & CFO",
-    "phones": [{ "type": "Work", "number": "+84-33-746-0602" }],
-    "emails": [{ "type": "Work", "address": "ceo@tecxmate.com" }],
+    "phones": [
+      {
+        "type": "Work",
+        "number": "+84-33-746-0602"
+      }
+    ],
+    "emails": [
+      {
+        "type": "Work",
+        "address": "ceo@tecxmate.com"
+      }
+    ],
     "website": "https://www.tecxmate.com",
-    "address": { "street": "Villa Park Complex, Phu Huu Ward", "city": "Ho Chi Minh City", "state": "", "zip": "700000", "country": "Vietnam" },
-    "note": "MSc AI/Robotics (NTU). Former Google Cloud Startups.",
+    "address": {
+      "street": "Villa Park Complex, Phu Huu Ward",
+      "city": "Ho Chi Minh City",
+      "state": "",
+      "zip": "700000",
+      "country": "Vietnam"
+    },
+    "note": "MSc AI Robotics & Management (NTU). Former Google Cloud Startups.",
     "photoUrl": ""
   },
   {
@@ -20,13 +36,29 @@
     "firstName": "Brian",
     "lastName": "Nguyen",
     "suffix": "",
-    "org": "TECXMATE Corporation Ltd.",
+    "org": "TECXMATE COMPANY LIMITED",
     "title": "CTO & COO",
-    "phones": [],
-    "emails": [],
+    "phones": [
+      {
+        "type": "Cell",
+        "number": "0900299506"
+      }
+    ],
+    "emails": [
+      {
+        "type": "Work",
+        "address": "brian.tecx@gmail.com"
+      }
+    ],
     "website": "https://www.tecxmate.com",
-    "address": { "street": "", "city": "", "state": "", "zip": "", "country": "" },
-    "note": "MS Gamification Engineering (NTUST). Built 3+ apps on App Store.",
+    "address": {
+      "street": "No. 43, Sec. 4, Keelung Rd., Da'an Dist.",
+      "city": "Taipei City",
+      "state": "",
+      "zip": "106335",
+      "country": "Taiwan (R.O.C.)"
+    },
+    "note": "MS Electrical Engineering (NTUST). 106335 臺北市大安區基隆路4段43號",
     "photoUrl": ""
   },
   {
@@ -35,12 +67,18 @@
     "firstName": "Lynn",
     "lastName": "Ta",
     "suffix": "",
-    "org": "TECXMATE Corporation Ltd.",
+    "org": "TECXMATE COMPANY LIMITED",
     "title": "Project Manager",
     "phones": [],
     "emails": [],
     "website": "https://www.tecxmate.com",
-    "address": { "street": "", "city": "", "state": "", "zip": "", "country": "" },
+    "address": {
+      "street": "",
+      "city": "",
+      "state": "",
+      "zip": "",
+      "country": ""
+    },
     "note": "",
     "photoUrl": ""
   },
@@ -50,12 +88,18 @@
     "firstName": "Ellis",
     "lastName": "Wu",
     "suffix": "",
-    "org": "TECXMATE Corporation Ltd.",
+    "org": "TECXMATE COMPANY LIMITED",
     "title": "Business Developer",
     "phones": [],
     "emails": [],
     "website": "https://www.tecxmate.com",
-    "address": { "street": "", "city": "", "state": "", "zip": "", "country": "" },
+    "address": {
+      "street": "",
+      "city": "",
+      "state": "",
+      "zip": "",
+      "country": ""
+    },
     "note": "Business Developer specialist focused on strategic partnerships and market expansion.",
     "photoUrl": ""
   },
@@ -65,12 +109,18 @@
     "firstName": "Jane",
     "lastName": "Liu",
     "suffix": "",
-    "org": "TECXMATE Corporation Ltd.",
+    "org": "TECXMATE COMPANY LIMITED",
     "title": "Creative Director",
     "phones": [],
     "emails": [],
     "website": "https://www.tecxmate.com",
-    "address": { "street": "", "city": "", "state": "", "zip": "", "country": "" },
+    "address": {
+      "street": "",
+      "city": "",
+      "state": "",
+      "zip": "",
+      "country": ""
+    },
     "note": "Creative director with expertise in UI/UX design and brand identity development.",
     "photoUrl": ""
   },
@@ -80,12 +130,28 @@
     "firstName": "Andrea",
     "lastName": "Peretto",
     "suffix": "",
-    "org": "TECXMATE Corporation Ltd.",
+    "org": "TECXMATE COMPANY LIMITED",
     "title": "Business Developer",
-    "phones": [{ "type": "Cell", "number": "+84903317572" }],
-    "emails": [{ "type": "Work", "address": "andrea@tecxmate.com" }],
+    "phones": [
+      {
+        "type": "Cell",
+        "number": "+84903317572"
+      }
+    ],
+    "emails": [
+      {
+        "type": "Work",
+        "address": "andrea@tecxmate.com"
+      }
+    ],
     "website": "https://www.tecxmate.com",
-    "address": { "street": "", "city": "Ho Chi Minh City", "state": "", "zip": "", "country": "Vietnam" },
+    "address": {
+      "street": "",
+      "city": "Ho Chi Minh City",
+      "state": "",
+      "zip": "",
+      "country": "Vietnam"
+    },
     "note": "WeChat ID: Andrea_Prt",
     "photoUrl": ""
   }

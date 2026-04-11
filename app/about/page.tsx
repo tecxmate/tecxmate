@@ -53,7 +53,7 @@ export default function AboutPage() {
     "mainEntity": {
       "@type": "Organization",
       "name": "Tecxmate",
-      "legalName": "TECXMATE Corporation Ltd.",
+      "legalName": "TECXMATE COMPANY LIMITED",
       "foundingDate": "2025",
       "address": {
         "@type": "PostalAddress",
@@ -172,7 +172,7 @@ export default function AboutPage() {
                     </div>
                     <div>
                       <dt className="font-medium text-gray-900">Legal Name (EN)</dt>
-                      <dd>TECXMATE Corporation Ltd.</dd>
+                      <dd>TECXMATE COMPANY LIMITED</dd>
                     </div>
                     <div>
                       <dt className="font-medium text-gray-900">Legal Name (VN)</dt>
