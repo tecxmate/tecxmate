@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading Business Card...</title>
+  <meta name="description" content="Digital Business Card - TECXNOTE">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #8C52FF 0%, #5C2FCC 100%);
+    }
+    .card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      max-width: 400px;
+      width: 100%;
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .avatar, .avatar-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      object-fit: cover;
+    }
+    .avatar {
+      background: var(--accent, #8C52FF);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 36px;
+      font-weight: 600;
+    }
+    .name { font-size: 24px; font-weight: 700; color: #1a202c; margin-bottom: 5px; }
+    .subtitle { font-size: 14px; color: #718096; margin-bottom: 25px; }
+    .info { text-align: left; margin-bottom: 25px; }
+    .info-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #e2e8f0; }
+    .info-row:last-child { border-bottom: none; }
+    .info-icon { width: 20px; height: 20px; margin-right: 15px; color: var(--accent, #8C52FF); flex-shrink: 0; }
+    .info-value { color: #2d3748; text-decoration: none; word-break: break-word; }
+    .info-value:hover { color: var(--accent, #8C52FF); }
+    .btn {
+      display: inline-block;
+      background: var(--accent, #8C52FF);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(140, 82, 255, 0.4); }
+    .btn:active { transform: translateY(0); }
+    .powered { margin-top: 25px; font-size: 12px; color: #a0aec0; }
+    .loading { animation: pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .error { color: #e53e3e; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div id="loading" class="loading">
+      <div class="avatar" style="background: #e2e8f0;"></div>
+      <div class="name" style="background: #e2e8f0; height: 28px; border-radius: 4px; margin-bottom: 12px;"></div>
+      <div class="subtitle" style="background: #e2e8f0; height: 16px; width: 60%; margin: 0 auto 25px; border-radius: 4px;"></div>
+    </div>
+
+    <div id="content" class="hidden">
+      <img id="avatar-img" class="avatar-img hidden" alt="">
+      <div id="avatar-initials" class="avatar"></div>
+      <h1 id="name" class="name"></h1>
+      <p id="subtitle" class="subtitle"></p>
+      <div id="info" class="info"></div>
+      <button id="save-btn" class="btn" onclick="saveContact()">Add to Contacts</button>
+      <p class="powered">Shared via TECXNOTE</p>
+    </div>
+
+    <div id="error" class="hidden">
+      <div class="avatar" style="background: #fed7d7;">
+        <span style="font-size: 40px;">!</span>
+      </div>
+      <h2 class="name error">Card Not Found</h2>
+      <p class="subtitle">This business card doesn't exist or has been removed.</p>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://xcuiztmcirbecloicwrx.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhjdWl6dG1jaXJiZWNsb2ljd3J4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1MDY5OTIsImV4cCI6MjA5MTA4Mjk5Mn0.j1metpIXHaP8_2Slg1vMJycaw7UNNe5qtRpr6R8WTco';
+
+    let cardData = null;
+
+    async function loadCard() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('id') || window.location.pathname.split('/').pop();
+
+      if (!userId || !/^[a-f0-9-]{36}$/i.test(userId)) {
+        showError();
+        return;
+      }
+
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/my_cards?user_id=eq.${userId}&select=*`, {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+          }
+        });
+
+        const data = await response.json();
+        if (!data || data.length === 0) {
+          showError();
+          return;
+        }
+
+        cardData = data[0];
+        renderCard(cardData);
+      } catch (err) {
+        console.error('Error loading card:', err);
+        showError();
+      }
+    }
+
+    function renderCard(card) {
+      const accentColor = card.accent_color || '#8C52FF';
+      document.documentElement.style.setProperty('--accent', accentColor);
+      document.body.style.background = `linear-gradient(135deg, ${accentColor} 0%, ${adjustColor(accentColor, -30)} 100%)`;
+
+      document.title = `${card.name} - Business Card`;
+
+      const initials = card.name.split(' ').filter(Boolean).map(p => p[0]).join('').toUpperCase().slice(0, 2);
+
+      if (card.photo_url) {
+        document.getElementById('avatar-img').src = card.photo_url;
+        document.getElementById('avatar-img').alt = card.name;
+        document.getElementById('avatar-img').classList.remove('hidden');
+        document.getElementById('avatar-initials').classList.add('hidden');
+      } else {
+        document.getElementById('avatar-initials').textContent = initials;
+        document.getElementById('avatar-initials').style.background = accentColor;
+      }
+
+      document.getElementById('name').textContent = card.name;
+
+      const subtitleParts = [];
+      if (card.job_title) subtitleParts.push(card.job_title);
+      if (card.company) subtitleParts.push(card.company);
+      document.getElementById('subtitle').textContent = subtitleParts.join(' at ');
+
+      const infoHtml = [];
+      if (card.phone) {
+        infoHtml.push(`<div class="info-row">${phoneIcon()}<a href="tel:${escapeHtml(card.phone)}" class="info-value">${escapeHtml(card.phone)}</a></div>`);
+      }
+      if (card.email) {
+        infoHtml.push(`<div class="info-row">${emailIcon()}<a href="mailto:${escapeHtml(card.email)}" class="info-value">${escapeHtml(card.email)}</a></div>`);
+      }
+      if (card.website) {
+        infoHtml.push(`<div class="info-row">${webIcon()}<a href="${escapeHtml(card.website)}" target="_blank" class="info-value">${escapeHtml(card.website.replace(/^https?:\/\//, ''))}</a></div>`);
+      }
+      if (card.company && !card.job_title) {
+        infoHtml.push(`<div class="info-row">${buildingIcon()}<span class="info-value">${escapeHtml(card.company)}</span></div>`);
+      }
+      document.getElementById('info').innerHTML = infoHtml.join('');
+
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('content').classList.remove('hidden');
+    }
+
+    function showError() {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('error').classList.remove('hidden');
+    }
+
+    function saveContact() {
+      if (!cardData) return;
+
+      const lines = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        `FN:${escapeVCard(cardData.name)}`,
+        `N:${escapeVCard(cardData.name)};;;`
+      ];
+      if (cardData.company) lines.push(`ORG:${escapeVCard(cardData.company)}`);
+      if (cardData.job_title) lines.push(`TITLE:${escapeVCard(cardData.job_title)}`);
+      if (cardData.phone) lines.push(`TEL;TYPE=CELL:${cardData.phone}`);
+      if (cardData.email) lines.push(`EMAIL:${cardData.email}`);
+      if (cardData.website) lines.push(`URL:${cardData.website}`);
+      lines.push('END:VCARD');
+
+      const vcard = lines.join('\r\n');
+      const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const safeName = cardData.name.replace(/[^\w\s]/g, '').replace(/\s+/g, '_').trim() || 'contact';
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${safeName}.vcf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function escapeVCard(value) {
+      return value.replace(/\\/g, '\\\\').replace(/,/g, '\\,').replace(/;/g, '\\;').replace(/\n/g, '\\n');
+    }
+
+    function adjustColor(hex, amount) {
+      const num = parseInt(hex.replace('#', ''), 16);
+      const r = Math.min(255, Math.max(0, (num >> 16) + amount));
+      const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+      const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+      return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+    }
+
+    function phoneIcon() {
+      return `<svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>`;
+    }
+    function emailIcon() {
+      return `<svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`;
+    }
+    function webIcon() {
+      return `<svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>`;
+    }
+    function buildingIcon() {
+      return `<svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>`;
+    }
+
+    loadCard();
+  </script>
+</body>
+</html>
