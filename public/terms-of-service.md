@@ -1,6 +1,6 @@
 # Terms of Service
 
-**Last Updated: November 2024**
+**Last Updated: April 2026**
 
 ## 1. Introduction
 
@@ -119,14 +119,14 @@ We may terminate a Service Agreement if:
 ## 11. Dispute Resolution
 
 ### 11.1 Governing Law
-These Terms are governed by and construed in accordance with the laws of Taiwan, Republic of China.
+These Terms are governed by and construed in accordance with the laws of Vietnam.
 
 ### 11.2 Dispute Resolution Process
 Any disputes arising from or related to these Terms or our services shall be resolved through:
 
 1. **Good Faith Negotiation**: Parties will attempt to resolve disputes through good faith discussion
 2. **Mediation**: If negotiation fails, disputes may be submitted to mediation
-3. **Jurisdiction**: Any legal proceedings shall be subject to the exclusive jurisdiction of the courts of Taiwan
+3. **Jurisdiction**: Any legal proceedings shall be subject to the exclusive jurisdiction of the courts of Vietnam
 
 ## 12. Website Use
 
