@@ -25,7 +25,7 @@ export const company = {
   /** Operating markets */
   operatingMarkets: ["Taiwan", "US", "Vietnam"],
   /** Contact email */
-  contactEmail: "ceo@tecxmate.com",
+  contactEmail: "official@tecxmate.com",
   /** Phone numbers by region (display + tel link format) */
   phone: {
     us: { display: "(+1) 6172729992", tel: "+16172729992" },

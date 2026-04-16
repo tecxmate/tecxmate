@@ -165,7 +165,7 @@ If you have any questions about these Terms of Service, please contact us:
 
 **TECXMATE Corporation Ltd.** (CÔNG TY TNHH TECXMATE)  
 Villa Park Complex, Phu Huu Ward, Ho Chi Minh City, Vietnam  
-Email: ceo@tecxmate.com  
+Email: official@tecxmate.com  
 Website: https://www.tecxmate.com
 
 ---

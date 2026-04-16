@@ -184,7 +184,7 @@ export default function AboutPage() {
                     </div>
                     <div>
                       <dt className="font-medium text-gray-900">Contact</dt>
-                      <dd><a href="mailto:ceo@tecxmate.com" className="text-primary hover:underline">ceo@tecxmate.com</a></dd>
+                      <dd><a href="mailto:official@tecxmate.com" className="text-primary hover:underline">official@tecxmate.com</a></dd>
                     </div>
                   </dl>
                 </div>

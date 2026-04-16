@@ -90,7 +90,7 @@ You have the following rights regarding your personal information:
 - **Objection**: Object to processing of your data for specific purposes
 - **Withdraw Consent**: Withdraw consent at any time where processing is based on consent
 
-To exercise these rights, please contact us at ceo@tecxmate.com.
+To exercise these rights, please contact us at official@tecxmate.com.
 
 ## 9. International Data Transfers
 
@@ -116,7 +116,7 @@ If you have any questions, concerns, or requests regarding this Privacy Policy o
 
 **TECXMATE Corporation Ltd.** (CÔNG TY TNHH TECXMATE)  
 Villa Park Complex, Phu Huu Ward, Ho Chi Minh City, Vietnam  
-Email: ceo@tecxmate.com  
+Email: official@tecxmate.com  
 Website: https://www.tecxmate.com
 
 We will respond to your inquiries within a reasonable timeframe.

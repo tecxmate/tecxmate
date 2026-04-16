@@ -46,7 +46,7 @@ export default function Home() {
             "contactPoint": [
               {
                 "@type": "ContactPoint",
-                "email": "ceo@tecxmate.com",
+                "email": "official@tecxmate.com",
                 "telephone": "+1-617-272-9992",
                 "contactType": "Customer Service",
                 "areaServed": "US",
