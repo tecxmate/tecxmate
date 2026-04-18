@@ -162,10 +162,24 @@
       document.getElementById('subtitle').textContent = subtitleParts.join(' at ');
 
       const infoHtml = [];
-      if (card.phone) {
+
+      // Multiple phones (new format) or legacy single phone
+      const phones = parseJsonArray(card.phones_json);
+      if (phones.length > 0) {
+        phones.forEach(p => {
+          infoHtml.push(`<div class="info-row">${phoneIcon()}<a href="tel:${escapeHtml(p.value)}" class="info-value">${escapeHtml(p.value)}${p.label ? ` <small style="color:#a0aec0">(${escapeHtml(p.label)})</small>` : ''}</a></div>`);
+        });
+      } else if (card.phone) {
         infoHtml.push(`<div class="info-row">${phoneIcon()}<a href="tel:${escapeHtml(card.phone)}" class="info-value">${escapeHtml(card.phone)}</a></div>`);
       }
-      if (card.email) {
+
+      // Multiple emails (new format) or legacy single email
+      const emails = parseJsonArray(card.emails_json);
+      if (emails.length > 0) {
+        emails.forEach(e => {
+          infoHtml.push(`<div class="info-row">${emailIcon()}<a href="mailto:${escapeHtml(e.value)}" class="info-value">${escapeHtml(e.value)}${e.label ? ` <small style="color:#a0aec0">(${escapeHtml(e.label)})</small>` : ''}</a></div>`);
+        });
+      } else if (card.email) {
         infoHtml.push(`<div class="info-row">${emailIcon()}<a href="mailto:${escapeHtml(card.email)}" class="info-value">${escapeHtml(card.email)}</a></div>`);
       }
       if (card.website) {
@@ -185,6 +199,14 @@
       document.getElementById('error').classList.remove('hidden');
     }
 
+    function parseJsonArray(jsonStr) {
+      if (!jsonStr) return [];
+      try {
+        const arr = JSON.parse(jsonStr);
+        return Array.isArray(arr) ? arr : [];
+      } catch { return []; }
+    }
+
     function saveContact() {
       if (!cardData) return;
 
@@ -196,8 +218,29 @@
       ];
       if (cardData.company) lines.push(`ORG:${escapeVCard(cardData.company)}`);
       if (cardData.job_title) lines.push(`TITLE:${escapeVCard(cardData.job_title)}`);
-      if (cardData.phone) lines.push(`TEL;TYPE=CELL:${cardData.phone}`);
-      if (cardData.email) lines.push(`EMAIL:${cardData.email}`);
+
+      // Multiple phones or legacy single
+      const phones = parseJsonArray(cardData.phones_json);
+      if (phones.length > 0) {
+        phones.forEach(p => {
+          const type = p.label === 'Work' ? 'WORK' : p.label === 'Home' ? 'HOME' : 'CELL';
+          lines.push(`TEL;TYPE=${type}:${p.value}`);
+        });
+      } else if (cardData.phone) {
+        lines.push(`TEL;TYPE=CELL:${cardData.phone}`);
+      }
+
+      // Multiple emails or legacy single
+      const emails = parseJsonArray(cardData.emails_json);
+      if (emails.length > 0) {
+        emails.forEach(e => {
+          const type = e.label === 'Work' ? 'WORK' : 'HOME';
+          lines.push(`EMAIL;TYPE=${type}:${e.value}`);
+        });
+      } else if (cardData.email) {
+        lines.push(`EMAIL:${cardData.email}`);
+      }
+
       if (cardData.website) lines.push(`URL:${cardData.website}`);
       lines.push('END:VCARD');
 
