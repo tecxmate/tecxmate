@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
 import { useLanguage, type Language } from "@/components/language-provider"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -51,7 +52,7 @@ export function Navbar() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 w-full border-b border-white/20 bg-white/95 md:bg-white/25 md:backdrop-blur-2xl shadow-sm md:shadow-[0_1px_0_0_rgba(255,255,255,0.35)_inset,0_10px_30px_rgba(0,0,0,0.06)]"
+        className="fixed top-0 left-0 right-0 z-50 w-full border-b border-border/40 bg-background/95 md:bg-background/80 md:backdrop-blur-2xl shadow-sm"
       >
         <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-baseline gap-2">
@@ -97,7 +98,10 @@ export function Navbar() {
             {t("about")}
           </Link>
         </nav>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <div className="hidden md:flex">
+            <ThemeToggle />
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="hidden md:flex items-center gap-2">
@@ -173,6 +177,10 @@ export function Navbar() {
             >
               {t("about")}
             </Link>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <span className="text-sm text-muted-foreground">Toggle theme</span>
+            </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="w-full flex items-center justify-between">

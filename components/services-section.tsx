@@ -47,10 +47,10 @@ export function ServicesSection() {
   ]
 
   return (
-    <section id="services" className="bg-white py-20 md:py-24">
+    <section id="services" className="bg-background py-20 md:py-24">
       <div className="container px-4 md:px-6 max-w-6xl">
             <div className="text-center mb-12 md:mb-16 max-w-3xl mx-auto">
-              <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900" suppressHydrationWarning>{t("services_title")}</h2>
+              <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground" suppressHydrationWarning>{t("services_title")}</h2>
             </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -74,7 +74,7 @@ export function ServicesSection() {
             return (
               <div
                 key={service.id}
-                className={`bg-gray-50/50 p-5 md:p-6 rounded-none border border-gray-100 transition-all duration-300 group flex flex-col h-full
+                className={`bg-card p-5 md:p-6 rounded-none border border-border transition-all duration-300 group flex flex-col h-full
                   ${
                     service.id === "mobile-app-development"
                       ? "hover:border-blue-400/60 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)]"
@@ -93,14 +93,14 @@ export function ServicesSection() {
               >
                 <div className="mb-3 flex-1">
                   <div
-                    className={`w-10 h-10 bg-white rounded-none flex items-center justify-center mb-3 shadow-sm transition-all duration-200 ${accentClasses.iconBg}`}
+                    className={`w-10 h-10 bg-background rounded-none flex items-center justify-center mb-3 shadow-sm transition-all duration-200 ${accentClasses.iconBg}`}
                   >
                     <IconComponent
-                      className={`w-5 h-5 text-alt-gray-600 transition-colors duration-200 ${accentClasses.iconColor}`}
+                      className={`w-5 h-5 text-muted-foreground transition-colors duration-200 ${accentClasses.iconColor}`}
                     />
                   </div>
-                  <h3 className="text-lg font-semibold text-alt-black mb-2">{service.title}</h3>
-                  <p className="text-alt-gray-500 leading-relaxed text-sm">{service.description}</p>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{service.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed text-sm">{service.description}</p>
                 </div>
               </div>
             )
@@ -111,7 +111,7 @@ export function ServicesSection() {
           <Button
             variant="outline"
             size="lg"
-            className="border-alt-gray-200 hover:border-primary hover:text-primary transition-colors duration-200"
+            className="border-border hover:border-primary hover:text-primary transition-colors duration-200"
             asChild
           >
             <a href="https://cal.com/nikolasdoan/30min" target="_blank" rel="noopener noreferrer">

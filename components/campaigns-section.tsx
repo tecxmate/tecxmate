@@ -39,7 +39,7 @@ export function CampaignsSection() {
 
   if (loading) {
     return (
-      <section id="campaigns" className="bg-gray-50/80 py-24 md:py-28 lg:py-32">
+      <section id="campaigns" className="bg-muted py-24 md:py-28 lg:py-32">
         <div className="container px-4 md:px-6 max-w-7xl text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto" />
         </div>
@@ -50,14 +50,14 @@ export function CampaignsSection() {
   if (posts.length === 0) return null
 
   return (
-    <section id="campaigns" className="bg-gray-50/80 py-24 md:py-28 lg:py-32">
+    <section id="campaigns" className="bg-muted py-24 md:py-28 lg:py-32">
       <div className="container px-4 md:px-6 max-w-7xl">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-gray-900 mb-4" suppressHydrationWarning>
+            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-4" suppressHydrationWarning>
               {t("news_insights")}
             </h2>
-            <p className="text-gray-600 text-lg">
+            <p className="text-muted-foreground text-lg">
               {t("news_insights_subtitle")}
             </p>
           </div>
@@ -75,7 +75,7 @@ export function CampaignsSection() {
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}
-              className="group block bg-white border border-gray-100 shadow-sm overflow-hidden hover:shadow-md hover:border-primary transition-all duration-300 h-full flex flex-col"
+              className="group block bg-card border border-border shadow-sm overflow-hidden hover:shadow-md hover:border-primary transition-all duration-300 h-full flex flex-col"
             >
               <div className="aspect-video w-full overflow-hidden bg-gray-100 relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -92,7 +92,7 @@ export function CampaignsSection() {
                 </div>
               </div>
               <div className="p-6 flex flex-col flex-1">
-                <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
+                <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
                   <div className="flex items-center gap-1">
                     <Calendar className="h-3 w-3" />
                     <span>{post.date}</span>
@@ -102,10 +102,10 @@ export function CampaignsSection() {
                     <span>{post.readTime}</span>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                <h3 className="text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
                   {post.title}
                 </h3>
-                <p className="text-gray-600 text-sm line-clamp-3 mb-6 flex-1">
+                <p className="text-muted-foreground text-sm line-clamp-3 mb-6 flex-1">
                   {post.excerpt}
                 </p>
                 <div className="inline-flex items-center text-sm font-bold text-primary group-hover:gap-2 transition-all">

@@ -9,12 +9,15 @@ function isAndroid(): boolean {
   return /Android/i.test(navigator.userAgent)
 }
 
-/** Light purple for globe dots */
-const BASE = [0.55, 0.32, 1.0] as [number, number, number]
-/** Pink/magenta (gradient middle) */
-const ACCENT = [0.95, 0.45, 1] as [number, number, number]
-/** Warm pink glow (gradient end) */
-const GLOW = [0.9, 0.5, 0.8] as [number, number, number]
+/** Light mode colors */
+const LIGHT_BASE = [0.55, 0.32, 1.0] as [number, number, number]  // Purple dots
+const LIGHT_ACCENT = [0.55, 0.32, 1.0] as [number, number, number] // Purple markers
+const LIGHT_GLOW = [0.9, 0.85, 1.0] as [number, number, number]   // Soft purple glow
+
+/** Dark mode colors */
+const DARK_BASE = [1, 1, 1] as [number, number, number]           // White dots
+const DARK_ACCENT = [1, 0.7, 1] as [number, number, number]       // Pink markers
+const DARK_GLOW = [0.55, 0.32, 1.0] as [number, number, number]   // Purple glow
 
 const MARKERS = [
   { location: [25.03, 121.57] as [number, number], size: 0.04 }, // Taiwan
@@ -36,7 +39,11 @@ const MARKERS = [
 const TARGET_FPS = 15
 const FRAME_INTERVAL = 1000 / TARGET_FPS
 
-export function GlobeBackground() {
+interface GlobeBackgroundProps {
+  isDark?: boolean
+}
+
+export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const phiRef = useRef(0)
@@ -122,16 +129,16 @@ export function GlobeBackground() {
       height,
       phi: phiRef.current,
       theta: 0.4,
-      dark: 0,
-      diffuse: 1.2,
+      dark: isDark ? 1 : 0,
+      diffuse: isDark ? 1.5 : 1.2,
       scale: 2.8,
       mapSamples,
-      mapBrightness: 8,
+      mapBrightness: isDark ? 6 : 8,
       mapBaseBrightness: 0,
       opacity: isMobile ? 0.78 : 1,
-      baseColor: BASE,
-      markerColor: ACCENT,
-      glowColor: GLOW,
+      baseColor: isDark ? DARK_BASE : LIGHT_BASE,
+      markerColor: isDark ? DARK_ACCENT : LIGHT_ACCENT,
+      glowColor: isDark ? DARK_GLOW : LIGHT_GLOW,
       markers: MARKERS,
       offset: [width * 0.72, -height * 0.52],
       onRender: (state) => {
@@ -168,7 +175,7 @@ export function GlobeBackground() {
       globe.destroy()
       globeRef.current = null
     }
-  }, [dimensions, isMobile])
+  }, [dimensions, isMobile, isDark])
 
   return (
     <div
@@ -181,28 +188,32 @@ export function GlobeBackground() {
         className="absolute inset-0 w-full h-full"
         style={{ objectFit: "cover" }}
       />
-      {/* Gradient overlay: purple → pink → soft orange on dots */}
+      {/* Gradient overlay for glow effect */}
       <div
-        className="absolute inset-0 opacity-95"
+        className="absolute inset-0"
         style={{
-          background: `
-            radial-gradient(
-              ellipse 90% 90% at 15% 50%,
-              rgba(100, 60, 255, 0.92) 0%,
-              transparent 50%
-            ),
-            radial-gradient(
-              ellipse 75% 75% at 50% 35%,
-              rgba(255, 100, 220, 0.88) 0%,
-              transparent 48%
-            ),
-            radial-gradient(
-              ellipse 65% 65% at 85% 65%,
-              rgba(255, 130, 100, 0.82) 0%,
-              transparent 45%
-            )
-          `,
-          mixBlendMode: "soft-light",
+          opacity: isDark ? 0.7 : 0.5,
+          background: isDark
+            ? `
+              radial-gradient(
+                ellipse 80% 80% at 70% 50%,
+                rgba(140, 82, 255, 0.4) 0%,
+                transparent 50%
+              ),
+              radial-gradient(
+                ellipse 60% 60% at 80% 60%,
+                rgba(180, 100, 255, 0.3) 0%,
+                transparent 40%
+              )
+            `
+            : `
+              radial-gradient(
+                ellipse 80% 80% at 70% 50%,
+                rgba(140, 82, 255, 0.15) 0%,
+                transparent 50%
+              )
+            `,
+          mixBlendMode: isDark ? "screen" : "normal",
           pointerEvents: "none",
         }}
       />

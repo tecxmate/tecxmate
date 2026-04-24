@@ -11,11 +11,11 @@ export function HeroSection() {
   return (
     <ShaderBackground>
       <div className="absolute inset-0 flex flex-col items-start justify-center px-4 md:px-8 pt-20 pb-24 z-10">
-        <div className="bg-white/70 backdrop-blur-md md:bg-transparent md:backdrop-blur-0 border-0 shadow-none rounded-2xl md:rounded-none px-6 py-8 md:px-12 md:py-12 max-w-xl text-left">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight text-gray-900 leading-[1.1] mb-6 text-left [text-shadow:0_1px_2px_rgba(255,255,255,0.8)] md:[text-shadow:none]" suppressHydrationWarning>
+        <div className="bg-white/70 dark:bg-black/30 backdrop-blur-md md:bg-transparent md:dark:bg-transparent md:backdrop-blur-0 border-0 shadow-none rounded-2xl md:rounded-none px-6 py-8 md:px-0 md:py-0 max-w-xl text-left">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight text-gray-900 dark:text-white leading-[1.1] mb-6 text-left [text-shadow:0_1px_2px_rgba(255,255,255,0.8)] dark:[text-shadow:0_2px_20px_rgba(140,82,255,0.5)]" suppressHydrationWarning>
             {t("hero_title")}
           </h1>
-          <p className="text-lg md:text-xl text-gray-700 max-w-lg mb-8 leading-relaxed text-left md:text-gray-600">
+          <p className="text-lg md:text-xl text-gray-700 dark:text-gray-200 max-w-md mb-8 leading-relaxed text-left">
             {t("hero_subtitle")}
           </p>
           <Button

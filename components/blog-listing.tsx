@@ -221,7 +221,7 @@ export function BlogListing() {
           <div className="md:col-span-3">
             {displayPosts.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-500 mb-4">No posts found matching your criteria.</p>
+                <p className="text-muted-foreground mb-4">No posts found matching your criteria.</p>
                 <Button onClick={clearFilters} variant="outline">
                   Clear filters
                       </Button>
@@ -240,7 +240,7 @@ export function BlogListing() {
                 )}
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               {displayPosts.map((post) => (
-                <Card key={post.id} className="h-full overflow-hidden border border-gray-200 bg-white shadow-sm hover:border-primary hover:shadow-md transition-all duration-300 group">
+                <Card key={post.id} className="h-full overflow-hidden border border-border bg-card shadow-sm hover:border-primary hover:shadow-md transition-all duration-300 group">
                   <Link
                     href={blogPosts.length > 0 ? `/blog/${post.slug}` : "/blog"}
                     className="block"
@@ -263,7 +263,7 @@ export function BlogListing() {
                         {post.category}
                       </span>
                     </div>
-                      <div className="mb-4 flex items-center gap-4 text-sm text-gray-500">
+                      <div className="mb-4 flex items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <Calendar className="h-4 w-4" />
                           <span>{post.date}</span>
@@ -291,7 +291,7 @@ export function BlogListing() {
                     >
                       <h3 className="mb-2 text-xl font-bold leading-tight tracking-tight line-clamp-2 group-hover:text-primary transition-colors">{post.title}</h3>
                     </Link>
-                    <p className="mb-4 text-gray-500 line-clamp-3">{post.excerpt}</p>
+                    <p className="mb-4 text-muted-foreground line-clamp-3">{post.excerpt}</p>
                     {post.tags && post.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1 mb-4">
                         {post.tags.slice(0, 3).map((tag: string) => (
@@ -328,11 +328,11 @@ export function BlogListing() {
                 <h3 className="mb-4 text-lg font-semibold">Search</h3>
                 <form onSubmit={handleSearch}>
                   <div className="relative">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input 
                       type="search" 
                       placeholder="Search articles..." 
-                      className="w-full bg-white pl-9" 
+                      className="w-full bg-background pl-9" 
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -411,7 +411,7 @@ export function BlogListing() {
                         </div>
                         <div>
                           <h4 className="line-clamp-2 text-sm font-medium group-hover:text-primary">{post.title}</h4>
-                          <p className="text-xs text-gray-500">{post.date}</p>
+                          <p className="text-xs text-muted-foreground">{post.date}</p>
                         </div>
                       </Link>
                     </li>

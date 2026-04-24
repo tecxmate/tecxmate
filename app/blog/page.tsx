@@ -138,14 +138,14 @@ export default async function BlogPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
       />
-      <div className="min-h-screen bg-white overflow-x-hidden w-full">
+      <div className="min-h-screen bg-background overflow-x-hidden w-full">
         <Navbar />
         <main className="overflow-x-hidden w-full">
-          <section className="bg-primary/5 py-16 md:py-24">
+          <section className="bg-primary/5 dark:bg-primary/10 py-16 md:py-24">
             <div className="container px-4 md:px-6">
               <div className="mx-auto max-w-2xl text-center">
-                <h1 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6">News & Insights</h1>
-                <p className="mt-4 text-gray-500 md:text-xl/relaxed">
+                <h1 className="text-3xl font-semibold md:text-4xl lg:text-5xl mb-6 text-foreground">News & Insights</h1>
+                <p className="mt-4 text-muted-foreground md:text-xl/relaxed">
                   Stay updated with the latest trends and insights
                 </p>
               </div>

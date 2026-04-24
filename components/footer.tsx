@@ -110,20 +110,17 @@ export function Footer() {
           {/* Legal & Contact - organized by country */}
           <div className="space-y-4 md:col-span-6">
             <div className="space-y-4 text-sm text-gray-300">
-              <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:gap-8">
-                {/* Vietnam */}
-                <div className="space-y-2 rounded-none border border-gray-700/50 p-4 sm:p-5 lg:p-6">
-                  <p className="font-medium text-white text-sm sm:text-base">{language === "vi" ? company.legalName.vi : company.legalName.en}</p>
-                  <p className="text-white text-xs sm:text-sm leading-relaxed">{t("address")}</p>
-                  <p className="text-white text-xs sm:text-sm">MST: {company.taxNumber}</p>
-                  <a
-                    href={`tel:${company.phone.vn.tel}`}
-                    className="inline-flex items-center gap-1.5 text-white hover:text-primary transition-colors duration-200 text-xs sm:text-sm mt-1"
-                  >
-                    <Phone className="h-4 w-4 shrink-0" />
-                    {company.phone.vn.display}
-                  </a>
-                </div>
+              <div className="space-y-2">
+                <p className="font-medium text-white text-sm sm:text-base">{language === "vi" ? company.legalName.vi : company.legalName.en}</p>
+                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{t("address")}</p>
+                <p className="text-gray-300 text-xs sm:text-sm">MST: {company.taxNumber}</p>
+                <a
+                  href={`tel:${company.phone.vn.tel}`}
+                  className="inline-flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors duration-200 text-xs sm:text-sm"
+                >
+                  <Phone className="h-4 w-4 shrink-0" />
+                  {company.phone.vn.display}
+                </a>
               </div>
             </div>
           </div>

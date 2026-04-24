@@ -68,7 +68,7 @@ export function TeamSection() {
                 key={member.id}
               >
                 <div
-                  className="rounded-none bg-white shadow-sm overflow-hidden h-full hover:shadow-xl hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
+                  className="rounded-none bg-card shadow-sm overflow-hidden h-full hover:shadow-xl hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
                 >
                   <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
                     <Image
@@ -80,30 +80,30 @@ export function TeamSection() {
                     />
                   </div>
                   <div className="p-3 md:p-4 text-center">
-                    <h3 className="text-sm md:text-base font-semibold text-alt-black mb-1">{member.name}</h3>
+                    <h3 className="text-sm md:text-base font-semibold text-foreground mb-1">{member.name}</h3>
                     <p className="text-xs md:text-sm text-primary font-medium mb-2">{member.role}</p>
                     <div className="flex items-center justify-center gap-2">
                       <a
                         href={member.linkedin}
                         aria-label="LinkedIn"
-                        className="p-2 rounded-none bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
+                        className="p-2 rounded-none bg-muted hover:bg-muted/80 transition-colors"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Linkedin className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
+                        <Linkedin className="h-5 w-5 text-muted-foreground" strokeWidth={1.25} />
                       </a>
                       {member.twitter && (
                         <a
                           href={member.twitter}
                           aria-label={member.id === 'brian' ? 'Company' : 'Academic'}
-                          className="p-2 rounded-none bg-alt-gray-100 hover:bg-alt-gray-200 transition-colors"
+                          className="p-2 rounded-none bg-muted hover:bg-muted/80 transition-colors"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           {member.id === 'brian' ? (
-                            <Building2 className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
+                            <Building2 className="h-5 w-5 text-muted-foreground" strokeWidth={1.25} />
                           ) : (
-                            <GraduationCap className="h-5 w-5 text-alt-gray-600" strokeWidth={1.25} />
+                            <GraduationCap className="h-5 w-5 text-muted-foreground" strokeWidth={1.25} />
                           )}
                         </a>
                       )}

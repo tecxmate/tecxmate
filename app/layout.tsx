@@ -109,7 +109,7 @@ export const metadata: Metadata = {
   },
   other: {
     'theme-color': '#8c52ff',
-    'color-scheme': 'light',
+    'color-scheme': 'light dark',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
     // Note: Geo tags are in <head> section, not in metadata.other
