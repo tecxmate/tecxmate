@@ -44,7 +44,7 @@ export default async function PrivacyPolicyPage() {
   const content = await getCachedPrivacyPolicy()
 
   return (
-    <div className="min-h-screen bg-[#F6F3F1]">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="container px-4 md:px-6 max-w-4xl py-20 md:py-24">
         <article className="prose prose-lg max-w-none">

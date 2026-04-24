@@ -398,7 +398,7 @@ export function BlogListing() {
                   {displayPosts.slice(0, 3).map((post) => (
                     <li key={post.id}>
                       <Link href={`/blog/${post.slug}`} className="group flex gap-3">
-                        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md relative">
+                        <div className="h-16 w-16 shrink-0 overflow-hidden relative">
                           <Image
                             src={post.coverImage || "/placeholder.svg?height=50&width=50"}
                             alt={post.title}

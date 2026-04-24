@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { company } from "@/lib/company"
 import type { Metadata } from "next"
 import Script from "next/script"
 
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${baseUrl}/tecxmate-logo-cropped.png`,
+        url: `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
         width: 1200,
         height: 630,
         alt: "About TECXMATE - Technology Consultancy Team",
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "About Us - Technology Consultancy Team | Tecxmate",
     description: "Learn About TECXMATE - a premier technology consultancy specializing in AI development, business automation, and digital transformation.",
-    images: [`${baseUrl}/tecxmate-logo-cropped.png`],
+    images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
   },
 }
 
@@ -52,14 +53,14 @@ export default function AboutPage() {
     "@type": "AboutPage",
     "mainEntity": {
       "@type": "Organization",
-      "name": "Tecxmate",
-      "legalName": "TECXMATE COMPANY LIMITED",
+      "name": company.name,
+      "legalName": company.legalName.en,
       "foundingDate": "2025",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Villa Park Complex, Phu Huu Ward",
-        "addressLocality": "Ho Chi Minh City",
-        "addressCountry": "VN"
+        "streetAddress": company.address.street,
+        "addressLocality": company.address.locality,
+        "addressCountry": company.address.countryCode
       },
       "description": "Premier technology consultancy specializing in AI development, business automation, and digital transformation for SMEs and startups.",
       "url": baseUrl,
@@ -97,10 +98,10 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
       />
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-background">
         <Navbar />
         <main>
-          <section className="bg-primary/5 py-16 md:py-24">
+          <section className="py-16 md:py-24">
             <div className="container px-4 md:px-6">
               <div className="mx-auto max-w-3xl text-center">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">
@@ -164,27 +165,27 @@ export default function AboutPage() {
                   <dl className="grid gap-3 text-gray-700">
                     <div>
                       <dt className="font-medium text-gray-900">Formation</dt>
-                      <dd>Limited Liability Company (LLC)</dd>
+                      <dd>{company.formation}</dd>
                     </div>
                     <div>
                       <dt className="font-medium text-gray-900">Headquarters</dt>
-                      <dd>Villa Park Complex, Phu Huu Ward, Ho Chi Minh City, Vietnam</dd>
+                      <dd>{company.address.street}, {company.address.locality}, {company.address.country}</dd>
                     </div>
                     <div>
                       <dt className="font-medium text-gray-900">Legal Name (EN)</dt>
-                      <dd>TECXMATE COMPANY LIMITED</dd>
+                      <dd>{company.legalName.en}</dd>
                     </div>
                     <div>
                       <dt className="font-medium text-gray-900">Legal Name (VN)</dt>
-                      <dd>CÔNG TY TNHH TECXMATE</dd>
+                      <dd>{company.legalName.vi}</dd>
                     </div>
                     <div>
                       <dt className="font-medium text-gray-900">Operating Markets</dt>
-                      <dd>Taiwan, US, Vietnam</dd>
+                      <dd>{company.operatingMarkets.join(", ")}</dd>
                     </div>
                     <div>
                       <dt className="font-medium text-gray-900">Contact</dt>
-                      <dd><a href="mailto:official@tecxmate.com" className="text-primary hover:underline">official@tecxmate.com</a></dd>
+                      <dd><a href={`mailto:${company.contactEmail}`} className="text-primary hover:underline">{company.contactEmail}</a></dd>
                     </div>
                   </dl>
                 </div>

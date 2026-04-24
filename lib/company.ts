@@ -28,9 +28,9 @@ export const company = {
   contactEmail: "official@tecxmate.com",
   /** Phone numbers by region (display + tel link format) */
   phone: {
-    us: { display: "(+1) 6172729992", tel: "+16172729992" },
-    tw: { display: "(+886) 966860602", tel: "+886966860602" },
-    vn: { display: "(+84) 0337460602", tel: "+840337460602" },
+    us: { display: "(+1) 617-272-9992", tel: "+16172729992" },
+    tw: { display: "(+886) 966-860-602", tel: "+886966860602" },
+    vn: { display: "(+84) 33-746-0602", tel: "+84337460602" },
   },
   /** Website URL */
   website: process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com",

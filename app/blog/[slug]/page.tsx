@@ -54,7 +54,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         "url": baseUrl,
         "logo": {
           "@type": "ImageObject",
-          "url": `${baseUrl}/tecxmate-logo-cropped.png`
+          "url": `${baseUrl}/graphics/tecxmate-logo-cropped.png`
         }
       },
       "publisher": {
@@ -62,7 +62,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         "name": "Tecxmate",
         "logo": {
           "@type": "ImageObject",
-          "url": `${baseUrl}/tecxmate-logo-cropped.png`,
+          "url": `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
           "width": 512,
           "height": 512
         }
@@ -139,7 +139,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         "name": "Tecxmate",
         "logo": {
           "@type": "ImageObject",
-          "url": `${baseUrl}/tecxmate-logo-cropped.png`
+          "url": `${baseUrl}/graphics/tecxmate-logo-cropped.png`
         }
       },
       "datePublished": rawPost.date,
@@ -167,7 +167,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       "url": baseUrl,
       "logo": {
         "@type": "ImageObject",
-        "url": `${baseUrl}/tecxmate-logo-cropped.png`
+        "url": `${baseUrl}/graphics/tecxmate-logo-cropped.png`
       },
       "address": {
         "@type": "PostalAddress",

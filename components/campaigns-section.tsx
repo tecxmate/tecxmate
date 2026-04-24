@@ -75,7 +75,7 @@ export function CampaignsSection() {
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}
-              className="group block bg-white border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 h-full flex flex-col"
+              className="group block bg-white border border-gray-100 shadow-sm overflow-hidden hover:shadow-md hover:border-primary transition-all duration-300 h-full flex flex-col"
             >
               <div className="aspect-video w-full overflow-hidden bg-gray-100 relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}

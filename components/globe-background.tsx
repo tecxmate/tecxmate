@@ -9,8 +9,8 @@ function isAndroid(): boolean {
   return /Android/i.test(navigator.userAgent)
 }
 
-/** Purple (gradient start) */
-const BASE = [0.4, 0.25, 0.95] as [number, number, number]
+/** Light purple for globe dots */
+const BASE = [0.55, 0.32, 1.0] as [number, number, number]
 /** Pink/magenta (gradient middle) */
 const ACCENT = [0.95, 0.45, 1] as [number, number, number]
 /** Warm pink glow (gradient end) */

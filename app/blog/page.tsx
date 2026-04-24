@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${baseUrl}/tecxmate-logo-cropped.png`,
+        url: `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
         width: 1200,
         height: 630,
         alt: "Tecxmate Blog",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Blog - Technology Insights & Expert Articles | Tecxmate",
     description: "Insights, tutorials, and updates from our team of technology consultancy experts.",
-    images: [`${baseUrl}/tecxmate-logo-cropped.png`],
+    images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
   },
   robots: {
     index: true,
