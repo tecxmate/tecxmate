@@ -19,20 +19,50 @@ const DARK_BASE = [1, 1, 1] as [number, number, number]           // White dots
 const DARK_ACCENT = [1, 0.7, 1] as [number, number, number]       // Pink markers
 const DARK_GLOW = [0.55, 0.32, 1.0] as [number, number, number]   // Purple glow
 
+// Location coordinates
+const TAIWAN = [25.03, 121.57] as [number, number]
+const HANOI = [21.0285, 105.8542] as [number, number]
+const HCMC = [10.8231, 106.6297] as [number, number]
+const BANGKOK = [13.7563, 100.5018] as [number, number]
+const BUDAPEST = [47.4979, 19.0402] as [number, number]
+const MILAN = [45.4642, 9.1900] as [number, number]
+const LONDON = [51.5074, -0.1278] as [number, number]
+const TOKYO = [35.6762, 139.6503] as [number, number]
+const JAKARTA = [-6.2088, 106.8456] as [number, number]
+const SF = [37.7749, -122.4194] as [number, number]
+const NY = [40.7128, -74.0060] as [number, number]
+const HK = [22.3193, 114.1694] as [number, number]
+const SURABAYA = [-7.2575, 112.7521] as [number, number]
+
 const MARKERS = [
-  { location: [25.03, 121.57] as [number, number], size: 0.04 }, // Taiwan
-  { location: [21.0285, 105.8542] as [number, number], size: 0.04 }, // Hanoi
-  { location: [10.8231, 106.6297] as [number, number], size: 0.04 }, // HCMC
-  { location: [13.7563, 100.5018] as [number, number], size: 0.04 }, // Bangkok
-  { location: [47.4979, 19.0402] as [number, number], size: 0.04 }, // Budapest
-  { location: [45.4642, 9.1900] as [number, number], size: 0.04 }, // Milan
-  { location: [51.5074, -0.1278] as [number, number], size: 0.04 }, // London
-  { location: [35.6762, 139.6503] as [number, number], size: 0.04 }, // Tokyo, Japan
-  { location: [-6.2088, 106.8456] as [number, number], size: 0.04 }, // Jakarta
-  { location: [37.7749, -122.4194] as [number, number], size: 0.04 }, // San Francisco
-  { location: [40.7128, -74.0060] as [number, number], size: 0.04 }, // New York
-  { location: [22.3193, 114.1694] as [number, number], size: 0.04 }, // Hong Kong
-  { location: [-7.2575, 112.7521] as [number, number], size: 0.04 }, // Surabaya
+  { location: TAIWAN, size: 0.05 },
+  { location: HANOI, size: 0.04 },
+  { location: HCMC, size: 0.05 },
+  { location: BANGKOK, size: 0.04 },
+  { location: BUDAPEST, size: 0.04 },
+  { location: MILAN, size: 0.04 },
+  { location: LONDON, size: 0.04 },
+  { location: TOKYO, size: 0.04 },
+  { location: JAKARTA, size: 0.04 },
+  { location: SF, size: 0.05 },
+  { location: NY, size: 0.04 },
+  { location: HK, size: 0.04 },
+  { location: SURABAYA, size: 0.04 },
+]
+
+// Arc connections between key locations
+const ARC_CONNECTIONS = [
+  // Main business routes
+  { start: HCMC, end: TAIWAN, alt: 0.3 },
+  { start: TAIWAN, end: SF, alt: 0.5 },
+  { start: HCMC, end: SF, alt: 0.4 },
+  { start: TAIWAN, end: TOKYO, alt: 0.2 },
+  { start: HCMC, end: HK, alt: 0.15 },
+  { start: HK, end: LONDON, alt: 0.4 },
+  { start: SF, end: NY, alt: 0.2 },
+  { start: LONDON, end: NY, alt: 0.3 },
+  { start: TAIWAN, end: BANGKOK, alt: 0.15 },
+  { start: HCMC, end: JAKARTA, alt: 0.2 },
 ]
 
 // Target fps: low enough to keep devices cool, high enough for smooth rotation
@@ -123,6 +153,8 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
 
     const mapSamples = android ? (isMobile ? 3000 : 6000) : isMobile ? 5000 : 8000
 
+    let time = 0
+
     const globe = createGlobe(canvas, {
       devicePixelRatio: dpr,
       width,
@@ -146,6 +178,27 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
           phiRef.current += 0.001
           state.phi = phiRef.current
         }
+
+        // Animate arcs with pulsing purple glow
+        time += 0.02
+        state.arcs = ARC_CONNECTIONS.map((arc, i) => {
+          // Each arc pulses at a different phase
+          const phase = (time + i * 0.7) % (Math.PI * 2)
+          const pulse = (Math.sin(phase) + 1) / 2 // 0 to 1
+
+          return {
+            startLat: arc.start[0],
+            startLng: arc.start[1],
+            endLat: arc.end[0],
+            endLng: arc.end[1],
+            arcAlt: arc.alt,
+            color: [
+              0.55 + pulse * 0.3,  // R: purple to pink
+              0.2 + pulse * 0.2,   // G
+              1.0                   // B: always blue/purple
+            ] as [number, number, number]
+          }
+        })
       },
     })
 
