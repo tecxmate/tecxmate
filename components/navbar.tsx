@@ -92,6 +92,12 @@ export function Navbar() {
             {t("news_insights")}
           </Link>
           <Link
+            href="/tecxbook"
+            className={`text-sm font-medium transition-colors ${isActive("/tecxbook") ? "text-primary" : "hover:text-primary"}`}
+          >
+            {t("tecxbook")}
+          </Link>
+          <Link
             href="/about"
             className={`text-sm font-medium transition-colors ${isActive("/about") ? "text-primary" : "hover:text-primary"}`}
           >
@@ -169,6 +175,13 @@ export function Navbar() {
               onClick={closeMenu}
             >
               {t("news_insights")}
+            </Link>
+            <Link
+              href="/tecxbook"
+              className={`text-sm font-medium transition-colors ${isActive("/tecxbook") ? "text-primary" : "hover:text-primary"}`}
+              onClick={closeMenu}
+            >
+              {t("tecxbook")}
             </Link>
             <Link
               href="/about"
