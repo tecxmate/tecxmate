@@ -5,19 +5,17 @@ import { ArrowLeft } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { TecxbookViewer } from "@/components/tecxbook-viewer"
-import { tecxbook, getTecxbookEntry } from "@/lib/tecxbook"
+import { getEntry } from "@/lib/tecxbook"
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 
-export function generateStaticParams() {
-  return tecxbook.map((e) => ({ slug: e.slug }))
-}
+export const revalidate = 60
 
 type Params = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params
-  const entry = getTecxbookEntry(slug)
+  const entry = await getEntry(slug)
   if (!entry) return {}
   return {
     title: `${entry.title} | Tecxbook`,
@@ -35,7 +33,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function TecxbookEntryPage({ params }: Params) {
   const { slug } = await params
-  const entry = getTecxbookEntry(slug)
+  const entry = await getEntry(slug)
   if (!entry) notFound()
 
   return (
