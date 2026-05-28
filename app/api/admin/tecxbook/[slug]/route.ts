@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
-import { isAdmin } from "@/lib/admin-auth"
+import { isAdmin, isAdminConfigured } from "@/lib/admin-auth"
 import {
   readIndex,
   writeIndex,
   deleteFile,
   uploadHtml,
+  isBlobConfigured,
 } from "@/lib/tecxbook"
 
 export const dynamic = "force-dynamic"
@@ -12,8 +13,20 @@ export const dynamic = "force-dynamic"
 type Params = { params: Promise<{ slug: string }> }
 
 export async function PATCH(request: NextRequest, { params }: Params) {
+  if (!isAdminConfigured()) {
+    return NextResponse.json(
+      { error: "ADMIN_PASSWORD is not configured on the server." },
+      { status: 503 },
+    )
+  }
   if (!isAdmin(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+  if (!isBlobConfigured()) {
+    return NextResponse.json(
+      { error: "BLOB_READ_WRITE_TOKEN is not configured on the server." },
+      { status: 503 },
+    )
   }
   const { slug } = await params
 
@@ -56,14 +69,31 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     await deleteFile(oldUrl)
   }
 
-  entries[idx] = next
-  await writeIndex(entries)
-  return NextResponse.json(next)
+  try {
+    entries[idx] = next
+    await writeIndex(entries)
+    return NextResponse.json(next)
+  } catch (error) {
+    console.error("[/api/admin/tecxbook/:slug] update failed", error)
+    return NextResponse.json({ error: "Failed to update artifact" }, { status: 500 })
+  }
 }
 
 export async function DELETE(request: NextRequest, { params }: Params) {
+  if (!isAdminConfigured()) {
+    return NextResponse.json(
+      { error: "ADMIN_PASSWORD is not configured on the server." },
+      { status: 503 },
+    )
+  }
   if (!isAdmin(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+  if (!isBlobConfigured()) {
+    return NextResponse.json(
+      { error: "BLOB_READ_WRITE_TOKEN is not configured on the server." },
+      { status: 503 },
+    )
   }
   const { slug } = await params
 
@@ -72,7 +102,12 @@ export async function DELETE(request: NextRequest, { params }: Params) {
   if (!target) {
     return NextResponse.json({ error: "Not found" }, { status: 404 })
   }
-  await deleteFile(target.file)
-  await writeIndex(entries.filter((e) => e.slug !== slug))
-  return NextResponse.json({ ok: true })
+  try {
+    await deleteFile(target.file)
+    await writeIndex(entries.filter((e) => e.slug !== slug))
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error("[/api/admin/tecxbook/:slug] delete failed", error)
+    return NextResponse.json({ error: "Failed to delete artifact" }, { status: 500 })
+  }
 }

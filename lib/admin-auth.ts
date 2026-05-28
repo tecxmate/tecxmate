@@ -8,6 +8,10 @@ function getAllowlist(): string[] {
     .filter(Boolean)
 }
 
+export function isAdminConfigured(): boolean {
+  return getAllowlist().length > 0
+}
+
 export function isAdmin(request: NextRequest): boolean {
   const allow = getAllowlist()
   if (allow.length === 0) return false

@@ -49,6 +49,19 @@ export default function TecxbookAdminPage() {
       setStatus({ kind: "err", msg: "Invalid password" })
       return
     }
+    if (res.status === 503) {
+      const j = await res.json().catch(() => ({}))
+      setStatus({
+        kind: "err",
+        msg: j.error || "Server admin password is not configured.",
+      })
+      return
+    }
+    if (!res.ok) {
+      const j = await res.json().catch(() => ({}))
+      setStatus({ kind: "err", msg: j.error || `Login failed (${res.status})` })
+      return
+    }
     setAuthenticated(true)
     fetchEntries()
   }

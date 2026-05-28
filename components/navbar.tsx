@@ -88,6 +88,11 @@ export function Navbar() {
                   Vietnamy
                 </a>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/tecxbook" className="cursor-pointer" onClick={closeMenu}>
+                  {t("tecxbook")}
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <Link 
@@ -107,12 +112,6 @@ export function Navbar() {
             className={`text-sm font-medium transition-colors ${isActive("/blog") ? "text-primary" : "hover:text-primary"}`}
           >
             {t("news_insights")}
-          </Link>
-          <Link
-            href="/tecxbook"
-            className={`text-sm font-medium transition-colors ${isActive("/tecxbook") ? "text-primary" : "hover:text-primary"}`}
-          >
-            {t("tecxbook")}
           </Link>
           <Link
             href="/about"
@@ -192,6 +191,13 @@ export function Navbar() {
               >
                 Vietnamy
               </a>
+              <Link
+                href="/tecxbook"
+                className="pl-4 text-sm text-muted-foreground transition-colors hover:text-primary"
+                onClick={closeMenu}
+              >
+                {t("tecxbook")}
+              </Link>
             </div>
             <Link
               href="/#services"
@@ -213,13 +219,6 @@ export function Navbar() {
               onClick={closeMenu}
             >
               {t("news_insights")}
-            </Link>
-            <Link
-              href="/tecxbook"
-              className={`text-sm font-medium transition-colors ${isActive("/tecxbook") ? "text-primary" : "hover:text-primary"}`}
-              onClick={closeMenu}
-            >
-              {t("tecxbook")}
             </Link>
             <Link
               href="/about"

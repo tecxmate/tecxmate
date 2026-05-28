@@ -135,7 +135,7 @@ export default function AboutPage() {
                   <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
                     <li>AI Application Development - Building intelligent applications powered by machine learning, NLP, and computer vision</li>
                     <li>Business Automation - Automating workflows, streamlining operations, and integrating systems</li>
-                    <li>AI Integration & Consulting - Integrating AI tools and providing expert guidance on AI strategy</li>
+                    <li>AI Chatbot Development - Building chatbots for Line, Messenger, Telegram, and customer service automation</li>
                     <li>Digital Transformation - Helping businesses transform their operations with modern technology</li>
                   </ul>
                 </div>

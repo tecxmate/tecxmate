@@ -47,16 +47,16 @@ export default async function TermsOfServicePage() {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="container px-4 md:px-6 max-w-4xl py-20 md:py-24">
-        <article className="prose prose-lg max-w-none">
+        <article className="prose prose-lg dark:prose-invert max-w-none">
           <ReactMarkdown
             components={{
-              h1: ({ children }) => <h1 className="text-4xl font-bold mb-6 text-alt-black">{children}</h1>,
-              h2: ({ children }) => <h2 className="text-2xl font-semibold mt-8 mb-4 text-alt-black">{children}</h2>,
-              h3: ({ children }) => <h3 className="text-xl font-semibold mt-6 mb-3 text-alt-black">{children}</h3>,
-              p: ({ children }) => <p className="mb-4 text-gray-700 leading-relaxed">{children}</p>,
-              ul: ({ children }) => <ul className="list-disc pl-6 mb-4 space-y-2 text-gray-700">{children}</ul>,
+              h1: ({ children }) => <h1 className="text-4xl font-bold mb-6 text-foreground">{children}</h1>,
+              h2: ({ children }) => <h2 className="text-2xl font-semibold mt-8 mb-4 text-foreground">{children}</h2>,
+              h3: ({ children }) => <h3 className="text-xl font-semibold mt-6 mb-3 text-foreground">{children}</h3>,
+              p: ({ children }) => <p className="mb-4 text-muted-foreground leading-relaxed">{children}</p>,
+              ul: ({ children }) => <ul className="list-disc pl-6 mb-4 space-y-2 text-muted-foreground">{children}</ul>,
               li: ({ children }) => <li className="leading-relaxed">{children}</li>,
-              strong: ({ children }) => <strong className="font-semibold text-alt-black">{children}</strong>,
+              strong: ({ children }) => <strong className="font-semibold text-foreground">{children}</strong>,
             }}
           >
             {content}
@@ -67,4 +67,3 @@ export default async function TermsOfServicePage() {
     </div>
   )
 }
-

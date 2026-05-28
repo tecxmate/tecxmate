@@ -35,15 +35,6 @@ export function TeamSection() {
       linkedin: 'https://www.linkedin.com/in/uyen-linh-ta-a970b1188/'
     },
     {
-      id: 'ellis',
-      name: 'Ellis Wu 吳賢政',
-      role: 'Business Developer',
-      photo: '/avatars/ellis_avatar.jpeg',
-      description: 'Business Developer specialist focused on strategic partnerships and market expansion.',
-      twitter: 'https://www.tecxmate.com',
-      linkedin: 'https://www.linkedin.com/in/hsien-cheng-ellis-wu-6a1044297/'
-    },
-    {
       id: 'jane',
       name: 'Jane Liu 劉美娟',
       role: 'Creative Director',
@@ -68,7 +59,7 @@ export function TeamSection() {
                 key={member.id}
               >
                 <div
-                  className="rounded-none bg-card shadow-sm overflow-hidden h-full hover:shadow-xl hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
+                  className="rounded-none bg-card shadow-sm overflow-hidden h-full hover:shadow-xl md:hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
                 >
                   <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
                     <Image

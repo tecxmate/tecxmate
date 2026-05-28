@@ -13,8 +13,12 @@ export type TecxbookEntry = {
 
 const INDEX_PATHNAME = "tecxbook/index.json"
 
+export function isBlobConfigured(): boolean {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim())
+}
+
 async function findIndexUrl(): Promise<string | null> {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) return null
+  if (!isBlobConfigured()) return null
   try {
     const { blobs } = await list({ prefix: INDEX_PATHNAME, limit: 1 })
     return blobs[0]?.url ?? null
@@ -36,6 +40,9 @@ export async function readIndex(): Promise<TecxbookEntry[]> {
 }
 
 export async function writeIndex(entries: TecxbookEntry[]): Promise<void> {
+  if (!isBlobConfigured()) {
+    throw new Error("BLOB storage is not configured: BLOB_READ_WRITE_TOKEN is missing.")
+  }
   await put(INDEX_PATHNAME, JSON.stringify(entries), {
     access: "public",
     contentType: "application/json",
@@ -54,6 +61,9 @@ export async function uploadHtml(
   slug: string,
   body: Blob | ArrayBuffer | string,
 ): Promise<{ url: string }> {
+  if (!isBlobConfigured()) {
+    throw new Error("BLOB storage is not configured: BLOB_READ_WRITE_TOKEN is missing.")
+  }
   const pathname = `tecxbook/${slug}-${Date.now()}.html`
   const result = await put(pathname, body, {
     access: "public",
@@ -65,6 +75,7 @@ export async function uploadHtml(
 }
 
 export async function deleteFile(url: string): Promise<void> {
+  if (!isBlobConfigured()) return
   try {
     await del(url)
   } catch {
