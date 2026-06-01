@@ -5,8 +5,8 @@ import { AdminShell } from "@/components/admin/admin-shell"
 
 const CARDS = [
   { href: "/admin/team", label: "Team", desc: "Add, edit, reorder, and remove team members.", ready: true },
-  { href: "/admin/services", label: "Services", desc: "Service card titles and descriptions.", ready: false },
-  { href: "/admin/about", label: "Hero & About", desc: "Homepage hero and About page copy.", ready: false },
+  { href: "/admin/services", label: "Services", desc: "Service card titles and descriptions.", ready: true },
+  { href: "/admin/about", label: "Hero & About", desc: "Homepage hero and About page copy.", ready: true },
   { href: "/admin/company", label: "Company & Footer", desc: "Address, phones, emails, markets, legal names.", ready: false },
   { href: "/admin/metadata", label: "Metadata (SEO)", desc: "Page titles, descriptions, OG tags.", ready: false },
   { href: "/admin/tecxbook", label: "Tecxbook", desc: "Upload and manage HTML artifacts.", ready: true },

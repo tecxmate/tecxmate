@@ -14,8 +14,29 @@ export type TeamMember = {
   socialIcon: "academic" | "company"
 }
 
+/** Allowed service icons (keys map to lucide-react components in services-section.tsx). */
+export const SERVICE_ICONS = ["smartphone", "layout", "brain", "zap", "bot", "server-cog"] as const
+export type ServiceIcon = (typeof SERVICE_ICONS)[number]
+
+export type Service = {
+  id: string
+  icon: ServiceIcon
+  title: Localized
+  description: Localized
+}
+
+export type AboutSection = {
+  id: string
+  heading: Localized
+  paragraphs: Localized[]
+  bullets: Localized[]
+}
+
 export type SiteContent = {
   team: TeamMember[]
+  hero: { title: Localized; subtitle: Localized }
+  services: { title: Localized; items: Service[] }
+  about: { subtitle: Localized; sections: AboutSection[] }
 }
 
 const CONTENT_PATHNAME = "site-content/content.json"
@@ -27,6 +48,11 @@ export function isBlobConfigured(): boolean {
 /** Build a Localized value from a single string (used for current English-only defaults). */
 function L(value: string): Localized {
   return { en: value, vi: value, zh: value }
+}
+
+/** Build a fully-translated Localized value. */
+function M(en: string, vi: string, zh: string): Localized {
+  return { en, vi, zh }
 }
 
 /** Defaults mirror the current live site so an empty Blob renders identically to today. */
@@ -76,6 +102,139 @@ export const defaultContent: SiteContent = {
       socialIcon: "academic",
     },
   ],
+  hero: {
+    title: M("Build the future", "Xây dựng tương lai", "共創未來"),
+    subtitle: M(
+      "AI development, business automation, and digital transformation—from your first project to scale.",
+      "Phát triển AI, tự động hóa quy trình và chuyển đổi số — từ dự án đầu tiên đến quy mô lớn.",
+      "AI 開發、業務自動化與數位轉型 — 從初步構想到規模化營運。",
+    ),
+  },
+  services: {
+    title: M("Our Services", "Dịch vụ của chúng tôi", "我們的服務"),
+    items: [
+      {
+        id: "mobile-app-development",
+        icon: "smartphone",
+        title: M(
+          "iOS & Android App Development",
+          "Phát triển ứng dụng iOS & Android",
+          "iOS 與 Android 應用程式開發",
+        ),
+        description: M(
+          "Native and cross-platform mobile applications built for performance and user experience.",
+          "Ứng dụng di động bản địa và đa nền tảng được tối ưu hiệu năng và trải nghiệm người dùng.",
+          "兼顧效能與使用者體驗的原生及跨平台行動應用程式。",
+        ),
+      },
+      {
+        id: "website-development",
+        icon: "layout",
+        title: M("Website Development", "Phát triển Website", "網站開發"),
+        description: M(
+          "Responsive, high-performance websites and modern web applications built to scale.",
+          "Website phản hồi nhanh, hiệu năng cao và các ứng dụng web hiện đại có khả năng mở rộng.",
+          "具備高響應性、高效能且易於擴展的現代網頁應用程式。",
+        ),
+      },
+      {
+        id: "ai-applications",
+        icon: "brain",
+        title: M("AI Application Development", "Phát triển ứng dụng AI", "AI 應用程式開發"),
+        description: M(
+          "ML, NLP, and computer vision solutions — from chatbots to predictive analytics.",
+          "Giải pháp ML, NLP và thị giác máy tính — từ chatbot đến phân tích dự báo.",
+          "機器學習、自然語言處理與電腦視覺方案 — 從聊天機器人到預測分析。",
+        ),
+      },
+      {
+        id: "business-automation",
+        icon: "zap",
+        title: M("Business Automation", "Tự động hóa doanh nghiệp", "業務自動化"),
+        description: M(
+          "Workflow automation, system integration, and operational streamlining.",
+          "Tự động hóa quy trình làm việc, tích hợp hệ thống và tinh gọn vận hành.",
+          "工作流程自動化、系統整合與營運流程精簡。",
+        ),
+      },
+      {
+        id: "ai-integration",
+        icon: "bot",
+        title: M("AI Integration & Consulting", "Tư vấn & Tích hợp AI", "AI 整合與諮詢"),
+        description: M(
+          "AI strategy, tool selection, and hands-on implementation support.",
+          "Chiến lược AI, lựa chọn công cụ và hỗ trợ triển khai thực tế.",
+          "AI 策略規劃、工具選用及實作支援。",
+        ),
+      },
+      {
+        id: "custom-erp",
+        icon: "server-cog",
+        title: M(
+          "Custom ERP & Operations Systems",
+          "Hệ thống ERP & Vận hành tùy chỉnh",
+          "客製化 ERP 與營運系統",
+        ),
+        description: M(
+          "Lightweight ERP systems built around your actual workflows.",
+          "Các hệ thống ERP tinh gọn được xây dựng dựa trên quy trình thực tế của bạn.",
+          "根據您的實際工作流程量身打造的輕量化 ERP 系統。",
+        ),
+      },
+    ],
+  },
+  about: {
+    subtitle: L("Empowering SMEs and Founders with premier technology consultancy and solutions"),
+    sections: [
+      {
+        id: "mission",
+        heading: L("Our Mission"),
+        paragraphs: [
+          L(
+            "At Tecxmate, we believe that technology should be accessible and transformative for businesses of all sizes. We are an LLC headquartered in Ho Chi Minh City, Vietnam, with operations in Taiwan, the US, and Vietnam. We specialize in delivering cutting-edge technology solutions that help SMEs and startups thrive in the digital age.",
+          ),
+          L(
+            "We incorporate AI into our core operations while leveraging human talents to achieve maximum delivery speed and product quality. Our mission is to give every business the tools they need to stay competitive and benefit from the world of modern technology.",
+          ),
+        ],
+        bullets: [],
+      },
+      {
+        id: "what-we-do",
+        heading: L("What We Do"),
+        paragraphs: [L("We provide comprehensive technology consultancy and solutions, including:")],
+        bullets: [
+          L("AI Application Development - Building intelligent applications powered by machine learning, NLP, and computer vision"),
+          L("Business Automation - Automating workflows, streamlining operations, and integrating systems"),
+          L("AI Chatbot Development - Building chatbots for Line, Messenger, Telegram, and customer service automation"),
+          L("Digital Transformation - Helping businesses transform their operations with modern technology"),
+        ],
+      },
+      {
+        id: "approach",
+        heading: L("Our Approach"),
+        paragraphs: [
+          L("We combine the power of AI with human expertise to deliver fast, high-quality solutions. Our approach focuses on:"),
+        ],
+        bullets: [
+          L("Fast delivery without compromising quality"),
+          L("Innovative solutions tailored to your business needs"),
+          L("Cost-effective solutions for SMEs and startups"),
+          L("Ongoing support and partnership"),
+        ],
+      },
+      {
+        id: "why-choose",
+        heading: L("Why Choose Tecxmate"),
+        paragraphs: [
+          L(
+            "We serve clients worldwide with professional, high-quality technology solutions. Whether you're a startup looking to build your first AI application or an established SME seeking to automate operations, we're here to help you build the future.",
+          ),
+        ],
+        bullets: [],
+      },
+    ],
+  },
 }
 
 async function findContentUrl(): Promise<string | null> {

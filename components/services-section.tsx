@@ -1,56 +1,58 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Brain, Zap, Bot, ServerCog, Smartphone, Layout } from "lucide-react"
+import { Brain, Zap, Bot, ServerCog, Smartphone, Layout, type LucideIcon } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
+import type { ServiceIcon, SiteContent } from "@/lib/site-content"
+
+const ICON_MAP: Record<ServiceIcon, LucideIcon> = {
+  smartphone: Smartphone,
+  layout: Layout,
+  brain: Brain,
+  zap: Zap,
+  bot: Bot,
+  "server-cog": ServerCog,
+}
 
 export function ServicesSection() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const [content, setContent] = useState<SiteContent["services"] | null>(null)
 
-  const services = [
-    {
-      id: "mobile-app-development",
-      icon: Smartphone,
-      title: t("service_mobile_title"),
-      description: t("service_mobile_desc"),
-    },
-    {
-      id: "website-development",
-      icon: Layout,
-      title: t("service_web_title"),
-      description: t("service_web_desc"),
-    },
-    {
-      id: "ai-applications",
-      icon: Brain,
-      title: t("service_ai_title"),
-      description: t("service_ai_desc"),
-    },
-    {
-      id: "business-automation",
-      icon: Zap,
-      title: t("service_automation_title"),
-      description: t("service_automation_desc"),
-    },
-    {
-      id: "ai-integration",
-      icon: Bot,
-      title: t("service_consulting_title"),
-      description: t("service_consulting_desc"),
-    },
-    {
-      id: "custom-erp",
-      icon: ServerCog,
-      title: t("service_erp_title"),
-      description: t("service_erp_desc"),
-    },
+  useEffect(() => {
+    fetch("/api/content", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((c) => {
+        if (c?.services) setContent(c.services)
+      })
+      .catch(() => {})
+  }, [])
+
+  // Fallback to the i18n dictionary until the live content arrives (defaults mirror it).
+  const fallback = [
+    { id: "mobile-app-development", icon: Smartphone, title: t("service_mobile_title"), description: t("service_mobile_desc") },
+    { id: "website-development", icon: Layout, title: t("service_web_title"), description: t("service_web_desc") },
+    { id: "ai-applications", icon: Brain, title: t("service_ai_title"), description: t("service_ai_desc") },
+    { id: "business-automation", icon: Zap, title: t("service_automation_title"), description: t("service_automation_desc") },
+    { id: "ai-integration", icon: Bot, title: t("service_consulting_title"), description: t("service_consulting_desc") },
+    { id: "custom-erp", icon: ServerCog, title: t("service_erp_title"), description: t("service_erp_desc") },
   ]
+
+  const sectionTitle = content ? content.title[language] || content.title.en : t("services_title")
+  const services = content
+    ? content.items.map((s) => ({
+        id: s.id,
+        icon: ICON_MAP[s.icon] ?? Bot,
+        title: s.title[language] || s.title.en,
+        description: s.description[language] || s.description.en,
+      }))
+    : fallback
 
   return (
     <section id="services" className="bg-background py-20 md:py-24">
       <div className="container px-4 md:px-6 max-w-6xl">
             <div className="text-center mb-12 md:mb-16 max-w-3xl mx-auto">
-              <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground" suppressHydrationWarning>{t("services_title")}</h2>
+              <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground" suppressHydrationWarning>{sectionTitle}</h2>
             </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">

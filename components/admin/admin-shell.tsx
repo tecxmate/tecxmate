@@ -19,8 +19,8 @@ type NavItem = { href: string; label: string; ready: boolean }
 const NAV: NavItem[] = [
   { href: "/admin", label: "Dashboard", ready: true },
   { href: "/admin/team", label: "Team", ready: true },
-  { href: "/admin/services", label: "Services", ready: false },
-  { href: "/admin/about", label: "Hero & About", ready: false },
+  { href: "/admin/services", label: "Services", ready: true },
+  { href: "/admin/about", label: "Hero & About", ready: true },
   { href: "/admin/company", label: "Company & Footer", ready: false },
   { href: "/admin/metadata", label: "Metadata (SEO)", ready: false },
 ]
