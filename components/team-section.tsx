@@ -1,49 +1,80 @@
 "use client"
 
-import { Linkedin, GraduationCap, PenTool, Building2 } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Linkedin, GraduationCap, Building2 } from "lucide-react"
 import Image from "next/image"
 import { useLanguage } from "@/components/language-provider"
+import type { TeamMember } from "@/lib/site-content"
+
+// SSR fallback — keeps the section populated before the live content arrives and if the API fails.
+const DEFAULT_TEAM: TeamMember[] = [
+  {
+    id: "nikolas",
+    name: "Nikolas Doan 段皇方",
+    role: { en: "CEO & CFO", vi: "CEO & CFO", zh: "CEO & CFO" },
+    description: {
+      en: "MSc AI/Robotics (NTU, exp. '26). Former Google Cloud Startups. CEO TECXMATE.COM",
+      vi: "MSc AI/Robotics (NTU, exp. '26). Former Google Cloud Startups. CEO TECXMATE.COM",
+      zh: "MSc AI/Robotics (NTU, exp. '26). Former Google Cloud Startups. CEO TECXMATE.COM",
+    },
+    photo: "/avatars/niko_ava_color.jpg",
+    linkedin: "https://www.linkedin.com/in/nikolasdoan/",
+    twitter:
+      "https://scholar.google.com/citations?hl=en&view_op=list_works&gmla=AH8HC4wBT4T5k1ixLLhNjPNv_RVi-PwijNu8oMXqf4mh7nL21PUT5zluCMjJkZyOBmcdy1_51pRTnYe7erhljl_XOl2nQ3XXV8TW7isW6-0&user=ffn9iV8AAAAJ",
+    socialIcon: "academic",
+  },
+  {
+    id: "brian",
+    name: "Brian Nguyen 阮文貴",
+    role: { en: "CTO & COO", vi: "CTO & COO", zh: "CTO & COO" },
+    description: {
+      en: "MS Gamification Engineering (NTUST, exp. '27). Built 3+ apps on App Store. Specialist in game mechanics for learning.",
+      vi: "MS Gamification Engineering (NTUST, exp. '27). Built 3+ apps on App Store. Specialist in game mechanics for learning.",
+      zh: "MS Gamification Engineering (NTUST, exp. '27). Built 3+ apps on App Store. Specialist in game mechanics for learning.",
+    },
+    photo: "/avatars/brian_avatar.png",
+    linkedin: "https://www.linkedin.com/in/brian-nguyen-587825235/",
+    twitter: "https://www.tecxmate.com",
+    socialIcon: "company",
+  },
+  {
+    id: "lynn",
+    name: "Lynn Ta 謝宛伶",
+    role: { en: "Project Manager", vi: "Project Manager", zh: "Project Manager" },
+    description: { en: "", vi: "", zh: "" },
+    photo: "/avatars/lynn_avatar.JPG",
+    linkedin: "https://www.linkedin.com/in/uyen-linh-ta-a970b1188/",
+    twitter: "",
+    socialIcon: "academic",
+  },
+  {
+    id: "jane",
+    name: "Jane Liu 劉美娟",
+    role: { en: "Creative Director", vi: "Creative Director", zh: "Creative Director" },
+    description: {
+      en: "Creative director with expertise in UI/UX design and brand identity development.",
+      vi: "Creative director with expertise in UI/UX design and brand identity development.",
+      zh: "Creative director with expertise in UI/UX design and brand identity development.",
+    },
+    photo: "/avatars/jane_avatar.jpeg",
+    linkedin: "https://www.linkedin.com/in/jane-liu/",
+    twitter: "https://www.tecxmate.com",
+    socialIcon: "academic",
+  },
+]
 
 export function TeamSection() {
-  const { t } = useLanguage()
-  const teamMembers = [
-    {
-      id: 'nikolas',
-      name: 'Nikolas Doan 段皇方',
-      role: 'CEO & CFO',
-      photo: '/avatars/niko_ava_color.jpg',
-      description: 'MSc AI/Robotics (NTU, exp. \'26). Former Google Cloud Startups. CEO TECXMATE.COM',
-      twitter: 'https://scholar.google.com/citations?hl=en&view_op=list_works&gmla=AH8HC4wBT4T5k1ixLLhNjPNv_RVi-PwijNu8oMXqf4mh7nL21PUT5zluCMjJkZyOBmcdy1_51pRTnYe7erhljl_XOl2nQ3XXV8TW7isW6-0&user=ffn9iV8AAAAJ',
-      linkedin: 'https://www.linkedin.com/in/nikolasdoan/'
-    },
-    {
-      id: 'brian',
-      name: 'Brian Nguyen 阮文貴',
-      role: 'CTO & COO',
-      photo: '/avatars/brian_avatar.png',
-      description: 'MS Gamification Engineering (NTUST, exp. \'27). Built 3+ apps on App Store. Specialist in game mechanics for learning.',
-      twitter: 'https://www.tecxmate.com',
-      linkedin: 'https://www.linkedin.com/in/brian-nguyen-587825235/'
-    },
-    {
-      id: 'lynn',
-      name: 'Lynn Ta 謝宛伶',
-      role: 'Project Manager',
-      photo: '/avatars/lynn_avatar.JPG',
-      description: '',
-      twitter: '',
-      linkedin: 'https://www.linkedin.com/in/uyen-linh-ta-a970b1188/'
-    },
-    {
-      id: 'jane',
-      name: 'Jane Liu 劉美娟',
-      role: 'Creative Director',
-      photo: '/avatars/jane_avatar.jpeg',
-      description: 'Creative director with expertise in UI/UX design and brand identity development.',
-      twitter: 'https://www.tecxmate.com',
-      linkedin: 'https://www.linkedin.com/in/jane-liu/'
-    }
-  ]
+  const { t, language } = useLanguage()
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(DEFAULT_TEAM)
+
+  useEffect(() => {
+    fetch("/api/content", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((c) => {
+        if (Array.isArray(c?.team)) setTeamMembers(c.team)
+      })
+      .catch(() => {})
+  }, [])
 
   return (
     <>
@@ -72,7 +103,7 @@ export function TeamSection() {
                   </div>
                   <div className="p-3 md:p-4 text-center">
                     <h3 className="text-sm md:text-base font-semibold text-foreground mb-1">{member.name}</h3>
-                    <p className="text-xs md:text-sm text-primary font-medium mb-2">{member.role}</p>
+                    <p className="text-xs md:text-sm text-primary font-medium mb-2">{member.role[language] || member.role.en}</p>
                     <div className="flex items-center justify-center gap-2">
                       <a
                         href={member.linkedin}
@@ -86,12 +117,12 @@ export function TeamSection() {
                       {member.twitter && (
                         <a
                           href={member.twitter}
-                          aria-label={member.id === 'brian' ? 'Company' : 'Academic'}
+                          aria-label={member.socialIcon === 'company' ? 'Company' : 'Academic'}
                           className="p-2 rounded-none bg-muted hover:bg-muted/80 transition-colors"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {member.id === 'brian' ? (
+                          {member.socialIcon === 'company' ? (
                             <Building2 className="h-5 w-5 text-muted-foreground" strokeWidth={1.25} />
                           ) : (
                             <GraduationCap className="h-5 w-5 text-muted-foreground" strokeWidth={1.25} />
