@@ -8,7 +8,7 @@ const CARDS = [
   { href: "/admin/services", label: "Services", desc: "Service card titles and descriptions.", ready: true },
   { href: "/admin/about", label: "Hero & About", desc: "Homepage hero and About page copy.", ready: true },
   { href: "/admin/company", label: "Company & Footer", desc: "Address, phones, emails, markets, legal names, social links.", ready: true },
-  { href: "/admin/metadata", label: "Metadata (SEO)", desc: "Page titles, descriptions, OG tags.", ready: false },
+  { href: "/admin/metadata", label: "Metadata (SEO)", desc: "Page titles, descriptions, OG tags.", ready: true },
   { href: "/admin/tecxbook", label: "Tecxbook", desc: "Upload and manage HTML artifacts.", ready: true },
   { href: "/admin/vcards", label: "vCards", desc: "Manage digital business cards.", ready: true },
 ]

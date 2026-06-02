@@ -22,7 +22,7 @@ const NAV: NavItem[] = [
   { href: "/admin/services", label: "Services", ready: true },
   { href: "/admin/about", label: "Hero & About", ready: true },
   { href: "/admin/company", label: "Company & Footer", ready: true },
-  { href: "/admin/metadata", label: "Metadata (SEO)", ready: false },
+  { href: "/admin/metadata", label: "Metadata (SEO)", ready: true },
 ]
 
 const TOOLS: NavItem[] = [

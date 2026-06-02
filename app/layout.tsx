@@ -8,33 +8,23 @@ import { FirebaseAnalytics } from "@/components/firebase-analytics"
 import { Analytics } from '@vercel/analytics/react'
 import { LanguageProvider } from "@/components/language-provider"
 import { generateCountryKeywords } from "@/lib/keywords"
+import { readContent } from "@/lib/site-content"
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  // ISR-cached read so editable SEO doesn't force every page to render dynamically.
+  const { seo } = await readContent({ revalidate: 60 })
+
+  return {
   title: {
-    default: "TECXMATE - Premier Technology Partner | AI Software Solutions",
+    default: seo.title,
     template: "%s | Tecxmate"
   },
-  description: "Transform your business with Tecxmate's cutting-edge technology solutions. Expert AI integration, web development, business automation, and digital transformation services. Fast delivery, innovative solutions for SMEs and founders. Book your free consultation today.",
+  description: seo.description,
   generator: 'Next.js',
-  keywords: generateCountryKeywords([
-    "technology consultancy",
-    "AI development",
-    "business automation",
-    "web development",
-    "startup consulting",
-    "SME solutions",
-    "digital transformation",
-    "software development",
-    "AI integration",
-    "tech consulting",
-    "business technology",
-    "blockchain development",
-    "mobile app development",
-    "enterprise solutions"
-  ]),
+  keywords: generateCountryKeywords(seo.keywords),
   authors: [{ name: 'Tecxmate', url: baseUrl }],
   creator: 'Tecxmate',
   publisher: 'Tecxmate',
@@ -61,8 +51,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "TECXMATE - Premier Technology Partner | AI Software Solutions",
-    description: "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting for SMEs and founders. Book your free discovery call.",
+    title: seo.ogTitle,
+    description: seo.ogDescription,
     url: baseUrl,
     siteName: "Tecxmate",
     locale: "en_US",
@@ -73,17 +63,17 @@ export const metadata: Metadata = {
         url: `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
         width: 1200,
         height: 630,
-        alt: "TECXMATE - Premier Technology Partner | AI Software Solutions",
+        alt: seo.ogTitle,
         type: "image/png",
       }
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "TECXMATE - Premier Technology Partner | AI Software Solutions",
-    description: "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting.",
+    title: seo.ogTitle,
+    description: seo.twitterDescription,
     images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
-    creator: "@tecxmate",
+    creator: seo.twitterCreator,
   },
   verification: {
     // Add when you have verification codes
@@ -115,6 +105,7 @@ export const metadata: Metadata = {
     // Note: Geo tags are in <head> section, not in metadata.other
     // Next.js metadata.other doesn't support colons in keys like 'geo.region:VN'
   },
+  }
 }
 
 export default function RootLayout({

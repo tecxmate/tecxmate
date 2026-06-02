@@ -47,12 +47,23 @@ export type CompanyInfo = {
   social: { facebook: string; x: string; instagram: string; linkedin: string; booking: string }
 }
 
+export type SeoMetadata = {
+  title: string
+  description: string
+  keywords: string[]
+  ogTitle: string
+  ogDescription: string
+  twitterDescription: string
+  twitterCreator: string
+}
+
 export type SiteContent = {
   team: TeamMember[]
   hero: { title: Localized; subtitle: Localized }
   services: { title: Localized; items: Service[] }
   about: { subtitle: Localized; sections: AboutSection[] }
   company: CompanyInfo
+  seo: SeoMetadata
 }
 
 const CONTENT_PATHNAME = "site-content/content.json"
@@ -266,6 +277,33 @@ export const defaultContent: SiteContent = {
     },
     social: { ...company.social },
   },
+  seo: {
+    title: "TECXMATE - Premier Technology Partner | AI Software Solutions",
+    description:
+      "Transform your business with Tecxmate's cutting-edge technology solutions. Expert AI integration, web development, business automation, and digital transformation services. Fast delivery, innovative solutions for SMEs and founders. Book your free consultation today.",
+    keywords: [
+      "technology consultancy",
+      "AI development",
+      "business automation",
+      "web development",
+      "startup consulting",
+      "SME solutions",
+      "digital transformation",
+      "software development",
+      "AI integration",
+      "tech consulting",
+      "business technology",
+      "blockchain development",
+      "mobile app development",
+      "enterprise solutions",
+    ],
+    ogTitle: "TECXMATE - Premier Technology Partner | AI Software Solutions",
+    ogDescription:
+      "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting for SMEs and founders. Book your free discovery call.",
+    twitterDescription:
+      "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting.",
+    twitterCreator: "@tecxmate",
+  },
 }
 
 async function findContentUrl(): Promise<string | null> {
@@ -278,12 +316,19 @@ async function findContentUrl(): Promise<string | null> {
   }
 }
 
-/** Read stored content merged over defaults. Falls back to defaults when Blob is empty/unconfigured. */
-export async function readContent(): Promise<SiteContent> {
+/**
+ * Read stored content merged over defaults. Falls back to defaults when Blob is empty/unconfigured.
+ * Pass `{ revalidate: n }` to ISR-cache the read (used by layout metadata so reading SEO content
+ * doesn't force every page dynamic); the default no-store read is for always-fresh consumers.
+ */
+export async function readContent(opts?: { revalidate?: number }): Promise<SiteContent> {
   const url = await findContentUrl()
   if (!url) return defaultContent
   try {
-    const res = await fetch(url, { cache: "no-store" })
+    const res = await fetch(
+      url,
+      opts?.revalidate != null ? { next: { revalidate: opts.revalidate } } : { cache: "no-store" },
+    )
     if (!res.ok) return defaultContent
     const stored = (await res.json()) as Partial<SiteContent>
     return { ...defaultContent, ...stored }
