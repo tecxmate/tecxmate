@@ -1,4 +1,5 @@
 import { put, list } from "@vercel/blob"
+import { company } from "./company"
 
 export type Locale = "en" | "vi" | "zh"
 export type Localized = Record<Locale, string>
@@ -32,11 +33,26 @@ export type AboutSection = {
   bullets: Localized[]
 }
 
+export type Phone = { display: string; tel: string }
+
+export type CompanyInfo = {
+  name: string
+  legalName: { en: string; vi: string }
+  formation: string
+  address: { street: string; locality: string; country: string; countryCode: string }
+  taxNumber: string
+  operatingMarkets: string[]
+  contactEmail: string
+  phone: { us: Phone; tw: Phone; vn: Phone }
+  social: { facebook: string; x: string; instagram: string; linkedin: string; booking: string }
+}
+
 export type SiteContent = {
   team: TeamMember[]
   hero: { title: Localized; subtitle: Localized }
   services: { title: Localized; items: Service[] }
   about: { subtitle: Localized; sections: AboutSection[] }
+  company: CompanyInfo
 }
 
 const CONTENT_PATHNAME = "site-content/content.json"
@@ -234,6 +250,21 @@ export const defaultContent: SiteContent = {
         bullets: [],
       },
     ],
+  },
+  company: {
+    name: company.name,
+    legalName: { ...company.legalName },
+    formation: company.formation,
+    address: { ...company.address },
+    taxNumber: company.taxNumber,
+    operatingMarkets: [...company.operatingMarkets],
+    contactEmail: company.contactEmail,
+    phone: {
+      us: { ...company.phone.us },
+      tw: { ...company.phone.tw },
+      vn: { ...company.phone.vn },
+    },
+    social: { ...company.social },
   },
 }
 

@@ -1,12 +1,27 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Facebook, Twitter, Instagram, Linkedin, Video, Phone } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { company } from "@/lib/company"
+import type { CompanyInfo } from "@/lib/site-content"
 
 export function Footer() {
   const { language, t } = useLanguage()
+  const [live, setLive] = useState<CompanyInfo | null>(null)
+
+  useEffect(() => {
+    fetch("/api/content", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((c) => {
+        if (c?.company) setLive(c.company)
+      })
+      .catch(() => {})
+  }, [])
+
+  // Live content overrides the static defaults once it arrives.
+  const co = live ?? company
 
   return (
     <footer id="footer" className="bg-alt-black py-12 md:py-16 border-0">
@@ -23,7 +38,7 @@ export function Footer() {
             <p className="text-sm text-gray-300 leading-relaxed">{t("got_idea")}</p>
             <div className="flex flex-wrap items-center gap-3">
               <a
-                href="https://cal.com/nikolasdoan/30min"
+                href={co.social.booking}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer"
@@ -33,7 +48,7 @@ export function Footer() {
               </a>
               <div className="flex gap-3">
                 <a
-                  href="https://www.facebook.com/tecxmate"
+                  href={co.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors duration-200"
@@ -42,7 +57,7 @@ export function Footer() {
                   <span className="sr-only">Facebook</span>
                 </a>
                 <a
-                  href="https://x.com/tecxmate"
+                  href={co.social.x}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors duration-200"
@@ -51,7 +66,7 @@ export function Footer() {
                   <span className="sr-only">X</span>
                 </a>
                 <a
-                  href="https://www.instagram.com/tecxmate"
+                  href={co.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors duration-200"
@@ -60,7 +75,7 @@ export function Footer() {
                   <span className="sr-only">Instagram</span>
                 </a>
                 <a
-                  href="https://tw.linkedin.com/company/tecxmate"
+                  href={co.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors duration-200"
@@ -72,10 +87,10 @@ export function Footer() {
               <p className="text-sm text-gray-300">
                 {t("email")}:{" "}
                 <a
-                  href={`mailto:${company.contactEmail}`}
+                  href={`mailto:${co.contactEmail}`}
                   className="text-white hover:text-primary transition-colors duration-200"
                 >
-                  {company.contactEmail}
+                  {co.contactEmail}
                 </a>
               </p>
             </div>
@@ -111,15 +126,15 @@ export function Footer() {
           <div className="space-y-4 md:col-span-6">
             <div className="space-y-4 text-sm text-gray-300">
               <div className="space-y-2">
-                <p className="font-medium text-white text-sm sm:text-base">{language === "vi" ? company.legalName.vi : company.legalName.en}</p>
+                <p className="font-medium text-white text-sm sm:text-base">{language === "vi" ? co.legalName.vi : co.legalName.en}</p>
                 <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{t("address")}</p>
-                <p className="text-gray-300 text-xs sm:text-sm">MST: {company.taxNumber}</p>
+                <p className="text-gray-300 text-xs sm:text-sm">MST: {co.taxNumber}</p>
                 <a
-                  href={`tel:${company.phone.vn.tel}`}
+                  href={`tel:${co.phone.vn.tel}`}
                   className="inline-flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors duration-200 text-xs sm:text-sm"
                 >
                   <Phone className="h-4 w-4 shrink-0" />
-                  {company.phone.vn.display}
+                  {co.phone.vn.display}
                 </a>
               </div>
             </div>
@@ -134,7 +149,7 @@ export function Footer() {
             Admin
           </Link>
           <p className="text-white">
-            © {new Date().getFullYear()} {company.name.toUpperCase()}. {t("all_rights_reserved")}
+            © {new Date().getFullYear()} {co.name.toUpperCase()}. {t("all_rights_reserved")}
           </p>
         </div>
       </div>

@@ -32,6 +32,14 @@ export const company = {
     tw: { display: "(+886) 966-860-602", tel: "+886966860602" },
     vn: { display: "(+84) 33-746-0602", tel: "+84337460602" },
   },
+  /** Social & booking links shown in the footer */
+  social: {
+    facebook: "https://www.facebook.com/tecxmate",
+    x: "https://x.com/tecxmate",
+    instagram: "https://www.instagram.com/tecxmate",
+    linkedin: "https://tw.linkedin.com/company/tecxmate",
+    booking: "https://cal.com/nikolasdoan/30min",
+  },
   /** Website URL */
   website: process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com",
 } as const

@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AboutContent } from "@/components/about-content"
-import { company } from "@/lib/company"
 import { readContent } from "@/lib/site-content"
 import type { Metadata } from "next"
 import Script from "next/script"
@@ -53,7 +52,7 @@ export const metadata: Metadata = {
 }
 
 export default async function AboutPage() {
-  const { about } = await readContent()
+  const { about, company } = await readContent()
 
   const aboutStructuredData = {
     "@context": "https://schema.org",
