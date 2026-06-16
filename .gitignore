@@ -47,3 +47,6 @@ next-env.d.ts
 
 # Blog view counts data
 /data
+
+# Scheduled daily-brief temp payload
+/.daily-brief.json

@@ -26,7 +26,7 @@ const DEFAULT_FEEDS = [
   "https://openai.com/news/rss.xml",
 ]
 
-const generatedPostSchema = z.object({
+export const generatedPostSchema = z.object({
   title: z.string().min(8).max(120),
   excerpt: z.string().min(40).max(220),
   keyTakeaways: z.array(z.string().min(10).max(180)).min(3).max(6),
@@ -45,7 +45,7 @@ const generatedPostSchema = z.object({
   ).min(3).max(8),
 })
 
-type GeneratedPost = z.infer<typeof generatedPostSchema>
+export type GeneratedPost = z.infer<typeof generatedPostSchema>
 
 function envList(name: string, fallback: string[]): string[] {
   const raw = process.env[name]?.trim()
@@ -409,17 +409,20 @@ async function generatePost(prompt: string): Promise<GeneratedPost> {
   throw new Error(`Unsupported AI_NEWS_PROVIDER: ${provider}`)
 }
 
-export async function createDailyAiNewsPost(
-  now = new Date(),
+/**
+ * Assemble a StoredBlogPost from already-generated structured content.
+ *
+ * Shared by the RSS+LLM pipeline (createDailyAiNewsPost) and the external
+ * publish endpoint (/api/blog/publish) so both produce identical HTML, slugs,
+ * and metadata. `source` defaults to "ai-news-agent" for the RSS pipeline;
+ * externally-authored posts pass "manual".
+ */
+export function assembleDailyPost(
+  generated: GeneratedPost,
+  now: Date = new Date(),
   language: AiNewsLanguage = "en",
-  sources?: NewsSource[],
-): Promise<StoredBlogPost> {
-  const newsSources = sources ?? await collectAiNewsSources()
-  if (newsSources.length < 3) {
-    throw new Error(`Not enough news sources found. Expected at least 3, got ${newsSources.length}.`)
-  }
-
-  const generated = await generatePost(buildPrompt(newsSources, now, language))
+  source: StoredBlogPost["source"] = "ai-news-agent",
+): StoredBlogPost {
   const content = toContentHtml(generated)
   const slugDate = getTodaySlug(now)
   const slug = `ai-industry-brief-${slugDate}-${language}-${slugify(generated.title)}`
@@ -439,7 +442,21 @@ export async function createDailyAiNewsPost(
     tags: Array.from(new Set(["AI", "Startups", "Industry", languageTag(language), ...generated.tags])),
     citations: toCitationsHtml(generated.citations),
     language,
-    source: "ai-news-agent",
+    source,
     sourceUrls: generated.citations.map((citation) => citation.url),
   }
+}
+
+export async function createDailyAiNewsPost(
+  now = new Date(),
+  language: AiNewsLanguage = "en",
+  sources?: NewsSource[],
+): Promise<StoredBlogPost> {
+  const newsSources = sources ?? await collectAiNewsSources()
+  if (newsSources.length < 3) {
+    throw new Error(`Not enough news sources found. Expected at least 3, got ${newsSources.length}.`)
+  }
+
+  const generated = await generatePost(buildPrompt(newsSources, now, language))
+  return assembleDailyPost(generated, now, language, "ai-news-agent")
 }
