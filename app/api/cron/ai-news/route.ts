@@ -44,6 +44,13 @@ function requestedLanguages(request: NextRequest): AiNewsLanguage[] {
 }
 
 async function run(request: NextRequest) {
+  if (process.env.AI_NEWS_ENABLED !== "true") {
+    return NextResponse.json(
+      { error: "AI news automation is disabled." },
+      { status: 410 },
+    )
+  }
+
   if (!isAuthorized(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }

@@ -80,10 +80,16 @@ const languageToTagSlug: Record<string, string> = {
   zh: "zh",
 }
 
+function shouldShowAiNewsPosts(): boolean {
+  return process.env.AI_NEWS_ENABLED === "true"
+}
+
 export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost[]> {
   const normalizedLanguage = language?.toLowerCase?.() || "en"
   const storedPosts = (await readStoredBlogPosts({ revalidate: 300 })).filter((post) => {
-    return post.language === normalizedLanguage || (normalizedLanguage === "en" && post.tags?.includes("en"))
+    const matchesLanguage = post.language === normalizedLanguage || (normalizedLanguage === "en" && post.tags?.includes("en"))
+    const isVisibleSource = shouldShowAiNewsPosts() || post.source !== "ai-news-agent"
+    return matchesLanguage && isVisibleSource
   })
 
   if (process.env.BLOG_SOURCE === "local") {
@@ -200,7 +206,12 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
 
 export async function wpGetPostBySlug(slug: string): Promise<WPBlogPost | null> {
   const storedPost = await getStoredBlogPostBySlug(slug)
-  if (storedPost) return storedPost
+  if (storedPost) {
+    if (storedPost.source === "ai-news-agent" && !shouldShowAiNewsPosts()) {
+      return null
+    }
+    return storedPost
+  }
 
   if (process.env.BLOG_SOURCE === "local") {
     return null
@@ -366,4 +377,3 @@ export async function wpGetCommentsByPostId(postId: number): Promise<WPComment[]
     return []
   }
 }
-
