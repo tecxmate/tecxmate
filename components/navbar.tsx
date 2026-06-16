@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react"
 import Link from "next/link"
-import { Menu, X, Globe, ChevronDown } from "lucide-react"
+import { Menu, X, Globe } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
@@ -99,30 +99,6 @@ export function Navbar() {
               {t("projects")}
             </Link>
           )}
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary outline-none focus:outline-none data-[state=open]:text-primary">
-              {t("products")} <ChevronDown className="h-4 w-4" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              <DropdownMenuItem asChild>
-                <a href="https://work.tecxmate.com" target="_blank" rel="noopener noreferrer" className="cursor-pointer">
-                  tecxwork
-                </a>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <a href="https://vietnamy.tecxmate.com" target="_blank" rel="noopener noreferrer" className="cursor-pointer">
-                  Vietnamy
-                </a>
-              </DropdownMenuItem>
-              {sections.tecxbook && (
-                <DropdownMenuItem asChild>
-                  <Link href="/tecxbook" className="cursor-pointer" onClick={closeMenu}>
-                    {t("tecxbook")}
-                  </Link>
-                </DropdownMenuItem>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
           {sections.services && (
             <Link
               href="/#services"
@@ -209,36 +185,6 @@ export function Navbar() {
                 {t("projects")}
               </Link>
             )}
-            <div className="flex flex-col gap-2 py-1">
-              <span className="text-sm font-medium">{t("products")}</span>
-              <a
-                href="https://work.tecxmate.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pl-4 text-sm text-muted-foreground transition-colors hover:text-primary"
-                onClick={closeMenu}
-              >
-                tecxwork
-              </a>
-              <a
-                href="https://vietnamy.tecxmate.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pl-4 text-sm text-muted-foreground transition-colors hover:text-primary"
-                onClick={closeMenu}
-              >
-                Vietnamy
-              </a>
-              {sections.tecxbook && (
-                <Link
-                  href="/tecxbook"
-                  className="pl-4 text-sm text-muted-foreground transition-colors hover:text-primary"
-                  onClick={closeMenu}
-                >
-                  {t("tecxbook")}
-                </Link>
-              )}
-            </div>
             {sections.services && (
               <Link
                 href="/#services"
