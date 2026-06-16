@@ -1,8 +1,13 @@
 import type { MetadataRoute } from "next"
 import { wpGetAllPosts } from "@/lib/wordpress"
 import { WORDPRESS_API_URL } from "@/lib/wp-config"
+import { isSectionEnabled, readContent } from "@/lib/site-content"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const content = await readContent({ revalidate: 60 })
+  const blogEnabled = isSectionEnabled(content, "blog")
+  const aboutEnabled = isSectionEnabled(content, "about")
+
   // Use root domain (without www) for consistency with robots.txt
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tecxmate.com"
   // Remove www if present to ensure consistent canonical URL
@@ -39,18 +44,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly", 
       priority: 0.8 
     },
-    { 
-      url: `${rootUrl}/about`, 
-      lastModified: new Date(), 
-      changeFrequency: "monthly", 
-      priority: 0.8 
-    },
-    { 
-      url: `${rootUrl}/blog`, 
-      lastModified: new Date(), 
-      changeFrequency: "daily", 
-      priority: 0.9 
-    },
+    ...(aboutEnabled
+      ? [{
+          url: `${rootUrl}/about`,
+          lastModified: new Date(),
+          changeFrequency: "monthly" as const,
+          priority: 0.8,
+        }]
+      : []),
+    ...(blogEnabled
+      ? [{
+          url: `${rootUrl}/blog`,
+          lastModified: new Date(),
+          changeFrequency: "daily" as const,
+          priority: 0.9,
+        }]
+      : []),
     { 
       url: `${rootUrl}/privacy-policy`, 
       lastModified: new Date(), 
@@ -63,16 +72,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "yearly", 
       priority: 0.5 
     },
-    {
-      url: `${rootUrl}/feed.xml`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.8,
-    },
+    ...(blogEnabled
+      ? [{
+          url: `${rootUrl}/feed.xml`,
+          lastModified: new Date(),
+          changeFrequency: "daily" as const,
+          priority: 0.8,
+        }]
+      : []),
   ]
 
   let postUrls: MetadataRoute.Sitemap = []
   try {
+    if (!blogEnabled) return staticUrls
+
     const posts = await wpGetAllPosts()
     // Fetch raw posts to get actual modified dates
     const rawPostsRes = await fetch(`${WORDPRESS_API_URL}/posts?per_page=100&_fields=slug,modified`, {
@@ -109,5 +122,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [...staticUrls, ...postUrls]
 }
-
 

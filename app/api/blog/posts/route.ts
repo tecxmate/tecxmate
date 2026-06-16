@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { wpGetAllPosts } from "@/lib/wordpress"
+import { isSectionEnabled, readContent } from "@/lib/site-content"
 
 // Fallback data in case WordPress API fails
 const fallbackPosts = [
@@ -37,6 +38,11 @@ const fallbackPosts = [
 
 export async function GET(request: Request) {
   try {
+    const content = await readContent({ revalidate: 60 })
+    if (!isSectionEnabled(content, "blog")) {
+      return NextResponse.json([], { status: 404 })
+    }
+
     console.log('📡 API route /api/blog/posts called')
     const url = new URL(request.url)
     const categoryParam = url.searchParams.get("lang")?.toLowerCase() || "en"

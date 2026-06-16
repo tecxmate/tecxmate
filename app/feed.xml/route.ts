@@ -1,7 +1,13 @@
 import { wpGetAllPosts } from "@/lib/wordpress"
+import { isSectionEnabled, readContent } from "@/lib/site-content"
 
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
+  const content = await readContent({ revalidate: 60 })
+  if (!isSectionEnabled(content, "blog")) {
+    return new Response("Blog feed is disabled.", { status: 404 })
+  }
+
   const posts = await wpGetAllPosts()
 
   const rss = `<?xml version="1.0" encoding="UTF-8" ?>
@@ -41,4 +47,3 @@ export async function GET() {
     },
   })
 }
-

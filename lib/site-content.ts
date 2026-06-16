@@ -57,7 +57,22 @@ export type SeoMetadata = {
   twitterCreator: string
 }
 
+export const SECTION_KEYS = ["hero", "projects", "services", "team", "blog", "about", "tecxbook"] as const
+export type SectionKey = (typeof SECTION_KEYS)[number]
+export type SectionVisibility = Record<SectionKey, boolean>
+
+export const defaultSectionVisibility: SectionVisibility = {
+  hero: true,
+  projects: true,
+  services: true,
+  team: true,
+  blog: true,
+  about: true,
+  tecxbook: true,
+}
+
 export type SiteContent = {
+  settings: { sections: SectionVisibility }
   team: TeamMember[]
   hero: { title: Localized; subtitle: Localized }
   services: { title: Localized; items: Service[] }
@@ -84,6 +99,9 @@ function M(en: string, vi: string, zh: string): Localized {
 
 /** Defaults mirror the current live site so an empty Blob renders identically to today. */
 export const defaultContent: SiteContent = {
+  settings: {
+    sections: { ...defaultSectionVisibility },
+  },
   team: [
     {
       id: "nikolas",
@@ -306,6 +324,27 @@ export const defaultContent: SiteContent = {
   },
 }
 
+function mergeContent(stored?: Partial<SiteContent>): SiteContent {
+  if (!stored) return defaultContent
+
+  return {
+    ...defaultContent,
+    ...stored,
+    settings: {
+      ...defaultContent.settings,
+      ...stored.settings,
+      sections: {
+        ...defaultContent.settings.sections,
+        ...stored.settings?.sections,
+      },
+    },
+  }
+}
+
+export function isSectionEnabled(content: SiteContent, section: SectionKey): boolean {
+  return content.settings.sections[section] !== false
+}
+
 async function findContentUrl(): Promise<string | null> {
   if (!isBlobConfigured()) return null
   try {
@@ -331,7 +370,7 @@ export async function readContent(opts?: { revalidate?: number }): Promise<SiteC
     )
     if (!res.ok) return defaultContent
     const stored = (await res.json()) as Partial<SiteContent>
-    return { ...defaultContent, ...stored }
+    return mergeContent(stored)
   } catch {
     return defaultContent
   }

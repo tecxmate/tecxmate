@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { WORDPRESS_API_URL } from "@/lib/wp-config"
+import { isSectionEnabled, readContent } from "@/lib/site-content"
 
 export type WPProject = {
   id: number
@@ -40,6 +41,11 @@ function wpFeaturedImage(post: any): string {
 
 export async function GET() {
   try {
+    const content = await readContent({ revalidate: 60 })
+    if (!isSectionEnabled(content, "projects")) {
+      return NextResponse.json([])
+    }
+
     // Look up the "projects" tag ID
     const tagRes = await fetch(`${WORDPRESS_API_URL}/tags?slug=projects`, {
       next: { revalidate: 300 },

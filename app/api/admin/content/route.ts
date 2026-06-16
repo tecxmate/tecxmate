@@ -49,7 +49,20 @@ export async function PUT(request: NextRequest) {
   }
 
   const current = await readContent()
-  const next: SiteContent = { ...current, ...body }
+  const next: SiteContent = {
+    ...current,
+    ...body,
+    settings: body.settings
+      ? {
+          ...current.settings,
+          ...body.settings,
+          sections: {
+            ...current.settings.sections,
+            ...body.settings.sections,
+          },
+        }
+      : current.settings,
+  }
 
   try {
     await writeContent(next)

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { AdminShell } from "@/components/admin/admin-shell"
 
 const CARDS = [
+  { href: "/admin/visibility", label: "Visibility", desc: "Turn public website sections on or off.", ready: true },
   { href: "/admin/team", label: "Team", desc: "Add, edit, reorder, and remove team members.", ready: true },
   { href: "/admin/services", label: "Services", desc: "Service card titles and descriptions.", ready: true },
   { href: "/admin/about", label: "Hero & About", desc: "Homepage hero and About page copy.", ready: true },

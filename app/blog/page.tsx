@@ -6,6 +6,8 @@ import Script from "next/script"
 import { wpGetAllPosts } from "@/lib/wordpress"
 import { Suspense } from "react"
 import { generateCountryKeywords } from "@/lib/keywords"
+import { isSectionEnabled, readContent } from "@/lib/site-content"
+import { notFound } from "next/navigation"
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 
@@ -79,6 +81,9 @@ export const metadata: Metadata = {
 }
 
 export default async function BlogPage() {
+  const content = await readContent({ revalidate: 60 })
+  if (!isSectionEnabled(content, "blog")) notFound()
+
   const posts = await wpGetAllPosts()
 
   // Generate structured data for blog listing page

@@ -8,15 +8,39 @@ import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
 import { useLanguage, type Language } from "@/components/language-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
+import type { SectionVisibility } from "@/lib/site-content"
+
+const DEFAULT_SECTIONS: SectionVisibility = {
+  hero: true,
+  projects: true,
+  services: true,
+  team: true,
+  blog: true,
+  about: true,
+  tecxbook: true,
+}
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [sections, setSections] = useState<SectionVisibility>(DEFAULT_SECTIONS)
   const pathname = usePathname()
   const { language, setLanguage, t } = useLanguage()
 
   useEffect(() => {
     setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    fetch("/api/content", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((content) => {
+        setSections({
+          ...DEFAULT_SECTIONS,
+          ...content?.settings?.sections,
+        })
+      })
+      .catch(() => undefined)
   }, [])
 
   const languageLabels: Record<Language, string> = {
@@ -67,12 +91,14 @@ export function Navbar() {
           >
             {t("home")}
           </Link>
-          <Link 
-            href="/#portfolio" 
-            className={`text-sm font-medium transition-colors ${isActive("/#portfolio") ? "text-primary" : "hover:text-primary"}`}
-          >
-            {t("projects")}
-          </Link>
+          {sections.projects && (
+            <Link
+              href="/#portfolio"
+              className={`text-sm font-medium transition-colors ${isActive("/#portfolio") ? "text-primary" : "hover:text-primary"}`}
+            >
+              {t("projects")}
+            </Link>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary outline-none focus:outline-none data-[state=open]:text-primary">
               {t("products")} <ChevronDown className="h-4 w-4" />
@@ -88,37 +114,47 @@ export function Navbar() {
                   Vietnamy
                 </a>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/tecxbook" className="cursor-pointer" onClick={closeMenu}>
-                  {t("tecxbook")}
-                </Link>
-              </DropdownMenuItem>
+              {sections.tecxbook && (
+                <DropdownMenuItem asChild>
+                  <Link href="/tecxbook" className="cursor-pointer" onClick={closeMenu}>
+                    {t("tecxbook")}
+                  </Link>
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Link 
-            href="/#services" 
-            className={`text-sm font-medium transition-colors ${isActive("/#services") ? "text-primary" : "hover:text-primary"}`}
-          >
-            {t("services")}
-          </Link>
-          <Link 
-            href="/#team" 
-            className={`text-sm font-medium transition-colors ${isActive("/#team") ? "text-primary" : "hover:text-primary"}`}
-          >
-            {t("team")}
-          </Link>
-          <Link
-            href="/blog"
-            className={`text-sm font-medium transition-colors ${isActive("/blog") ? "text-primary" : "hover:text-primary"}`}
-          >
-            {t("news_insights")}
-          </Link>
-          <Link
-            href="/about"
-            className={`text-sm font-medium transition-colors ${isActive("/about") ? "text-primary" : "hover:text-primary"}`}
-          >
-            {t("about")}
-          </Link>
+          {sections.services && (
+            <Link
+              href="/#services"
+              className={`text-sm font-medium transition-colors ${isActive("/#services") ? "text-primary" : "hover:text-primary"}`}
+            >
+              {t("services")}
+            </Link>
+          )}
+          {sections.team && (
+            <Link
+              href="/#team"
+              className={`text-sm font-medium transition-colors ${isActive("/#team") ? "text-primary" : "hover:text-primary"}`}
+            >
+              {t("team")}
+            </Link>
+          )}
+          {sections.blog && (
+            <Link
+              href="/blog"
+              className={`text-sm font-medium transition-colors ${isActive("/blog") ? "text-primary" : "hover:text-primary"}`}
+            >
+              {t("news_insights")}
+            </Link>
+          )}
+          {sections.about && (
+            <Link
+              href="/about"
+              className={`text-sm font-medium transition-colors ${isActive("/about") ? "text-primary" : "hover:text-primary"}`}
+            >
+              {t("about")}
+            </Link>
+          )}
         </nav>
         <div className="flex items-center gap-2">
           <div className="hidden md:flex">
@@ -164,13 +200,15 @@ export function Navbar() {
             >
               {t("home")}
             </Link>
-            <Link
-              href="/#portfolio"
-              className={`text-sm font-medium transition-colors ${isActive("/#portfolio") ? "text-primary" : "hover:text-primary"}`}
-              onClick={closeMenu}
-            >
-              {t("projects")}
-            </Link>
+            {sections.projects && (
+              <Link
+                href="/#portfolio"
+                className={`text-sm font-medium transition-colors ${isActive("/#portfolio") ? "text-primary" : "hover:text-primary"}`}
+                onClick={closeMenu}
+              >
+                {t("projects")}
+              </Link>
+            )}
             <div className="flex flex-col gap-2 py-1">
               <span className="text-sm font-medium">{t("products")}</span>
               <a
@@ -191,42 +229,52 @@ export function Navbar() {
               >
                 Vietnamy
               </a>
+              {sections.tecxbook && (
+                <Link
+                  href="/tecxbook"
+                  className="pl-4 text-sm text-muted-foreground transition-colors hover:text-primary"
+                  onClick={closeMenu}
+                >
+                  {t("tecxbook")}
+                </Link>
+              )}
+            </div>
+            {sections.services && (
               <Link
-                href="/tecxbook"
-                className="pl-4 text-sm text-muted-foreground transition-colors hover:text-primary"
+                href="/#services"
+                className={`text-sm font-medium transition-colors ${isActive("/#services") ? "text-primary" : "hover:text-primary"}`}
                 onClick={closeMenu}
               >
-                {t("tecxbook")}
+                {t("services")}
               </Link>
-            </div>
-            <Link
-              href="/#services"
-              className={`text-sm font-medium transition-colors ${isActive("/#services") ? "text-primary" : "hover:text-primary"}`}
-              onClick={closeMenu}
-            >
-              {t("services")}
-            </Link>
-            <Link
-              href="/#team"
-              className={`text-sm font-medium transition-colors ${isActive("/#team") ? "text-primary" : "hover:text-primary"}`}
-              onClick={closeMenu}
-            >
-              {t("team")}
-            </Link>
-            <Link
-              href="/blog"
-              className={`text-sm font-medium transition-colors ${isActive("/blog") ? "text-primary" : "hover:text-primary"}`}
-              onClick={closeMenu}
-            >
-              {t("news_insights")}
-            </Link>
-            <Link
-              href="/about"
-              className={`text-sm font-medium transition-colors ${isActive("/about") ? "text-primary" : "hover:text-primary"}`}
-              onClick={closeMenu}
-            >
-              {t("about")}
-            </Link>
+            )}
+            {sections.team && (
+              <Link
+                href="/#team"
+                className={`text-sm font-medium transition-colors ${isActive("/#team") ? "text-primary" : "hover:text-primary"}`}
+                onClick={closeMenu}
+              >
+                {t("team")}
+              </Link>
+            )}
+            {sections.blog && (
+              <Link
+                href="/blog"
+                className={`text-sm font-medium transition-colors ${isActive("/blog") ? "text-primary" : "hover:text-primary"}`}
+                onClick={closeMenu}
+              >
+                {t("news_insights")}
+              </Link>
+            )}
+            {sections.about && (
+              <Link
+                href="/about"
+                className={`text-sm font-medium transition-colors ${isActive("/about") ? "text-primary" : "hover:text-primary"}`}
+                onClick={closeMenu}
+              >
+                {t("about")}
+              </Link>
+            )}
             <div className="flex items-center gap-2">
               <ThemeToggle />
               <span className="text-sm text-muted-foreground">Toggle theme</span>

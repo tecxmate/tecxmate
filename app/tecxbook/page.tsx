@@ -3,6 +3,8 @@ import type { Metadata } from "next"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { readIndex } from "@/lib/tecxbook"
+import { isSectionEnabled, readContent } from "@/lib/site-content"
+import { notFound } from "next/navigation"
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 
@@ -24,6 +26,9 @@ export const metadata: Metadata = {
 }
 
 export default async function TecxbookPage() {
+  const content = await readContent({ revalidate: 60 })
+  if (!isSectionEnabled(content, "tecxbook")) notFound()
+
   const entries = await readIndex()
 
   return (

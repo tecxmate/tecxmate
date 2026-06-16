@@ -6,6 +6,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { TecxbookViewer } from "@/components/tecxbook-viewer"
 import { getEntry } from "@/lib/tecxbook"
+import { isSectionEnabled, readContent } from "@/lib/site-content"
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 
@@ -14,6 +15,11 @@ export const revalidate = 60
 type Params = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const content = await readContent({ revalidate: 60 })
+  if (!isSectionEnabled(content, "tecxbook")) {
+    return { robots: { index: false, follow: false } }
+  }
+
   const { slug } = await params
   const entry = await getEntry(slug)
   if (!entry) return {}
@@ -32,6 +38,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function TecxbookEntryPage({ params }: Params) {
+  const content = await readContent({ revalidate: 60 })
+  if (!isSectionEnabled(content, "tecxbook")) notFound()
+
   const { slug } = await params
   const entry = await getEntry(slug)
   if (!entry) notFound()

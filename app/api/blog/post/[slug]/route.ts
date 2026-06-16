@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { wpGetPostBySlug } from "@/lib/wordpress"
+import { isSectionEnabled, readContent } from "@/lib/site-content"
 
 // Fallback data for specific posts
 const getFallbackPost = (slug: string) => {
@@ -19,6 +20,11 @@ const getFallbackPost = (slug: string) => {
 
 export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
+    const content = await readContent({ revalidate: 60 })
+    if (!isSectionEnabled(content, "blog")) {
+      return NextResponse.json({ error: "Blog is disabled" }, { status: 404 })
+    }
+
     const { slug } = await params
     const post = await wpGetPostBySlug(slug)
 

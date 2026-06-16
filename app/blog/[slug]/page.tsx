@@ -4,11 +4,15 @@ import { BlogPostContent } from "@/components/blog-post-content"
 import { wpGetPostBySlug } from "@/lib/wordpress"
 import { WORDPRESS_API_URL } from "@/lib/wp-config"
 import { generateCountryKeywords } from "@/lib/keywords"
+import { isSectionEnabled, readContent } from "@/lib/site-content"
 import type { Metadata } from "next"
 import Script from "next/script"
 import { notFound } from "next/navigation"
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const content = await readContent({ revalidate: 60 })
+  if (!isSectionEnabled(content, "blog")) notFound()
+
   const { slug } = await params
   const post = await wpGetPostBySlug(slug)
   
@@ -213,6 +217,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const content = await readContent({ revalidate: 60 })
+  if (!isSectionEnabled(content, "blog")) {
+    return { robots: { index: false, follow: false } }
+  }
+
   const { slug } = await params
   const post = await wpGetPostBySlug(slug)
 

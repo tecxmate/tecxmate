@@ -1,9 +1,10 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { AboutContent } from "@/components/about-content"
-import { readContent } from "@/lib/site-content"
+import { isSectionEnabled, readContent } from "@/lib/site-content"
 import type { Metadata } from "next"
 import Script from "next/script"
+import { notFound } from "next/navigation"
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 
@@ -52,7 +53,10 @@ export const metadata: Metadata = {
 }
 
 export default async function AboutPage() {
-  const { about, company } = await readContent()
+  const content = await readContent()
+  if (!isSectionEnabled(content, "about")) notFound()
+
+  const { about, company } = content
 
   const aboutStructuredData = {
     "@context": "https://schema.org",
@@ -150,4 +154,3 @@ export default async function AboutPage() {
     </>
   )
 }
-

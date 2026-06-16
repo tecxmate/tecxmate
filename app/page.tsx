@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer"
 import type { Metadata } from "next"
 import Script from "next/script"
 import dynamic from "next/dynamic"
+import { isSectionEnabled, readContent } from "@/lib/site-content"
 
 // Lazy load below-the-fold components to reduce initial bundle and TBT
 const DemoProductsSection = dynamic(() => import("@/components/demo-products-section").then(mod => ({ default: mod.DemoProductsSection })), {
@@ -19,7 +20,9 @@ const TeamSection = dynamic(() => import("@/components/team-section").then(mod =
   loading: () => <div className="h-64 bg-gray-50" />,
 })
 
-export default function Home() {
+export default async function Home() {
+  const content = await readContent({ revalidate: 60 })
+
   return (
     <main className="min-h-screen bg-background">
       <Navbar />
@@ -132,11 +135,11 @@ export default function Home() {
           }),
         }}
       />
-      <HeroSection />
-      <DemoProductsSection />
-      <ServicesSection />
-      <TeamSection />
-      <CampaignsSection />
+      {isSectionEnabled(content, "hero") && <HeroSection />}
+      {isSectionEnabled(content, "projects") && <DemoProductsSection />}
+      {isSectionEnabled(content, "services") && <ServicesSection />}
+      {isSectionEnabled(content, "team") && <TeamSection />}
+      {isSectionEnabled(content, "blog") && <CampaignsSection />}
       <Footer />
     </main>
   )
