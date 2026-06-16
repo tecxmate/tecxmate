@@ -19,21 +19,22 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
   
   // Fetch raw post data for structured data
-  let rawPost: any = null
+  const fallbackDate = (post as any).publishedAt || new Date(post.date).toISOString()
+  let rawPost: any = { date: fallbackDate, modified: (post as any).updatedAt || fallbackDate }
   try {
     const res = await fetch(`${WORDPRESS_API_URL}/posts?slug=${encodeURIComponent(slug)}&_embed=1`, {
       next: { revalidate: 300 }
     })
     if (res.ok) {
       const data = await res.json()
-      rawPost = data[0]
+      if (data[0]) rawPost = data[0]
     }
   } catch (e) {
     // ignore
   }
 
   // Generate comprehensive structured data for SEO
-  const structuredData = rawPost ? [
+  const structuredData = [
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
@@ -190,7 +191,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         }
       ]
     }
-  ] : null
+  ]
 
   return (
     <>
@@ -226,8 +227,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const description = post.excerpt.slice(0, 160)
 
   // Fetch raw post for date information
-  let publishedDate: string | undefined
-  let modifiedDate: string | undefined
+  let publishedDate: string | undefined = (post as any).publishedAt
+  let modifiedDate: string | undefined = (post as any).updatedAt || publishedDate
   try {
     const res = await fetch(`${WORDPRESS_API_URL}/posts?slug=${encodeURIComponent(slug)}&_fields=date,modified`, {
       next: { revalidate: 300 }

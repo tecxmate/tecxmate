@@ -25,6 +25,7 @@ export type WPComment = {
 }
 
 import { WORDPRESS_API_URL } from "./wp-config"
+import { getStoredBlogPostBySlug, readStoredBlogPosts } from "./blog-store"
 
 function stripHtml(html: string) {
   return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim()
@@ -80,8 +81,16 @@ const languageToTagSlug: Record<string, string> = {
 }
 
 export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost[]> {
+  const normalizedLanguage = language?.toLowerCase?.() || "en"
+  const storedPosts = (await readStoredBlogPosts({ revalidate: 300 })).filter((post) => {
+    return post.language === normalizedLanguage || (normalizedLanguage === "en" && post.tags?.includes("en"))
+  })
+
+  if (process.env.BLOG_SOURCE === "local") {
+    return storedPosts
+  }
+
   try {
-    const normalizedLanguage = language?.toLowerCase?.() || "en"
     const tagSlug = languageToTagSlug[normalizedLanguage] || languageToTagSlug.en
     let tagId: number | undefined
 
@@ -134,7 +143,7 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
         url,
         error: errorText
       })
-      return []
+      return storedPosts
     }
     
     const data = await res.json()
@@ -149,7 +158,7 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
     
     if (!Array.isArray(data)) {
       console.error('❌ WordPress API returned non-array data:', data)
-      return []
+      return storedPosts
     }
     
     const posts = data.map((p: any) => {
@@ -182,14 +191,21 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
     })
     
     console.log('✅ Processed posts:', posts.length)
-    return posts
+    return [...posts, ...storedPosts]
   } catch (error) {
     console.error('❌ Error fetching WordPress posts:', error)
-    return []
+    return storedPosts
   }
 }
 
 export async function wpGetPostBySlug(slug: string): Promise<WPBlogPost | null> {
+  const storedPost = await getStoredBlogPostBySlug(slug)
+  if (storedPost) return storedPost
+
+  if (process.env.BLOG_SOURCE === "local") {
+    return null
+  }
+
   try {
     // Try both encoded and decoded versions of the slug
     // Include meta fields in the request to get custom fields
@@ -350,5 +366,4 @@ export async function wpGetCommentsByPostId(postId: number): Promise<WPComment[]
     return []
   }
 }
-
 
