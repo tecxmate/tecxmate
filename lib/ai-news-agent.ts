@@ -10,6 +10,14 @@ type NewsSource = {
   summary?: string
 }
 
+export type AiNewsLanguage = StoredBlogPost["language"]
+
+const LANGUAGE_INSTRUCTIONS: Record<AiNewsLanguage, string> = {
+  en: "English",
+  zh: "Traditional Chinese for Taiwan readers",
+  vi: "Vietnamese",
+}
+
 const DEFAULT_FEEDS = [
   "https://techcrunch.com/category/artificial-intelligence/feed/",
   "https://techcrunch.com/category/startups/feed/",
@@ -128,6 +136,12 @@ function getTodaySlug(now: Date): string {
   return now.toISOString().slice(0, 10)
 }
 
+function languageTag(language: AiNewsLanguage): string {
+  if (language === "vi") return "vi"
+  if (language === "zh") return "zh"
+  return "en"
+}
+
 function getItemDate(item: any): string | undefined {
   const raw = item.isoDate || item.pubDate || item.published || item.updated || item["dc:date"]
   if (!raw) return undefined
@@ -193,7 +207,7 @@ export async function collectAiNewsSources(): Promise<NewsSource[]> {
     .slice(0, 30)
 }
 
-function buildPrompt(sources: NewsSource[], now: Date): string {
+function buildPrompt(sources: NewsSource[], now: Date, language: AiNewsLanguage): string {
   const sourceBlock = sources
     .map((source, index) => {
       return [
@@ -209,6 +223,7 @@ function buildPrompt(sources: NewsSource[], now: Date): string {
   return `Today is ${now.toISOString().slice(0, 10)}.
 
 Write a concise automated news article for Tecxmate about AI startups and AI industry news.
+The article must be written in ${LANGUAGE_INSTRUCTIONS[language]}.
 
 Rules:
 - Use only the supplied source list. Do not invent companies, funding rounds, dates, or claims.
@@ -394,16 +409,20 @@ async function generatePost(prompt: string): Promise<GeneratedPost> {
   throw new Error(`Unsupported AI_NEWS_PROVIDER: ${provider}`)
 }
 
-export async function createDailyAiNewsPost(now = new Date()): Promise<StoredBlogPost> {
-  const sources = await collectAiNewsSources()
-  if (sources.length < 3) {
-    throw new Error(`Not enough news sources found. Expected at least 3, got ${sources.length}.`)
+export async function createDailyAiNewsPost(
+  now = new Date(),
+  language: AiNewsLanguage = "en",
+  sources?: NewsSource[],
+): Promise<StoredBlogPost> {
+  const newsSources = sources ?? await collectAiNewsSources()
+  if (newsSources.length < 3) {
+    throw new Error(`Not enough news sources found. Expected at least 3, got ${newsSources.length}.`)
   }
 
-  const generated = await generatePost(buildPrompt(sources, now))
+  const generated = await generatePost(buildPrompt(newsSources, now, language))
   const content = toContentHtml(generated)
   const slugDate = getTodaySlug(now)
-  const slug = `ai-industry-brief-${slugDate}-${slugify(generated.title)}`
+  const slug = `ai-industry-brief-${slugDate}-${language}-${slugify(generated.title)}`
 
   return {
     id: Number(now.toISOString().replace(/\D/g, "").slice(0, 12)),
@@ -417,9 +436,9 @@ export async function createDailyAiNewsPost(now = new Date()): Promise<StoredBlo
     category: "Automated News",
     coverImage: "/graphics/Strategy & Research.png",
     content,
-    tags: Array.from(new Set(["AI", "Startups", "Industry", "en", ...generated.tags])),
+    tags: Array.from(new Set(["AI", "Startups", "Industry", languageTag(language), ...generated.tags])),
     citations: toCitationsHtml(generated.citations),
-    language: "en",
+    language,
     source: "ai-news-agent",
     sourceUrls: generated.citations.map((citation) => citation.url),
   }

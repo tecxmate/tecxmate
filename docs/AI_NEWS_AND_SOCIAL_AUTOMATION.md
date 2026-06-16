@@ -29,10 +29,10 @@ The job:
 
 1. Reads AI/startup RSS feeds.
 2. Uses Gemini by default to parse the sources and generate a cited automated
-   news article.
-3. Stores the generated news entry in Vercel Blob at `blog/posts.json`.
+   news article in English, Traditional Chinese, and Vietnamese.
+3. Stores the generated news entries in Vercel Blob at `blog/posts.json`.
 4. Keeps WordPress/manual blogs ahead of generated news in combined blog lists.
-5. Optionally shares the new automated news entry through Postiz and/or LINE.
+5. Optionally shares the new automated news entries through Postiz and/or LINE.
 
 ## Required Vercel Environment Variables
 
@@ -44,6 +44,7 @@ CRON_SECRET=...
 GEMINI_API_KEY=...
 AI_NEWS_PROVIDER=gemini
 AI_NEWS_MODEL=gemini-3.5-flash
+AI_NEWS_LANGUAGES=en,zh,vi
 ```
 
 `GOOGLE_GENERATIVE_AI_API_KEY` is also accepted if that is the existing Gemini
@@ -80,6 +81,9 @@ To customize news sources:
 AI_NEWS_FEEDS=https://example.com/feed.xml,https://another.com/rss
 ```
 
+To generate only one language during a manual run, pass `lang=en`, `lang=zh`,
+or `lang=vi`. To generate a custom set, pass `languages=en,zh,vi`.
+
 ## Manual Blogs Vs Automated News
 
 Manual blogs remain the primary blog content. The automated news job does not
@@ -89,7 +93,8 @@ Generated news entries use:
 
 - `source: ai-news-agent`
 - `category: Automated News`
-- Slugs starting with `ai-industry-brief-`
+- `language: en`, `language: zh`, or `language: vi`
+- Slugs starting with `ai-industry-brief-YYYY-MM-DD-language-`
 
 This keeps generated news identifiable even though it is rendered through the
 same `/blog/[slug]` page as manual posts.
@@ -125,8 +130,8 @@ SOCIAL_SHARE_TARGETS=postiz
 SOCIAL_SHARE_TARGETS=line
 ```
 
-Social sharing runs after the automated news entry is saved. If sharing fails,
-the generated news entry remains published and the cron response includes
+Social sharing runs after each automated news entry is saved. If sharing fails,
+the generated news entries remain published and the cron response includes
 `socialShareResults` for debugging.
 
 ## Postiz Setup
@@ -189,19 +194,26 @@ LINE_TARGET_USER_ID=line-user-id-for-test
 
 ## Manual Tests
 
-Generate automated news without saving or sharing:
+Generate automated news in all configured languages without saving or sharing:
 
 ```bash
 curl "https://www.tecxmate.com/api/cron/ai-news?dryRun=1&secret=$CRON_SECRET"
 ```
 
-Generate, save, and share today's automated news:
+Generate, save, and share today's automated news in all configured languages:
 
 ```bash
 curl "https://www.tecxmate.com/api/cron/ai-news?secret=$CRON_SECRET"
 ```
 
-Regenerate today's automated news, save it to the same slug, and share again:
+Generate only Traditional Chinese:
+
+```bash
+curl "https://www.tecxmate.com/api/cron/ai-news?lang=zh&secret=$CRON_SECRET"
+```
+
+Regenerate today's automated news, save each language to the same slug, and
+share again:
 
 ```bash
 curl "https://www.tecxmate.com/api/cron/ai-news?force=1&secret=$CRON_SECRET"
