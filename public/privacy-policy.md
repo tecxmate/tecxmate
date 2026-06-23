@@ -115,7 +115,7 @@ We encourage you to review this Privacy Policy periodically.
 If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:
 
 **TECXMATE Corporation Ltd.** (CÔNG TY TNHH TECXMATE)  
-Villa Park Complex, Phu Huu Ward, Ho Chi Minh City, Vietnam  
+Villa Park Villa Compound, Bung Ong Thoan Street, Long Truong Ward, Ho Chi Minh City, Vietnam  
 Email: official@tecxmate.com  
 Website: https://www.tecxmate.com
 
@@ -126,4 +126,3 @@ We will respond to your inquiries within a reasonable timeframe.
 **Governing Law**: This Privacy Policy is governed by the laws of Vietnam.
 
 By using our website or services, you acknowledge that you have read and understood this Privacy Policy.
-

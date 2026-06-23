@@ -176,7 +176,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       },
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Villa Park Complex, Phu Huu Ward",
+        "streetAddress": "Villa Park Villa Compound, Bung Ong Thoan Street, Long Truong Ward",
         "addressLocality": "Ho Chi Minh City",
         "addressCountry": "VN"
       },

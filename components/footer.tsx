@@ -22,6 +22,7 @@ export function Footer() {
 
   // Live content overrides the static defaults once it arrives.
   const co = live ?? company
+  const displayAddress = co.addressDisplay?.[language] || co.addressDisplay?.en || t("address")
 
   return (
     <footer id="footer" className="bg-alt-black py-12 md:py-16 border-0">
@@ -127,7 +128,7 @@ export function Footer() {
             <div className="space-y-4 text-sm text-gray-300">
               <div className="space-y-2">
                 <p className="font-medium text-white text-sm sm:text-base">{language === "vi" ? co.legalName.vi : co.legalName.en}</p>
-                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{t("address")}</p>
+                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{displayAddress}</p>
                 <p className="text-gray-300 text-xs sm:text-sm">MST: {co.taxNumber}</p>
                 <a
                   href={`tel:${co.phone.vn.tel}`}

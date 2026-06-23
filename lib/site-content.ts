@@ -40,6 +40,7 @@ export type CompanyInfo = {
   legalName: { en: string; vi: string }
   formation: string
   address: { street: string; locality: string; country: string; countryCode: string }
+  addressDisplay: Localized
   taxNumber: string
   operatingMarkets: string[]
   contactEmail: string
@@ -285,6 +286,7 @@ export const defaultContent: SiteContent = {
     legalName: { ...company.legalName },
     formation: company.formation,
     address: { ...company.address },
+    addressDisplay: { ...company.addressDisplay },
     taxNumber: company.taxNumber,
     operatingMarkets: [...company.operatingMarkets],
     contactEmail: company.contactEmail,
@@ -330,6 +332,31 @@ function mergeContent(stored?: Partial<SiteContent>): SiteContent {
   return {
     ...defaultContent,
     ...stored,
+    company: {
+      ...defaultContent.company,
+      ...stored.company,
+      legalName: {
+        ...defaultContent.company.legalName,
+        ...stored.company?.legalName,
+      },
+      address: {
+        ...defaultContent.company.address,
+        ...stored.company?.address,
+      },
+      addressDisplay: {
+        ...defaultContent.company.addressDisplay,
+        ...stored.company?.addressDisplay,
+      },
+      phone: {
+        ...defaultContent.company.phone,
+        ...stored.company?.phone,
+      },
+      social: {
+        ...defaultContent.company.social,
+        ...stored.company?.social,
+      },
+      operatingMarkets: stored.company?.operatingMarkets ?? defaultContent.company.operatingMarkets,
+    },
     settings: {
       ...defaultContent.settings,
       ...stored.settings,

@@ -304,9 +304,22 @@ export function BlogPostContent({ slug }: BlogPostContentProps) {
               </div>
             </header>
 
+            {/* Hero cover image */}
+            {post.coverImage && (
+              <figure className="mb-8 overflow-hidden rounded-xl border border-gray-100 shadow-sm">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={post.coverImage}
+                  alt={post.title}
+                  className="w-full h-auto max-h-[480px] object-cover"
+                  loading="eager"
+                />
+              </figure>
+            )}
+
             {/* Main Content */}
             <div className="overflow-x-hidden">
-              <div 
+              <div
                 className="wp-content prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-code:text-primary prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-img:rounded-lg prose-img:shadow-md prose-img:w-full" 
                 dangerouslySetInnerHTML={{ __html: post.content || "" }} 
               />

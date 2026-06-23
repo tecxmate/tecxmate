@@ -15,10 +15,15 @@ export const company = {
   formation: "Limited Liability Company (LLC)",
   /** Headquarters address (Vietnam) */
   address: {
-    street: "Villa Park Complex, Phu Huu Ward",
+    street: "Villa Park Villa Compound, Bung Ong Thoan Street, Long Truong Ward",
     locality: "Ho Chi Minh City",
     country: "Vietnam",
     countryCode: "VN",
+  },
+  addressDisplay: {
+    en: "Villa Park Villa Compound, Bung Ong Thoan Street, Long Truong Ward, Ho Chi Minh City, Vietnam",
+    vi: "Khu Biệt Thự Villa Park, Đường Bưng Ông Thoàn, Phường Long Trường, TP Hồ Chí Minh, Việt Nam",
+    zh: "越南胡志明市隆長坊 Bưng Ông Thoàn 路 Villa Park 別墅區",
   },
   /** Tax identification number */
   taxNumber: "0319431089",

@@ -29,6 +29,9 @@ const DEFAULT_FEEDS = [
 export const generatedPostSchema = z.object({
   title: z.string().min(8).max(120),
   excerpt: z.string().min(40).max(220),
+  // Optional per-post cover image: an absolute http(s) URL or a site-relative
+  // path (e.g. "/graphics/foo.png"). When omitted, a default cover is used.
+  coverImage: z.string().trim().min(1).max(500).optional(),
   keyTakeaways: z.array(z.string().min(10).max(180)).min(3).max(6),
   sections: z.array(
     z.object({
@@ -437,7 +440,7 @@ export function assembleDailyPost(
     updatedAt: now.toISOString(),
     readTime: estimateReadTime(content),
     category: "Automated News",
-    coverImage: "/graphics/Strategy & Research.png",
+    coverImage: generated.coverImage?.trim() || "/graphics/Strategy & Research.png",
     content,
     tags: Array.from(new Set(["AI", "Startups", "Industry", languageTag(language), ...generated.tags])),
     citations: toCitationsHtml(generated.citations),

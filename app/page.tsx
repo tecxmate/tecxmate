@@ -42,7 +42,7 @@ export default async function Home() {
             "description": "Premier technology consultancy providing AI development, web development, business automation, and digital transformation services for SMEs and startups.",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "Villa Park Complex, Phu Huu Ward",
+              "streetAddress": "Villa Park Villa Compound, Bung Ong Thoan Street, Long Truong Ward",
               "addressLocality": "Ho Chi Minh City",
               "addressCountry": "VN"
             },

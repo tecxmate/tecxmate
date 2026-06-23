@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from "react"
 import { AdminShell, useAdminContext } from "@/components/admin/admin-shell"
-import type { CompanyInfo, SiteContent } from "@/lib/site-content"
+import type { CompanyInfo, Locale, SiteContent } from "@/lib/site-content"
+
+const LOCALES: { code: Locale; label: string }[] = [
+  { code: "en", label: "English" },
+  { code: "vi", label: "Vietnamese" },
+  { code: "zh", label: "Traditional Chinese" },
+]
 
 type Status = { kind: "idle" } | { kind: "ok"; msg: string } | { kind: "err"; msg: string }
 
@@ -55,6 +61,8 @@ function CompanyEditor() {
     setC((prev) => (prev ? { ...prev, phone: { ...prev.phone, [region]: { ...prev.phone[region], [field]: v } } } : prev))
   const setSocial = (key: keyof CompanyInfo["social"], v: string) =>
     setC((prev) => (prev ? { ...prev, social: { ...prev.social, [key]: v } } : prev))
+  const setAddressDisplay = (locale: Locale, v: string) =>
+    setC((prev) => (prev ? { ...prev, addressDisplay: { ...prev.addressDisplay, [locale]: v } } : prev))
 
   const save = async () => {
     setSaving(true)
@@ -111,6 +119,17 @@ function CompanyEditor() {
           <Field label="Locality" value={c.address.locality} onChange={(v) => set({ address: { ...c.address, locality: v } })} />
           <Field label="Country" value={c.address.country} onChange={(v) => set({ address: { ...c.address, country: v } })} />
           <Field label="Country code" value={c.address.countryCode} onChange={(v) => set({ address: { ...c.address, countryCode: v } })} />
+        </div>
+        <div className="space-y-3 pt-2">
+          <h3 className="text-xs font-medium text-muted-foreground">Displayed address by language</h3>
+          {LOCALES.map((locale) => (
+            <Field
+              key={locale.code}
+              label={locale.label}
+              value={c.addressDisplay[locale.code]}
+              onChange={(v) => setAddressDisplay(locale.code, v)}
+            />
+          ))}
         </div>
       </section>
 

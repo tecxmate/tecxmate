@@ -12,6 +12,7 @@
  *     "language": "en" | "zh" | "vi",
  *     "title": string,            // 8-120 chars
  *     "excerpt": string,          // 40-220 chars
+ *     "coverImage": string,       // optional; http(s) URL or "/path.png". Defaults if omitted.
  *     "keyTakeaways": string[],   // 3-6 items, each 10-180 chars
  *     "sections": [               // 3-5 sections
  *       { "heading": string,      // 4-90 chars

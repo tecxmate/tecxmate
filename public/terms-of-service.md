@@ -164,7 +164,7 @@ These Terms, together with any Service Agreements, constitute the entire agreeme
 If you have any questions about these Terms of Service, please contact us:
 
 **TECXMATE Corporation Ltd.** (CÔNG TY TNHH TECXMATE)  
-Villa Park Complex, Phu Huu Ward, Ho Chi Minh City, Vietnam  
+Villa Park Villa Compound, Bung Ong Thoan Street, Long Truong Ward, Ho Chi Minh City, Vietnam  
 Email: official@tecxmate.com  
 Website: https://www.tecxmate.com
 
@@ -173,4 +173,3 @@ Website: https://www.tecxmate.com
 **Governing Law**: These Terms of Service are governed by the laws of Vietnam.
 
 By using our website or services, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.
-
