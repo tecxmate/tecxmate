@@ -559,7 +559,7 @@ export const salesDeck = {
       toggleBefore: M("Hiring in-house", "Tự tuyển dụng", "自行聘僱"),
       toggleAfter: M("With Tecxmate", "Với Tecxmate", "與 Tecxmate 合作"),
       youLabel: M("You", "Bạn", "您"),
-      productLabel: M("Shipped product", "Sản phẩm hoàn thiện", "交付成果"),
+      productLabel: M("Product & revenue", "Sản phẩm & doanh thu", "產品與營收"),
       burdens: [
         M("Recruiting", "Tuyển dụng", "招募"),
         M("Payroll", "Quỹ lương", "薪資"),
