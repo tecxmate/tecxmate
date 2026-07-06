@@ -1,5 +1,6 @@
 "use client"
 
+import { Database, DollarSign, Users } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck, pickLocale } from "@/lib/sales-deck"
 
@@ -71,9 +72,10 @@ export function OrgSection() {
               <Thrust />
               <FlowPill variant="primary">{pickLocale(org.youLabel, language)}</FlowPill>
               <Thrust />
-              <FlowPill variant="ink" ripple>
-                {pickLocale(org.productLabel, language)}
-              </FlowPill>
+              <span className="relative inline-flex items-center justify-center shrink-0">
+                <RevenueFlow />
+                <FlowPill variant="ink">{pickLocale(org.productLabel, language)}</FlowPill>
+              </span>
             </div>
           </div>
         </div>
@@ -83,6 +85,42 @@ export function OrgSection() {
         </p>
       </div>
     </section>
+  )
+}
+
+// Streams of value moving through the pill: money, people, data.
+const FLOW_LANES = [
+  { kind: "money", dir: "up", pos: 16, dur: 5.5 },
+  { kind: "data", dir: "down", pos: 40, dur: 7 },
+  { kind: "people", dir: "up", pos: 60, dur: 6 },
+  { kind: "money", dir: "down", pos: 84, dur: 7.5 },
+] as const
+
+function FlowGlyph({ kind }: { kind: "money" | "people" | "data" }) {
+  const cls = "w-3 h-3 shrink-0"
+  if (kind === "money") return <DollarSign className={cls} strokeWidth={2.5} />
+  if (kind === "people") return <Users className={cls} strokeWidth={2.5} />
+  return <Database className={cls} strokeWidth={2.5} />
+}
+
+/** Money, people, and data streaming through "Product & revenue" — perpendicular
+ *  to the arrows (vertical on desktop, horizontal on mobile). See globals.css. */
+function RevenueFlow() {
+  return (
+    <span className="revenue-flow" aria-hidden>
+      {FLOW_LANES.map((lane, i) => (
+        <span
+          key={i}
+          className="revenue-lane"
+          data-dir={lane.dir}
+          style={{ ["--pos" as string]: `${lane.pos}%`, animationDuration: `${lane.dur}s`, animationDelay: `${i * -1.7}s` }}
+        >
+          {Array.from({ length: 8 }).map((_, j) => (
+            <FlowGlyph key={j} kind={lane.kind} />
+          ))}
+        </span>
+      ))}
+    </span>
   )
 }
 
@@ -147,32 +185,16 @@ function TanglePill({
 
 function FlowPill({
   variant,
-  ripple,
   children,
 }: {
   variant: PillVariant
-  ripple?: boolean
   children: React.ReactNode
 }) {
-  const pill = (
+  return (
     <span
       className={`relative z-10 whitespace-nowrap rounded-full border px-4 py-2 md:px-5 md:py-2.5 text-sm md:text-base shadow-sm shrink-0 ${PILL_STYLES[variant]}`}
     >
       {children}
-    </span>
-  )
-  if (!ripple) return pill
-  return (
-    <span className="relative inline-flex shrink-0">
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          className="absolute inset-0 rounded-full border-2 border-primary opacity-0 motion-safe:animate-[deck-ripple_2.4s_ease-out_infinite]"
-          style={{ animationDelay: `${i * 0.8}s` }}
-          aria-hidden
-        />
-      ))}
-      {pill}
     </span>
   )
 }

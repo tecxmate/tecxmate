@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, Sparkles } from "lucide-react"
+import { Check, GraduationCap, Sparkles } from "lucide-react"
 
 /**
  * Slim animated illustration strips for the offering cards.
@@ -10,6 +10,7 @@ import { Check, Sparkles } from "lucide-react"
 export function OfferingArt({ id }: { id: string }) {
   if (id === "apps") return <AppsArt />
   if (id === "modernize") return <ModernizeArt />
+  if (id === "consulting") return <ConsultingArt />
   return <AiArt />
 }
 
@@ -20,7 +21,7 @@ function AppsArt() {
   return (
     <div className="h-28 flex items-end justify-center gap-5 pb-1" aria-hidden>
       {/* Phone */}
-      <span className="w-12 h-[92px] rounded-xl border-2 border-zinc-400 dark:border-zinc-500 p-1.5 flex flex-col gap-1">
+      <span className="w-[52px] h-[84px] rounded-xl border-2 border-zinc-400 dark:border-zinc-500 p-1.5 flex flex-col gap-1">
         <span className={`h-2 rounded-sm bg-primary/70 ${ASSEMBLE}`} style={{ animationDelay: "0ms" }} />
         <span className={`h-4 rounded-sm bg-primary/25 ${ASSEMBLE}`} style={{ animationDelay: "300ms" }} />
         <span className={`h-4 rounded-sm bg-primary/25 ${ASSEMBLE}`} style={{ animationDelay: "600ms" }} />
@@ -96,12 +97,12 @@ function ModernizeArt() {
 }
 
 function SystemBlock() {
-  return <span className="w-8 h-8 shrink-0 rounded-md border-2 border-zinc-400 dark:border-zinc-500 bg-zinc-100 dark:bg-zinc-800" />
+  return <span className="w-7 h-7 shrink-0 rounded-md border-2 border-zinc-400 dark:border-zinc-500 bg-zinc-100 dark:bg-zinc-800" />
 }
 
 function Wire({ delay, reverse }: { delay: string; reverse?: boolean }) {
   return (
-    <span className="relative w-6 h-px shrink-0 bg-border" aria-hidden>
+    <span className="relative w-4 h-px shrink-0 bg-border" aria-hidden>
       <span
         className="absolute top-1/2 -translate-y-1/2 left-0 w-1.5 h-1.5 rounded-full bg-primary motion-safe:animate-[deck-travel_2.4s_linear_infinite]"
         style={{ animationDelay: delay, animationDirection: reverse ? "reverse" : "normal" }}
@@ -119,13 +120,50 @@ function AiArt() {
         <Wire delay="1200ms" reverse />
         <SystemBlock />
         <Wire delay="0ms" reverse />
-        <span className="w-11 h-11 shrink-0 rounded-lg bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_2.4s_ease-out_infinite]">
+        <span className="w-10 h-10 shrink-0 rounded-lg bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_2.4s_ease-out_infinite]">
           <Sparkles className="w-5 h-5 text-white" />
         </span>
         <Wire delay="0ms" />
         <SystemBlock />
         <Wire delay="1200ms" />
         <SystemBlock />
+      </span>
+    </div>
+  )
+}
+
+/** One person — head + shoulders — that fills with brand color as they "learn". */
+function Learner({ delay }: { delay: string }) {
+  return (
+    <span className="relative flex flex-col items-center" aria-hidden>
+      <span className="w-3.5 h-3.5 rounded-full border-2 border-zinc-400 dark:border-zinc-500" />
+      <span className="w-6 h-3 mt-0.5 rounded-t-full border-2 border-b-0 border-zinc-400 dark:border-zinc-500" />
+      {/* Purple "skill acquired" fill that pulses in */}
+      <span
+        className={`absolute inset-x-0 top-0 flex flex-col items-center ${ASSEMBLE}`}
+        style={{ animationDelay: delay }}
+      >
+        <span className="w-3.5 h-3.5 rounded-full bg-primary" />
+        <span className="w-6 h-3 mt-0.5 rounded-t-full bg-primary/80" />
+      </span>
+    </span>
+  )
+}
+
+/** Knowledge radiating from a mentor spark into a team that lights up, one by one. */
+function ConsultingArt() {
+  return (
+    <div className="h-28 flex items-center justify-center gap-3" aria-hidden>
+      {/* Knowledge source */}
+      <span className="w-10 h-10 shrink-0 rounded-lg bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_2.4s_ease-out_infinite]">
+        <GraduationCap className="w-5 h-5 text-white" />
+      </span>
+      <Wire delay="0ms" />
+      {/* The team */}
+      <span className="flex items-end gap-3 pb-1">
+        <Learner delay="300ms" />
+        <Learner delay="900ms" />
+        <Learner delay="1500ms" />
       </span>
     </div>
   )

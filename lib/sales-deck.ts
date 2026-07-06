@@ -224,7 +224,7 @@ export const salesDeck = {
   },
 
   proof: {
-    title: M("What you get", "Bạn nhận được gì", "您將獲得什麼"),
+    title: M("Our services", "Dịch vụ của chúng tôi", "我們的服務"),
     subtitle: M(
       "Start from wherever you are — an idea, a legacy operation, or a modern stack.",
       "Bắt đầu từ chính vị trí của bạn — một ý tưởng, một doanh nghiệp truyền thống, hay một hệ thống hiện đại.",
@@ -317,37 +317,81 @@ export const salesDeck = {
         id: "ai-integration",
         tag: M("AI for existing systems", "AI cho hệ thống sẵn có", "為現有系統導入 AI"),
         title: M(
-          "Cutting-edge AI, consulting & training",
-          "AI tiên tiến, tư vấn & đào tạo",
-          "尖端 AI、顧問與培訓",
+          "AI audit & technical integration",
+          "Kiểm định AI & tích hợp kỹ thuật",
+          "AI 稽核與技術整合",
         ),
         summary: M(
-          "AI agents, voice, and automation integrated into your existing systems — with strategic planning and AI-skill training for your team.",
-          "AI agent, giọng nói và tự động hóa tích hợp vào hệ thống sẵn có — kèm hoạch định chiến lược và đào tạo kỹ năng AI cho đội ngũ của bạn.",
-          "將 AI 代理、語音與自動化整合進您的現有系統——並提供策略規劃與員工 AI 技能培訓。",
+          "We audit where AI actually fits, then wire agents, real-time voice, and automation straight into your existing stack.",
+          "Chúng tôi kiểm định nơi AI thực sự phù hợp, rồi tích hợp agent, giọng nói thời gian thực và tự động hóa thẳng vào hệ thống sẵn có.",
+          "我們稽核 AI 真正的落點，再將代理、即時語音與自動化直接接入您的現有系統。",
         ),
         problem: M(
-          "Your systems already work — but AI is moving fast, and you don't want to fall behind.",
-          "Hệ thống của bạn vẫn đang chạy tốt — nhưng AI tiến quá nhanh, và bạn không muốn bị bỏ lại.",
-          "您的系統運作良好——但 AI 進展飛快，您不想被甩在後頭。",
+          "Your systems already work — but AI is moving fast, and you're not sure where it actually fits.",
+          "Hệ thống của bạn vẫn chạy tốt — nhưng AI tiến quá nhanh, và bạn chưa chắc nó phù hợp ở đâu.",
+          "您的系統運作良好——但 AI 進展飛快，您不確定它真正該用在哪。",
         ),
         solution: M(
-          "We integrate cutting-edge AI — agents, real-time voice, automation — into your existing stack, and bring your people along: strategy, planning, and hands-on AI-skill training.",
-          "Chúng tôi tích hợp AI tiên tiến — agent, giọng nói thời gian thực, tự động hóa — vào hệ thống hiện có, và đồng hành cùng đội ngũ của bạn: chiến lược, hoạch định và đào tạo kỹ năng AI thực chiến.",
-          "我們將尖端 AI——代理、即時語音、自動化——整合進您的現有系統，並帶著您的團隊一起前進：策略、規劃與實戰 AI 技能培訓。",
+          "We audit your workflows and data, pinpoint where AI pays off, then integrate agents, real-time voice, and automation directly into your existing systems — no rip-and-replace.",
+          "Chúng tôi kiểm định quy trình và dữ liệu, xác định nơi AI mang lại giá trị, rồi tích hợp agent, giọng nói thời gian thực và tự động hóa trực tiếp vào hệ thống sẵn có — không phá bỏ để làm lại.",
+          "我們稽核您的流程與資料、鎖定 AI 能帶來效益之處，再將代理、即時語音與自動化直接整合進現有系統——無需打掉重練。",
         ),
         outcome: M(
-          "Your systems stay yours — just smarter, faster, and run by a team that knows how to use AI.",
-          "Hệ thống vẫn là của bạn — chỉ là thông minh hơn, nhanh hơn, và được vận hành bởi đội ngũ thành thạo AI.",
-          "系統依然是您的——只是更聰明、更快，且由一支懂得運用 AI 的團隊來駕馭。",
+          "Your systems stay yours — just smarter and faster, with AI wired in where it earns its keep.",
+          "Hệ thống vẫn là của bạn — chỉ thông minh hơn, nhanh hơn, với AI được gắn vào đúng nơi tạo giá trị.",
+          "系統依然是您的——只是更聰明、更快，AI 被接在真正能發揮價值的地方。",
         ),
         metrics: [
           {
-            label: M("First consultation & training", "Buổi tư vấn & đào tạo đầu tiên", "首次諮詢與培訓"),
-            value: M("Free", "Miễn phí", "免費"),
+            label: M("Runs inside", "Chạy bên trong", "運行於"),
+            value: M("Your stack", "Hệ thống của bạn", "您的系統"),
+          },
+          {
+            label: M("We wire in", "Chúng tôi gắn vào", "我們接入"),
+            value: M("Agents · Voice", "Agent · Giọng nói", "代理 · 語音"),
           },
         ],
-        stack: ["OpenAI", "Anthropic", "ElevenLabs", "Deepgram", "Automation"],
+        stack: ["OpenAI", "Anthropic", "ElevenLabs", "Deepgram", "APIs"],
+      },
+      {
+        id: "consulting",
+        tag: M("Knowledge & people", "Tri thức & con người", "知識與人才"),
+        title: M(
+          "AI consulting & team training",
+          "Tư vấn AI & đào tạo đội ngũ",
+          "AI 顧問與團隊培訓",
+        ),
+        summary: M(
+          "Strategy, a practical AI roadmap, and hands-on training that make your own people fluent — so the capability stays in-house.",
+          "Chiến lược, lộ trình AI thực tế và đào tạo thực chiến giúp chính đội ngũ của bạn thành thạo — để năng lực ở lại bên trong.",
+          "策略、務實的 AI 藍圖，以及實戰培訓，讓您的團隊真正上手——讓能力留在公司內部。",
+        ),
+        problem: M(
+          "The tools are here, but your team doesn't yet know how to use them — or where to start.",
+          "Công cụ đã có sẵn, nhưng đội ngũ chưa biết dùng thế nào — hay bắt đầu từ đâu.",
+          "工具就在眼前，但您的團隊還不知道怎麼用——或該從哪裡開始。",
+        ),
+        solution: M(
+          "We run strategy sessions, build your AI roadmap, and train your people hands-on until the skills are genuinely theirs.",
+          "Chúng tôi tổ chức các buổi chiến lược, xây lộ trình AI, và đào tạo thực chiến cho đội ngũ đến khi kỹ năng thực sự là của họ.",
+          "我們主持策略工作坊、建立 AI 藍圖，並為團隊進行實戰培訓，直到技能真正屬於他們。",
+        ),
+        outcome: M(
+          "A team that runs AI confidently on its own — knowledge that stays with you.",
+          "Một đội ngũ tự tin vận hành AI độc lập — tri thức ở lại cùng bạn.",
+          "一支能獨立自信運用 AI 的團隊——知識永遠留在您身邊。",
+        ),
+        metrics: [
+          {
+            label: M("First session", "Buổi đầu tiên", "首次課程"),
+            value: M("Free", "Miễn phí", "免費"),
+          },
+          {
+            label: M("Format", "Hình thức", "形式"),
+            value: M("On-site · Remote", "Tại chỗ · Từ xa", "現場 · 遠端"),
+          },
+        ],
+        stack: ["Strategy", "Roadmap", "Workshops", "Playbooks"],
       },
     ] as SalesOffering[],
   },

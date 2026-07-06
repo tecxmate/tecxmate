@@ -401,7 +401,69 @@
   50% { box-shadow: 0 0 0 10px rgba(140, 82, 255, 0); }
 }
 
-@keyframes deck-ripple {
-  0% { transform: scale(1); opacity: 0.5; }
-  100% { transform: scale(1.45); opacity: 0; }
+/* Proof cards share row tracks via subgrid so the metric numbers line up
+   across every card regardless of copy length or language. */
+.proof-card {
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  row-gap: 0;
+}
+
+/* Money / people / data streaming through the "Product & revenue" pill —
+   perpendicular to the flow arrows. Mobile: horizontal (arrows are vertical).
+   ≥640px: vertical (arrows are horizontal). Streams sit behind the pill, so
+   glyphs rise into it and emerge on the far side. */
+.revenue-flow {
+  position: absolute;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  color: rgb(140 82 255);
+  /* Mobile default: a horizontal band, extended past the pill left/right. */
+  inset: 0 -26px;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 24%, #000 76%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 24%, #000 76%, transparent);
+}
+.revenue-lane {
+  position: absolute;
+  left: 0;
+  top: var(--pos);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  opacity: 0.7;
+  transform: translate(0, -50%);
+  animation: revenue-x 6s linear infinite;
+}
+.revenue-lane[data-dir="down"] { animation-direction: reverse; }
+
+@keyframes revenue-x {
+  from { transform: translate(0, -50%); }
+  to   { transform: translate(-50%, -50%); }
+}
+
+@media (min-width: 640px) {
+  .revenue-flow {
+    /* Vertical band, extended past the pill top/bottom. */
+    inset: -26px 0;
+    -webkit-mask-image: linear-gradient(to top, transparent, #000 24%, #000 76%, transparent);
+            mask-image: linear-gradient(to top, transparent, #000 24%, #000 76%, transparent);
+  }
+  .revenue-lane {
+    flex-direction: column;
+    left: var(--pos);
+    top: 0;
+    transform: translate(-50%, 0);
+    animation-name: revenue-y;
+  }
+  @keyframes revenue-y {
+    from { transform: translate(-50%, 0); }
+    to   { transform: translate(-50%, -50%); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revenue-flow { display: none; }
 }

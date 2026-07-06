@@ -19,8 +19,8 @@ const DEFAULT_SECTIONS: SectionVisibility = {
   process: true,
   trust: true,
   cta: true,
-  projects: true,
-  services: true,
+  projects: false,
+  services: false,
   team: true,
   blog: true,
   about: true,
@@ -106,10 +106,10 @@ export function Navbar() {
               {t("projects")}
             </Link>
           )}
-          {sections.services && (
+          {sections.proof && (
             <Link
-              href="/#services"
-              className={`text-sm font-medium transition-colors ${isActive("/#services") ? "text-primary" : "hover:text-primary"}`}
+              href="/#proof"
+              className={`text-sm font-medium transition-colors ${isActive("/#proof") ? "text-primary" : "hover:text-primary"}`}
             >
               {t("services")}
             </Link>
@@ -192,10 +192,10 @@ export function Navbar() {
                 {t("projects")}
               </Link>
             )}
-            {sections.services && (
+            {sections.proof && (
               <Link
-                href="/#services"
-                className={`text-sm font-medium transition-colors ${isActive("/#services") ? "text-primary" : "hover:text-primary"}`}
+                href="/#proof"
+                className={`text-sm font-medium transition-colors ${isActive("/#proof") ? "text-primary" : "hover:text-primary"}`}
                 onClick={closeMenu}
               >
                 {t("services")}
