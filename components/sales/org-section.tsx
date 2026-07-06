@@ -1,6 +1,6 @@
 "use client"
 
-import { Database, DollarSign, Users } from "lucide-react"
+import { Clock, Database, DollarSign, Users } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck, pickLocale } from "@/lib/sales-deck"
 
@@ -88,22 +88,24 @@ export function OrgSection() {
   )
 }
 
-// Streams of value moving through the pill: money, people, data.
-const FLOW_LANES = [
-  { kind: "money", dir: "up", pos: 16, dur: 5.5 },
-  { kind: "data", dir: "down", pos: 40, dur: 7 },
-  { kind: "people", dir: "up", pos: 60, dur: 6 },
-  { kind: "money", dir: "down", pos: 84, dur: 7.5 },
-] as const
+// Streams of value moving through the pill: money, data, people, time.
+type FlowKind = "money" | "data" | "people" | "time"
+const FLOW_LANES: { kind: FlowKind; dir: "up" | "down"; pos: number; dur: number }[] = [
+  { kind: "money", dir: "up", pos: 13, dur: 5.5 },
+  { kind: "data", dir: "down", pos: 38, dur: 7 },
+  { kind: "people", dir: "up", pos: 62, dur: 6 },
+  { kind: "time", dir: "down", pos: 87, dur: 7.5 },
+]
 
-function FlowGlyph({ kind }: { kind: "money" | "people" | "data" }) {
-  const cls = "w-3 h-3 shrink-0"
+function FlowGlyph({ kind }: { kind: FlowKind }) {
+  const cls = "w-4 h-4 shrink-0"
   if (kind === "money") return <DollarSign className={cls} strokeWidth={2.5} />
+  if (kind === "data") return <Database className={cls} strokeWidth={2.5} />
   if (kind === "people") return <Users className={cls} strokeWidth={2.5} />
-  return <Database className={cls} strokeWidth={2.5} />
+  return <Clock className={cls} strokeWidth={2.5} />
 }
 
-/** Money, people, and data streaming through "Product & revenue" — perpendicular
+/** Money, data, people, and time streaming through "Product & revenue" — perpendicular
  *  to the arrows (vertical on desktop, horizontal on mobile). See globals.css. */
 function RevenueFlow() {
   return (
@@ -115,7 +117,7 @@ function RevenueFlow() {
           data-dir={lane.dir}
           style={{ ["--pos" as string]: `${lane.pos}%`, animationDuration: `${lane.dur}s`, animationDelay: `${i * -1.7}s` }}
         >
-          {Array.from({ length: 8 }).map((_, j) => (
+          {Array.from({ length: 10 }).map((_, j) => (
             <FlowGlyph key={j} kind={lane.kind} />
           ))}
         </span>

@@ -96,75 +96,92 @@ function ModernizeArt() {
   )
 }
 
-function SystemBlock() {
-  return <span className="w-7 h-7 shrink-0 rounded-md border-2 border-zinc-400 dark:border-zinc-500 bg-zinc-100 dark:bg-zinc-800" />
-}
+// One shared heartbeat (3000ms period, kept literal in the animation classes so
+// Tailwind emits them): a pulse crosses a wire and the node it reaches reacts.
+// Delays step by FLOW_STEP so the whole chain reads as one connected signal.
+const FLOW_STEP_MS = 600
 
-function Wire({ delay, reverse }: { delay: string; reverse?: boolean }) {
+/** A wire carrying a single pulse dot that arrives at ~18% of the period. */
+function PulseWire({ delay, dir = "ltr" }: { delay: number; dir?: "ltr" | "rtl" }) {
+  const anim =
+    dir === "rtl"
+      ? "motion-safe:animate-[deck-pulse-rev_3000ms_linear_infinite]"
+      : "motion-safe:animate-[deck-pulse_3000ms_linear_infinite]"
   return (
-    <span className="relative w-4 h-px shrink-0 bg-border" aria-hidden>
+    <span className="relative w-5 h-px shrink-0 bg-border" aria-hidden>
       <span
-        className="absolute top-1/2 -translate-y-1/2 left-0 w-1.5 h-1.5 rounded-full bg-primary motion-safe:animate-[deck-travel_2.4s_linear_infinite]"
-        style={{ animationDelay: delay, animationDirection: reverse ? "reverse" : "normal" }}
+        className={`absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary opacity-0 ${anim}`}
+        style={{ animationDelay: `${delay}ms` }}
       />
     </span>
   )
 }
 
-/** An existing stack of systems, lit up outward from a pulsing AI core. */
+/** A system block that turns purple the moment its pulse arrives. */
+function ReactBlock({ delay }: { delay: number }) {
+  return (
+    <span className="relative w-7 h-7 shrink-0 overflow-hidden rounded-md border-2 border-zinc-400 dark:border-zinc-500 bg-zinc-100 dark:bg-zinc-800">
+      <span
+        className="absolute inset-0 bg-primary opacity-0 motion-safe:animate-[deck-react_3000ms_ease-in-out_infinite]"
+        style={{ animationDelay: `${delay}ms` }}
+      />
+    </span>
+  )
+}
+
+/** Existing systems that light up outward from the AI core, in sync with each pulse. */
 function AiArt() {
   return (
     <div className="h-28 flex items-center justify-center" aria-hidden>
       <span className="flex items-center">
-        <SystemBlock />
-        <Wire delay="1200ms" reverse />
-        <SystemBlock />
-        <Wire delay="0ms" reverse />
-        <span className="w-10 h-10 shrink-0 rounded-lg bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_2.4s_ease-out_infinite]">
+        <ReactBlock delay={FLOW_STEP_MS} />
+        <PulseWire delay={FLOW_STEP_MS} dir="rtl" />
+        <ReactBlock delay={0} />
+        <PulseWire delay={0} dir="rtl" />
+        <span className="w-10 h-10 shrink-0 rounded-lg bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_3000ms_ease-out_infinite]">
           <Sparkles className="w-5 h-5 text-white" />
         </span>
-        <Wire delay="0ms" />
-        <SystemBlock />
-        <Wire delay="1200ms" />
-        <SystemBlock />
+        <PulseWire delay={0} dir="ltr" />
+        <ReactBlock delay={0} />
+        <PulseWire delay={FLOW_STEP_MS} dir="ltr" />
+        <ReactBlock delay={FLOW_STEP_MS} />
       </span>
     </div>
   )
 }
 
-/** One person — head + shoulders — that fills with brand color as they "learn". */
-function Learner({ delay }: { delay: string }) {
+/** One person who lights up the moment the pulse reaches them. */
+function Learner({ delay }: { delay: number }) {
   return (
-    <span className="relative flex flex-col items-center" aria-hidden>
-      <span className="w-3.5 h-3.5 rounded-full border-2 border-zinc-400 dark:border-zinc-500" />
-      <span className="w-6 h-3 mt-0.5 rounded-t-full border-2 border-b-0 border-zinc-400 dark:border-zinc-500" />
-      {/* Purple "skill acquired" fill that pulses in */}
+    <span className="relative flex flex-col items-center shrink-0" aria-hidden>
+      {/* faint base so the team is visible at rest */}
+      <span className="w-3.5 h-3.5 rounded-full bg-primary/20" />
+      <span className="w-6 h-3 mt-0.5 rounded-t-full bg-primary/20" />
+      {/* bright "skill acquired" fill, timed to the pulse arrival */}
       <span
-        className={`absolute inset-x-0 top-0 flex flex-col items-center ${ASSEMBLE}`}
-        style={{ animationDelay: delay }}
+        className="absolute inset-x-0 top-0 flex flex-col items-center opacity-0 motion-safe:animate-[deck-react_3000ms_ease-in-out_infinite]"
+        style={{ animationDelay: `${delay}ms` }}
       >
         <span className="w-3.5 h-3.5 rounded-full bg-primary" />
-        <span className="w-6 h-3 mt-0.5 rounded-t-full bg-primary/80" />
+        <span className="w-6 h-3 mt-0.5 rounded-t-full bg-primary" />
       </span>
     </span>
   )
 }
 
-/** Knowledge radiating from a mentor spark into a team that lights up, one by one. */
+/** Knowledge flowing from the mentor into the team — each person lights up as the pulse arrives. */
 function ConsultingArt() {
   return (
-    <div className="h-28 flex items-center justify-center gap-3" aria-hidden>
-      {/* Knowledge source */}
-      <span className="w-10 h-10 shrink-0 rounded-lg bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_2.4s_ease-out_infinite]">
+    <div className="h-28 flex items-center justify-center gap-1.5" aria-hidden>
+      <span className="w-10 h-10 shrink-0 rounded-lg bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_3000ms_ease-out_infinite]">
         <GraduationCap className="w-5 h-5 text-white" />
       </span>
-      <Wire delay="0ms" />
-      {/* The team */}
-      <span className="flex items-end gap-3 pb-1">
-        <Learner delay="300ms" />
-        <Learner delay="900ms" />
-        <Learner delay="1500ms" />
-      </span>
+      <PulseWire delay={0} />
+      <Learner delay={0} />
+      <PulseWire delay={FLOW_STEP_MS} />
+      <Learner delay={FLOW_STEP_MS} />
+      <PulseWire delay={FLOW_STEP_MS * 2} />
+      <Learner delay={FLOW_STEP_MS * 2} />
     </div>
   )
 }

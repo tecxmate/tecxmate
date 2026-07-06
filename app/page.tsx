@@ -1,6 +1,5 @@
 import { Navbar } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
-import { ServicesSection } from "@/components/services-section"
 import { Footer } from "@/components/footer"
 import type { Metadata } from "next"
 import Script from "next/script"
@@ -34,10 +33,6 @@ const TrustSection = dynamic(() => import("@/components/sales/trust-section").th
 
 const CtaSection = dynamic(() => import("@/components/sales/cta-section").then(mod => ({ default: mod.CtaSection })), {
   loading: () => <div className="h-64 bg-gray-950" />,
-})
-
-const DemoProductsSection = dynamic(() => import("@/components/demo-products-section").then(mod => ({ default: mod.DemoProductsSection })), {
-  loading: () => <div className="h-64 bg-gray-50" />,
 })
 
 const CampaignsSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.CampaignsSection })), {
@@ -170,8 +165,6 @@ export default async function Home() {
       {isSectionEnabled(content, "technology") && <TechnologySection />}
       {isSectionEnabled(content, "process") && <ProcessSection />}
       {isSectionEnabled(content, "trust") && <TrustSection />}
-      {isSectionEnabled(content, "projects") && <DemoProductsSection />}
-      {isSectionEnabled(content, "services") && <ServicesSection />}
       {isSectionEnabled(content, "team") && <TeamSection />}
       {isSectionEnabled(content, "blog") && <CampaignsSection />}
       {isSectionEnabled(content, "cta") && <CtaSection />}

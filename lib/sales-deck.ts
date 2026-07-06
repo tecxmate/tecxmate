@@ -513,20 +513,125 @@ export const salesDeck = {
     engagementTitle: M("Ways to work with us", "Các hình thức hợp tác", "合作模式"),
     engagements: [
       {
+        id: "development",
         title: M("Development", "Phát triển", "開發"),
         body: M("Per feature scope + hours.", "Theo phạm vi tính năng + giờ công.", "依功能範圍與工時計價。"),
+        steps: [
+          {
+            title: M("Discover", "Khảo sát", "釐清"),
+            body: M(
+              "Map the bottleneck and define the outcome before code.",
+              "Xác định điểm nghẽn và kết quả mong muốn trước khi viết code.",
+              "先找出瓶頸、定義成果，再動手寫程式。",
+            ),
+          },
+          {
+            title: M("Architect", "Thiết kế", "規劃"),
+            body: M(
+              "Scoped plan, milestones, a fixed picture of done.",
+              "Kế hoạch rõ phạm vi, cột mốc, và định nghĩa hoàn thành cụ thể.",
+              "明確範圍、里程碑，以及「完成」的固定標準。",
+            ),
+          },
+          {
+            title: M("Build & sync", "Xây dựng & đồng bộ", "開發與同步"),
+            body: M(
+              "Same-day reviews; you always know what's being built.",
+              "Review trong ngày; bạn luôn biết điều gì đang được xây dựng.",
+              "當日回報審閱；您隨時掌握開發進度。",
+            ),
+          },
+          {
+            title: M("Ship & support", "Bàn giao & hỗ trợ", "交付與支援"),
+            body: M(
+              "Documented, monitored, handed over. You own it.",
+              "Có tài liệu, có giám sát, bàn giao trọn vẹn. Bạn sở hữu tất cả.",
+              "完整文件、持續監控、正式交接。成果歸您所有。",
+            ),
+          },
+        ],
       },
       {
+        id: "consulting",
         title: M("Consulting", "Tư vấn", "顧問"),
         body: M("Hourly.", "Theo giờ.", "以小時計。"),
+        steps: [
+          {
+            title: M("Assess", "Đánh giá", "評估"),
+            body: M(
+              "We study your systems, data, and goals to find where AI and automation pay off.",
+              "Chúng tôi nghiên cứu hệ thống, dữ liệu và mục tiêu của bạn để tìm nơi AI và tự động hóa tạo giá trị.",
+              "我們研究您的系統、資料與目標，找出 AI 與自動化能帶來效益之處。",
+            ),
+          },
+          {
+            title: M("Prioritize", "Ưu tiên", "排序"),
+            body: M(
+              "A ranked roadmap: what to do first, what to skip, and what it's worth.",
+              "Lộ trình được xếp hạng: làm gì trước, bỏ qua gì, và giá trị ra sao.",
+              "排序後的藍圖：先做什麼、略過什麼、價值多少。",
+            ),
+          },
+          {
+            title: M("Advise", "Tư vấn", "建議"),
+            body: M(
+              "Working sessions with your team on architecture, tools, and trade-offs.",
+              "Các buổi làm việc cùng đội ngũ về kiến trúc, công cụ và đánh đổi.",
+              "與您的團隊就架構、工具與取捨進行工作坊。",
+            ),
+          },
+          {
+            title: M("Enable", "Trao quyền", "賦能"),
+            body: M(
+              "Your people leave able to decide and execute on their own.",
+              "Đội ngũ của bạn có thể tự quyết định và thực thi.",
+              "讓您的團隊能自行決策與執行。",
+            ),
+          },
+        ],
       },
       {
+        id: "partnership",
         title: M("Partnership", "Đối tác dài hạn", "長期夥伴"),
         body: M(
           "By scale, longevity, and monthly maintenance.",
           "Theo quy mô, thời gian hợp tác và bảo trì hàng tháng.",
           "依規模、合作期間與每月維運。",
         ),
+        steps: [
+          {
+            title: M("Embed", "Hòa nhập", "融入"),
+            body: M(
+              "We join your team and roadmap as an ongoing engineering partner.",
+              "Chúng tôi tham gia đội ngũ và lộ trình của bạn như một đối tác kỹ thuật lâu dài.",
+              "我們以長期工程夥伴的身分加入您的團隊與藍圖。",
+            ),
+          },
+          {
+            title: M("Plan", "Hoạch định", "規劃"),
+            body: M(
+              "Rolling quarterly priorities tied to your business goals.",
+              "Ưu tiên theo quý, gắn với mục tiêu kinh doanh của bạn.",
+              "依季度滾動的優先順序，緊扣您的業務目標。",
+            ),
+          },
+          {
+            title: M("Build & iterate", "Xây dựng & lặp", "開發與迭代"),
+            body: M(
+              "Continuous delivery, sprint after sprint, with same-day visibility.",
+              "Bàn giao liên tục qua từng sprint, minh bạch trong ngày.",
+              "一個接一個 sprint 持續交付，當日即時透明。",
+            ),
+          },
+          {
+            title: M("Maintain & scale", "Duy trì & mở rộng", "維運與擴展"),
+            body: M(
+              "Monitored, documented, and evolving as you grow.",
+              "Được giám sát, tài liệu hóa và phát triển cùng bạn.",
+              "持續監控、文件完備，並隨您成長而演進。",
+            ),
+          },
+        ],
       },
     ],
   },

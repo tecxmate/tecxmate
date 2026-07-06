@@ -401,6 +401,34 @@
   50% { box-shadow: 0 0 0 10px rgba(140, 82, 255, 0); }
 }
 
+/* Synchronized pulse-and-react system. A pulse crosses a wire (arrives at 18%),
+   and the node it reaches turns on at ~20% — same period + staggered delays make
+   the whole chain read as one connected signal. Left-travelling variant mirrors it. */
+@keyframes deck-pulse {
+  0% { left: 0; opacity: 0; }
+  10% { opacity: 1; }
+  18% { left: calc(100% - 5px); opacity: 1; }
+  24%, 100% { left: calc(100% - 5px); opacity: 0; }
+}
+@keyframes deck-pulse-rev {
+  0% { left: calc(100% - 5px); opacity: 0; }
+  10% { opacity: 1; }
+  18% { left: 0; opacity: 1; }
+  24%, 100% { left: 0; opacity: 0; }
+}
+@keyframes deck-react {
+  0%, 12% { opacity: 0; }
+  20% { opacity: 1; }
+  74% { opacity: 1; }
+  90%, 100% { opacity: 0; }
+}
+
+/* Staggered reveal when the process stages swap between engagements. */
+@keyframes deck-assemble-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Proof cards share row tracks via subgrid so the metric numbers line up
    across every card regardless of copy length or language. */
 .proof-card {
@@ -420,10 +448,11 @@
   overflow: hidden;
   pointer-events: none;
   color: rgb(140 82 255);
-  /* Mobile default: a horizontal band, extended past the pill left/right. */
-  inset: 0 -26px;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 24%, #000 76%, transparent);
-          mask-image: linear-gradient(to right, transparent, #000 24%, #000 76%, transparent);
+  /* Mobile default: a horizontal band, extended well past the pill left/right
+     (and a little top/bottom so the lanes have room to spread). */
+  inset: -18px -64px;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 20%, #000 80%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 20%, #000 80%, transparent);
 }
 .revenue-lane {
   position: absolute;
@@ -432,8 +461,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 15px;
-  opacity: 0.7;
+  gap: 20px;
+  opacity: 0.8;
   transform: translate(0, -50%);
   animation: revenue-x 6s linear infinite;
 }
@@ -446,10 +475,10 @@
 
 @media (min-width: 640px) {
   .revenue-flow {
-    /* Vertical band, extended past the pill top/bottom. */
-    inset: -26px 0;
-    -webkit-mask-image: linear-gradient(to top, transparent, #000 24%, #000 76%, transparent);
-            mask-image: linear-gradient(to top, transparent, #000 24%, #000 76%, transparent);
+    /* Vertical band, extended well past the pill top/bottom. */
+    inset: -60px 0;
+    -webkit-mask-image: linear-gradient(to top, transparent, #000 18%, #000 82%, transparent);
+            mask-image: linear-gradient(to top, transparent, #000 18%, #000 82%, transparent);
   }
   .revenue-lane {
     flex-direction: column;
