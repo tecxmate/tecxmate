@@ -21,11 +21,6 @@ const GREETING: L = {
   vi: "Chào bạn! 👋 Tôi có thể giúp gì? Chạm vào một câu hỏi bên dưới.",
   zh: "嗨！👋 有什麼能幫您？點下方任一問題。",
 }
-const PREFER_DIRECT: L = {
-  en: "Prefer to talk directly?",
-  vi: "Muốn trao đổi trực tiếp?",
-  zh: "想直接聯絡？",
-}
 const BOOK_LABEL: L = { en: "Book a call", vi: "Đặt lịch gọi", zh: "預約通話" }
 
 const FAQ: { id: string; q: L; a: L }[] = [
@@ -69,16 +64,16 @@ const FAQ: { id: string; q: L; a: L }[] = [
     id: "human",
     q: { en: "Talk to a human", vi: "Nói chuyện với người thật", zh: "找真人聊聊" },
     a: {
-      en: "Of course! Reach us on LINE, WhatsApp, or email — or book a free 30-min call below. 👇",
-      vi: "Tất nhiên! Liên hệ qua LINE, WhatsApp hoặc email — hoặc đặt lịch gọi 30 phút miễn phí bên dưới. 👇",
-      zh: "當然！透過 LINE、WhatsApp 或 email 聯絡我們——或在下方預約免費 30 分鐘通話。👇",
+      en: "Of course! Reach us on LINE, WhatsApp, or email — or book a free 30-min call. The buttons are right here. 👉",
+      vi: "Tất nhiên! Liên hệ qua LINE, WhatsApp hoặc email — hoặc đặt lịch gọi 30 phút miễn phí. Các nút ở ngay đây. 👉",
+      zh: "當然！透過 LINE、WhatsApp 或 email 聯絡我們——或預約免費 30 分鐘通話。按鈕就在這裡。👉",
     },
   },
 ]
 
 type Msg = { from: "bot" | "user"; text: string }
 
-/** Launcher dots — bounce a bit, then a long rest (not nervously typing forever). */
+/** Launcher dots — bounce a bit, then a long rest. */
 function LauncherDots() {
   return (
     <span className="flex items-center gap-[3px]" aria-hidden>
@@ -119,7 +114,6 @@ export function FloatingContact() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
 
-  // Seed the greeting the first time the panel opens.
   useEffect(() => {
     if (open && messages.length === 0) {
       setMessages([{ from: "bot", text: tr(GREETING, language) }])
@@ -127,7 +121,6 @@ export function FloatingContact() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
-  // Keep the latest message in view.
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" })
   }, [messages, typing])
@@ -152,29 +145,17 @@ export function FloatingContact() {
   const remaining = FAQ.filter((f) => !asked.includes(f.id))
 
   const contacts = [
-    { id: "line", label: "LINE", href: LINE_URL, bg: "#06C755", icon: <MessageCircle className="h-4 w-4" /> },
-    { id: "whatsapp", label: "WhatsApp", href: WHATSAPP_URL, bg: "#25D366", icon: <Phone className="h-4 w-4" /> },
-    { id: "email", label: "Email", href: `mailto:${company.contactEmail}`, bg: "#4B5563", icon: <Mail className="h-4 w-4" /> },
-    { id: "booking", label: tr(BOOK_LABEL, language), href: company.social.booking, bg: "#8c52ff", icon: <CalendarDays className="h-4 w-4" /> },
+    { id: "line", label: "LINE", href: LINE_URL, bg: "#06C755", icon: <MessageCircle className="h-5 w-5" /> },
+    { id: "whatsapp", label: "WhatsApp", href: WHATSAPP_URL, bg: "#25D366", icon: <Phone className="h-5 w-5" /> },
+    { id: "email", label: "Email", href: `mailto:${company.contactEmail}`, bg: "#4B5563", icon: <Mail className="h-5 w-5" /> },
+    { id: "booking", label: tr(BOOK_LABEL, language), href: company.social.booking, bg: "#8c52ff", icon: <CalendarDays className="h-5 w-5" /> },
   ]
 
   return (
-    <>
-      {/* Launcher */}
-      {!open && (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="Chat with us"
-          className="fixed bottom-24 right-8 z-50 h-12 w-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center transition-transform duration-300 hover:scale-110"
-        >
-          <LauncherDots />
-        </button>
-      )}
-
-      {/* Chat panel */}
+    <div className="fixed bottom-24 right-8 z-50 flex items-end gap-3">
+      {/* Chat window — sits to the left of the button column */}
       {open && (
-        <div className="fixed bottom-24 right-8 z-50 w-[340px] max-w-[calc(100vw-3rem)] h-[460px] max-h-[70vh] flex flex-col rounded-2xl border border-border bg-card shadow-2xl overflow-hidden motion-safe:animate-[fab-in_220ms_ease-out]">
+        <div className="w-[min(340px,calc(100vw-7.5rem))] h-[460px] max-h-[70vh] flex flex-col rounded-2xl border border-border bg-card shadow-2xl overflow-hidden motion-safe:animate-[fab-in_220ms_ease-out]">
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 bg-primary text-white shrink-0">
             <span className="relative h-9 w-9 rounded-full bg-white/20 flex items-center justify-center shrink-0">
@@ -215,7 +196,7 @@ export function FloatingContact() {
 
           {/* Quick-reply chips */}
           {remaining.length > 0 && (
-            <div className="px-3 pt-2.5 flex flex-wrap gap-1.5 shrink-0">
+            <div className="px-3 py-3 border-t border-border flex flex-wrap gap-1.5 shrink-0">
               {remaining.map((f) => (
                 <button
                   key={f.id}
@@ -229,31 +210,41 @@ export function FloatingContact() {
               ))}
             </div>
           )}
-
-          {/* Direct contact methods */}
-          <div className="px-3 py-3 mt-2 border-t border-border shrink-0">
-            <p className="text-[11px] text-muted-foreground mb-2">{tr(PREFER_DIRECT, language)}</p>
-            <div className="flex items-center gap-2">
-              {contacts.map((c) => {
-                const isExternal = c.href.startsWith("http")
-                return (
-                  <a
-                    key={c.id}
-                    href={c.href}
-                    {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    aria-label={c.label}
-                    title={c.label}
-                    className="h-9 w-9 rounded-full flex items-center justify-center text-white shadow-sm transition-transform hover:scale-110"
-                    style={{ backgroundColor: c.bg }}
-                  >
-                    {c.icon}
-                  </a>
-                )
-              })}
-            </div>
-          </div>
         </div>
       )}
-    </>
+
+      {/* Button column — same old position on the right */}
+      <div className="flex flex-col-reverse items-center gap-3 shrink-0">
+        {/* Launcher / toggle */}
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Close chat" : "Chat with us"}
+          aria-expanded={open}
+          className="h-12 w-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center transition-transform duration-300 hover:scale-110"
+        >
+          {open ? <X className="h-5 w-5" aria-hidden /> : <LauncherDots />}
+        </button>
+
+        {/* Contact icons fan up above the launcher */}
+        {open &&
+          contacts.map((c, i) => {
+            const isExternal = c.href.startsWith("http")
+            return (
+              <a
+                key={c.id}
+                href={c.href}
+                {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                aria-label={c.label}
+                title={c.label}
+                className="h-11 w-11 rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 motion-safe:animate-[fab-in_220ms_ease-out_both]"
+                style={{ backgroundColor: c.bg, animationDelay: `${i * 45}ms` }}
+              >
+                {c.icon}
+              </a>
+            )
+          })}
+      </div>
+    </div>
   )
 }
