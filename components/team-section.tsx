@@ -69,7 +69,7 @@ function teamPhotoClassName(memberId: string) {
   const baseClassName = "w-full h-full object-cover object-center"
 
   if (memberId === "andrea") {
-    return `${baseClassName} scale-[1.18] -translate-y-[13%]`
+    return `${baseClassName} scale-[1.3] -translate-y-[16%]`
   }
 
   return baseClassName
