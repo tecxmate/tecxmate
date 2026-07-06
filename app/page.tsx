@@ -179,7 +179,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: "TECXMATE - Top-tier Engineering, Without the Overhead | AI Software Delivery for SMEs",
-    description: "Senior AI and software delivery for SMEs without hiring, payroll, or HR overhead. AI agents, multilingual chat, voice AI, mobile publishing, and business automation — one senior team, one invoice, shipping in weeks. Book a 30-minute call.",
+    description: "Senior AI and software delivery for SMEs. AI agents, multilingual chat, voice AI, mobile publishing, and business automation — one senior team, one invoice, shipping in weeks. Book a 30-minute call.",
     keywords: generateCountryKeywords([
       "technology consultancy",
       "AI development",

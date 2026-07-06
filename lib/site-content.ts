@@ -177,9 +177,9 @@ export const defaultContent: SiteContent = {
       "頂尖工程實力，免去營運負擔",
     ),
     subtitle: M(
-      "Senior AI and software delivery for SMEs — no hiring, no payroll, no HR overhead. One senior team, one invoice, shipping in weeks.",
-      "Đội ngũ AI và phần mềm cấp cao cho doanh nghiệp — không tuyển dụng, không quỹ lương, không gánh nặng nhân sự. Một đội ngũ, một hóa đơn, bàn giao trong vài tuần.",
-      "為中小企業提供資深 AI 與軟體交付——免招募、免薪資、免人事負擔。一個資深團隊、一張發票，數週內交付。",
+      "Senior AI and software delivery for SMEs. One senior team, one invoice, shipping in weeks.",
+      "Đội ngũ AI và phần mềm cấp cao cho doanh nghiệp. Một đội ngũ, một hóa đơn, bàn giao trong vài tuần.",
+      "為中小企業提供資深 AI 與軟體交付。一個資深團隊、一張發票，數週內交付。",
     ),
   },
   services: {
