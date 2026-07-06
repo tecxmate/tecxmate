@@ -298,8 +298,8 @@ export const salesDeck = {
         ),
         metrics: [
           {
-            label: M("Office time", "Thời gian giấy tờ", "文書時間"),
-            value: M("18 → 3 hrs/wk", "18 → 3 giờ/tuần", "每週 18 → 3 小時"),
+            label: M("Office productivity", "Năng suất văn phòng", "辦公生產力"),
+            value: M("+70–80%", "+70–80%", "+70–80%"),
           },
           {
             label: M("Auto-drafted", "Soạn tự động", "自動起草"),
