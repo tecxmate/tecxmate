@@ -429,6 +429,12 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Floating contact options springing up from the toggle. */
+@keyframes fab-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.85); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 /* Proof cards share row tracks via subgrid so the metric numbers line up
    across every card regardless of copy length or language. */
 .proof-card {
