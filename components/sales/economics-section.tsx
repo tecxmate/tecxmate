@@ -1,89 +1,150 @@
 "use client"
 
-import { Check, X } from "lucide-react"
+import { useState } from "react"
+import { Slider } from "@/components/ui/slider"
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck, pickLocale } from "@/lib/sales-deck"
 
+// Neutral ramp for the in-house stack (identity carried by the legend + tooltips),
+// brand purple reserved for the Tecxmate bar. Order: baseline (largest) → top.
+const SEGMENT_CLASSES = [
+  "bg-zinc-700 dark:bg-zinc-300",
+  "bg-zinc-500 dark:bg-zinc-400",
+  "bg-zinc-400 dark:bg-zinc-500",
+  "bg-zinc-300 dark:bg-zinc-600",
+]
+
 export function EconomicsSection() {
   const { language } = useLanguage()
-  const { economics } = salesDeck
-  const snh = economics.serviceNotHire
+  const calc = salesDeck.visuals.calculator
+  const cur = calc.currencies[language]
+  const [salary, setSalary] = useState(cur.default)
+
+  // Keep the slider value sane when the language (and currency range) changes.
+  const clamped = Math.min(Math.max(salary, cur.min), cur.max)
+
+  const totalMultiplier = calc.segments.reduce((sum, s) => sum + s.multiplier, 0)
+  const inHouse = clamped * totalMultiplier
+  const tecxmate = inHouse * calc.tecxmateRatio
+  const savings = inHouse - tecxmate
+  const savingsPct = Math.round((1 - calc.tecxmateRatio) * 100)
+
+  // Bars scale against the slider maximum so dragging visibly grows/shrinks them.
+  const inHouseHeight = (clamped / cur.max) * 100
+  const tecxmateHeight = inHouseHeight * calc.tecxmateRatio
+
+  const fmt = new Intl.NumberFormat(cur.locale, {
+    style: "currency",
+    currency: cur.currency,
+    maximumFractionDigits: 0,
+  })
 
   return (
     <section id="economics" className="bg-background py-20 md:py-24">
       <div className="container px-4 md:px-6 max-w-6xl">
-        <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-4">
-          {pickLocale(economics.title, language)}
-        </h2>
-        <p className="text-sm text-muted-foreground mb-10 md:mb-12">
-          {pickLocale(economics.caption, language)}
-        </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Controls */}
+          <div>
+            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-3">
+              {pickLocale(calc.title, language)}
+            </h2>
+            <p className="text-sm text-muted-foreground mb-10">{pickLocale(calc.caption, language)}</p>
 
-        <div className="overflow-x-auto mb-20">
-          <table className="w-full min-w-[640px] border-collapse text-sm md:text-base">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="py-4 pr-4 text-left font-medium text-muted-foreground w-1/4" />
-                <th className="py-4 px-4 text-left font-semibold text-muted-foreground">
-                  {pickLocale(economics.columns.inHouse, language)}
-                </th>
-                <th className="py-4 px-4 text-left font-semibold text-primary bg-primary/5">
-                  {pickLocale(economics.columns.tecxmate, language)}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {economics.rows.map((row, i) => (
-                <tr key={i} className="border-b border-border">
-                  <td className="py-5 pr-4 font-medium text-foreground align-top">
-                    {pickLocale(row.dimension, language)}
-                  </td>
-                  <td className="py-5 px-4 text-muted-foreground align-top">
-                    {pickLocale(row.inHouse, language)}
-                  </td>
-                  <td className="py-5 px-4 text-foreground font-medium align-top bg-primary/5">
-                    {pickLocale(row.tecxmate, language)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            <label className="block text-sm font-medium text-foreground mb-4">
+              {pickLocale(calc.sliderLabel, language)}
+            </label>
+            <div className="flex items-center gap-5 mb-10">
+              <Slider
+                value={[clamped]}
+                min={cur.min}
+                max={cur.max}
+                step={cur.step}
+                onValueChange={([v]) => setSalary(v)}
+                aria-label={pickLocale(calc.sliderLabel, language)}
+                className="flex-1"
+              />
+              <span className="text-lg font-semibold text-foreground tabular-nums w-32 text-right shrink-0">
+                {fmt.format(clamped)}
+              </span>
+            </div>
 
-        <h3 className="text-2xl font-semibold md:text-3xl tracking-tight text-foreground mb-8 md:mb-10">
-          {pickLocale(snh.title, language)}
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          <div className="bg-card p-6 md:p-8 border border-border">
-            <h4 className="font-semibold text-muted-foreground mb-5">
-              {pickLocale(snh.leftTitle, language)}
-            </h4>
-            <ul className="space-y-3">
-              {snh.leftItems.map((item, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
-                  <X className="w-4 h-4 mt-0.5 shrink-0 text-muted-foreground/60" />
-                  {pickLocale(item, language)}
+            {/* Legend for the in-house stack */}
+            <ul className="space-y-2.5">
+              {calc.segments.map((seg, i) => (
+                <li key={seg.id} className="flex items-center justify-between gap-3 text-sm">
+                  <span className="flex items-center gap-2.5 text-muted-foreground">
+                    <span className={`w-2.5 h-2.5 rounded-[2px] shrink-0 ${SEGMENT_CLASSES[i]}`} />
+                    {pickLocale(seg.label, language)}
+                  </span>
+                  <span className="tabular-nums text-foreground">
+                    {fmt.format(clamped * seg.multiplier)}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="bg-card p-6 md:p-8 border border-primary/40 shadow-[0_0_40px_rgba(139,92,246,0.12)]">
-            <h4 className="font-semibold text-foreground mb-5">
-              {pickLocale(snh.rightTitle, language)}
-            </h4>
-            <ul className="space-y-3">
-              {snh.rightItems.map((item, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-foreground">
-                  <Check className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
-                  {pickLocale(item, language)}
-                </li>
-              ))}
-            </ul>
+
+          {/* Chart */}
+          <div>
+            <div className="text-center mb-8">
+              <p className="text-4xl md:text-5xl font-semibold tracking-tight text-foreground tabular-nums">
+                {fmt.format(savings)}
+              </p>
+              <p className="text-sm text-muted-foreground mt-2">
+                <span className="inline-block bg-primary/10 text-primary font-semibold rounded-full px-2.5 py-0.5 mr-2">
+                  −{savingsPct}%
+                </span>
+                {pickLocale(calc.savingsLabel, language)}
+              </p>
+            </div>
+
+            <div className="flex items-end justify-center gap-12 md:gap-16 h-72">
+              {/* In-house stacked bar */}
+              <div className="flex flex-col items-center h-full justify-end w-24 md:w-28">
+                <span className="text-sm font-semibold text-foreground tabular-nums mb-2">
+                  {fmt.format(inHouse)}
+                </span>
+                <div
+                  className="w-full flex flex-col-reverse gap-[2px] transition-[height] duration-300 ease-out"
+                  style={{ height: `${inHouseHeight}%` }}
+                  role="img"
+                  aria-label={`${pickLocale(calc.inHouseLabel, language)}: ${fmt.format(inHouse)} ${pickLocale(calc.perYear, language)}`}
+                >
+                  {calc.segments.map((seg, i) => (
+                    <div
+                      key={seg.id}
+                      className={`w-full ${SEGMENT_CLASSES[i]} ${i === calc.segments.length - 1 ? "rounded-t-[4px]" : ""}`}
+                      style={{ flexGrow: seg.multiplier }}
+                      title={`${pickLocale(seg.label, language)}: ${fmt.format(clamped * seg.multiplier)}`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Tecxmate bar */}
+              <div className="flex flex-col items-center h-full justify-end w-24 md:w-28">
+                <span className="text-sm font-semibold text-foreground tabular-nums mb-2">
+                  {fmt.format(tecxmate)}
+                </span>
+                <div
+                  className="w-full bg-primary rounded-t-[4px] transition-[height] duration-300 ease-out"
+                  style={{ height: `${tecxmateHeight}%` }}
+                  role="img"
+                  aria-label={`${pickLocale(calc.tecxmateLabel, language)}: ${fmt.format(tecxmate)} ${pickLocale(calc.perYear, language)}`}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-center gap-12 md:gap-16 border-t border-border pt-3 mt-[2px]">
+              <span className="w-24 md:w-28 text-center text-sm text-muted-foreground">
+                {pickLocale(calc.inHouseLabel, language)}
+              </span>
+              <span className="w-24 md:w-28 text-center text-sm font-medium text-foreground">
+                {pickLocale(calc.tecxmateLabel, language)}
+              </span>
+            </div>
           </div>
         </div>
-        <p className="text-lg md:text-xl font-medium text-foreground">
-          {pickLocale(snh.close, language)}
-        </p>
       </div>
     </section>
   )

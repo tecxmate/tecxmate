@@ -24,12 +24,23 @@ export type SalesCaseStudy = {
   id: string
   tag: Localized
   title: Localized
+  summary: Localized
   problem: Localized
   solution: Localized
   outcome: Localized
   metrics: SalesMetric[]
   stack: string[]
   disclaimer?: Localized
+}
+
+export type CalculatorCurrency = {
+  /** Intl.NumberFormat locale + currency for display. */
+  locale: string
+  currency: string
+  min: number
+  max: number
+  step: number
+  default: number
 }
 
 export const salesDeck = {
@@ -228,6 +239,11 @@ export const salesDeck = {
           "Vietnamy — từ ý tưởng lên App Store trong sáu tuần",
           "Vietnamy——六週內從構想上架 App Store",
         ),
+        summary: M(
+          "A trilingual AI app with real-time voice and payments — built, published, and monetizing in six weeks.",
+          "Ứng dụng AI ba ngôn ngữ với giọng nói thời gian thực và thanh toán — xây dựng, phát hành và tạo doanh thu trong sáu tuần.",
+          "三語 AI 應用，內建即時語音與金流——六週內完成開發、上架並開始獲利。",
+        ),
         problem: M(
           "Our own demo product: a cross-platform, trilingual AI app, built to prove we ship cutting-edge AI at startup speed.",
           "Sản phẩm demo của chính chúng tôi: ứng dụng AI đa nền tảng, ba ngôn ngữ — minh chứng cho khả năng giao AI tiên tiến với tốc độ startup.",
@@ -259,6 +275,11 @@ export const salesDeck = {
           "Tecxwork — agents that run the back office",
           "Tecxwork — AI agent vận hành văn phòng",
           "Tecxwork——讓 AI 代理接手後勤",
+        ),
+        summary: M(
+          "A 20-person firm's contracts, quotes, and invoices — drafted by AI agents, approved by the owner with one tap.",
+          "Hợp đồng, báo giá, hóa đơn của một công ty 20 người — AI agent soạn thảo, chủ duyệt bằng một chạm.",
+          "一間 20 人公司的合約、報價與發票——由 AI 代理起草，老闆一鍵核准。",
         ),
         problem: M(
           "A 20-person traditional firm, founder-run, almost no software. Contracts, quotes, and invoices were handwritten, scattered across Drive, Excel, and Word, and approved one by one on the owner's desk.",
@@ -482,6 +503,103 @@ export const salesDeck = {
         ),
       },
     ],
+  },
+
+  visuals: {
+    calculator: {
+      title: M(
+        "Same caliber, a different cost",
+        "Cùng đẳng cấp, chi phí khác biệt",
+        "同樣的實力，不一樣的成本",
+      ),
+      caption: M(
+        "Illustrative model — we build the real comparison against your role and scope.",
+        "Mô hình minh họa — chúng tôi sẽ tính toán so sánh thực tế theo vị trí và phạm vi của bạn.",
+        "示意模型——我們會依您的職缺與需求範圍，建立真實的成本比較。",
+      ),
+      sliderLabel: M(
+        "Monthly salary of the engineer you'd hire",
+        "Lương tháng của kỹ sư bạn định tuyển",
+        "您打算聘的工程師月薪",
+      ),
+      // Annual cost = monthly salary × multiplier. Illustrative composition of a hire's true yearly cost.
+      segments: [
+        { id: "salary", multiplier: 12, label: M("Base salary", "Lương cơ bản", "本薪") },
+        {
+          id: "statutory",
+          multiplier: 2,
+          label: M("Statutory insurance & pension", "Bảo hiểm bắt buộc & hưu trí", "勞保／健保／勞退"),
+        },
+        {
+          id: "overhead",
+          multiplier: 2,
+          label: M("Management & tools", "Quản lý & công cụ", "管理與工具"),
+        },
+        {
+          id: "recruiting",
+          multiplier: 1.5,
+          label: M("Recruiting & ramp-up", "Tuyển dụng & bắt nhịp", "招募與磨合"),
+        },
+      ],
+      /** Tecxmate total as a share of the in-house total (illustrative, within the deck's 50–70% claim). */
+      tecxmateRatio: 0.4,
+      inHouseLabel: M("Hiring in-house", "Tự xây đội ngũ", "自建團隊"),
+      tecxmateLabel: M("With Tecxmate", "Với Tecxmate", "與 Tecxmate 合作"),
+      perYear: M("per year", "mỗi năm", "每年"),
+      savingsLabel: M("saved per year", "tiết kiệm mỗi năm", "每年省下"),
+      currencies: {
+        en: { locale: "en-US", currency: "USD", min: 2000, max: 12000, step: 250, default: 5000 },
+        vi: { locale: "vi-VN", currency: "USD", min: 2000, max: 12000, step: 250, default: 5000 },
+        zh: { locale: "zh-TW", currency: "TWD", min: 60000, max: 300000, step: 5000, default: 150000 },
+      } as Record<Locale, CalculatorCurrency>,
+    },
+
+    org: {
+      title: M("A service, not a hire", "Một dịch vụ, không phải một lần tuyển dụng", "是服務，不是雇傭"),
+      toggleBefore: M("Hiring in-house", "Tự tuyển dụng", "自行聘僱"),
+      toggleAfter: M("With Tecxmate", "Với Tecxmate", "與 Tecxmate 合作"),
+      youLabel: M("You", "Bạn", "您"),
+      productLabel: M("Shipped product", "Sản phẩm hoàn thiện", "交付成果"),
+      burdens: [
+        M("Recruiting", "Tuyển dụng", "招募"),
+        M("Payroll", "Quỹ lương", "薪資"),
+        M("Statutory insurance", "Bảo hiểm bắt buộc", "勞保健保勞退"),
+        M("HR admin", "Hành chính nhân sự", "人資行政"),
+        M("Management", "Quản lý", "管理"),
+        M("Labor law", "Luật lao động", "勞基法"),
+        M("Severance risk", "Rủi ro trợ cấp", "資遣風險"),
+      ],
+      close: M(
+        "The output of a team without the obligations of an employer.",
+        "Năng suất của cả một đội ngũ, không kèm nghĩa vụ của người sử dụng lao động.",
+        "擁有一支團隊的產出，卻沒有雇主的義務。",
+      ),
+    },
+
+    voice: {
+      title: M("Real-time voice AI", "AI giọng nói thời gian thực", "即時語音 AI"),
+      subtitle: M(
+        "Voice interfaces that hold a conversation — the same pipeline running in Vietnamy today.",
+        "Giao diện giọng nói đối thoại tự nhiên — chính pipeline đang chạy trong Vietnamy.",
+        "能對話的語音介面——正是 Vietnamy 目前運行的同一套管線。",
+      ),
+      stages: [
+        { id: "in", brand: "", label: M("You speak", "Bạn nói", "您說話") },
+        { id: "stt", brand: "Deepgram", label: M("Speech to text", "Giọng nói thành văn bản", "語音轉文字") },
+        { id: "llm", brand: "OpenAI · Anthropic", label: M("Reasoning", "Suy luận", "推理") },
+        { id: "tts", brand: "ElevenLabs", label: M("Text to speech", "Văn bản thành giọng nói", "文字轉語音") },
+        { id: "out", brand: "", label: M("It answers", "AI trả lời", "即時回應") },
+      ],
+    },
+
+    freeOffer: {
+      badge: M("Free", "Miễn phí", "免費"),
+      text: M(
+        "Your first AI consultation and training session is free — for any SME, no strings.",
+        "Buổi tư vấn và đào tạo AI đầu tiên hoàn toàn miễn phí — cho mọi doanh nghiệp, không ràng buộc.",
+        "首次 AI 諮詢與教學課程完全免費——任何中小企業，沒有附帶條件。",
+      ),
+    },
   },
 
   cta: {

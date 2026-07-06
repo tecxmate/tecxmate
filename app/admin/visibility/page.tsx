@@ -17,12 +17,12 @@ const SECTION_LABELS: Record<SectionKey, { title: string; desc: string }> = {
     desc: "Homepage headline and opening section.",
   },
   problem: {
-    title: "Problem",
-    desc: "Sales narrative: the real cost of a hire, plus the economics reframe.",
+    title: "Service vs hire graph",
+    desc: "Sales narrative: interactive before/after org diagram ('a service, not a hire').",
   },
   economics: {
-    title: "Economics",
-    desc: "Sales narrative: in-house vs Tecxmate comparison and 'a service, not a hire'.",
+    title: "Cost calculator",
+    desc: "Sales narrative: interactive in-house vs Tecxmate cost calculator.",
   },
   proof: {
     title: "Proof",

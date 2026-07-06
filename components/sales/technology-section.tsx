@@ -4,6 +4,7 @@ import {
   Bot,
   MessageSquare,
   Mic,
+  Volume2,
   CreditCard,
   Smartphone,
   ServerCog,
@@ -13,19 +14,45 @@ import {
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck, pickLocale } from "@/lib/sales-deck"
 
-const ICON_MAP: Record<string, LucideIcon> = {
+const PILL_ICONS: Record<string, LucideIcon> = {
   bot: Bot,
   "message-square": MessageSquare,
-  mic: Mic,
   "credit-card": CreditCard,
   smartphone: Smartphone,
   "server-cog": ServerCog,
   cloud: Cloud,
 }
 
+const WAVE_DELAYS = ["0ms", "120ms", "240ms", "360ms", "480ms"]
+
+function Waveform() {
+  return (
+    <span className="flex items-center gap-[3px] h-6" aria-hidden>
+      {WAVE_DELAYS.map((delay) => (
+        <span
+          key={delay}
+          className="w-[3px] h-2 rounded-full bg-primary motion-safe:animate-[deck-wave_1.1s_ease-in-out_infinite]"
+          style={{ animationDelay: delay }}
+        />
+      ))}
+    </span>
+  )
+}
+
+function FlowLine() {
+  return (
+    <span className="relative flex-1 min-w-6 h-px bg-border mx-1 hidden md:block" aria-hidden>
+      <span className="absolute top-1/2 -translate-y-1/2 left-0 w-1.5 h-1.5 rounded-full bg-primary motion-safe:animate-[deck-travel_2.4s_linear_infinite]" />
+    </span>
+  )
+}
+
 export function TechnologySection() {
   const { language } = useLanguage()
-  const { technology } = salesDeck
+  const { technology, visuals } = salesDeck
+  const voice = visuals.voice
+
+  const pills = technology.items.filter((item) => item.icon !== "mic")
 
   return (
     <section id="technology" className="bg-background py-20 md:py-24">
@@ -33,28 +60,48 @@ export function TechnologySection() {
         <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-3">
           {pickLocale(technology.title, language)}
         </h2>
-        <p className="text-muted-foreground mb-12 md:mb-16 max-w-2xl">
-          {pickLocale(technology.subtitle, language)}
+        <p className="text-muted-foreground mb-14 max-w-2xl">
+          {pickLocale(voice.subtitle, language)}
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {technology.items.map((item, i) => {
-            const Icon = ICON_MAP[item.icon] ?? Bot
-            return (
-              <div
-                key={i}
-                className="bg-card p-5 md:p-6 border border-border group transition-all duration-300 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(139,92,246,0.18)]"
-              >
-                <div className="w-10 h-10 bg-background flex items-center justify-center mb-3 shadow-sm transition-all duration-200 group-hover:bg-primary/10">
-                  <Icon className="w-5 h-5 text-muted-foreground transition-colors duration-200 group-hover:text-primary" />
+        {/* Voice pipeline */}
+        <div className="border border-border bg-card rounded-2xl px-6 py-8 md:px-10 md:py-10 mb-10">
+          <p className="text-xs font-medium uppercase tracking-wider text-primary mb-8">
+            {pickLocale(voice.title, language)}
+          </p>
+          <div className="flex flex-col md:flex-row md:items-center gap-5 md:gap-0">
+            {voice.stages.map((stage, i) => (
+              <div key={stage.id} className="contents">
+                {i > 0 && <FlowLine />}
+                <div className="flex md:flex-col items-center md:items-center gap-3 md:gap-2 md:text-center shrink-0">
+                  {stage.id === "in" && <Mic className="w-5 h-5 text-primary" aria-hidden />}
+                  {stage.id === "out" && <Volume2 className="w-5 h-5 text-primary" aria-hidden />}
+                  {(stage.id === "in" || stage.id === "out") && <Waveform />}
+                  {stage.brand && (
+                    <span className="rounded-full border border-border px-3.5 py-1.5 text-sm font-medium text-foreground">
+                      {stage.brand}
+                    </span>
+                  )}
+                  <span className="text-xs text-muted-foreground">{pickLocale(stage.label, language)}</span>
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  {pickLocale(item.title, language)}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {pickLocale(item.body, language)}
-                </p>
               </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Capability pills */}
+        <div className="flex flex-wrap gap-3">
+          {pills.map((item, i) => {
+            const Icon = PILL_ICONS[item.icon] ?? Bot
+            return (
+              <span
+                key={i}
+                title={pickLocale(item.body, language)}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground transition-colors hover:border-primary/50 hover:text-primary"
+              >
+                <Icon className="w-4 h-4 text-muted-foreground" aria-hidden />
+                {pickLocale(item.title, language)}
+              </span>
             )
           })}
         </div>

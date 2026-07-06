@@ -8,11 +8,11 @@ import dynamic from "next/dynamic"
 import { isSectionEnabled, readContent } from "@/lib/site-content"
 
 // Lazy load below-the-fold components to reduce initial bundle and TBT
-const ProblemSection = dynamic(() => import("@/components/sales/problem-section").then(mod => ({ default: mod.ProblemSection })), {
+const EconomicsSection = dynamic(() => import("@/components/sales/economics-section").then(mod => ({ default: mod.EconomicsSection })), {
   loading: () => <div className="h-64 bg-gray-50" />,
 })
 
-const EconomicsSection = dynamic(() => import("@/components/sales/economics-section").then(mod => ({ default: mod.EconomicsSection })), {
+const OrgSection = dynamic(() => import("@/components/sales/org-section").then(mod => ({ default: mod.OrgSection })), {
   loading: () => <div className="h-64 bg-gray-50" />,
 })
 
@@ -164,8 +164,8 @@ export default async function Home() {
         }}
       />
       {isSectionEnabled(content, "hero") && <HeroSection />}
-      {isSectionEnabled(content, "problem") && <ProblemSection />}
       {isSectionEnabled(content, "economics") && <EconomicsSection />}
+      {isSectionEnabled(content, "problem") && <OrgSection />}
       {isSectionEnabled(content, "proof") && <ProofSection />}
       {isSectionEnabled(content, "technology") && <TechnologySection />}
       {isSectionEnabled(content, "process") && <ProcessSection />}
