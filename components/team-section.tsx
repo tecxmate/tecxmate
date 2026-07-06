@@ -61,6 +61,16 @@ const DEFAULT_TEAM: TeamMember[] = [
     twitter: "https://www.tecxmate.com",
     socialIcon: "academic",
   },
+  {
+    id: "andrea",
+    name: "Andrea Peretto",
+    role: { en: "Business Developer", vi: "Phát triển kinh doanh", zh: "業務開發" },
+    description: { en: "", vi: "", zh: "" },
+    photo: "/avatars/peretto_avatar.JPG",
+    linkedin: "",
+    twitter: "https://www.tecxmate.com",
+    socialIcon: "company",
+  },
 ]
 
 export function TeamSection() {
@@ -105,15 +115,17 @@ export function TeamSection() {
                     <h3 className="text-sm md:text-base font-semibold text-foreground mb-1">{member.name}</h3>
                     <p className="text-xs md:text-sm text-primary font-medium mb-2">{member.role[language] || member.role.en}</p>
                     <div className="flex items-center justify-center gap-2">
-                      <a
-                        href={member.linkedin}
-                        aria-label="LinkedIn"
-                        className="p-2 rounded-none bg-muted hover:bg-muted/80 transition-colors"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Linkedin className="h-5 w-5 text-muted-foreground" strokeWidth={1.25} />
-                      </a>
+                      {member.linkedin && (
+                        <a
+                          href={member.linkedin}
+                          aria-label="LinkedIn"
+                          className="p-2 rounded-none bg-muted hover:bg-muted/80 transition-colors"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Linkedin className="h-5 w-5 text-muted-foreground" strokeWidth={1.25} />
+                        </a>
+                      )}
                       {member.twitter && (
                         <a
                           href={member.twitter}

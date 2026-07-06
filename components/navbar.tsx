@@ -12,6 +12,13 @@ import type { SectionVisibility } from "@/lib/site-content"
 
 const DEFAULT_SECTIONS: SectionVisibility = {
   hero: true,
+  problem: true,
+  economics: true,
+  proof: true,
+  technology: true,
+  process: true,
+  trust: true,
+  cta: true,
   projects: true,
   services: true,
   team: true,
@@ -131,6 +138,12 @@ export function Navbar() {
               {t("about")}
             </Link>
           )}
+          <Link
+            href="/sales-deck"
+            className={`text-sm font-medium transition-colors ${isActive("/sales-deck") ? "text-primary" : "hover:text-primary"}`}
+          >
+            {t("sales_deck")}
+          </Link>
         </nav>
         <div className="flex items-center gap-2">
           <div className="hidden md:flex">
@@ -221,6 +234,13 @@ export function Navbar() {
                 {t("about")}
               </Link>
             )}
+            <Link
+              href="/sales-deck"
+              className={`text-sm font-medium transition-colors ${isActive("/sales-deck") ? "text-primary" : "hover:text-primary"}`}
+              onClick={closeMenu}
+            >
+              {t("sales_deck")}
+            </Link>
             <div className="flex items-center gap-2">
               <ThemeToggle />
               <span className="text-sm text-muted-foreground">Toggle theme</span>

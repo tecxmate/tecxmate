@@ -58,12 +58,34 @@ export type SeoMetadata = {
   twitterCreator: string
 }
 
-export const SECTION_KEYS = ["hero", "projects", "services", "team", "blog", "about", "tecxbook"] as const
+export const SECTION_KEYS = [
+  "hero",
+  "problem",
+  "economics",
+  "proof",
+  "technology",
+  "process",
+  "trust",
+  "cta",
+  "projects",
+  "services",
+  "team",
+  "blog",
+  "about",
+  "tecxbook",
+] as const
 export type SectionKey = (typeof SECTION_KEYS)[number]
 export type SectionVisibility = Record<SectionKey, boolean>
 
 export const defaultSectionVisibility: SectionVisibility = {
   hero: true,
+  problem: true,
+  economics: true,
+  proof: true,
+  technology: true,
+  process: true,
+  trust: true,
+  cta: true,
   projects: true,
   services: true,
   team: true,
@@ -147,13 +169,27 @@ export const defaultContent: SiteContent = {
       twitter: "https://www.tecxmate.com",
       socialIcon: "academic",
     },
+    {
+      id: "andrea",
+      name: "Andrea Peretto",
+      role: M("Business Developer", "Phát triển kinh doanh", "業務開發"),
+      description: L(""),
+      photo: "/avatars/peretto_avatar.JPG",
+      linkedin: "",
+      twitter: "https://www.tecxmate.com",
+      socialIcon: "company",
+    },
   ],
   hero: {
-    title: M("Build the future", "Xây dựng tương lai", "共創未來"),
+    title: M(
+      "Top-tier engineering, minus the cost",
+      "Kỹ thuật hàng đầu, chi phí tinh gọn",
+      "頂尖工程實力，省下高昂成本",
+    ),
     subtitle: M(
-      "AI development, business automation, and digital transformation—from your first project to scale.",
-      "Phát triển AI, tự động hóa quy trình và chuyển đổi số — từ dự án đầu tiên đến quy mô lớn.",
-      "AI 開發、業務自動化與數位轉型 — 從初步構想到規模化營運。",
+      "Senior AI and software delivery for SMEs — no hiring, no payroll, no HR overhead. One senior team, one invoice, shipping in weeks.",
+      "Đội ngũ AI và phần mềm cấp cao cho doanh nghiệp — không tuyển dụng, không quỹ lương, không gánh nặng nhân sự. Một đội ngũ, một hóa đơn, bàn giao trong vài tuần.",
+      "為中小企業提供資深 AI 與軟體交付——免招募、免薪資、免人事負擔。一個資深團隊、一張發票，數週內交付。",
     ),
   },
   services: {

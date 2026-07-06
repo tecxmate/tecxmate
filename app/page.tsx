@@ -8,6 +8,34 @@ import dynamic from "next/dynamic"
 import { isSectionEnabled, readContent } from "@/lib/site-content"
 
 // Lazy load below-the-fold components to reduce initial bundle and TBT
+const ProblemSection = dynamic(() => import("@/components/sales/problem-section").then(mod => ({ default: mod.ProblemSection })), {
+  loading: () => <div className="h-64 bg-gray-50" />,
+})
+
+const EconomicsSection = dynamic(() => import("@/components/sales/economics-section").then(mod => ({ default: mod.EconomicsSection })), {
+  loading: () => <div className="h-64 bg-gray-50" />,
+})
+
+const ProofSection = dynamic(() => import("@/components/sales/proof-section").then(mod => ({ default: mod.ProofSection })), {
+  loading: () => <div className="h-64 bg-gray-50" />,
+})
+
+const TechnologySection = dynamic(() => import("@/components/sales/technology-section").then(mod => ({ default: mod.TechnologySection })), {
+  loading: () => <div className="h-64 bg-gray-50" />,
+})
+
+const ProcessSection = dynamic(() => import("@/components/sales/process-section").then(mod => ({ default: mod.ProcessSection })), {
+  loading: () => <div className="h-64 bg-gray-50" />,
+})
+
+const TrustSection = dynamic(() => import("@/components/sales/trust-section").then(mod => ({ default: mod.TrustSection })), {
+  loading: () => <div className="h-64 bg-gray-50" />,
+})
+
+const CtaSection = dynamic(() => import("@/components/sales/cta-section").then(mod => ({ default: mod.CtaSection })), {
+  loading: () => <div className="h-64 bg-gray-950" />,
+})
+
 const DemoProductsSection = dynamic(() => import("@/components/demo-products-section").then(mod => ({ default: mod.DemoProductsSection })), {
   loading: () => <div className="h-64 bg-gray-50" />,
 })
@@ -136,10 +164,17 @@ export default async function Home() {
         }}
       />
       {isSectionEnabled(content, "hero") && <HeroSection />}
+      {isSectionEnabled(content, "problem") && <ProblemSection />}
+      {isSectionEnabled(content, "economics") && <EconomicsSection />}
+      {isSectionEnabled(content, "proof") && <ProofSection />}
+      {isSectionEnabled(content, "technology") && <TechnologySection />}
+      {isSectionEnabled(content, "process") && <ProcessSection />}
+      {isSectionEnabled(content, "trust") && <TrustSection />}
       {isSectionEnabled(content, "projects") && <DemoProductsSection />}
       {isSectionEnabled(content, "services") && <ServicesSection />}
       {isSectionEnabled(content, "team") && <TeamSection />}
       {isSectionEnabled(content, "blog") && <CampaignsSection />}
+      {isSectionEnabled(content, "cta") && <CtaSection />}
       <Footer />
     </main>
   )
@@ -150,8 +185,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const { generateCountryKeywords } = await import("@/lib/keywords")
 
   return {
-    title: "TECXMATE - Premier Technology Partner | AI Software Solutions",
-    description: "Transform your business with Tecxmate's cutting-edge technology solutions. Expert AI integration, web development, business automation, and digital transformation services. Fast delivery, innovative solutions for SMEs and founders. Book your free consultation today.",
+    title: "TECXMATE - Top-tier Engineering, Minus the Cost | AI Software Delivery for SMEs",
+    description: "Senior AI and software delivery for SMEs without hiring, payroll, or HR overhead. AI agents, multilingual chat, voice AI, mobile publishing, and business automation — one senior team, one invoice, shipping in weeks. Book a 30-minute call.",
     keywords: generateCountryKeywords([
       "technology consultancy",
       "AI development",

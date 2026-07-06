@@ -16,6 +16,34 @@ const SECTION_LABELS: Record<SectionKey, { title: string; desc: string }> = {
     title: "Hero",
     desc: "Homepage headline and opening section.",
   },
+  problem: {
+    title: "Problem",
+    desc: "Sales narrative: the real cost of a hire, plus the economics reframe.",
+  },
+  economics: {
+    title: "Economics",
+    desc: "Sales narrative: in-house vs Tecxmate comparison and 'a service, not a hire'.",
+  },
+  proof: {
+    title: "Proof",
+    desc: "Sales narrative: Vietnamy and Tecxwork case studies.",
+  },
+  technology: {
+    title: "Technology",
+    desc: "Sales narrative: the concrete technology capabilities grid.",
+  },
+  process: {
+    title: "Process",
+    desc: "Sales narrative: how we work and engagement models.",
+  },
+  trust: {
+    title: "Trust",
+    desc: "Sales narrative: global caliber, local trust differentiators.",
+  },
+  cta: {
+    title: "CTA",
+    desc: "Sales narrative: dark closing call-to-action before the footer.",
+  },
   projects: {
     title: "Projects",
     desc: "Projects link in navigation and the homepage projects section.",
