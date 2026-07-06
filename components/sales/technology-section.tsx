@@ -283,40 +283,43 @@ export function TechnologySection() {
             ))}
           </div>
 
-          {/* Prev / next */}
+        </div>
+
+        {/* Controls — arrows flank the dots so nothing overlaps the cards */}
+        <div className="flex items-center justify-center gap-4 mt-6">
           <button
             type="button"
             onClick={() => scrollToIndex(active - 1)}
             disabled={active === 0}
             aria-label="Previous"
-            className="absolute left-1 top-[38%] -translate-y-1/2 w-10 h-10 rounded-full border border-border bg-card/90 backdrop-blur flex items-center justify-center text-foreground shadow-sm transition-opacity hover:border-primary/50 disabled:opacity-0"
+            className="w-9 h-9 rounded-full border border-border bg-card flex items-center justify-center text-foreground shadow-sm transition-colors hover:border-primary/50 hover:text-primary disabled:opacity-30 disabled:pointer-events-none"
           >
             <ChevronLeft className="w-5 h-5" aria-hidden />
           </button>
+
+          <div className="flex items-center gap-2">
+            {items.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => scrollToIndex(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`h-2 rounded-full transition-all ${
+                  i === active ? "w-6 bg-primary" : "w-2 bg-border hover:bg-primary/40"
+                }`}
+              />
+            ))}
+          </div>
+
           <button
             type="button"
             onClick={() => scrollToIndex(active + 1)}
             disabled={active === count - 1}
             aria-label="Next"
-            className="absolute right-1 top-[38%] -translate-y-1/2 w-10 h-10 rounded-full border border-border bg-card/90 backdrop-blur flex items-center justify-center text-foreground shadow-sm transition-opacity hover:border-primary/50 disabled:opacity-0"
+            className="w-9 h-9 rounded-full border border-border bg-card flex items-center justify-center text-foreground shadow-sm transition-colors hover:border-primary/50 hover:text-primary disabled:opacity-30 disabled:pointer-events-none"
           >
             <ChevronRight className="w-5 h-5" aria-hidden />
           </button>
-        </div>
-
-        {/* Dots */}
-        <div className="flex items-center justify-center gap-2 mt-6">
-          {items.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => scrollToIndex(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className={`h-2 rounded-full transition-all ${
-                i === active ? "w-6 bg-primary" : "w-2 bg-border hover:bg-primary/40"
-              }`}
-            />
-          ))}
         </div>
       </div>
     </section>
