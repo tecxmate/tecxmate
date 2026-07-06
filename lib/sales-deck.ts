@@ -736,10 +736,12 @@ export const salesDeck = {
       tecxmateLabel: M("With Tecxmate", "Với Tecxmate", "與 Tecxmate 合作"),
       perYear: M("per year", "mỗi năm", "每年"),
       savingsLabel: M("saved per year", "tiết kiệm mỗi năm", "每年省下"),
+      // Same underlying range ($2,000–$12,000/mo), converted per market:
+      // USD ×1, TWD ≈ ×30, VND ≈ ×25,000.
       currencies: {
         en: { locale: "en-US", currency: "USD", min: 2000, max: 12000, step: 250, default: 5000 },
-        vi: { locale: "vi-VN", currency: "USD", min: 2000, max: 12000, step: 250, default: 5000 },
-        zh: { locale: "zh-TW", currency: "TWD", min: 60000, max: 300000, step: 5000, default: 150000 },
+        vi: { locale: "vi-VN", currency: "VND", min: 50000000, max: 300000000, step: 5000000, default: 125000000 },
+        zh: { locale: "zh-TW", currency: "TWD", min: 60000, max: 360000, step: 10000, default: 150000 },
       } as Record<Locale, CalculatorCurrency>,
     },
 

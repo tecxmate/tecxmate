@@ -98,7 +98,7 @@ const FLOW_LANES: { kind: FlowKind; dir: "up" | "down"; pos: number; dur: number
 ]
 
 function FlowGlyph({ kind }: { kind: FlowKind }) {
-  const cls = "w-4 h-4 shrink-0"
+  const cls = "w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"
   if (kind === "money") return <DollarSign className={cls} strokeWidth={2.5} />
   if (kind === "data") return <Database className={cls} strokeWidth={2.5} />
   if (kind === "people") return <Users className={cls} strokeWidth={2.5} />
