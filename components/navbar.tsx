@@ -115,14 +115,6 @@ export function Navbar() {
               {t("team")}
             </Link>
           )}
-          {sections.blog && (
-            <Link
-              href="/blog"
-              className={`text-sm font-medium transition-colors ${isActive("/blog") ? "text-primary" : "hover:text-primary"}`}
-            >
-              {t("news_insights")}
-            </Link>
-          )}
           {sections.about && (
             <Link
               href="/about"
@@ -201,15 +193,6 @@ export function Navbar() {
                 onClick={closeMenu}
               >
                 {t("team")}
-              </Link>
-            )}
-            {sections.blog && (
-              <Link
-                href="/blog"
-                className={`text-sm font-medium transition-colors ${isActive("/blog") ? "text-primary" : "hover:text-primary"}`}
-                onClick={closeMenu}
-              >
-                {t("news_insights")}
               </Link>
             )}
             {sections.about && (
