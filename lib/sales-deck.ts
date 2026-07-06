@@ -7,7 +7,7 @@ import type { Locale, Localized } from "./site-content"
  *
  * Claim safety: figures flagged as illustrative/needs-source in the deck's
  * sources.csv are either labeled as illustrative in-copy (economics caption,
- * Tecxwork disclaimer) or softened. Verify before hardening any number.
+ * modernize-offering disclaimer) or softened. Verify before hardening any number.
  */
 
 function M(en: string, vi: string, zh: string): Localized {
@@ -20,7 +20,7 @@ export function pickLocale(value: Localized, locale: Locale): string {
 
 export type SalesMetric = { label: Localized; value: Localized }
 
-export type SalesCaseStudy = {
+export type SalesOffering = {
   id: string
   tag: Localized
   title: Localized
@@ -224,40 +224,40 @@ export const salesDeck = {
   },
 
   proof: {
-    title: M("Proof, not promises", "Bằng chứng, không phải lời hứa", "用實績說話"),
+    title: M("What you get", "Bạn nhận được gì", "您將獲得什麼"),
     subtitle: M(
-      "The same stack and speed we bring to client work.",
-      "Chính công nghệ và tốc độ này được áp dụng cho dự án của khách hàng.",
-      "我們為客戶交付的，就是同一套技術與速度。",
+      "Start from wherever you are — an idea, a legacy operation, or a modern stack.",
+      "Bắt đầu từ chính vị trí của bạn — một ý tưởng, một doanh nghiệp truyền thống, hay một hệ thống hiện đại.",
+      "從您現在的位置開始——一個構想、一間傳統企業，或一套現代系統。",
     ),
-    caseStudies: [
+    offerings: [
       {
-        id: "vietnamy",
-        tag: M("Our own product", "Sản phẩm của chúng tôi", "自研產品"),
+        id: "apps",
+        tag: M("Starting from zero", "Bắt đầu từ con số 0", "從零開始"),
         title: M(
-          "Vietnamy — idea to App Store in six weeks",
-          "Vietnamy — từ ý tưởng lên App Store trong sáu tuần",
-          "Vietnamy——六週內從構想上架 App Store",
+          "Cross-platform apps — idea to App Store",
+          "Ứng dụng đa nền tảng — từ ý tưởng lên App Store",
+          "跨平台應用——從構想到上架",
         ),
         summary: M(
-          "A trilingual AI app with real-time voice and payments — built, published, and monetizing in six weeks.",
-          "Ứng dụng AI ba ngôn ngữ với giọng nói thời gian thực và thanh toán — xây dựng, phát hành và tạo doanh thu trong sáu tuần.",
-          "三語 AI 應用，內建即時語音與金流——六週內完成開發、上架並開始獲利。",
+          "iOS and Android apps with a web admin panel — designed, built, published, and monetizing in weeks. Our flagship service.",
+          "Ứng dụng iOS và Android kèm trang quản trị web — thiết kế, xây dựng, phát hành và tạo doanh thu trong vài tuần. Dịch vụ chủ lực của chúng tôi.",
+          "iOS 與 Android 應用，附網頁管理後台——數週內完成設計、開發、上架並開始獲利。我們的旗艦服務。",
         ),
         problem: M(
-          "Our own demo product: a cross-platform, trilingual AI app, built to prove we ship cutting-edge AI at startup speed.",
-          "Sản phẩm demo của chính chúng tôi: ứng dụng AI đa nền tảng, ba ngôn ngữ — minh chứng cho khả năng giao AI tiên tiến với tốc độ startup.",
-          "我們自己的示範產品：跨平台、三語 AI 應用——證明我們能以新創速度交付尖端 AI。",
+          "You have the idea and the customers — but no team, no app, no infrastructure.",
+          "Bạn có ý tưởng và khách hàng — nhưng chưa có đội ngũ, ứng dụng hay hạ tầng.",
+          "您有構想、有客戶——但沒有團隊、沒有應用、沒有基礎架構。",
         ),
         solution: M(
-          "Multi-agent system on OpenAI + Anthropic, AWS, real-time voice with ElevenLabs & Deepgram, Stripe payments, and full Apple & Google publishing.",
-          "Hệ thống multi-agent trên OpenAI + Anthropic, AWS, giọng nói thời gian thực với ElevenLabs & Deepgram, thanh toán Stripe, và phát hành đầy đủ trên Apple & Google.",
-          "OpenAI + Anthropic 多代理系統、AWS、ElevenLabs 與 Deepgram 即時語音、Stripe 金流，並完成 Apple 與 Google 雙平台上架。",
+          "We design, build, and publish a cross-platform app — iOS, Android, and a web admin panel — with payments, AI features, and cloud infrastructure included.",
+          "Chúng tôi thiết kế, xây dựng và phát hành ứng dụng đa nền tảng — iOS, Android và trang quản trị web — tích hợp sẵn thanh toán, tính năng AI và hạ tầng đám mây.",
+          "我們設計、開發並上架跨平台應用——iOS、Android 加網頁管理後台——內建金流、AI 功能與雲端架構。",
         ),
         outcome: M(
-          "Live and monetizing in six weeks — the same speed and stack we bring to client work.",
-          "Ra mắt và tạo doanh thu trong sáu tuần — cùng tốc độ và công nghệ chúng tôi mang đến cho khách hàng.",
-          "六週內上線並開始獲利——與我們服務客戶時完全相同的速度與技術。",
+          "A live product in the app stores, monetizing in weeks — and you own all of it.",
+          "Một sản phẩm thực thụ trên các kho ứng dụng, tạo doanh thu trong vài tuần — và bạn sở hữu toàn bộ.",
+          "數週內在應用商店上線並開始獲利——所有成果完全歸您。",
         ),
         metrics: [
           { label: M("MVP", "MVP", "MVP"), value: M("6 weeks", "6 tuần", "6 週") },
@@ -266,35 +266,35 @@ export const salesDeck = {
             value: M("iOS · Android · Web", "iOS · Android · Web", "iOS · Android · Web"),
           },
         ],
-        stack: ["OpenAI", "Anthropic", "AWS", "ElevenLabs", "Deepgram", "Stripe"],
+        stack: ["iOS", "Android", "Web admin", "Stripe", "AWS"],
       },
       {
-        id: "tecxwork",
-        tag: M("Client operations", "Vận hành cho khách hàng", "客戶營運案例"),
+        id: "modernize",
+        tag: M("Legacy business", "Doanh nghiệp truyền thống", "傳統企業數位化"),
         title: M(
-          "Tecxwork — agents that run the back office",
-          "Tecxwork — AI agent vận hành văn phòng",
-          "Tecxwork——讓 AI 代理接手後勤",
+          "Modernize & automate your operations",
+          "Hiện đại hóa & tự động hóa vận hành",
+          "營運現代化與自動化",
         ),
         summary: M(
-          "A 20-person firm's contracts, quotes, and invoices — drafted by AI agents, approved by the owner with one tap.",
-          "Hợp đồng, báo giá, hóa đơn của một công ty 20 người — AI agent soạn thảo, chủ duyệt bằng một chạm.",
-          "一間 20 人公司的合約、報價與發票——由 AI 代理起草，老闆一鍵核准。",
+          "We study your legacy workflows, consult on what to modernize first, and automate it — with an app, a web app, or an internal IT system.",
+          "Chúng tôi khảo sát quy trình hiện tại, tư vấn nên hiện đại hóa gì trước, rồi tự động hóa — bằng ứng dụng, web app hoặc hệ thống IT nội bộ.",
+          "我們深入研究您的既有流程，建議優先現代化的環節，再以應用程式、網頁系統或內部 IT 系統將其自動化。",
         ),
         problem: M(
-          "A 20-person traditional firm, founder-run, almost no software. Contracts, quotes, and invoices were handwritten, scattered across Drive, Excel, and Word, and approved one by one on the owner's desk.",
-          "Một công ty truyền thống 20 người, do chủ trực tiếp điều hành, gần như không dùng phần mềm. Hợp đồng, báo giá, hóa đơn viết tay, rải rác trên Drive, Excel và Word, duyệt từng tờ trên bàn của chủ.",
-          "一間 20 人的傳統公司，老闆親自管理，幾乎沒有軟體。合約、報價、發票靠手寫，散落在 Drive、Excel 和 Word，全部堆在老闆桌上逐一批准。",
+          "A running business on paper, Excel, and memory — almost no IT, or systems too old to help.",
+          "Một doanh nghiệp đang vận hành trên giấy tờ, Excel và trí nhớ — gần như không có IT, hoặc hệ thống đã quá cũ.",
+          "一間靠紙本、Excel 和記憶運作的公司——幾乎沒有 IT，或系統老舊到幫不上忙。",
         ),
         solution: M(
-          "Tecxwork unified their data and put AI agents on it — drafting documents from approved templates, filing invoices twice a day, answering questions over WhatsApp, LINE, and Telegram. Agents draft, the owner approves with one tap, nothing leaves unapproved.",
-          "Tecxwork hợp nhất dữ liệu và đặt AI agent lên trên — soạn tài liệu từ mẫu chuẩn, lưu hóa đơn hai lần mỗi ngày, trả lời qua WhatsApp, LINE và Telegram. Agent soạn thảo, chủ duyệt bằng một chạm, không gì được gửi đi khi chưa duyệt.",
-          "Tecxwork 整合資料並部署 AI 代理——依核准範本起草文件、每天兩次歸檔發票、透過 WhatsApp、LINE、Telegram 回答問題。代理起草、老闆一鍵核准，未經核准絕不外發。",
+          "We map your actual workflows, consult on what to modernize first, then automate it — documents drafted by AI agents, approvals with one tap, answers over WhatsApp, LINE, and Telegram.",
+          "Chúng tôi lập bản đồ quy trình thực tế, tư vấn thứ tự hiện đại hóa, rồi tự động hóa — tài liệu do AI agent soạn, phê duyệt một chạm, trả lời qua WhatsApp, LINE và Telegram.",
+          "我們梳理您的實際流程、建議現代化順序，再進行自動化——AI 代理起草文件、一鍵核准，並透過 WhatsApp、LINE、Telegram 即時應答。",
         ),
         outcome: M(
-          "Office document time cut from ~18 to ~3 hours a week — about two days back — with ~90% of routine documents auto-drafted. No new hire.",
-          "Thời gian xử lý giấy tờ giảm từ ~18 xuống ~3 giờ/tuần — lấy lại khoảng hai ngày — với ~90% tài liệu thường nhật được soạn tự động. Không tuyển thêm người.",
-          "文書時間從每週約 18 小時降至約 3 小時——等於找回兩個工作天——約 90% 例行文件自動起草。沒有新聘任何人。",
+          "Hours of weekly office work become minutes, with most routine documents auto-drafted — no new hire.",
+          "Hàng giờ công việc giấy tờ mỗi tuần chỉ còn vài phút, phần lớn tài liệu thường nhật được soạn tự động — không cần tuyển thêm.",
+          "每週數小時的文書工作縮短為幾分鐘，多數例行文件自動起草——無需新聘人力。",
         ),
         metrics: [
           {
@@ -306,14 +306,50 @@ export const salesDeck = {
             value: M("~90%", "~90%", "約 90%"),
           },
         ],
-        stack: ["AI Agents", "WhatsApp", "LINE", "Telegram"],
+        stack: ["AI Agents", "WhatsApp", "LINE", "Telegram", "ERP"],
         disclaimer: M(
           "Figures are modeled from a representative deployment.",
           "Số liệu được mô hình hóa từ một triển khai tiêu biểu.",
           "數據為代表性導入案例之推估值。",
         ),
       },
-    ] as SalesCaseStudy[],
+      {
+        id: "ai-integration",
+        tag: M("AI for existing systems", "AI cho hệ thống sẵn có", "為現有系統導入 AI"),
+        title: M(
+          "Cutting-edge AI, consulting & training",
+          "AI tiên tiến, tư vấn & đào tạo",
+          "尖端 AI、顧問與培訓",
+        ),
+        summary: M(
+          "AI agents, voice, and automation integrated into your existing systems — with strategic planning and AI-skill training for your team.",
+          "AI agent, giọng nói và tự động hóa tích hợp vào hệ thống sẵn có — kèm hoạch định chiến lược và đào tạo kỹ năng AI cho đội ngũ của bạn.",
+          "將 AI 代理、語音與自動化整合進您的現有系統——並提供策略規劃與員工 AI 技能培訓。",
+        ),
+        problem: M(
+          "Your systems already work — but AI is moving fast, and you don't want to fall behind.",
+          "Hệ thống của bạn vẫn đang chạy tốt — nhưng AI tiến quá nhanh, và bạn không muốn bị bỏ lại.",
+          "您的系統運作良好——但 AI 進展飛快，您不想被甩在後頭。",
+        ),
+        solution: M(
+          "We integrate cutting-edge AI — agents, real-time voice, automation — into your existing stack, and bring your people along: strategy, planning, and hands-on AI-skill training.",
+          "Chúng tôi tích hợp AI tiên tiến — agent, giọng nói thời gian thực, tự động hóa — vào hệ thống hiện có, và đồng hành cùng đội ngũ của bạn: chiến lược, hoạch định và đào tạo kỹ năng AI thực chiến.",
+          "我們將尖端 AI——代理、即時語音、自動化——整合進您的現有系統，並帶著您的團隊一起前進：策略、規劃與實戰 AI 技能培訓。",
+        ),
+        outcome: M(
+          "Your systems stay yours — just smarter, faster, and run by a team that knows how to use AI.",
+          "Hệ thống vẫn là của bạn — chỉ là thông minh hơn, nhanh hơn, và được vận hành bởi đội ngũ thành thạo AI.",
+          "系統依然是您的——只是更聰明、更快，且由一支懂得運用 AI 的團隊來駕馭。",
+        ),
+        metrics: [
+          {
+            label: M("First consultation & training", "Buổi tư vấn & đào tạo đầu tiên", "首次諮詢與培訓"),
+            value: M("Free", "Miễn phí", "免費"),
+          },
+        ],
+        stack: ["OpenAI", "Anthropic", "ElevenLabs", "Deepgram", "Automation"],
+      },
+    ] as SalesOffering[],
   },
 
   technology: {
@@ -579,9 +615,9 @@ export const salesDeck = {
     voice: {
       title: M("Real-time voice AI", "AI giọng nói thời gian thực", "即時語音 AI"),
       subtitle: M(
-        "Voice interfaces that hold a conversation — the same pipeline running in Vietnamy today.",
-        "Giao diện giọng nói đối thoại tự nhiên — chính pipeline đang chạy trong Vietnamy.",
-        "能對話的語音介面——正是 Vietnamy 目前運行的同一套管線。",
+        "Voice interfaces that hold a conversation — the same pipeline running in our own products today.",
+        "Giao diện giọng nói đối thoại tự nhiên — chính pipeline đang chạy trong các sản phẩm của chúng tôi.",
+        "能對話的語音介面——正是我們自家產品運行中的同一套管線。",
       ),
       stages: [
         { id: "in", brand: "", label: M("You speak", "Bạn nói", "您說話") },

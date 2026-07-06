@@ -5,12 +5,12 @@ import Link from "next/link"
 import { ArrowDown, ArrowUp, Check, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/language-provider"
-import { salesDeck, pickLocale, type SalesCaseStudy } from "@/lib/sales-deck"
+import { salesDeck, pickLocale, type SalesOffering } from "@/lib/sales-deck"
 import type { Locale } from "@/lib/site-content"
 
-const SLIDE_COUNT = 10
+const SLIDE_COUNT = 8 + salesDeck.proof.offerings.length
 
-function CaseStudySlide({ cs, language }: { cs: SalesCaseStudy; language: Locale }) {
+function OfferingSlide({ cs, language }: { cs: SalesOffering; language: Locale }) {
   return (
     <div className="max-w-4xl">
       <span className="text-xs font-medium uppercase tracking-wider text-primary">
@@ -285,10 +285,10 @@ export function DeckViewer() {
           </div>
         </section>
 
-        {/* 6 & 7 — Case studies */}
-        {proof.caseStudies.map((cs) => (
+        {/* Offerings — one slide each */}
+        {proof.offerings.map((cs) => (
           <section key={cs.id} className={slideClass}>
-            <CaseStudySlide cs={cs} language={language} />
+            <OfferingSlide cs={cs} language={language} />
           </section>
         ))}
 

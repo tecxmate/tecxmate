@@ -17,8 +17,8 @@ export function ProofSection() {
           {pickLocale(proof.subtitle, language)}
         </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {proof.caseStudies.map((cs) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {proof.offerings.map((cs) => (
             <article
               key={cs.id}
               className="bg-card border border-border rounded-2xl p-6 md:p-8 flex flex-col transition-all duration-300 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(139,92,246,0.15)]"
