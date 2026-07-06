@@ -175,7 +175,7 @@ export const defaultContent: SiteContent = {
       role: M("Business Developer", "Phát triển kinh doanh", "業務開發"),
       description: L(""),
       photo: "/avatars/peretto_avatar.JPG",
-      linkedin: "",
+      linkedin: "https://vn.linkedin.com/in/peretto-andrea-53624738",
       twitter: "https://www.tecxmate.com",
       socialIcon: "company",
     },

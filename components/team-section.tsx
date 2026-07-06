@@ -67,7 +67,7 @@ const DEFAULT_TEAM: TeamMember[] = [
     role: { en: "Business Developer", vi: "Phát triển kinh doanh", zh: "業務開發" },
     description: { en: "", vi: "", zh: "" },
     photo: "/avatars/peretto_avatar.JPG",
-    linkedin: "",
+    linkedin: "https://vn.linkedin.com/in/peretto-andrea-53624738",
     twitter: "https://www.tecxmate.com",
     socialIcon: "company",
   },
