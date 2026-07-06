@@ -420,9 +420,9 @@ export const salesDeck = {
       {
         icon: "message-square",
         title: M(
-          "Multilingual chat on LINE, WhatsApp & Telegram",
-          "Chat đa ngôn ngữ trên LINE, WhatsApp & Telegram",
-          "LINE、WhatsApp、Telegram 多語聊天",
+          "Multilingual AI customer chatbots on LINE, WhatsApp & Telegram",
+          "Chatbot AI đa ngôn ngữ cho khách hàng trên LINE, WhatsApp & Telegram",
+          "LINE、WhatsApp、Telegram 多語 AI 客服聊天機器人",
         ),
         body: M(
           "AI assistants that answer customers and staff where they already chat — in Chinese, Vietnamese, and English.",
@@ -468,7 +468,7 @@ export const salesDeck = {
       },
       {
         icon: "cloud",
-        title: M("Cloud architecture & automation", "Kiến trúc cloud & tự động hóa", "雲端架構與自動化"),
+        title: M("Cloud architecture & migration", "Kiến trúc & di chuyển cloud", "雲端架構與遷移"),
         body: M(
           "AWS-based infrastructure that is monitored, documented, and handed over — you own it.",
           "Hạ tầng trên AWS được giám sát, tài liệu hóa và bàn giao — bạn sở hữu toàn bộ.",
