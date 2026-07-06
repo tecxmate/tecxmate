@@ -44,11 +44,11 @@ export function ProofSection() {
               <div className="flex flex-col gap-4 border-t border-border pt-5 mt-6">
                 {cs.metrics.map((m, i) => (
                   <div key={i}>
+                    <p className="text-xs text-muted-foreground mb-1.5">
+                      {pickLocale(m.label, language)}
+                    </p>
                     <p className="text-2xl md:text-3xl font-semibold text-primary tabular-nums leading-none">
                       {pickLocale(m.value, language)}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1.5">
-                      {pickLocale(m.label, language)}
                     </p>
                   </div>
                 ))}
