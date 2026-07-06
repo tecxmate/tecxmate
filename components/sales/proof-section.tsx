@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck, pickLocale } from "@/lib/sales-deck"
+import { OfferingArt } from "@/components/sales/offering-art"
 
 export function ProofSection() {
   const { language } = useLanguage()
@@ -23,7 +24,8 @@ export function ProofSection() {
               key={cs.id}
               className="bg-card border border-border rounded-2xl p-6 md:p-8 flex flex-col transition-all duration-300 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(139,92,246,0.15)]"
             >
-              <span className="text-xs font-medium uppercase tracking-wider text-primary mb-3">
+              <OfferingArt id={cs.id} />
+              <span className="text-xs font-medium uppercase tracking-wider text-primary mb-3 mt-5">
                 {pickLocale(cs.tag, language)}
               </span>
               <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-3 leading-snug">

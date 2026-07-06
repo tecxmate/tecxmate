@@ -379,3 +379,24 @@
   50% { opacity: 1; }
   100% { transform: translateX(3px); opacity: 0.25; }
 }
+
+@keyframes deck-assemble {
+  0% { opacity: 0; transform: translateY(4px); }
+  12%, 80% { opacity: 1; transform: translateY(0); }
+  95%, 100% { opacity: 0; transform: translateY(4px); }
+}
+
+@keyframes deck-wobble {
+  0%, 100% { transform: rotate(-12deg); }
+  50% { transform: rotate(-7deg); }
+}
+
+@keyframes deck-pop {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+@keyframes deck-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(140, 82, 255, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(140, 82, 255, 0); }
+}
