@@ -167,10 +167,10 @@ export function FloatingContact() {
   const remaining = FAQ.filter((f) => !asked.includes(f.id))
 
   const contacts = [
-    { id: "line", label: "LINE", href: LINE_URL, bg: "#06C755", icon: <MessageCircle className="h-5 w-5" /> },
-    { id: "whatsapp", label: "WhatsApp", href: WHATSAPP_URL, bg: "#25D366", icon: <Phone className="h-5 w-5" /> },
-    { id: "email", label: "Email", href: `mailto:${company.contactEmail}`, bg: "#4B5563", icon: <Mail className="h-5 w-5" /> },
-    { id: "booking", label: tr(BOOK_LABEL, language), href: company.social.booking, bg: "#8c52ff", icon: <CalendarDays className="h-5 w-5" /> },
+    { id: "line", label: "LINE", short: "LINE", href: LINE_URL, bg: "#06C755", icon: <MessageCircle className="h-5 w-5" /> },
+    { id: "whatsapp", label: "WhatsApp", short: "WA", href: WHATSAPP_URL, bg: "#25D366", icon: <Phone className="h-5 w-5" /> },
+    { id: "email", label: "Email", short: "Mail", href: `mailto:${company.contactEmail}`, bg: "#4B5563", icon: <Mail className="h-5 w-5" /> },
+    { id: "booking", label: tr(BOOK_LABEL, language), short: "Meet", href: company.social.booking, bg: "#8c52ff", icon: <CalendarDays className="h-5 w-5" /> },
   ]
 
   return (
@@ -259,10 +259,18 @@ export function FloatingContact() {
                 {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 aria-label={c.label}
                 title={c.label}
-                className={`h-11 w-11 rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 ${animClass}`}
-                style={{ backgroundColor: c.bg, animationDelay: `${i * 45}ms` }}
+                className={`group flex flex-col items-center gap-1 ${animClass}`}
+                style={{ animationDelay: `${i * 45}ms` }}
               >
-                {c.icon}
+                <span
+                  className="h-11 w-11 rounded-full flex items-center justify-center text-white shadow-lg transition-transform group-hover:scale-110"
+                  style={{ backgroundColor: c.bg }}
+                >
+                  {c.icon}
+                </span>
+                <span className="text-[10px] font-medium leading-none text-foreground/90 bg-card/80 backdrop-blur-sm px-1.5 py-0.5 rounded shadow-sm">
+                  {c.short}
+                </span>
               </a>
             )
           })}
