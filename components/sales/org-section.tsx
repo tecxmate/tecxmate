@@ -90,7 +90,7 @@ export function OrgSection() {
 function Thrust() {
   return (
     <span
-      className="flex flex-col sm:flex-row sm:flex-1 items-center justify-center sm:justify-evenly gap-1.5 sm:gap-0 py-1 sm:py-0"
+      className="relative z-10 flex flex-col sm:flex-row sm:flex-1 items-center justify-center sm:justify-evenly gap-1.5 sm:gap-0 py-1 sm:py-0"
       aria-hidden
     >
       {[0, 1, 2, 3, 4].map((i) => (

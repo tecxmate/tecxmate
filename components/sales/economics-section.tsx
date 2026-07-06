@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Slider } from "@/components/ui/slider"
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck, pickLocale } from "@/lib/sales-deck"
@@ -14,11 +14,64 @@ const SEGMENT_CLASSES = [
   "bg-zinc-300 dark:bg-zinc-600",
 ]
 
+const DEMO_DURATION_MS = 3600
+
 export function EconomicsSection() {
   const { language } = useLanguage()
   const calc = salesDeck.visuals.calculator
   const cur = calc.currencies[language]
   const [salary, setSalary] = useState(cur.default)
+  const sectionRef = useRef<HTMLElement>(null)
+  const curRef = useRef(cur)
+  curRef.current = cur
+  const demoRef = useRef({ raf: 0, active: false, played: false })
+
+  const stopDemo = () => {
+    if (demoRef.current.active) {
+      cancelAnimationFrame(demoRef.current.raf)
+      demoRef.current.active = false
+    }
+  }
+
+  // Auto-sweep the slider once when the section first scrolls into view,
+  // so visitors see the comparison move before touching anything.
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || demoRef.current.played) return
+        demoRef.current.played = true
+        io.disconnect()
+        const start = performance.now()
+        demoRef.current.active = true
+        const tick = (now: number) => {
+          if (!demoRef.current.active) return
+          const c = curRef.current
+          const t = Math.min((now - start) / DEMO_DURATION_MS, 1)
+          // Sweep toward the top of the range and settle back on the default.
+          const wave = Math.sin(Math.PI * t)
+          const eased = wave * wave * (3 - 2 * wave)
+          const peak = c.min + (c.max - c.min) * 0.85
+          const v = c.default + (peak - c.default) * eased
+          setSalary(Math.round(v / c.step) * c.step)
+          if (t < 1) {
+            demoRef.current.raf = requestAnimationFrame(tick)
+          } else {
+            demoRef.current.active = false
+          }
+        }
+        demoRef.current.raf = requestAnimationFrame(tick)
+      },
+      { threshold: 0.35 },
+    )
+    io.observe(el)
+    return () => {
+      io.disconnect()
+      stopDemo()
+    }
+  }, [])
 
   // Keep the slider value sane when the language (and currency range) changes.
   const clamped = Math.min(Math.max(salary, cur.min), cur.max)
@@ -40,7 +93,7 @@ export function EconomicsSection() {
   })
 
   return (
-    <section id="economics" className="bg-background py-20 md:py-24">
+    <section ref={sectionRef} id="economics" className="bg-background py-20 md:py-24">
       <div className="container px-4 md:px-6 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Controls */}
@@ -59,7 +112,11 @@ export function EconomicsSection() {
                 min={cur.min}
                 max={cur.max}
                 step={cur.step}
-                onValueChange={([v]) => setSalary(v)}
+                onValueChange={([v]) => {
+                  stopDemo()
+                  setSalary(v)
+                }}
+                onPointerDown={stopDemo}
                 aria-label={pickLocale(calc.sliderLabel, language)}
                 className="flex-1"
               />
