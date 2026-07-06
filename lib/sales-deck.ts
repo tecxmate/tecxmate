@@ -306,12 +306,16 @@ export const salesDeck = {
             value: M("~90%", "~90%", "約 90%"),
           },
         ],
-        stack: ["AI Agents", "WhatsApp", "LINE", "Telegram", "ERP"],
-        disclaimer: M(
-          "Figures are modeled from a representative deployment.",
-          "Số liệu được mô hình hóa từ một triển khai tiêu biểu.",
-          "數據為代表性導入案例之推估值。",
-        ),
+        stack: [
+          "Microsoft Office",
+          "Google Workspace",
+          "AI Agents",
+          "WhatsApp",
+          "LINE",
+          "Telegram",
+          "ERP",
+          "Optimization",
+        ],
       },
       {
         id: "ai-integration",
