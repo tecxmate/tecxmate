@@ -435,10 +435,19 @@
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Messenger-style typing dots on the contact toggle. */
+/* Messenger-style typing dots — continuous wave (used inside the chat). */
 @keyframes typing-bounce {
   0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
   30% { transform: translateY(-3px); opacity: 1; }
+}
+
+/* Launcher dots — a couple of bounces, then a long rest, so it's not
+   nervously typing the entire time. */
+@keyframes typing-idle {
+  0%, 32%, 100% { transform: translateY(0); opacity: 0.5; }
+  8% { transform: translateY(-3px); opacity: 1; }
+  16% { transform: translateY(0); opacity: 0.5; }
+  24% { transform: translateY(-3px); opacity: 1; }
 }
 
 /* Proof cards share row tracks via subgrid so the metric numbers line up
