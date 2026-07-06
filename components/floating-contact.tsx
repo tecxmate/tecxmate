@@ -108,11 +108,33 @@ function TypingBubble() {
 export function FloatingContact() {
   const { language } = useLanguage()
   const [open, setOpen] = useState(false)
+  const [closing, setClosing] = useState(false)
   const [messages, setMessages] = useState<Msg[]>([])
   const [typing, setTyping] = useState(false)
   const [asked, setAsked] = useState<string[]>([])
   const scrollRef = useRef<HTMLDivElement>(null)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
+
+  // Keep the stack mounted through the exit animation, then unmount.
+  const shown = open || closing
+  const openUp = () => {
+    setClosing(false)
+    setOpen(true)
+  }
+  const collapse = () => {
+    setOpen(false)
+    setClosing(true)
+  }
+  const animClass = closing
+    ? "motion-safe:animate-[fab-out_200ms_ease-in_both]"
+    : "motion-safe:animate-[fab-in_220ms_ease-out_both]"
+
+  useEffect(() => {
+    if (!closing) return
+    // cover the last icon's stagger delay (3 × 45ms) plus the 200ms exit.
+    const t = setTimeout(() => setClosing(false), 360)
+    return () => clearTimeout(t)
+  }, [closing])
 
   useEffect(() => {
     if (open && messages.length === 0) {
@@ -154,8 +176,8 @@ export function FloatingContact() {
   return (
     <div className="fixed bottom-24 right-8 z-50 flex items-end gap-3">
       {/* Chat window — sits to the left of the button column */}
-      {open && (
-        <div className="w-[min(340px,calc(100vw-7.5rem))] h-[460px] max-h-[70vh] flex flex-col rounded-2xl border border-border bg-card shadow-2xl overflow-hidden motion-safe:animate-[fab-in_220ms_ease-out]">
+      {shown && (
+        <div className={`w-[min(340px,calc(100vw-7.5rem))] h-[460px] max-h-[70vh] flex flex-col rounded-2xl border border-border bg-card shadow-2xl overflow-hidden origin-bottom-right ${animClass}`}>
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 bg-primary text-white shrink-0">
             <span className="relative h-9 w-9 rounded-full bg-white/20 flex items-center justify-center shrink-0">
@@ -168,7 +190,7 @@ export function FloatingContact() {
             </div>
             <button
               type="button"
-              onClick={() => setOpen(false)}
+              onClick={collapse}
               aria-label="Close chat"
               className="p-1 rounded-full hover:bg-white/15 transition-colors"
             >
@@ -218,16 +240,16 @@ export function FloatingContact() {
         {/* Launcher / toggle */}
         <button
           type="button"
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => (open ? collapse() : openUp())}
           aria-label={open ? "Close chat" : "Chat with us"}
           aria-expanded={open}
           className="h-12 w-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center transition-transform duration-300 hover:scale-110"
         >
-          {open ? <X className="h-5 w-5" aria-hidden /> : <LauncherDots />}
+          {shown ? <X className="h-5 w-5 pointer-events-none" aria-hidden /> : <LauncherDots />}
         </button>
 
         {/* Contact icons fan up above the launcher */}
-        {open &&
+        {shown &&
           contacts.map((c, i) => {
             const isExternal = c.href.startsWith("http")
             return (
@@ -237,7 +259,7 @@ export function FloatingContact() {
                 {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 aria-label={c.label}
                 title={c.label}
-                className="h-11 w-11 rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 motion-safe:animate-[fab-in_220ms_ease-out_both]"
+                className={`h-11 w-11 rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 ${animClass}`}
                 style={{ backgroundColor: c.bg, animationDelay: `${i * 45}ms` }}
               >
                 {c.icon}

@@ -429,10 +429,14 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Floating contact options springing up from the toggle. */
+/* Floating contact options springing up from the toggle (and back down). */
 @keyframes fab-in {
   from { opacity: 0; transform: translateY(12px) scale(0.85); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fab-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(12px) scale(0.85); }
 }
 
 /* Messenger-style typing dots — continuous wave (used inside the chat). */
