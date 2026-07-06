@@ -168,7 +168,7 @@ export function FloatingContact() {
 
   const contacts = [
     { id: "line", label: "LINE", short: "LINE", href: LINE_URL, bg: "#06C755", icon: <MessageCircle className="h-5 w-5" /> },
-    { id: "whatsapp", label: "WhatsApp", short: "WA", href: WHATSAPP_URL, bg: "#25D366", icon: <Phone className="h-5 w-5" /> },
+    { id: "whatsapp", label: "WhatsApp", short: "WhatsApp", href: WHATSAPP_URL, bg: "#25D366", icon: <Phone className="h-5 w-5" /> },
     { id: "email", label: "Email", short: "Mail", href: `mailto:${company.contactEmail}`, bg: "#4B5563", icon: <Mail className="h-5 w-5" /> },
     { id: "booking", label: tr(BOOK_LABEL, language), short: "Meet", href: company.social.booking, bg: "#8c52ff", icon: <CalendarDays className="h-5 w-5" /> },
   ]
