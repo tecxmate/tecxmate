@@ -185,7 +185,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { generateCountryKeywords } = await import("@/lib/keywords")
 
   return {
-    title: "TECXMATE - Top-tier Engineering, Minus the Cost | AI Software Delivery for SMEs",
+    title: "TECXMATE - Top-tier Engineering, Without the Overhead | AI Software Delivery for SMEs",
     description: "Senior AI and software delivery for SMEs without hiring, payroll, or HR overhead. AI agents, multilingual chat, voice AI, mobile publishing, and business automation — one senior team, one invoice, shipping in weeks. Book a 30-minute call.",
     keywords: generateCountryKeywords([
       "technology consultancy",

@@ -48,9 +48,9 @@ export const salesDeck = {
 
   cover: {
     title: M(
-      "Top-tier engineering, minus the cost",
-      "Kỹ thuật hàng đầu, chi phí tinh gọn",
-      "頂尖工程實力，省下高昂成本",
+      "Top-tier engineering, without the overhead",
+      "Kỹ thuật hàng đầu, không gánh nặng vận hành",
+      "頂尖工程實力，免去營運負擔",
     ),
     subtitle: M(
       "Senior AI and software delivery for SMEs — no hiring, no payroll, no HR overhead. One senior team, one invoice, shipping in weeks.",
