@@ -435,6 +435,12 @@
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* Messenger-style typing dots on the contact toggle. */
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-3px); opacity: 1; }
+}
+
 /* Proof cards share row tracks via subgrid so the metric numbers line up
    across every card regardless of copy length or language. */
 .proof-card {

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { CalendarDays, Headset, Mail, MessageCircle, Phone, X } from "lucide-react"
+import { CalendarDays, Mail, MessageCircle, Phone, X } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { company } from "@/lib/company"
 
@@ -12,6 +12,21 @@ const BOOK_LABEL: Record<string, string> = {
   en: "Book a call",
   vi: "Đặt lịch gọi",
   zh: "預約通話",
+}
+
+/** Three bouncing dots — a live "typing…" cue that invites a tap. */
+function TypingDots() {
+  return (
+    <span className="flex items-center gap-[3px]" aria-hidden>
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="w-1.5 h-1.5 rounded-full bg-white motion-safe:animate-[typing-bounce_1.3s_ease-in-out_infinite]"
+          style={{ animationDelay: `${i * 160}ms` }}
+        />
+      ))}
+    </span>
+  )
 }
 
 export function FloatingContact() {
@@ -51,7 +66,7 @@ export function FloatingContact() {
         aria-expanded={open}
         className="h-12 w-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center transition-transform duration-300 hover:scale-110"
       >
-        {open ? <X className="h-5 w-5" /> : <Headset className="h-5 w-5" />}
+        {open ? <X className="h-5 w-5" /> : <TypingDots />}
       </button>
 
       {/* Contact options — revealed above the toggle when expanded */}
