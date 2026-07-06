@@ -48,20 +48,6 @@ const DEFAULT_TEAM: TeamMember[] = [
     socialIcon: "academic",
   },
   {
-    id: "jane",
-    name: "Jane Liu 劉美娟",
-    role: { en: "Creative Director", vi: "Creative Director", zh: "Creative Director" },
-    description: {
-      en: "Creative director with expertise in UI/UX design and brand identity development.",
-      vi: "Creative director with expertise in UI/UX design and brand identity development.",
-      zh: "Creative director with expertise in UI/UX design and brand identity development.",
-    },
-    photo: "/avatars/jane_avatar.jpeg",
-    linkedin: "https://www.linkedin.com/in/jane-liu/",
-    twitter: "https://www.tecxmate.com",
-    socialIcon: "academic",
-  },
-  {
     id: "andrea",
     name: "Andrea Peretto",
     role: { en: "Business Developer", vi: "Phát triển kinh doanh", zh: "業務開發" },
@@ -73,15 +59,31 @@ const DEFAULT_TEAM: TeamMember[] = [
   },
 ]
 
+const HIDDEN_TEAM_MEMBER_IDS = new Set(["jane"])
+
+function visibleTeamMembers(teamMembers: TeamMember[]) {
+  return teamMembers.filter((member) => !HIDDEN_TEAM_MEMBER_IDS.has(member.id))
+}
+
+function teamPhotoClassName(memberId: string) {
+  const baseClassName = "w-full h-full object-cover object-center"
+
+  if (memberId === "andrea") {
+    return `${baseClassName} scale-[1.18] -translate-y-[13%]`
+  }
+
+  return baseClassName
+}
+
 export function TeamSection() {
   const { t, language } = useLanguage()
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(DEFAULT_TEAM)
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(visibleTeamMembers(DEFAULT_TEAM))
 
   useEffect(() => {
     fetch("/api/content", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((c) => {
-        if (Array.isArray(c?.team)) setTeamMembers(c.team)
+        if (Array.isArray(c?.team)) setTeamMembers(visibleTeamMembers(c.team))
       })
       .catch(() => {})
   }, [])
@@ -108,7 +110,7 @@ export function TeamSection() {
                       alt={member.name}
                       width={600}
                       height={800}
-                      className="w-full h-full object-cover object-center"
+                      className={teamPhotoClassName(member.id)}
                     />
                   </div>
                   <div className="p-3 md:p-4 text-center">

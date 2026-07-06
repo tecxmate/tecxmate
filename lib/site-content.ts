@@ -138,16 +138,6 @@ export const defaultContent: SiteContent = {
       socialIcon: "academic",
     },
     {
-      id: "jane",
-      name: "Jane Liu 劉美娟",
-      role: L("Creative Director"),
-      description: L("Creative director with expertise in UI/UX design and brand identity development."),
-      photo: "/avatars/jane_avatar.jpeg",
-      linkedin: "https://www.linkedin.com/in/jane-liu/",
-      twitter: "https://www.tecxmate.com",
-      socialIcon: "academic",
-    },
-    {
       id: "andrea",
       name: "Andrea Peretto",
       role: M("Business Developer", "Phát triển kinh doanh", "業務開發"),
