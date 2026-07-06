@@ -14,7 +14,7 @@ export function OfferingArt({ id }: { id: string }) {
   return <AiArt />
 }
 
-const ASSEMBLE = "motion-safe:animate-[deck-assemble_4s_ease-in-out_infinite]"
+const ASSEMBLE = "motion-safe:animate-[deck-assemble_3s_ease-in-out_infinite]"
 
 /** A phone and a web-admin window whose UI assembles itself, block by block. */
 function AppsArt() {
@@ -76,7 +76,7 @@ function ModernizeArt() {
           <svg
             key={i}
             viewBox="0 0 10 14"
-            className="w-2.5 h-3.5 text-primary motion-safe:animate-[deck-thrust_1.2s_ease-in-out_infinite]"
+            className="w-2.5 h-3.5 text-primary motion-safe:animate-[deck-thrust_1.6s_ease-in-out_infinite]"
             style={{ animationDelay: `${i * 120}ms` }}
           >
             <path d="M2 1 L8 7 L2 13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -88,7 +88,7 @@ function ModernizeArt() {
         <Paper tidy style={{ left: "4px", top: "10px" }} />
         <Paper tidy style={{ left: "10px", top: "18px" }} />
         <Paper tidy style={{ left: "16px", top: "26px" }} />
-        <span className="absolute -right-0.5 bottom-0 w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center motion-safe:animate-[deck-pop_2.4s_ease-in-out_infinite]">
+        <span className="absolute -right-0.5 bottom-0 w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center motion-safe:animate-[deck-pop_3s_ease-in-out_infinite]">
           <Check className="w-3 h-3" strokeWidth={3} />
         </span>
       </span>

@@ -26,7 +26,7 @@ function Waveform() {
       {WAVE_DELAYS.map((delay) => (
         <span
           key={delay}
-          className="w-[3px] h-2 rounded-full bg-primary motion-safe:animate-[deck-wave_1.1s_ease-in-out_infinite]"
+          className="w-[3px] h-2 rounded-full bg-primary motion-safe:animate-[deck-wave_1.6s_ease-in-out_infinite]"
           style={{ animationDelay: delay }}
         />
       ))}
@@ -37,7 +37,7 @@ function Waveform() {
 /** Big icon tile — the anchor of each demo. */
 function Core({ icon: Icon }: { icon: typeof Bot }) {
   return (
-    <span className="w-16 h-16 shrink-0 rounded-2xl bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_2.6s_ease-out_infinite]">
+    <span className="w-16 h-16 shrink-0 rounded-2xl bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_3s_ease-out_infinite]">
       <Icon className="w-7 h-7 text-white" aria-hidden />
     </span>
   )
@@ -47,20 +47,20 @@ function Core({ icon: Icon }: { icon: typeof Bot }) {
 function MiniWire() {
   return (
     <span className="relative w-8 h-px shrink-0 bg-border" aria-hidden>
-      <span className="absolute top-1/2 -translate-y-1/2 left-0 w-1.5 h-1.5 rounded-full bg-primary motion-safe:animate-[deck-travel_2.2s_linear_infinite]" />
+      <span className="absolute top-1/2 -translate-y-1/2 left-0 w-1.5 h-1.5 rounded-full bg-primary motion-safe:animate-[deck-travel_3s_linear_infinite]" />
     </span>
   )
 }
 
 function CheckBadge() {
   return (
-    <span className="w-9 h-9 shrink-0 rounded-full bg-primary text-white flex items-center justify-center motion-safe:animate-[deck-pop_2.4s_ease-in-out_infinite]">
+    <span className="w-9 h-9 shrink-0 rounded-full bg-primary text-white flex items-center justify-center motion-safe:animate-[deck-pop_3s_ease-in-out_infinite]">
       <Check className="w-4 h-4" strokeWidth={3} aria-hidden />
     </span>
   )
 }
 
-const ASSEMBLE = "motion-safe:animate-[deck-assemble_4s_ease-in-out_infinite]"
+const ASSEMBLE = "motion-safe:animate-[deck-assemble_3s_ease-in-out_infinite]"
 
 function ChatBubble({ label, delay, alignRight }: { label: string; delay: string; alignRight?: boolean }) {
   return (
@@ -134,7 +134,7 @@ function TechDemo({ icon }: { icon: string }) {
             <svg
               key={i}
               viewBox="0 0 10 14"
-              className="w-2.5 h-3.5 text-primary motion-safe:animate-[deck-thrust_1.2s_ease-in-out_infinite]"
+              className="w-2.5 h-3.5 text-primary motion-safe:animate-[deck-thrust_1.6s_ease-in-out_infinite]"
               style={{ animationDelay: `${i * 120}ms` }}
             >
               <path d="M2 1 L8 7 L2 13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -172,7 +172,7 @@ function TechDemo({ icon }: { icon: string }) {
         {[0, 1, 2].map((i) => (
           <span key={i} className="relative w-8 h-px bg-border">
             <span
-              className="absolute top-1/2 -translate-y-1/2 left-0 w-1.5 h-1.5 rounded-full bg-primary motion-safe:animate-[deck-travel_2.2s_linear_infinite]"
+              className="absolute top-1/2 -translate-y-1/2 left-0 w-1.5 h-1.5 rounded-full bg-primary motion-safe:animate-[deck-travel_3s_linear_infinite]"
               style={{ animationDelay: `${i * 300}ms` }}
             />
           </span>

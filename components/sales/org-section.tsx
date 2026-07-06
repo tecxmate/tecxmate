@@ -137,7 +137,7 @@ function Thrust() {
         <span key={i} className={`rotate-90 sm:rotate-0 ${i > 2 ? "hidden sm:block" : ""}`}>
           <svg
             viewBox="0 0 10 14"
-            className="w-2.5 h-3.5 md:w-3 md:h-4 text-primary motion-safe:animate-[deck-thrust_1.2s_ease-in-out_infinite]"
+            className="w-2.5 h-3.5 md:w-3 md:h-4 text-primary motion-safe:animate-[deck-thrust_1.6s_ease-in-out_infinite]"
             style={{ animationDelay: `${i * 120}ms` }}
           >
             <path

@@ -85,7 +85,7 @@ function LauncherDots() {
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className="w-1.5 h-1.5 rounded-full bg-white motion-safe:animate-[typing-idle_3.4s_ease-in-out_infinite]"
+          className="w-1.5 h-1.5 rounded-full bg-white motion-safe:animate-[typing-idle_4s_ease-in-out_infinite]"
           style={{ animationDelay: `${i * 160}ms` }}
         />
       ))}
@@ -101,7 +101,7 @@ function TypingBubble() {
         {[0, 1, 2].map((i) => (
           <span
             key={i}
-            className="w-1.5 h-1.5 rounded-full bg-muted-foreground motion-safe:animate-[typing-bounce_1.2s_ease-in-out_infinite]"
+            className="w-1.5 h-1.5 rounded-full bg-muted-foreground motion-safe:animate-[typing-bounce_1.6s_ease-in-out_infinite]"
             style={{ animationDelay: `${i * 160}ms` }}
           />
         ))}
@@ -145,7 +145,7 @@ export function FloatingContact() {
     const t = setTimeout(() => {
       setTyping(false)
       setMessages((m) => [...m, { from: "bot", text: tr(item.a, language) }])
-    }, 900)
+    }, 1400)
     timers.current.push(t)
   }
 
