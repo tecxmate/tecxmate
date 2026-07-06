@@ -1,13 +1,12 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { CalendarDays, Headset, Mail, MessageCircle, Send, X } from "lucide-react"
+import { CalendarDays, Headset, Mail, MessageCircle, Phone, X } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { company } from "@/lib/company"
 
-// TODO: replace with the real LINE official-account link (@id or line.me short link)
-const LINE_URL = "https://line.me/R/ti/p/@tecxmate"
-const ZALO_URL = `https://zalo.me/${company.phone.vn.tel.replace("+", "")}`
+const LINE_URL = "https://lin.ee/PHAOtCo"
+const WHATSAPP_URL = "https://wa.me/886966392602"
 
 const BOOK_LABEL: Record<string, string> = {
   en: "Book a call",
@@ -37,7 +36,7 @@ export function FloatingContact() {
 
   const options = [
     { id: "line", label: "LINE", href: LINE_URL, bg: "#06C755", icon: <MessageCircle className="h-5 w-5" /> },
-    { id: "zalo", label: "Zalo", href: ZALO_URL, bg: "#0068FF", icon: <Send className="h-5 w-5" /> },
+    { id: "whatsapp", label: "WhatsApp", href: WHATSAPP_URL, bg: "#25D366", icon: <Phone className="h-5 w-5" /> },
     { id: "email", label: "Email", href: `mailto:${company.contactEmail}`, bg: "#4B5563", icon: <Mail className="h-5 w-5" /> },
     { id: "booking", label: BOOK_LABEL[language] ?? BOOK_LABEL.en, href: company.social.booking, bg: "#8c52ff", icon: <CalendarDays className="h-5 w-5" /> },
   ]
