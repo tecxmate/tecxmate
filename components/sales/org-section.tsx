@@ -67,11 +67,13 @@ export function OrgSection() {
               {pickLocale(org.toggleAfter, language)}
             </p>
             <div className="min-h-[280px] md:min-h-[320px] flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3 sm:gap-2 px-2 sm:px-6 py-6">
-              <FlowPill variant="primary">tecxmate</FlowPill>
+              <FlowPill variant="wordmark">tecxmate</FlowPill>
               <Thrust />
-              <FlowPill variant="ink">{pickLocale(org.youLabel, language)}</FlowPill>
+              <FlowPill variant="primary">{pickLocale(org.youLabel, language)}</FlowPill>
               <Thrust />
-              <FlowPill variant="ink">{pickLocale(org.productLabel, language)}</FlowPill>
+              <FlowPill variant="ink" ripple>
+                {pickLocale(org.productLabel, language)}
+              </FlowPill>
             </div>
           </div>
         </div>
@@ -114,7 +116,8 @@ function Thrust() {
 }
 
 const PILL_STYLES = {
-  primary: "bg-primary text-white border-primary font-accent italic text-base md:text-lg",
+  primary: "bg-primary text-white border-primary font-medium",
+  wordmark: "bg-foreground text-background border-foreground font-accent italic text-base md:text-lg",
   ink: "bg-foreground text-background border-foreground font-medium",
   muted: "bg-card text-muted-foreground border-border",
 } as const
@@ -142,12 +145,34 @@ function TanglePill({
   )
 }
 
-function FlowPill({ variant, children }: { variant: PillVariant; children: React.ReactNode }) {
-  return (
+function FlowPill({
+  variant,
+  ripple,
+  children,
+}: {
+  variant: PillVariant
+  ripple?: boolean
+  children: React.ReactNode
+}) {
+  const pill = (
     <span
-      className={`whitespace-nowrap rounded-full border px-4 py-2 md:px-5 md:py-2.5 text-sm md:text-base shadow-sm shrink-0 ${PILL_STYLES[variant]}`}
+      className={`relative z-10 whitespace-nowrap rounded-full border px-4 py-2 md:px-5 md:py-2.5 text-sm md:text-base shadow-sm shrink-0 ${PILL_STYLES[variant]}`}
     >
       {children}
+    </span>
+  )
+  if (!ripple) return pill
+  return (
+    <span className="relative inline-flex shrink-0">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="absolute inset-0 rounded-full border-2 border-primary opacity-0 motion-safe:animate-[deck-ripple_2.4s_ease-out_infinite]"
+          style={{ animationDelay: `${i * 0.8}s` }}
+          aria-hidden
+        />
+      ))}
+      {pill}
     </span>
   )
 }
