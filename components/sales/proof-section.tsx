@@ -67,33 +67,39 @@ function ServicePanel({
   )
 }
 
-/** Big editorial content for the active service (desktop, Neon-style). */
-function ServiceContent({ cs }: { cs: Offering }) {
+/** One full-viewport service page for the horizontal track (desktop). */
+function ServicePage({ cs }: { cs: Offering }) {
   const { language } = useLanguage()
   return (
-    <div>
-      <span className="text-xs font-semibold uppercase tracking-[0.15em] text-primary">
-        {pickLocale(cs.tag, language)}
-      </span>
-      <h3 className="mt-4 text-3xl md:text-4xl xl:text-[2.6rem] font-semibold leading-[1.15] tracking-tight text-foreground max-w-2xl">
-        {pickLocale(cs.title, language)}
-      </h3>
-      <p className="mt-5 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
-        {pickLocale(cs.summary, language)}
-      </p>
-      <div className="mt-9 flex items-center gap-8 xl:gap-12">
-        <div className="shrink-0 rounded-2xl border border-border bg-card px-6 py-3">
-          <OfferingArt id={cs.id} />
+    <div className="w-screen h-full shrink-0 flex items-center">
+      <div className="container mx-auto px-6 md:px-10 max-w-6xl w-full grid grid-cols-[1.05fr_0.95fr] gap-12 xl:gap-20 items-center">
+        <div>
+          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+            {pickLocale(cs.tag, language)}
+          </span>
+          <h3 className="mt-5 text-3xl md:text-4xl xl:text-5xl font-semibold leading-[1.08] tracking-tight text-foreground max-w-xl">
+            {pickLocale(cs.title, language)}
+          </h3>
+          <p className="mt-6 text-lg xl:text-xl text-muted-foreground leading-relaxed max-w-lg">
+            {pickLocale(cs.summary, language)}
+          </p>
+          <div className="mt-10 flex flex-wrap gap-x-12 gap-y-5">
+            {cs.metrics.map((m, i) => (
+              <div key={i}>
+                <p className="text-xs text-muted-foreground mb-1.5">{pickLocale(m.label, language)}</p>
+                <p className="text-2xl md:text-3xl font-semibold text-primary tabular-nums leading-none">
+                  {pickLocale(m.value, language)}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="flex flex-wrap gap-x-10 gap-y-4">
-          {cs.metrics.map((m, i) => (
-            <div key={i}>
-              <p className="text-xs text-muted-foreground mb-1.5">{pickLocale(m.label, language)}</p>
-              <p className="text-2xl md:text-3xl font-semibold text-primary tabular-nums leading-none">
-                {pickLocale(m.value, language)}
-              </p>
+        <div className="flex justify-center">
+          <div className="rounded-3xl border border-border bg-card px-10 py-8 shadow-[0_20px_60px_-20px_rgba(139,92,246,0.3)]">
+            <div className="scale-[1.4] xl:scale-[1.6]">
+              <OfferingArt id={cs.id} />
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>
@@ -106,14 +112,11 @@ export function ProofSection() {
   const offerings = proof.offerings
   const N = offerings.length
 
-  // --- Desktop: pinned; vertical scroll advances the active service (Neon-style) ---
+  // --- Desktop: pinned horizontal scroll — vertical scroll moves the track sideways,
+  //     each service is a full-viewport page. Linear (no lock) so it never feels stuck. ---
   const wrapperRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(0)
-  const activeRef = useRef(0)
-  activeRef.current = active
-  const lockRef = useRef(false)
-  const minWheelUnlockAtRef = useRef(0)
-  const wheelUnlockTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const wrapper = wrapperRef.current
@@ -126,72 +129,20 @@ export function ProofSection() {
         const rect = wrapper.getBoundingClientRect()
         const totalPx = rect.height - window.innerHeight
         const p = totalPx > 0 ? Math.min(Math.max(-rect.top / totalPx, 0), 1) : 0
-        // Dwell: hold on each card for most of its zone, then swipe to the next.
-        const zone = 1 / N
-        const k = Math.min(Math.floor(p / zone), N - 1)
-        let f: number
-        if (k >= N - 1) {
-          f = N - 1
-        } else {
-          const HOLD = 0.55
-          const local = (p - k * zone) / zone
-          const m = Math.min(Math.max((local - HOLD) / (1 - HOLD), 0), 1)
-          f = k + m * m * (3 - 2 * m)
+        const f = p * (N - 1)
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translate3d(-${f * 100}vw, 0, 0)`
         }
         const idx = Math.round(f)
         setActive((prev) => (prev === idx ? prev : idx))
       })
     }
-    // One card per scroll gesture: intercept the wheel while the deck is pinned and
-    // step exactly one card, locked until the move settles — a hard scroll can't skip.
-    const stepTo = (i: number) => {
-      const totalPx = wrapper.offsetHeight - window.innerHeight
-      const pTarget = Math.min((i + 0.25) / N, 0.999)
-      window.scrollTo({ top: wrapper.offsetTop + pTarget * totalPx, behavior: "smooth" })
-    }
-    const scheduleWheelUnlock = () => {
-      if (wheelUnlockTimerRef.current) clearTimeout(wheelUnlockTimerRef.current)
-      const delay = Math.max(260, minWheelUnlockAtRef.current - window.performance.now())
-      wheelUnlockTimerRef.current = setTimeout(() => {
-        lockRef.current = false
-      }, delay)
-    }
-
-    const onWheel = (e: WheelEvent) => {
-      const rect = wrapper.getBoundingClientRect()
-      const pinned = rect.top <= 1 && rect.bottom >= window.innerHeight - 1
-      if (!pinned) return // outside the deck — let the page scroll normally
-      if (lockRef.current) {
-        e.preventDefault()
-        scheduleWheelUnlock()
-        return
-      }
-      if (Math.abs(e.deltaY) < 8 || Math.abs(e.deltaY) < Math.abs(e.deltaX)) {
-        e.preventDefault()
-        return
-      }
-      const dir = e.deltaY > 0 ? 1 : e.deltaY < 0 ? -1 : 0
-      if (dir === 0) return
-      const next = activeRef.current + dir
-      if (next < 0 || next > N - 1) return // at an edge — release to leave the section
-      e.preventDefault()
-      lockRef.current = true
-      minWheelUnlockAtRef.current = window.performance.now() + 620
-      stepTo(next)
-      window.setTimeout(() => {
-        scheduleWheelUnlock()
-      }, 520)
-    }
-
     window.addEventListener("scroll", onScroll, { passive: true })
     window.addEventListener("resize", onScroll)
-    window.addEventListener("wheel", onWheel, { passive: false })
     onScroll()
     return () => {
       window.removeEventListener("scroll", onScroll)
       window.removeEventListener("resize", onScroll)
-      window.removeEventListener("wheel", onWheel)
-      if (wheelUnlockTimerRef.current) clearTimeout(wheelUnlockTimerRef.current)
       if (raf) cancelAnimationFrame(raf)
     }
   }, [N])
@@ -201,7 +152,7 @@ export function ProofSection() {
       const wrapper = wrapperRef.current
       if (!wrapper) return
       const totalPx = wrapper.offsetHeight - window.innerHeight
-      const pTarget = Math.min((i + 0.25) / N, 0.999)
+      const pTarget = N > 1 ? i / (N - 1) : 0
       window.scrollTo({ top: wrapper.offsetTop + pTarget * totalPx, behavior: "smooth" })
     },
     [N],
@@ -268,61 +219,42 @@ export function ProofSection() {
         </div>
       </div>
 
-      {/* Desktop: pinned; left text-nav rail + big editorial content that crossfades
-          as you scroll through the four services (Neon-style). */}
+      {/* Desktop: pinned horizontal scroll — each service is a full-viewport page;
+          vertical scroll slides the track sideways. Header stays; titles move in. */}
       <div ref={wrapperRef} className="hidden lg:block relative" style={{ height: `${N * 100}vh` }}>
-        <div className="sticky top-0 h-screen flex items-center bg-muted/30 overflow-hidden">
-          <div className="container px-4 md:px-6 max-w-6xl w-full">
-            <div className="grid grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] gap-12 xl:gap-20 items-center">
-              {/* Left: nav rail */}
-              <div>
-                <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-2">
+        <div className="sticky top-0 h-screen overflow-hidden bg-muted/30">
+          {/* Persistent header + progress */}
+          <div className="absolute inset-x-0 top-0 z-20">
+            <div className="container mx-auto px-6 md:px-10 max-w-6xl pt-24 xl:pt-28">
+              <div className="flex items-end justify-between gap-6">
+                <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
                   {pickLocale(proof.title, language)}
                 </h2>
-                <p className="text-sm text-muted-foreground mb-9 max-w-xs leading-relaxed">
-                  {pickLocale(proof.subtitle, language)}
-                </p>
-                <nav className="flex flex-col">
-                  {offerings.map((o, i) => {
-                    const on = i === active
-                    return (
+                <div className="flex items-center gap-4">
+                  <span className="text-sm tabular-nums text-muted-foreground">
+                    {String(active + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    {offerings.map((_, i) => (
                       <button
-                        key={o.id}
+                        key={i}
                         type="button"
                         onClick={() => goTo(i)}
-                        aria-pressed={on}
-                        className="group flex items-center gap-4 py-2.5 text-left"
-                      >
-                        <span
-                          className={`h-6 w-[3px] rounded-full transition-colors ${on ? "bg-primary" : "bg-transparent group-hover:bg-border"}`}
-                        />
-                        <span
-                          className={`text-base xl:text-lg font-medium transition-colors ${
-                            on ? "text-foreground" : "text-muted-foreground/45 group-hover:text-muted-foreground"
-                          }`}
-                        >
-                          {pickLocale(o.tag, language)}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </nav>
-              </div>
-
-              {/* Right: crossfading editorial content */}
-              <div className="relative min-h-[380px] xl:min-h-[400px]">
-                {offerings.map((cs, i) => (
-                  <div
-                    key={cs.id}
-                    className={`absolute inset-0 transition-all duration-500 ease-out ${
-                      i === active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"
-                    }`}
-                  >
-                    <ServiceContent cs={cs} />
+                        aria-label={`Service ${i + 1}`}
+                        className={`h-1.5 rounded-full transition-all ${i === active ? "w-7 bg-primary" : "w-3 bg-border hover:bg-primary/40"}`}
+                      />
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
             </div>
+          </div>
+
+          {/* Horizontal track */}
+          <div ref={trackRef} className="flex h-full will-change-transform">
+            {offerings.map((cs) => (
+              <ServicePage key={cs.id} cs={cs} />
+            ))}
           </div>
         </div>
       </div>
