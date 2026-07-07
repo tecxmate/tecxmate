@@ -200,11 +200,12 @@ export function ProofSection() {
                 })}
               </div>
 
-              {/* Filmstrip — scrubbed by scroll progress */}
-              <div className="overflow-hidden">
+              {/* Filmstrip — scrubbed by scroll progress. Each slide is padded so the
+                  cards read as four separate cards with a gap, not one seamed block. */}
+              <div className="overflow-hidden -mx-3">
                 <div ref={stripRef} className="flex w-full will-change-transform">
                   {offerings.map((cs) => (
-                    <div key={cs.id} className="w-full shrink-0">
+                    <div key={cs.id} className="w-full shrink-0 px-3">
                       <ServicePanel cs={cs} />
                     </div>
                   ))}
