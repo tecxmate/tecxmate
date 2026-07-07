@@ -8,23 +8,36 @@ import { OfferingArt } from "@/components/sales/offering-art"
 type Offering = (typeof salesDeck.proof.offerings)[number]
 
 /** The full content for one service — illustration hero + details. */
-function ServicePanel({ cs }: { cs: Offering }) {
+function ServicePanel({
+  cs,
+  index,
+  total,
+  compact,
+}: {
+  cs: Offering
+  index: number
+  total: number
+  compact?: boolean
+}) {
   const { language } = useLanguage()
   return (
-    <div className="rounded-2xl border border-primary/40 bg-card overflow-hidden shadow-[0_0_40px_rgba(139,92,246,0.08)]">
-      <div className="relative h-40 md:h-48 bg-muted/30 flex items-center justify-center border-b border-border overflow-hidden">
-        <div className="scale-[1.4] md:scale-[1.6]">
+    <div className="h-full flex flex-col rounded-2xl border border-primary/40 bg-card overflow-hidden shadow-[0_10px_40px_-8px_rgba(139,92,246,0.25)]">
+      <div className="relative h-36 md:h-40 bg-muted/30 flex items-center justify-center border-b border-border overflow-hidden shrink-0">
+        <div className="scale-[1.35] md:scale-[1.55]">
           <OfferingArt id={cs.id} />
         </div>
+        <span className="absolute top-3 right-4 text-xs font-medium tabular-nums text-muted-foreground/70">
+          {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+        </span>
       </div>
-      <div className="p-6 md:p-8">
+      <div className="p-6 md:p-8 flex-1 min-h-0">
         <span className="text-xs font-medium uppercase tracking-wider text-primary">
           {pickLocale(cs.tag, language)}
         </span>
         <h3 className="text-xl md:text-2xl font-semibold text-foreground mt-2 mb-3 leading-snug">
           {pickLocale(cs.title, language)}
         </h3>
-        <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-6 max-w-2xl">
+        <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-6 max-w-2xl line-clamp-3">
           {pickLocale(cs.summary, language)}
         </p>
         <div className="flex flex-wrap gap-x-10 gap-y-4 border-t border-border pt-5">
@@ -37,7 +50,7 @@ function ServicePanel({ cs }: { cs: Offering }) {
             </div>
           ))}
         </div>
-        <div className="flex flex-wrap gap-2 mt-6">
+        <div className={`flex-wrap gap-2 mt-6 ${compact ? "hidden xl:flex" : "flex"}`}>
           {cs.stack.map((tech) => (
             <span
               key={tech}
@@ -58,10 +71,46 @@ export function ProofSection() {
   const offerings = proof.offerings
   const N = offerings.length
 
-  // --- Desktop: native sticky pin; vertical scroll scrubs the filmstrip ---
+  // --- Desktop: pinned card deck; scroll swipes the front card away to reveal the next ---
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const stripRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const [active, setActive] = useState(0)
+
+  const applyDeck = useCallback(
+    (f: number) => {
+      for (let i = 0; i < N; i++) {
+        const el = cardRefs.current[i]
+        if (!el) continue
+        const rel = i - f
+        let transform: string
+        let opacity: number
+        let z: number
+        if (rel <= -1) {
+          // already swiped off to the right
+          transform = "translateX(135%) rotate(7deg) scale(0.9)"
+          opacity = 0
+          z = 0
+        } else if (rel < 0) {
+          // front card being dismissed — slides right and fades
+          const t = -rel
+          transform = `translateX(${t * 135}%) rotate(${t * 7}deg) scale(${1 - t * 0.08})`
+          opacity = 1 - t
+          z = 50
+        } else {
+          // front (rel 0) or stacked behind (rel 1,2,3) — dimmed so the front reads clearly
+          const d = Math.min(rel, 3)
+          transform = `translateY(${d * 16}px) scale(${1 - d * 0.05})`
+          opacity = Math.max(0, 1 - d * 0.4)
+          z = 40 - Math.round(d * 10)
+        }
+        el.style.transform = transform
+        el.style.opacity = String(opacity)
+        el.style.zIndex = String(z)
+        el.style.pointerEvents = rel >= 0 && rel < 0.5 ? "auto" : "none"
+      }
+    },
+    [N],
+  )
 
   useEffect(() => {
     const wrapper = wrapperRef.current
@@ -72,10 +121,21 @@ export function ProofSection() {
       raf = requestAnimationFrame(() => {
         raf = 0
         const rect = wrapper.getBoundingClientRect()
-        const total = rect.height - window.innerHeight
-        const p = total > 0 ? Math.min(Math.max(-rect.top / total, 0), 1) : 0
-        const f = p * (N - 1)
-        if (stripRef.current) stripRef.current.style.transform = `translateX(-${f * 100}%)`
+        const totalPx = rect.height - window.innerHeight
+        const p = totalPx > 0 ? Math.min(Math.max(-rect.top / totalPx, 0), 1) : 0
+        // Dwell: hold on each card for most of its zone, then swipe to the next.
+        const zone = 1 / N
+        const k = Math.min(Math.floor(p / zone), N - 1)
+        let f: number
+        if (k >= N - 1) {
+          f = N - 1
+        } else {
+          const HOLD = 0.55
+          const local = (p - k * zone) / zone
+          const m = Math.min(Math.max((local - HOLD) / (1 - HOLD), 0), 1)
+          f = k + m * m * (3 - 2 * m)
+        }
+        applyDeck(f)
         const idx = Math.round(f)
         setActive((prev) => (prev === idx ? prev : idx))
       })
@@ -88,13 +148,18 @@ export function ProofSection() {
       window.removeEventListener("resize", onScroll)
       if (raf) cancelAnimationFrame(raf)
     }
-  }, [N])
+  }, [N, applyDeck])
 
-  const goTo = useCallback((i: number) => {
-    const wrapper = wrapperRef.current
-    if (!wrapper) return
-    window.scrollTo({ top: wrapper.offsetTop + i * window.innerHeight + 4, behavior: "smooth" })
-  }, [])
+  const goTo = useCallback(
+    (i: number) => {
+      const wrapper = wrapperRef.current
+      if (!wrapper) return
+      const totalPx = wrapper.offsetHeight - window.innerHeight
+      const pTarget = Math.min((i + 0.25) / N, 0.999)
+      window.scrollTo({ top: wrapper.offsetTop + pTarget * totalPx, behavior: "smooth" })
+    },
+    [N],
+  )
 
   // --- Mobile: swipeable row of cards with dot indicators ---
   const mobileRef = useRef<HTMLDivElement>(null)
@@ -137,9 +202,9 @@ export function ProofSection() {
             onScroll={onMobileScroll}
             className="flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            {offerings.map((cs) => (
+            {offerings.map((cs, i) => (
               <article key={cs.id} className="snap-center shrink-0 w-[86%] sm:w-[70%]">
-                <ServicePanel cs={cs} />
+                <ServicePanel cs={cs} index={i} total={N} />
               </article>
             ))}
           </div>
@@ -157,65 +222,52 @@ export function ProofSection() {
         </div>
       </div>
 
-      {/* Desktop: pinned; vertical scroll rotates through the four horizontally */}
+      {/* Desktop: pinned card deck; scroll swipes the front card away to reveal the next.
+          Title stays anchored on the left; the deck cycles on the right. */}
       <div ref={wrapperRef} className="hidden lg:block relative" style={{ height: `${N * 100}vh` }}>
         <div className="sticky top-0 h-screen flex items-center bg-muted/30 overflow-hidden">
           <div className="container px-4 md:px-6 max-w-6xl w-full">
-            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-3">
-              {pickLocale(proof.title, language)}
-            </h2>
-            <p className="text-muted-foreground mb-8 lg:mb-10">{pickLocale(proof.subtitle, language)}</p>
-
-            <div className="grid grid-cols-[300px_1fr] gap-6">
-              {/* Numbered tab rail */}
-              <div className="flex flex-col gap-3 self-center">
-                {offerings.map((o, i) => {
-                  const on = i === active
-                  return (
+            <div className="grid grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] gap-10 xl:gap-16 items-center">
+              {/* Left: title + progress (always visible) */}
+              <div>
+                <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground leading-tight">
+                  {pickLocale(proof.title, language)}
+                </h2>
+                <p className="text-muted-foreground mt-4 mb-8 max-w-md leading-relaxed">
+                  {pickLocale(proof.subtitle, language)}
+                </p>
+                <div className="flex items-center gap-2.5 mb-4">
+                  {offerings.map((_, i) => (
                     <button
-                      key={o.id}
+                      key={i}
                       type="button"
                       onClick={() => goTo(i)}
-                      aria-pressed={on}
-                      className={`group flex items-center gap-3.5 rounded-xl border p-4 text-left transition-colors ${
-                        on ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/40"
-                      }`}
-                    >
-                      <span
-                        className={`shrink-0 h-9 w-9 rounded-lg flex items-center justify-center text-sm font-semibold tabular-nums transition-colors ${
-                          on ? "bg-primary text-white" : "bg-muted text-muted-foreground group-hover:text-primary"
-                        }`}
-                      >
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span
-                        className={`text-sm font-medium leading-snug ${
-                          on ? "text-foreground" : "text-muted-foreground"
-                        }`}
-                      >
-                        {pickLocale(o.tag, language)}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-
-              {/* Filmstrip — scrubbed by scroll progress. Each slide is padded so the
-                  cards read as four separate cards with a gap, not one seamed block. */}
-              <div className="overflow-hidden -mx-3">
-                <div ref={stripRef} className="flex w-full will-change-transform">
-                  {offerings.map((cs) => (
-                    <div key={cs.id} className="w-full shrink-0 px-3">
-                      <ServicePanel cs={cs} />
-                    </div>
+                      aria-label={`Service ${i + 1}`}
+                      className={`h-2 rounded-full transition-all ${i === active ? "w-7 bg-primary" : "w-2 bg-border hover:bg-primary/40"}`}
+                    />
                   ))}
                 </div>
+                <p className="text-xs text-muted-foreground/70 tabular-nums">
+                  {String(active + 1).padStart(2, "0")} / {String(N).padStart(2, "0")} — scroll to explore all {N}
+                </p>
+              </div>
+
+              {/* Right: card deck */}
+              <div className="relative w-full h-[420px] xl:h-[460px]">
+                {offerings.map((cs, i) => (
+                  <div
+                    key={cs.id}
+                    ref={(el) => {
+                      cardRefs.current[i] = el
+                    }}
+                    className="absolute inset-0 will-change-transform"
+                    style={{ transition: "transform 120ms ease-out, opacity 120ms ease-out" }}
+                  >
+                    <ServicePanel cs={cs} index={i} total={N} compact />
+                  </div>
+                ))}
               </div>
             </div>
-
-            <p className="text-center text-xs text-muted-foreground/70 mt-8">
-              {String(active + 1).padStart(2, "0")} / {String(N).padStart(2, "0")} — keep scrolling to explore all {N}
-            </p>
           </div>
         </div>
       </div>
