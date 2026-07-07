@@ -67,56 +67,53 @@ function ServicePanel({
   )
 }
 
+/** Big editorial content for the active service (desktop, Neon-style). */
+function ServiceContent({ cs }: { cs: Offering }) {
+  const { language } = useLanguage()
+  return (
+    <div>
+      <span className="text-xs font-semibold uppercase tracking-[0.15em] text-primary">
+        {pickLocale(cs.tag, language)}
+      </span>
+      <h3 className="mt-4 text-3xl md:text-4xl xl:text-[2.6rem] font-semibold leading-[1.15] tracking-tight text-foreground max-w-2xl">
+        {pickLocale(cs.title, language)}
+      </h3>
+      <p className="mt-5 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
+        {pickLocale(cs.summary, language)}
+      </p>
+      <div className="mt-9 flex items-center gap-8 xl:gap-12">
+        <div className="shrink-0 rounded-2xl border border-border bg-card px-6 py-3">
+          <OfferingArt id={cs.id} />
+        </div>
+        <div className="flex flex-wrap gap-x-10 gap-y-4">
+          {cs.metrics.map((m, i) => (
+            <div key={i}>
+              <p className="text-xs text-muted-foreground mb-1.5">{pickLocale(m.label, language)}</p>
+              <p className="text-2xl md:text-3xl font-semibold text-primary tabular-nums leading-none">
+                {pickLocale(m.value, language)}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function ProofSection() {
   const { language } = useLanguage()
   const { proof } = salesDeck
   const offerings = proof.offerings
   const N = offerings.length
 
-  // --- Desktop: pinned card deck; scroll swipes the front card away to reveal the next ---
+  // --- Desktop: pinned; vertical scroll advances the active service (Neon-style) ---
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const [active, setActive] = useState(0)
   const activeRef = useRef(0)
   activeRef.current = active
   const lockRef = useRef(false)
-
-  const applyDeck = useCallback(
-    (f: number) => {
-      for (let i = 0; i < N; i++) {
-        const el = cardRefs.current[i]
-        if (!el) continue
-        const rel = i - f
-        let transform: string
-        let opacity: number
-        let z: number
-        if (rel <= -1) {
-          // already swiped off to the right
-          transform = "translateX(135%) rotate(7deg) scale(0.9)"
-          opacity = 0
-          z = 0
-        } else if (rel < 0) {
-          // front card being dismissed — slides right and fades
-          const t = -rel
-          transform = `translateX(${t * 135}%) rotate(${t * 7}deg) scale(${1 - t * 0.08})`
-          opacity = 1 - t
-          z = 50
-        } else {
-          // front (rel 0) or stacked behind — peek a clean edge above, dimmed hard
-          // so only ~one faint card shows behind and nothing bleeds at the bottom.
-          const d = Math.min(rel, 3)
-          transform = `translateY(${-d * 12}px) scale(${1 - d * 0.045})`
-          opacity = Math.max(0, 1 - d * 0.6)
-          z = 40 - Math.round(d * 10)
-        }
-        el.style.transform = transform
-        el.style.opacity = String(opacity)
-        el.style.zIndex = String(z)
-        el.style.pointerEvents = rel >= 0 && rel < 0.5 ? "auto" : "none"
-      }
-    },
-    [N],
-  )
+  const minWheelUnlockAtRef = useRef(0)
+  const wheelUnlockTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const wrapper = wrapperRef.current
@@ -141,7 +138,6 @@ export function ProofSection() {
           const m = Math.min(Math.max((local - HOLD) / (1 - HOLD), 0), 1)
           f = k + m * m * (3 - 2 * m)
         }
-        applyDeck(f)
         const idx = Math.round(f)
         setActive((prev) => (prev === idx ? prev : idx))
       })
@@ -153,11 +149,24 @@ export function ProofSection() {
       const pTarget = Math.min((i + 0.25) / N, 0.999)
       window.scrollTo({ top: wrapper.offsetTop + pTarget * totalPx, behavior: "smooth" })
     }
+    const scheduleWheelUnlock = () => {
+      if (wheelUnlockTimerRef.current) clearTimeout(wheelUnlockTimerRef.current)
+      const delay = Math.max(260, minWheelUnlockAtRef.current - window.performance.now())
+      wheelUnlockTimerRef.current = setTimeout(() => {
+        lockRef.current = false
+      }, delay)
+    }
+
     const onWheel = (e: WheelEvent) => {
       const rect = wrapper.getBoundingClientRect()
       const pinned = rect.top <= 1 && rect.bottom >= window.innerHeight - 1
       if (!pinned) return // outside the deck — let the page scroll normally
       if (lockRef.current) {
+        e.preventDefault()
+        scheduleWheelUnlock()
+        return
+      }
+      if (Math.abs(e.deltaY) < 8 || Math.abs(e.deltaY) < Math.abs(e.deltaX)) {
         e.preventDefault()
         return
       }
@@ -167,10 +176,11 @@ export function ProofSection() {
       if (next < 0 || next > N - 1) return // at an edge — release to leave the section
       e.preventDefault()
       lockRef.current = true
+      minWheelUnlockAtRef.current = window.performance.now() + 620
       stepTo(next)
       window.setTimeout(() => {
-        lockRef.current = false
-      }, 720)
+        scheduleWheelUnlock()
+      }, 520)
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
@@ -181,9 +191,10 @@ export function ProofSection() {
       window.removeEventListener("scroll", onScroll)
       window.removeEventListener("resize", onScroll)
       window.removeEventListener("wheel", onWheel)
+      if (wheelUnlockTimerRef.current) clearTimeout(wheelUnlockTimerRef.current)
       if (raf) cancelAnimationFrame(raf)
     }
-  }, [N, applyDeck])
+  }, [N])
 
   const goTo = useCallback(
     (i: number) => {
@@ -257,48 +268,57 @@ export function ProofSection() {
         </div>
       </div>
 
-      {/* Desktop: pinned card deck; scroll swipes the front card away to reveal the next.
-          Title stays anchored on the left; the deck cycles on the right. */}
+      {/* Desktop: pinned; left text-nav rail + big editorial content that crossfades
+          as you scroll through the four services (Neon-style). */}
       <div ref={wrapperRef} className="hidden lg:block relative" style={{ height: `${N * 100}vh` }}>
         <div className="sticky top-0 h-screen flex items-center bg-muted/30 overflow-hidden">
           <div className="container px-4 md:px-6 max-w-6xl w-full">
-            <div className="grid grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] gap-10 xl:gap-16 items-center">
-              {/* Left: title + progress (always visible) */}
+            <div className="grid grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] gap-12 xl:gap-20 items-center">
+              {/* Left: nav rail */}
               <div>
-                <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground leading-tight">
+                <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-2">
                   {pickLocale(proof.title, language)}
                 </h2>
-                <p className="text-muted-foreground mt-4 mb-8 max-w-md leading-relaxed">
+                <p className="text-sm text-muted-foreground mb-9 max-w-xs leading-relaxed">
                   {pickLocale(proof.subtitle, language)}
                 </p>
-                <div className="flex items-center gap-2.5 mb-4">
-                  {offerings.map((_, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => goTo(i)}
-                      aria-label={`Service ${i + 1}`}
-                      className={`h-2 rounded-full transition-all ${i === active ? "w-7 bg-primary" : "w-2 bg-border hover:bg-primary/40"}`}
-                    />
-                  ))}
-                </div>
-                <p className="text-xs text-muted-foreground/70 tabular-nums">
-                  {String(active + 1).padStart(2, "0")} / {String(N).padStart(2, "0")} — scroll to explore all {N}
-                </p>
+                <nav className="flex flex-col">
+                  {offerings.map((o, i) => {
+                    const on = i === active
+                    return (
+                      <button
+                        key={o.id}
+                        type="button"
+                        onClick={() => goTo(i)}
+                        aria-pressed={on}
+                        className="group flex items-center gap-4 py-2.5 text-left"
+                      >
+                        <span
+                          className={`h-6 w-[3px] rounded-full transition-colors ${on ? "bg-primary" : "bg-transparent group-hover:bg-border"}`}
+                        />
+                        <span
+                          className={`text-base xl:text-lg font-medium transition-colors ${
+                            on ? "text-foreground" : "text-muted-foreground/45 group-hover:text-muted-foreground"
+                          }`}
+                        >
+                          {pickLocale(o.tag, language)}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </nav>
               </div>
 
-              {/* Right: card deck */}
-              <div className="relative w-full h-[430px] xl:h-[460px]">
+              {/* Right: crossfading editorial content */}
+              <div className="relative min-h-[380px] xl:min-h-[400px]">
                 {offerings.map((cs, i) => (
                   <div
                     key={cs.id}
-                    ref={(el) => {
-                      cardRefs.current[i] = el
-                    }}
-                    className="absolute inset-0 will-change-transform"
-                    style={{ transition: "transform 120ms ease-out, opacity 120ms ease-out" }}
+                    className={`absolute inset-0 transition-all duration-500 ease-out ${
+                      i === active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"
+                    }`}
                   >
-                    <ServicePanel cs={cs} index={i} total={N} compact />
+                    <ServiceContent cs={cs} />
                   </div>
                 ))}
               </div>
