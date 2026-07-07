@@ -47,12 +47,12 @@ function ServiceSection({ cs, index }: { cs: Offering; index: number }) {
             </div>
           </div>
 
-          {/* Illustration */}
-          <div className={`flex justify-center ${flip ? "lg:order-1" : ""}`}>
-            <div className="w-full max-w-md rounded-3xl border border-border bg-card px-8 py-8 lg:px-10 lg:py-10 shadow-[0_20px_60px_-20px_rgba(139,92,246,0.25)] flex items-center justify-center">
-              <div className="scale-[1.3] lg:scale-[1.5]">
-                <OfferingArt id={cs.id} />
-              </div>
+          {/* Illustration — no frame, sized to fill its half of the page */}
+          <div
+            className={`flex items-center justify-center min-h-[240px] lg:min-h-[340px] ${flip ? "lg:order-1" : ""}`}
+          >
+            <div className="scale-[1.5] sm:scale-[1.9] lg:scale-[2.1] xl:scale-[2.35]">
+              <OfferingArt id={cs.id} />
             </div>
           </div>
         </div>
