@@ -22,44 +22,46 @@ function ServicePanel({
   const { language } = useLanguage()
   return (
     <div className="h-full flex flex-col rounded-2xl border border-primary/40 bg-card overflow-hidden shadow-[0_10px_40px_-8px_rgba(139,92,246,0.25)]">
-      <div className="relative h-36 md:h-40 bg-muted/30 flex items-center justify-center border-b border-border overflow-hidden shrink-0">
-        <div className="scale-[1.35] md:scale-[1.55]">
+      <div className="relative h-32 md:h-36 bg-muted/30 flex items-center justify-center border-b border-border overflow-hidden shrink-0">
+        <div className="scale-[1.3] md:scale-[1.45]">
           <OfferingArt id={cs.id} />
         </div>
         <span className="absolute top-3 right-4 text-xs font-medium tabular-nums text-muted-foreground/70">
           {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
       </div>
-      <div className="p-6 md:p-8 flex-1 min-h-0">
+      <div className="flex flex-col flex-1 min-h-0 p-6 md:p-7">
         <span className="text-xs font-medium uppercase tracking-wider text-primary">
           {pickLocale(cs.tag, language)}
         </span>
-        <h3 className="text-xl md:text-2xl font-semibold text-foreground mt-2 mb-3 leading-snug">
+        <h3 className="text-lg md:text-xl font-semibold text-foreground mt-2 mb-2.5 leading-snug">
           {pickLocale(cs.title, language)}
         </h3>
-        <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-6 max-w-2xl line-clamp-3">
+        <p className="text-sm md:text-[15px] text-muted-foreground leading-relaxed line-clamp-2">
           {pickLocale(cs.summary, language)}
         </p>
-        <div className="flex flex-wrap gap-x-10 gap-y-4 border-t border-border pt-5">
+        <div className="flex flex-wrap gap-x-8 gap-y-3 border-t border-border pt-4 mt-auto">
           {cs.metrics.map((m, i) => (
             <div key={i}>
               <p className="text-xs text-muted-foreground mb-1">{pickLocale(m.label, language)}</p>
-              <p className="text-2xl md:text-3xl font-semibold text-primary tabular-nums leading-none">
+              <p className="text-xl md:text-2xl font-semibold text-primary tabular-nums leading-none">
                 {pickLocale(m.value, language)}
               </p>
             </div>
           ))}
         </div>
-        <div className={`flex-wrap gap-2 mt-6 ${compact ? "hidden xl:flex" : "flex"}`}>
-          {cs.stack.map((tech) => (
-            <span
-              key={tech}
-              className="text-xs px-2.5 py-1 rounded-full border border-border text-muted-foreground"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
+        {!compact && (
+          <div className="flex flex-wrap gap-2 mt-5">
+            {cs.stack.map((tech) => (
+              <span
+                key={tech}
+                className="text-xs px-2.5 py-1 rounded-full border border-border text-muted-foreground"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
@@ -75,6 +77,9 @@ export function ProofSection() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const [active, setActive] = useState(0)
+  const activeRef = useRef(0)
+  activeRef.current = active
+  const lockRef = useRef(false)
 
   const applyDeck = useCallback(
     (f: number) => {
@@ -97,10 +102,11 @@ export function ProofSection() {
           opacity = 1 - t
           z = 50
         } else {
-          // front (rel 0) or stacked behind (rel 1,2,3) — dimmed so the front reads clearly
+          // front (rel 0) or stacked behind — peek a clean edge above, dimmed hard
+          // so only ~one faint card shows behind and nothing bleeds at the bottom.
           const d = Math.min(rel, 3)
-          transform = `translateY(${d * 16}px) scale(${1 - d * 0.05})`
-          opacity = Math.max(0, 1 - d * 0.4)
+          transform = `translateY(${-d * 12}px) scale(${1 - d * 0.045})`
+          opacity = Math.max(0, 1 - d * 0.6)
           z = 40 - Math.round(d * 10)
         }
         el.style.transform = transform
@@ -140,12 +146,41 @@ export function ProofSection() {
         setActive((prev) => (prev === idx ? prev : idx))
       })
     }
+    // One card per scroll gesture: intercept the wheel while the deck is pinned and
+    // step exactly one card, locked until the move settles — a hard scroll can't skip.
+    const stepTo = (i: number) => {
+      const totalPx = wrapper.offsetHeight - window.innerHeight
+      const pTarget = Math.min((i + 0.25) / N, 0.999)
+      window.scrollTo({ top: wrapper.offsetTop + pTarget * totalPx, behavior: "smooth" })
+    }
+    const onWheel = (e: WheelEvent) => {
+      const rect = wrapper.getBoundingClientRect()
+      const pinned = rect.top <= 1 && rect.bottom >= window.innerHeight - 1
+      if (!pinned) return // outside the deck — let the page scroll normally
+      if (lockRef.current) {
+        e.preventDefault()
+        return
+      }
+      const dir = e.deltaY > 0 ? 1 : e.deltaY < 0 ? -1 : 0
+      if (dir === 0) return
+      const next = activeRef.current + dir
+      if (next < 0 || next > N - 1) return // at an edge — release to leave the section
+      e.preventDefault()
+      lockRef.current = true
+      stepTo(next)
+      window.setTimeout(() => {
+        lockRef.current = false
+      }, 720)
+    }
+
     window.addEventListener("scroll", onScroll, { passive: true })
     window.addEventListener("resize", onScroll)
+    window.addEventListener("wheel", onWheel, { passive: false })
     onScroll()
     return () => {
       window.removeEventListener("scroll", onScroll)
       window.removeEventListener("resize", onScroll)
+      window.removeEventListener("wheel", onWheel)
       if (raf) cancelAnimationFrame(raf)
     }
   }, [N, applyDeck])
@@ -253,7 +288,7 @@ export function ProofSection() {
               </div>
 
               {/* Right: card deck */}
-              <div className="relative w-full h-[420px] xl:h-[460px]">
+              <div className="relative w-full h-[430px] xl:h-[460px]">
                 {offerings.map((cs, i) => (
                   <div
                     key={cs.id}
