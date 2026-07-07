@@ -364,6 +364,14 @@
 
 }
 
+/* Pause a section's decorative animations while it is scrolled off-screen
+   (toggled by AnimationPauser) so they don't run continuously and heat the GPU. */
+[data-anim-paused] *,
+[data-anim-paused] *::before,
+[data-anim-paused] *::after {
+  animation-play-state: paused !important;
+}
+
 /* Sales-narrative infographic animations (waveform bars, traveling pulse, flowing line) */
 @keyframes deck-wave {
   0%, 100% { height: 6px; }

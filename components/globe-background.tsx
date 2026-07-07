@@ -212,7 +212,7 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
     const tick = (now: number) => {
       rafRef.current = requestAnimationFrame(tick)
 
-      if (!isInViewRef.current) return // skip GPU work entirely when off-screen
+      if (!isInViewRef.current || document.hidden) return // skip GPU work off-screen or in a hidden tab
 
       if (now - lastFrameTime < FRAME_INTERVAL) return
       lastFrameTime = now

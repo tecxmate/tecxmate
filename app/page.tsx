@@ -5,6 +5,7 @@ import type { Metadata } from "next"
 import Script from "next/script"
 import dynamic from "next/dynamic"
 import { isSectionEnabled, readContent } from "@/lib/site-content"
+import { AnimationPauser } from "@/components/animation-pauser"
 
 // Lazy load below-the-fold components to reduce initial bundle and TBT
 const EconomicsSection = dynamic(() => import("@/components/sales/economics-section").then(mod => ({ default: mod.EconomicsSection })), {
@@ -49,6 +50,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen bg-background">
       <Navbar />
+      <AnimationPauser />
       <Script
         id="org-jsonld"
         type="application/ld+json"

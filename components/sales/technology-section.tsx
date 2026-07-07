@@ -232,7 +232,7 @@ export function TechnologySection() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
     const id = setInterval(() => {
-      if (pausedRef.current) return
+      if (pausedRef.current || document.hidden) return
       scrollToIndex((activeRef.current + 1) % count)
     }, 4500)
     return () => clearInterval(id)

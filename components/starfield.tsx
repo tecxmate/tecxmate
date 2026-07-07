@@ -2,6 +2,11 @@
 
 import { useEffect, useRef } from "react"
 
+// The starfield is purely decorative. Draw at 30fps (twinkle needs no more) and
+// only while it's actually on screen and the tab is visible — otherwise it would
+// redraw 200 stars forever in the background and heat the machine.
+const FRAME_MS = 1000 / 30
+
 export function Starfield() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -11,6 +16,8 @@ export function Starfield() {
 
     const ctx = canvas.getContext("2d")
     if (!ctx) return
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth
@@ -34,10 +41,12 @@ export function Starfield() {
       })
     }
 
-    let animationId: number
+    let animationId = 0
     let time = 0
+    let last = 0
+    let inView = true
 
-    const render = () => {
+    const drawFrame = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       time += 0.016
 
@@ -69,15 +78,55 @@ export function Starfield() {
           ctx.fill()
         }
       })
-
-      animationId = requestAnimationFrame(render)
     }
 
-    render()
+    const shouldRun = () => !reduced && !document.hidden && inView
+
+    const loop = (now: number) => {
+      if (!shouldRun()) {
+        animationId = 0
+        return
+      }
+      animationId = requestAnimationFrame(loop)
+      if (now - last < FRAME_MS) return
+      last = now
+      drawFrame()
+    }
+
+    const start = () => {
+      if (!animationId && shouldRun()) animationId = requestAnimationFrame(loop)
+    }
+    const stop = () => {
+      if (animationId) cancelAnimationFrame(animationId)
+      animationId = 0
+    }
+
+    // Stop entirely once the hero scrolls out of view.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting
+        if (inView) start()
+        else stop()
+      },
+      { rootMargin: "80px" },
+    )
+    io.observe(canvas)
+
+    // Stop while the tab is in the background.
+    const onVisibility = () => (document.hidden ? stop() : start())
+    document.addEventListener("visibilitychange", onVisibility)
+
+    if (reduced) {
+      drawFrame() // one static frame, no loop
+    } else {
+      start()
+    }
 
     return () => {
       window.removeEventListener("resize", resizeCanvas)
-      cancelAnimationFrame(animationId)
+      document.removeEventListener("visibilitychange", onVisibility)
+      io.disconnect()
+      stop()
     }
   }, [])
 
