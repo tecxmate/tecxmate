@@ -259,7 +259,7 @@ export function FloatingContact() {
                 {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 aria-label={c.label}
                 title={c.label}
-                className={`group flex flex-col items-center gap-1 ${animClass}`}
+                className={`group w-12 flex flex-col items-center gap-1 ${animClass}`}
                 style={{ animationDelay: `${i * 45}ms` }}
               >
                 <span
@@ -268,7 +268,7 @@ export function FloatingContact() {
                 >
                   {c.icon}
                 </span>
-                <span className="text-[10px] font-medium leading-none text-foreground/90 bg-card/80 backdrop-blur-sm px-1.5 py-0.5 rounded shadow-sm">
+                <span className="whitespace-nowrap text-[10px] font-medium leading-none text-foreground/90 bg-card/80 backdrop-blur-sm px-1.5 py-0.5 rounded shadow-sm">
                   {c.short}
                 </span>
               </a>
