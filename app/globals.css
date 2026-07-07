@@ -364,11 +364,15 @@
 
 }
 
-/* Pause a section's decorative animations while it is scrolled off-screen
-   (toggled by AnimationPauser) so they don't run continuously and heat the GPU. */
+/* Pause a section's decorative animations while it is scrolled off-screen, and
+   pause every decorative animation once the page has been idle (toggled by
+   AnimationPauser) so nothing runs continuously and heats the GPU. */
 [data-anim-paused] *,
 [data-anim-paused] *::before,
-[data-anim-paused] *::after {
+[data-anim-paused] *::after,
+html[data-idle] *,
+html[data-idle] *::before,
+html[data-idle] *::after {
   animation-play-state: paused !important;
 }
 

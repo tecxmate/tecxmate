@@ -82,6 +82,7 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
   const rafRef = useRef<number>(0)
   const prefersReducedMotionRef = useRef(false)
   const isInViewRef = useRef(true)
+  const idleRef = useRef(false)
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 })
   const [isMobile, setIsMobile] = useState(false)
 
@@ -134,7 +135,15 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
       { threshold: 0.05, rootMargin: "50px" }
     )
     io.observe(hero)
-    return () => io.disconnect()
+
+    // Stop rendering once the page goes idle (AnimationPauser); resume on activity.
+    const onIdle = (e: Event) => { idleRef.current = !!(e as CustomEvent).detail?.idle }
+    window.addEventListener("app:idle", onIdle)
+
+    return () => {
+      io.disconnect()
+      window.removeEventListener("app:idle", onIdle)
+    }
   }, [])
 
   useEffect(() => {
@@ -212,7 +221,7 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
     const tick = (now: number) => {
       rafRef.current = requestAnimationFrame(tick)
 
-      if (!isInViewRef.current || document.hidden) return // skip GPU work off-screen or in a hidden tab
+      if (!isInViewRef.current || document.hidden || idleRef.current) return // skip GPU work off-screen, hidden, or idle
 
       if (now - lastFrameTime < FRAME_INTERVAL) return
       lastFrameTime = now

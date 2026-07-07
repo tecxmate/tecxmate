@@ -45,6 +45,7 @@ export function Starfield() {
     let time = 0
     let last = 0
     let inView = true
+    let idle = false
 
     const drawFrame = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -80,7 +81,7 @@ export function Starfield() {
       })
     }
 
-    const shouldRun = () => !reduced && !document.hidden && inView
+    const shouldRun = () => !reduced && !document.hidden && inView && !idle
 
     const loop = (now: number) => {
       if (!shouldRun()) {
@@ -116,6 +117,14 @@ export function Starfield() {
     const onVisibility = () => (document.hidden ? stop() : start())
     document.addEventListener("visibilitychange", onVisibility)
 
+    // Stop once the page goes idle (AnimationPauser); resume on activity.
+    const onIdle = (e: Event) => {
+      idle = !!(e as CustomEvent).detail?.idle
+      if (idle) stop()
+      else start()
+    }
+    window.addEventListener("app:idle", onIdle)
+
     if (reduced) {
       drawFrame() // one static frame, no loop
     } else {
@@ -125,6 +134,7 @@ export function Starfield() {
     return () => {
       window.removeEventListener("resize", resizeCanvas)
       document.removeEventListener("visibilitychange", onVisibility)
+      window.removeEventListener("app:idle", onIdle)
       io.disconnect()
       stop()
     }
