@@ -11,7 +11,7 @@ function ServiceSection({ cs, index }: { cs: Offering; index: number }) {
   const { language } = useLanguage()
   const flip = index % 2 === 1
   return (
-    <div className="lg:min-h-screen flex items-center py-16 md:py-20 lg:py-24">
+    <div className="flex items-center py-12 md:py-0 md:min-h-[627px]">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl w-full">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20 items-center">
           {/* Text */}
