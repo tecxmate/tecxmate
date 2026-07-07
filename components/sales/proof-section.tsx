@@ -6,54 +6,40 @@ import { OfferingArt } from "@/components/sales/offering-art"
 
 type Offering = (typeof salesDeck.proof.offerings)[number]
 
-/** One full-page service panel: title rail on the left, content and graphic on the right. */
-function ServicePanel({ cs, index, total }: { cs: Offering; index: number; total: number }) {
+/** One service as its own full-height page — big editorial layout, alternating sides. */
+function ServiceSection({ cs, index }: { cs: Offering; index: number }) {
   const { language } = useLanguage()
+  const flip = index % 2 === 1
   return (
-    <article className="grid min-h-[calc(100vh-4rem)] border-t border-border bg-background md:grid-cols-[minmax(220px,0.34fr)_minmax(0,0.66fr)]">
-      <aside className="flex flex-col justify-between border-b border-border bg-muted/20 p-5 md:border-b-0 md:border-r md:p-8 lg:p-10">
-        <div>
-          <div className="mb-8 flex items-center justify-between text-xs tabular-nums text-muted-foreground md:block">
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <span className="md:mt-1 md:block">/ {String(total).padStart(2, "0")}</span>
-          </div>
-          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-            {pickLocale(cs.tag, language)}
-          </span>
-          <h3 className="mt-4 max-w-sm text-3xl font-semibold leading-[1.06] tracking-tight text-foreground md:text-4xl lg:text-5xl">
-            {pickLocale(cs.title, language)}
-          </h3>
-        </div>
-        <div className="mt-8 hidden text-sm text-muted-foreground md:block">
-          {pickLocale(cs.problem, language)}
-        </div>
-      </aside>
-
-      <div className="flex min-h-[620px] flex-col p-5 md:p-8 lg:p-10">
-        <div className="grid gap-5 border border-border bg-border md:grid-cols-2">
-          {cs.metrics.map((m, i) => (
-            <div key={i} className="bg-card p-5 md:p-6">
-              <p className="mb-2 text-xs text-muted-foreground">{pickLocale(m.label, language)}</p>
-              <p className="text-2xl font-semibold leading-none text-primary tabular-nums md:text-3xl">
-                {pickLocale(m.value, language)}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div className="grid flex-1 items-center gap-8 py-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(300px,1.28fr)] lg:py-12">
-          <div>
-            <p className="text-xl leading-relaxed text-foreground md:text-2xl">
+    <div className="flex items-center py-12 md:py-0 md:min-h-[627px]">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl w-full">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20 items-center">
+          {/* Text */}
+          <div className={flip ? "lg:order-2" : ""}>
+            <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+              {pickLocale(cs.tag, language)}
+            </span>
+            <h3 className="mt-4 text-3xl md:text-4xl xl:text-5xl font-semibold leading-[1.1] tracking-tight text-foreground max-w-xl">
+              {pickLocale(cs.title, language)}
+            </h3>
+            <p className="mt-5 text-lg xl:text-xl text-muted-foreground leading-relaxed max-w-lg">
               {pickLocale(cs.summary, language)}
             </p>
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground md:text-base">
-              {pickLocale(cs.solution, language)}
-            </p>
+            <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
+              {cs.metrics.map((m, i) => (
+                <div key={i}>
+                  <p className="text-xs text-muted-foreground mb-1.5">{pickLocale(m.label, language)}</p>
+                  <p className="text-2xl md:text-3xl font-semibold text-primary tabular-nums leading-none">
+                    {pickLocale(m.value, language)}
+                  </p>
+                </div>
+              ))}
+            </div>
             <div className="mt-7 flex flex-wrap gap-2">
               {cs.stack.map((tech) => (
                 <span
                   key={tech}
-                  className="border border-border bg-card px-2.5 py-1 text-xs text-muted-foreground"
+                  className="text-xs px-2.5 py-1 rounded-full border border-border text-muted-foreground"
                 >
                   {tech}
                 </span>
@@ -61,18 +47,17 @@ function ServicePanel({ cs, index, total }: { cs: Offering; index: number; total
             </div>
           </div>
 
-          <div className="flex min-h-[280px] items-center justify-center rounded-lg border border-border bg-muted/20 p-6 md:min-h-[320px] md:p-8">
-            <div className="scale-[1.4] md:scale-[1.55]">
+          {/* Illustration — no frame, sized to fill its half of the page */}
+          <div
+            className={`flex items-center justify-center min-h-[240px] lg:min-h-[340px] ${flip ? "lg:order-1" : ""}`}
+          >
+            <div className="scale-[1.5] sm:scale-[1.9] lg:scale-[2.1] xl:scale-[2.35]">
               <OfferingArt id={cs.id} />
             </div>
           </div>
         </div>
-
-        <p className="border-t border-border pt-5 text-sm leading-relaxed text-muted-foreground">
-          {pickLocale(cs.outcome, language)}
-        </p>
       </div>
-    </article>
+    </div>
   )
 }
 
@@ -82,20 +67,18 @@ export function ProofSection() {
 
   return (
     <section id="proof" className="bg-muted/30">
-      <div className="container mx-auto max-w-6xl px-4 pt-20 md:px-6 md:pt-24">
-        <h2 className="mb-3 text-3xl font-semibold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl pt-20 md:pt-24">
+        <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-3">
           {pickLocale(proof.title, language)}
         </h2>
-        <p className="max-w-2xl text-muted-foreground">{pickLocale(proof.subtitle, language)}</p>
+        <p className="text-muted-foreground max-w-2xl">{pickLocale(proof.subtitle, language)}</p>
       </div>
 
-      <div className="container mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-12">
-        <div className="border border-border">
-          {proof.offerings.map((cs, i) => (
-            <ServicePanel key={cs.id} cs={cs} index={i} total={proof.offerings.length} />
-          ))}
-        </div>
-      </div>
+      {proof.offerings.map((cs, i) => (
+        <ServiceSection key={cs.id} cs={cs} index={i} />
+      ))}
+
+      <div className="h-8" />
     </section>
   )
 }
