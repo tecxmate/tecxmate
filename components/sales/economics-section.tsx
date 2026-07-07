@@ -29,9 +29,9 @@ export function EconomicsSection() {
     manualRef.current = true
   }
 
-  // Salary derived from the section's position in the viewport: rises to the max
-  // as it reaches the middle of the screen, falls back to the min as it leaves.
-  const scrollValue = useCallback(() => {
+  // Continuous target from the section's position in the viewport: rises to the
+  // max as it reaches the middle of the screen, falls to the min as it leaves.
+  const scrollTarget = useCallback(() => {
     const el = sectionRef.current
     if (!el) return null
     const c = curRef.current
@@ -40,40 +40,65 @@ export function EconomicsSection() {
     const centerY = rect.top + rect.height / 2
     const p = Math.min(Math.max(1 - centerY / vh, 0), 1) // 0 entering → 0.5 centered → 1 leaving
     const wave = Math.sin(Math.PI * p) // 0 at the edges, 1 at the center
-    return Math.round((c.min + (c.max - c.min) * wave) / c.step) * c.step
+    return c.min + (c.max - c.min) * wave // unsnapped, for smooth easing
   }, [])
+
+  // Damped follow: a rAF loop reads the scroll position each frame and eases the
+  // value toward it, so the motion is smooth and independent of how often (or how
+  // coarsely) the device fires scroll events.
+  const easedRef = useRef(cur.default)
+  const rafRef = useRef(0)
 
   useEffect(() => {
     const el = sectionRef.current
     if (!el) return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    let raf = 0
-    const update = () => {
-      raf = 0
+    const DAMP = 0.09
+    const animate = () => {
+      if (manualRef.current) {
+        rafRef.current = 0
+        return
+      }
+      const c = curRef.current
+      const target = scrollTarget()
+      if (target === null) {
+        rafRef.current = 0
+        return
+      }
+      const diff = target - easedRef.current
+      if (Math.abs(diff) < c.step * 0.25) {
+        easedRef.current = target
+        setSalary(Math.round(target / c.step) * c.step)
+        rafRef.current = 0 // settled — stop until the next scroll
+        return
+      }
+      easedRef.current += diff * DAMP
+      setSalary(Math.round(easedRef.current / c.step) * c.step)
+      rafRef.current = requestAnimationFrame(animate)
+    }
+    const kick = () => {
       if (manualRef.current) return
-      const v = scrollValue()
-      if (v !== null) setSalary(v)
+      if (!rafRef.current) rafRef.current = requestAnimationFrame(animate)
     }
-    const onScroll = () => {
-      if (raf) return
-      raf = requestAnimationFrame(update)
-    }
-    window.addEventListener("scroll", onScroll, { passive: true })
-    window.addEventListener("resize", onScroll)
-    onScroll()
+    window.addEventListener("scroll", kick, { passive: true })
+    window.addEventListener("resize", kick)
+    kick()
     return () => {
-      window.removeEventListener("scroll", onScroll)
-      window.removeEventListener("resize", onScroll)
-      if (raf) cancelAnimationFrame(raf)
+      window.removeEventListener("scroll", kick)
+      window.removeEventListener("resize", kick)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
-  }, [scrollValue])
+  }, [scrollTarget])
 
-  // Re-map to the new currency scale when the language changes.
+  // Snap straight to the new currency scale when the language changes.
   useEffect(() => {
     if (manualRef.current) return
-    const v = scrollValue()
-    if (v !== null) setSalary(v)
-  }, [cur, scrollValue])
+    const t = scrollTarget()
+    if (t !== null) {
+      easedRef.current = t
+      setSalary(Math.round(t / cur.step) * cur.step)
+    }
+  }, [cur, scrollTarget])
 
   // Keep the slider value sane when the language (and currency range) changes.
   const clamped = Math.min(Math.max(salary, cur.min), cur.max)
