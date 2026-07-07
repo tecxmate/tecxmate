@@ -18,7 +18,9 @@ export function EconomicsSection() {
   const { language } = useLanguage()
   const calc = salesDeck.visuals.calculator
   const cur = calc.currencies[language]
+  const team = calc.team
   const [salary, setSalary] = useState(cur.default)
+  const [headcount, setHeadcount] = useState(team.default)
   const sectionRef = useRef<HTMLElement>(null)
   const curRef = useRef(cur)
   curRef.current = cur
@@ -104,13 +106,13 @@ export function EconomicsSection() {
   const clamped = Math.min(Math.max(salary, cur.min), cur.max)
 
   const totalMultiplier = calc.segments.reduce((sum, s) => sum + s.multiplier, 0)
-  const inHouse = clamped * totalMultiplier
+  const inHouse = clamped * totalMultiplier * headcount
   const tecxmate = inHouse * calc.tecxmateRatio
   const savings = inHouse - tecxmate
   const savingsPct = Math.round((1 - calc.tecxmateRatio) * 100)
 
-  // Bars scale against the slider maximum so dragging visibly grows/shrinks them.
-  const inHouseHeight = (clamped / cur.max) * 100
+  // Bars scale against the max salary × max team, so both sliders grow/shrink them.
+  const inHouseHeight = Math.min((clamped * headcount) / (cur.max * team.max), 1) * 100
   const tecxmateHeight = inHouseHeight * calc.tecxmateRatio
 
   const fmt = new Intl.NumberFormat(cur.locale, {
@@ -152,6 +154,28 @@ export function EconomicsSection() {
               </span>
             </div>
 
+            <label className="block text-sm font-medium text-foreground mb-4">
+              {pickLocale(calc.teamLabel, language)}
+            </label>
+            <div className="flex items-center gap-5 mb-10">
+              <Slider
+                value={[headcount]}
+                min={team.min}
+                max={team.max}
+                step={team.step}
+                onValueChange={([v]) => {
+                  takeControl()
+                  setHeadcount(v)
+                }}
+                onPointerDown={takeControl}
+                aria-label={pickLocale(calc.teamLabel, language)}
+                className="flex-1"
+              />
+              <span className="text-lg font-semibold text-foreground tabular-nums w-32 text-right shrink-0">
+                {headcount} {pickLocale(calc.teamUnit, language)}
+              </span>
+            </div>
+
             {/* Legend for the in-house stack */}
             <ul className="space-y-2.5">
               {calc.segments.map((seg, i) => (
@@ -161,7 +185,7 @@ export function EconomicsSection() {
                     {pickLocale(seg.label, language)}
                   </span>
                   <span className="tabular-nums text-foreground">
-                    {fmt.format(clamped * seg.multiplier)}
+                    {fmt.format(clamped * seg.multiplier * headcount)}
                   </span>
                 </li>
               ))}

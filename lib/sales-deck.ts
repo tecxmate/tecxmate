@@ -711,6 +711,13 @@ export const salesDeck = {
         "Lương tháng của kỹ sư bạn định tuyển",
         "您打算聘的工程師月薪",
       ),
+      teamLabel: M(
+        "Engineers the project needs",
+        "Số kỹ sư dự án cần",
+        "專案所需工程師人數",
+      ),
+      teamUnit: M("engineers", "kỹ sư", "位工程師"),
+      team: { min: 1, max: 6, step: 1, default: 3 },
       // Annual cost = monthly salary × multiplier. Illustrative composition of a hire's true yearly cost.
       segments: [
         { id: "salary", multiplier: 12, label: M("Base salary", "Lương cơ bản", "本薪") },
