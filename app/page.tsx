@@ -159,9 +159,9 @@ export default async function Home() {
         }}
       />
       {isSectionEnabled(content, "hero") && <HeroSection />}
+      {isSectionEnabled(content, "proof") && <ProofSection />}
       {isSectionEnabled(content, "economics") && <EconomicsSection />}
       {isSectionEnabled(content, "problem") && <OrgSection />}
-      {isSectionEnabled(content, "proof") && <ProofSection />}
       {isSectionEnabled(content, "technology") && <TechnologySection />}
       {isSectionEnabled(content, "process") && <ProcessSection />}
       {isSectionEnabled(content, "trust") && <TrustSection />}
