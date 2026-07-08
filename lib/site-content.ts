@@ -178,7 +178,7 @@ export const defaultContent: SiteContent = {
     ),
     subtitle: M(
       "Cutting-edge AI Integration and Development to accelerate your businesses.",
-      "Tích hợp và phát triển AI tiên tiến để tăng tốc doanh nghiệp của bạn.",
+      "Tích hợp và phát triển AI tiên tiến, tăng tốc và tối ưu vận hành.",
       "以尖端 AI 整合與開發，加速您的業務成長。",
     ),
   },

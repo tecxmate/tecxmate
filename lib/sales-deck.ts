@@ -54,7 +54,7 @@ export const salesDeck = {
     ),
     subtitle: M(
       "Cutting-edge AI Integration and Development to accelerate your businesses.",
-      "Tích hợp và phát triển AI tiên tiến để tăng tốc doanh nghiệp của bạn.",
+      "Tích hợp và phát triển AI tiên tiến, tăng tốc và tối ưu vận hành.",
       "以尖端 AI 整合與開發，加速您的業務成長。",
     ),
     credibility: [
@@ -77,7 +77,7 @@ export const salesDeck = {
     ),
     points: [
       {
-        title: M("Scarce and expensive.", "Khan hiếm và đắt đỏ.", "稀缺又昂貴。"),
+        title: M("Scarce and expensive.", "Khan hiếm và đắt đỏ.", "稀缺又昂貴"),
         body: M(
           "Senior AI and cloud engineers are hard to find, slow to hire, and costly for an SME.",
           "Kỹ sư AI và cloud cấp cao rất khó tìm, tuyển chậm và tốn kém với doanh nghiệp vừa và nhỏ.",
@@ -85,7 +85,7 @@ export const salesDeck = {
         ),
       },
       {
-        title: M("A permanent cost.", "Một khoản chi cố định.", "一筆固定的長期成本。"),
+        title: M("A permanent cost.", "Một khoản chi cố định.", "一筆固定的長期成本"),
         body: M(
           "Salary, bonuses, statutory insurance and pension, and overhead — paid every month, used or not.",
           "Lương, thưởng, bảo hiểm bắt buộc và chi phí quản lý — trả đều mỗi tháng, dù có dùng hết năng lực hay không.",
@@ -96,7 +96,7 @@ export const salesDeck = {
         title: M(
           "Commitment cuts both ways.",
           "Cam kết ràng buộc cả hai phía.",
-          "雇傭承諾是雙面刃。",
+          "雇傭承諾是雙面刃",
         ),
         body: M(
           "Pivot or wind down, and you carry severance, idle headcount, and labor-law rigidity.",
@@ -644,7 +644,7 @@ export const salesDeck = {
     title: M("Global caliber, local trust", "Đẳng cấp toàn cầu, tin cậy bản địa", "全球實力，在地信任"),
     items: [
       {
-        title: M("Founders you can trust here.", "Nhà sáng lập đáng tin cậy.", "值得信任的創辦人。"),
+        title: M("Founders you can trust here.", "Nhà sáng lập đáng tin cậy.", "值得信任的創辦人"),
         body: M(
           "Nikolas Doan and Brian Nguyen — Taiwan-trained, globally proven AI and product engineering.",
           "Nikolas Doan và Brian Nguyen — đào tạo tại Đài Loan, năng lực AI và sản phẩm được chứng minh toàn cầu.",
@@ -652,7 +652,7 @@ export const salesDeck = {
         ),
       },
       {
-        title: M("We speak your language.", "Chúng tôi nói ngôn ngữ của bạn.", "我們說您的語言。"),
+        title: M("We speak your language.", "Chúng tôi nói ngôn ngữ của bạn.", "我們說您的語言"),
         body: M(
           "Chinese with you, Vietnamese to run delivery, English for global tech.",
           "Tiếng Trung với đối tác, tiếng Việt để vận hành, tiếng Anh cho công nghệ toàn cầu.",
@@ -660,7 +660,7 @@ export const salesDeck = {
         ),
       },
       {
-        title: M("The same workday.", "Cùng múi giờ làm việc.", "同一個工作日。"),
+        title: M("The same workday.", "Cùng múi giờ làm việc.", "同一個工作日"),
         body: M(
           "Taipei and Ho Chi Minh City are one hour apart.",
           "Đài Bắc và TP. Hồ Chí Minh chỉ cách nhau một giờ.",
@@ -668,7 +668,7 @@ export const salesDeck = {
         ),
       },
       {
-        title: M("A real legal entity.", "Pháp nhân thực sự.", "正式合法公司。"),
+        title: M("A real legal entity.", "Pháp nhân thực sự.", "正式合法公司"),
         body: M(
           "Clean cross-border B2B contracts and invoicing.",
           "Hợp đồng B2B xuyên biên giới và hóa đơn minh bạch.",
@@ -676,7 +676,7 @@ export const salesDeck = {
         ),
       },
       {
-        title: M("Privacy by design.", "Bảo mật ngay từ thiết kế.", "隱私始於設計。"),
+        title: M("Privacy by design.", "Bảo mật ngay từ thiết kế.", "隱私始於設計"),
         body: M(
           "Architecture designed with Taiwan PDPA in mind.",
           "Kiến trúc được thiết kế với tinh thần luật bảo vệ dữ liệu cá nhân (PDPA) của Đài Loan.",
@@ -684,7 +684,7 @@ export const salesDeck = {
         ),
       },
       {
-        title: M("Fair pricing.", "Định giá công bằng.", "公道透明的定價。"),
+        title: M("Fair pricing.", "Định giá công bằng.", "公道透明的定價"),
         body: M(
           "Transparent scope and rates. No surprise markups.",
           "Phạm vi và đơn giá minh bạch. Không phụ phí bất ngờ.",
@@ -801,7 +801,7 @@ export const salesDeck = {
   },
 
   cta: {
-    title: M("The answer is here.", "Câu trả lời ở đây.", "答案就在這裡。"),
+    title: M("The answer is here.", "Câu trả lời ở đây.", "答案就在這裡"),
     body: M(
       "A 30-minute Consultation gives you a clear read on what's possible.",
       "Buổi tư vấn 30 phút giúp bạn thấy rõ những gì khả thi.",
