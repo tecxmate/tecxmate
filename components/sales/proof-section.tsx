@@ -6,12 +6,12 @@ import { OfferingArt } from "@/components/sales/offering-art"
 
 type Offering = (typeof salesDeck.proof.offerings)[number]
 
-/** One service as its own full-height page — big editorial layout, alternating sides. */
+/** One service as its own editorial block — alternating sides without forcing full-height gaps. */
 function ServiceSection({ cs, index }: { cs: Offering; index: number }) {
   const { language } = useLanguage()
   const flip = index % 2 === 1
   return (
-    <div className="flex items-center py-12 md:py-0 md:min-h-[627px]">
+    <div className="flex items-center py-8 md:py-10 lg:py-12">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl w-full">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20 items-center">
           {/* Text */}
@@ -67,7 +67,7 @@ export function ProofSection() {
 
   return (
     <section id="proof" className="bg-muted/30">
-      <div className="container mx-auto px-4 md:px-6 max-w-6xl pt-20 md:pt-24">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl pt-16 md:pt-20">
         <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-3">
           {pickLocale(proof.title, language)}
         </h2>
@@ -78,7 +78,7 @@ export function ProofSection() {
         <ServiceSection key={cs.id} cs={cs} index={i} />
       ))}
 
-      <div className="h-8" />
+      <div className="h-4" />
     </section>
   )
 }

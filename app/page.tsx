@@ -28,10 +28,6 @@ const ProcessSection = dynamic(() => import("@/components/sales/process-section"
   loading: () => <div className="h-64 bg-gray-50" />,
 })
 
-const TrustSection = dynamic(() => import("@/components/sales/trust-section").then(mod => ({ default: mod.TrustSection })), {
-  loading: () => <div className="h-64 bg-gray-50" />,
-})
-
 const CtaSection = dynamic(() => import("@/components/sales/cta-section").then(mod => ({ default: mod.CtaSection })), {
   loading: () => <div className="h-64 bg-gray-950" />,
 })
@@ -166,7 +162,6 @@ export default async function Home() {
       {isSectionEnabled(content, "problem") && <OrgSection />}
       {isSectionEnabled(content, "technology") && <TechnologySection />}
       {isSectionEnabled(content, "process") && <ProcessSection />}
-      {isSectionEnabled(content, "trust") && <TrustSection />}
       {isSectionEnabled(content, "team") && <TeamSection />}
       {isSectionEnabled(content, "blog") && <CampaignsSection />}
       {isSectionEnabled(content, "cta") && <CtaSection />}

@@ -154,11 +154,6 @@ export function Navbar() {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button className="hidden md:flex" asChild>
-            <a href="https://cal.com/nikolasdoan/30min" target="_blank" rel="noopener noreferrer">
-              {t("book_call")}
-            </a>
-          </Button>
           <Button variant="ghost" size="icon" className="md:hidden" onClick={toggleMenu}>
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             <span className="sr-only">Toggle menu</span>
@@ -236,11 +231,6 @@ export function Navbar() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button className="w-full" onClick={closeMenu} asChild>
-              <a href="https://cal.com/nikolasdoan/30min" target="_blank" rel="noopener noreferrer">
-                {t("book_call")}
-              </a>
-            </Button>
           </nav>
         </div>
       )}

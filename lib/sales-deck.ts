@@ -793,20 +793,20 @@ export const salesDeck = {
     freeOffer: {
       badge: M("Free", "Miễn phí", "免費"),
       text: M(
-        "Your first AI consultation and training session is free — for any SME, no strings.",
-        "Buổi tư vấn và đào tạo AI đầu tiên hoàn toàn miễn phí — cho mọi doanh nghiệp, không ràng buộc.",
-        "首次 AI 諮詢與教學課程完全免費——任何中小企業，沒有附帶條件。",
+        "Your first consultation is free.",
+        "Buổi tư vấn đầu tiên của bạn miễn phí.",
+        "您的首次諮詢免費。",
       ),
     },
   },
 
   cta: {
-    title: M("Your bottleneck, solved.", "Điểm nghẽn của bạn, đã có lời giải.", "您的瓶頸，就此解決。"),
+    title: M("The answer is here.", "Câu trả lời ở đây.", "答案就在這裡。"),
     body: M(
-      "A 30-minute call — a clear read on what's possible and what it costs versus hiring.",
-      "Một cuộc gọi 30 phút — cái nhìn rõ ràng về những gì khả thi và chi phí so với tự tuyển dụng.",
-      "30 分鐘通話——清楚了解可行方案，以及相較自行聘僱的成本。",
+      "A 30-minute Consultation gives you a clear read on what's possible.",
+      "Buổi tư vấn 30 phút giúp bạn thấy rõ những gì khả thi.",
+      "30 分鐘諮詢讓您清楚了解可行方案。",
     ),
-    button: M("Book a 30-minute call", "Đặt cuộc gọi 30 phút", "預約 30 分鐘通話"),
+    button: M("Book a free Consultation", "Đặt tư vấn miễn phí", "預約免費諮詢"),
   },
 } as const
