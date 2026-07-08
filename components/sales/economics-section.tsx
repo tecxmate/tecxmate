@@ -247,8 +247,11 @@ export function EconomicsSection() {
               <span className="w-24 md:w-28 text-center text-sm text-muted-foreground">
                 {pickLocale(calc.inHouseLabel, language)}
               </span>
-              <span className="w-24 md:w-28 text-center text-sm font-medium text-foreground">
-                {pickLocale(calc.tecxmateLabel, language)}
+              <span className="relative h-5 w-24 text-center text-sm font-medium text-foreground md:w-28">
+                <span className="absolute left-1/2 top-0 block -translate-x-[52%] whitespace-nowrap font-accent italic tracking-wide text-primary text-[13px] leading-none md:text-sm">
+                  <span className="font-thin">tecx</span>
+                  <span className="font-thin">mate</span>
+                </span>
               </span>
             </div>
           </div>
