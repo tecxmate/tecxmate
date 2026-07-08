@@ -48,14 +48,14 @@ export const salesDeck = {
 
   cover: {
     title: M(
-      "Top-tier engineering, without the overhead",
-      "Kỹ thuật hàng đầu, không gánh nặng vận hành",
-      "頂尖工程實力，免去營運負擔",
+      "Your technology partner.",
+      "Đối tác công nghệ của bạn.",
+      "您的技術夥伴。",
     ),
     subtitle: M(
-      "Senior AI and software delivery for SMEs. One senior team, one invoice, shipping in weeks.",
-      "Đội ngũ AI và phần mềm cấp cao cho doanh nghiệp. Một đội ngũ, một hóa đơn, bàn giao trong vài tuần.",
-      "為中小企業提供資深 AI 與軟體交付。一個資深團隊、一張發票，數週內交付。",
+      "Cutting-edge AI Integration and Development to accelerate your businesses.",
+      "Tích hợp và phát triển AI tiên tiến để tăng tốc doanh nghiệp của bạn.",
+      "以尖端 AI 整合與開發，加速您的業務成長。",
     ),
     credibility: [
       M(
@@ -188,7 +188,7 @@ export const salesDeck = {
       },
     ],
     serviceNotHire: {
-      title: M("A service, not a hire", "Một dịch vụ, không phải một lần tuyển dụng", "是服務，不是雇傭"),
+      title: M("A clean execution", "Thực thi gọn gàng", "乾淨俐落的執行"),
       leftTitle: M(
         "Hiring in-house means carrying:",
         "Tự tuyển dụng nghĩa là phải gánh:",
@@ -387,8 +387,8 @@ export const salesDeck = {
         ),
         metrics: [
           {
-            label: M("First session", "Buổi đầu tiên", "首次課程"),
-            value: M("Free", "Miễn phí", "免費"),
+            label: M("Engagement", "Hợp tác", "合作方式"),
+            value: M("Scoped", "Theo phạm vi", "依範圍"),
           },
           {
             label: M("Format", "Hình thức", "形式"),
@@ -479,7 +479,7 @@ export const salesDeck = {
   },
 
   process: {
-    title: M("Clear delivery, no black boxes", "Bàn giao minh bạch, không hộp đen", "透明交付，沒有黑箱"),
+    title: M("Simple and clear cooperation", "Hợp tác đơn giản và rõ ràng", "簡單清楚的合作"),
     steps: [
       {
         title: M("Discover", "Khảo sát", "釐清"),
@@ -697,9 +697,9 @@ export const salesDeck = {
   visuals: {
     calculator: {
       title: M(
-        "Same caliber, a different cost",
-        "Cùng đẳng cấp, chi phí khác biệt",
-        "同樣的實力，不一樣的成本",
+        "Best investment & quality",
+        "Khoản đầu tư tốt và chất lượng nhất",
+        "最佳投資與品質",
       ),
       caption: M(
         "Illustrative model — we build the real comparison against your role and scope.",
@@ -753,7 +753,7 @@ export const salesDeck = {
     },
 
     org: {
-      title: M("A service, not a hire", "Một dịch vụ, không phải một lần tuyển dụng", "是服務，不是雇傭"),
+      title: M("A clean execution", "Thực thi gọn gàng", "乾淨俐落的執行"),
       toggleBefore: M("Hiring in-house", "Tự tuyển dụng", "自行聘僱"),
       toggleAfter: M("With Tecxmate", "Với Tecxmate", "與 Tecxmate 合作"),
       youLabel: M("You", "Bạn", "您"),
@@ -791,11 +791,11 @@ export const salesDeck = {
     },
 
     freeOffer: {
-      badge: M("Free", "Miễn phí", "免費"),
+      badge: M("Consultation", "Tư vấn", "諮詢"),
       text: M(
-        "Your first consultation is free.",
-        "Buổi tư vấn đầu tiên của bạn miễn phí.",
-        "您的首次諮詢免費。",
+        "Start with a focused consultation.",
+        "Bắt đầu bằng một buổi tư vấn tập trung.",
+        "從一次聚焦的諮詢開始。",
       ),
     },
   },
@@ -807,6 +807,6 @@ export const salesDeck = {
       "Buổi tư vấn 30 phút giúp bạn thấy rõ những gì khả thi.",
       "30 分鐘諮詢讓您清楚了解可行方案。",
     ),
-    button: M("Book a free Consultation", "Đặt tư vấn miễn phí", "預約免費諮詢"),
+    button: M("Book a Consultation", "Đặt lịch tư vấn", "預約諮詢"),
   },
 } as const

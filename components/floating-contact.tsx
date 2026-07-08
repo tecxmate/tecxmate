@@ -37,9 +37,9 @@ const FAQ: { id: string; q: L; a: L }[] = [
     id: "cost",
     q: { en: "How much does it cost?", vi: "Chi phí bao nhiêu?", zh: "費用大概多少？" },
     a: {
-      en: "It depends on scope — but you get senior delivery without the overhead of hiring, usually a fraction of an in-house team. Tell us your project and we'll give a real number. The first consultation is free.",
-      vi: "Tùy phạm vi — nhưng bạn có đội ngũ cấp cao mà không gánh chi phí tuyển dụng, thường chỉ bằng một phần đội in-house. Cho chúng tôi biết dự án, chúng tôi sẽ báo con số thực. Buổi tư vấn đầu tiên miễn phí.",
-      zh: "視範圍而定——但您獲得資深交付而免去招募的負擔，通常只是自建團隊的零頭。告訴我們您的專案，我們會給出實際數字。首次諮詢免費。",
+      en: "It depends on scope — but you get senior delivery without the overhead of hiring, usually a fraction of an in-house team. Tell us your project and we'll give a real number.",
+      vi: "Tùy phạm vi — nhưng bạn có đội ngũ cấp cao mà không gánh chi phí tuyển dụng, thường chỉ bằng một phần đội in-house. Cho chúng tôi biết dự án, chúng tôi sẽ báo con số thực.",
+      zh: "視範圍而定——但您獲得資深交付而免去招募的負擔，通常只是自建團隊的零頭。告訴我們您的專案，我們會給出實際數字。",
     },
   },
   {
@@ -55,18 +55,18 @@ const FAQ: { id: string; q: L; a: L }[] = [
     id: "ai",
     q: { en: "Do you build AI?", vi: "Bạn có làm AI không?", zh: "你們做 AI 嗎？" },
     a: {
-      en: "Yes — AI agents for documents, real-time voice, multilingual chatbots, and AI integrated into your existing stack. Your first AI consultation and training session is free.",
-      vi: "Có — AI agent cho tài liệu, giọng nói thời gian thực, chatbot đa ngôn ngữ, và AI tích hợp vào hệ thống sẵn có. Buổi tư vấn và đào tạo AI đầu tiên miễn phí.",
-      zh: "有——文件 AI 代理、即時語音、多語聊天機器人，以及整合進現有系統的 AI。首次 AI 諮詢與培訓免費。",
+      en: "Yes — AI agents for documents, real-time voice, multilingual chatbots, and AI integrated into your existing stack.",
+      vi: "Có — AI agent cho tài liệu, giọng nói thời gian thực, chatbot đa ngôn ngữ, và AI tích hợp vào hệ thống sẵn có.",
+      zh: "有——文件 AI 代理、即時語音、多語聊天機器人，以及整合進現有系統的 AI。",
     },
   },
   {
     id: "human",
     q: { en: "Talk to a human", vi: "Nói chuyện với người thật", zh: "找真人聊聊" },
     a: {
-      en: "Of course! Reach us on LINE, WhatsApp, or email — or book a free 30-min call. The buttons are right here. 👉",
-      vi: "Tất nhiên! Liên hệ qua LINE, WhatsApp hoặc email — hoặc đặt lịch gọi 30 phút miễn phí. Các nút ở ngay đây. 👉",
-      zh: "當然！透過 LINE、WhatsApp 或 email 聯絡我們——或預約免費 30 分鐘通話。按鈕就在這裡。👉",
+      en: "Of course! Reach us on LINE, WhatsApp, or email — or book a consultation call. The buttons are right here. 👉",
+      vi: "Tất nhiên! Liên hệ qua LINE, WhatsApp hoặc email — hoặc đặt lịch tư vấn. Các nút ở ngay đây. 👉",
+      zh: "當然！透過 LINE、WhatsApp 或 email 聯絡我們——或預約諮詢通話。按鈕就在這裡。👉",
     },
   },
 ]

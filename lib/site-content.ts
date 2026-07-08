@@ -172,14 +172,14 @@ export const defaultContent: SiteContent = {
   ],
   hero: {
     title: M(
-      "Top-tier engineering, without the overhead",
-      "Kỹ thuật hàng đầu, không gánh nặng vận hành",
-      "頂尖工程實力，免去營運負擔",
+      "Your technology partner.",
+      "Đối tác công nghệ của bạn.",
+      "您的技術夥伴。",
     ),
     subtitle: M(
-      "Senior AI and software delivery for SMEs. One senior team, one invoice, shipping in weeks.",
-      "Đội ngũ AI và phần mềm cấp cao cho doanh nghiệp. Một đội ngũ, một hóa đơn, bàn giao trong vài tuần.",
-      "為中小企業提供資深 AI 與軟體交付。一個資深團隊、一張發票，數週內交付。",
+      "Cutting-edge AI Integration and Development to accelerate your businesses.",
+      "Tích hợp và phát triển AI tiên tiến để tăng tốc doanh nghiệp của bạn.",
+      "以尖端 AI 整合與開發，加速您的業務成長。",
     ),
   },
   services: {
@@ -326,7 +326,7 @@ export const defaultContent: SiteContent = {
   seo: {
     title: "TECXMATE - Premier Technology Partner | AI Software Solutions",
     description:
-      "Transform your business with Tecxmate's cutting-edge technology solutions. Expert AI integration, web development, business automation, and digital transformation services. Fast delivery, innovative solutions for SMEs and founders. Book your free consultation today.",
+      "Transform your business with Tecxmate's cutting-edge technology solutions. Expert AI integration, web development, business automation, and digital transformation services. Fast delivery, innovative solutions for SMEs and founders. Book your consultation today.",
     keywords: [
       "technology consultancy",
       "AI development",
