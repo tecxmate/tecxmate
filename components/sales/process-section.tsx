@@ -13,7 +13,7 @@ export function ProcessSection() {
   return (
     <section id="process" className="bg-muted/30 py-16 md:py-20">
       <div className="container px-4 md:px-6 max-w-6xl">
-        <h2 className="text-2xl font-semibold md:text-3xl tracking-tight text-foreground mb-8 md:mb-10">
+        <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-8 md:mb-10">
           {pickLocale(process.title, language)}
         </h2>
 
