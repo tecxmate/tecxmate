@@ -129,9 +129,9 @@ export const salesDeck = {
       "同樣的實力，不一樣的成本",
     ),
     caption: M(
-      "Numbers are illustrative — we model the real comparison against your role and scope.",
-      "Các con số mang tính minh họa — chúng tôi sẽ tính toán so sánh thực tế theo vị trí và phạm vi của bạn.",
-      "數字僅供參考——我們會依您的職缺與需求範圍，建立真實的成本比較。",
+      "Numbers are illustrative — we model the real comparison against your scope and requirements.",
+      "Các con số mang tính minh họa — chúng tôi sẽ tính toán so sánh thực tế theo phạm vi và yêu cầu của bạn.",
+      "數字僅供參考——我們會依您的範圍與需求，建立真實的成本比較。",
     ),
     columns: {
       inHouse: M("Hiring in-house", "Tự xây đội ngũ", "在台自建團隊"),
@@ -702,9 +702,9 @@ export const salesDeck = {
         "最佳投資與品質",
       ),
       caption: M(
-        "Illustrative model — we build the real comparison against your role and scope.",
-        "Mô hình minh họa — chúng tôi sẽ tính toán so sánh thực tế theo vị trí và phạm vi của bạn.",
-        "示意模型——我們會依您的職缺與需求範圍，建立真實的成本比較。",
+        "Illustrative model — we build the real comparison against your scope and requirements.",
+        "Mô hình minh họa — chúng tôi sẽ tính toán so sánh thực tế theo phạm vi và yêu cầu của bạn.",
+        "示意模型——我們會依您的範圍與需求，建立真實的成本比較。",
       ),
       sliderLabel: M(
         "Monthly salary of the engineer you'd hire",

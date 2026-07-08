@@ -22,9 +22,12 @@ export function OrgSection() {
   return (
     <section id="org" className="bg-muted/30 py-20 md:py-24">
       <div className="container px-4 md:px-6 max-w-6xl">
-        <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-10">
+        <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-3">
           {pickLocale(org.title, language)}
         </h2>
+        <p className="text-muted-foreground max-w-2xl mb-10">
+          {pickLocale(org.close, language)}
+        </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* In-house: one third — you, carrying seven obligations */}
@@ -80,9 +83,6 @@ export function OrgSection() {
           </div>
         </div>
 
-        <p className="text-lg md:text-xl font-medium text-foreground text-center mt-10 max-w-2xl mx-auto">
-          {pickLocale(org.close, language)}
-        </p>
       </div>
     </section>
   )
