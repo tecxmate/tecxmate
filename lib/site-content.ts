@@ -202,14 +202,14 @@ export const defaultContent: SiteContent = {
   ],
   hero: {
     title: M(
-      "Top-tier engineering, without the overhead",
-      "Kỹ thuật hàng đầu, không gánh nặng vận hành",
-      "頂尖工程實力，免去營運負擔",
+      "Your technology partner.",
+      "Đối tác công nghệ của bạn.",
+      "您的技術夥伴。",
     ),
     subtitle: M(
-      "Senior AI and software delivery for SMEs. One senior team, one invoice, shipping in weeks.",
-      "Đội ngũ AI và phần mềm cấp cao cho doanh nghiệp. Một đội ngũ, một hóa đơn, bàn giao trong vài tuần.",
-      "為中小企業提供資深 AI 與軟體交付。一個資深團隊、一張發票，數週內交付。",
+      "Cutting-edge AI Integration and Development to accelerate your businesses.",
+      "Tích hợp và phát triển AI tiên tiến, tăng tốc và tối ưu vận hành.",
+      "以尖端 AI 整合與開發，加速您的業務成長。",
     ),
   },
   services: {
@@ -456,9 +456,28 @@ export const defaultContent: SiteContent = {
 function mergeContent(stored?: Partial<SiteContent>): SiteContent {
   if (!stored) return defaultContent
 
+  const storedHeroTitle = stored.hero?.title?.en?.trim()
+  const storedHeroSubtitle = stored.hero?.subtitle?.en?.trim()
+  const usesLegacyHero =
+    storedHeroTitle === "Top-tier engineering, without the overhead" ||
+    storedHeroSubtitle === "Senior AI and software delivery for SMEs. One senior team, one invoice, shipping in weeks."
+  const hero = usesLegacyHero
+    ? defaultContent.hero
+    : {
+        title: {
+          ...defaultContent.hero.title,
+          ...stored.hero?.title,
+        },
+        subtitle: {
+          ...defaultContent.hero.subtitle,
+          ...stored.hero?.subtitle,
+        },
+      }
+
   return {
     ...defaultContent,
     ...stored,
+    hero,
     company: {
       ...defaultContent.company,
       ...stored.company,
