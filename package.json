@@ -2,6 +2,9 @@
   "name": "tecxmate",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "next dev --turbo",
     "dev:no-turbo": "next dev",
@@ -11,6 +14,8 @@
     "setup-keyword-tracking": "node scripts/setup-keyword-tracking.js"
   },
   "dependencies": {
+    "@ai-sdk/gateway": "^4.0.14",
+    "@ai-sdk/react": "^4.0.19",
     "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.9.1",
     "@paper-design/shaders-react": "latest",
@@ -45,6 +50,7 @@
     "@upstash/redis": "^1.35.6",
     "@vercel/analytics": "^1.5.0",
     "@vercel/blob": "^2.3.3",
+    "ai": "^7.0.18",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

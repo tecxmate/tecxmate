@@ -21,6 +21,7 @@ const NAV: NavItem[] = [
   { href: "/admin/visibility", label: "Visibility", ready: true },
   { href: "/admin/team", label: "Team", ready: true },
   { href: "/admin/services", label: "Services", ready: true },
+  { href: "/admin/chatbot", label: "Chatbot", ready: true },
   { href: "/admin/about", label: "Hero & About", ready: true },
   { href: "/admin/company", label: "Company & Footer", ready: true },
   { href: "/admin/metadata", label: "Metadata (SEO)", ready: true },

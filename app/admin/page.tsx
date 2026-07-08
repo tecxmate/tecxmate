@@ -7,6 +7,7 @@ const CARDS = [
   { href: "/admin/visibility", label: "Visibility", desc: "Turn public website sections on or off.", ready: true },
   { href: "/admin/team", label: "Team", desc: "Add, edit, reorder, and remove team members.", ready: true },
   { href: "/admin/services", label: "Services", desc: "Service card titles and descriptions.", ready: true },
+  { href: "/admin/chatbot", label: "Chatbot", desc: "Prompt, memory, escalation copy, and recent support transcripts.", ready: true },
   { href: "/admin/about", label: "Hero & About", desc: "Homepage hero and About page copy.", ready: true },
   { href: "/admin/company", label: "Company & Footer", desc: "Address, phones, emails, markets, legal names, social links.", ready: true },
   { href: "/admin/metadata", label: "Metadata (SEO)", desc: "Page titles, descriptions, OG tags.", ready: true },
