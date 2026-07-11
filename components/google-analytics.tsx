@@ -1,11 +1,14 @@
 "use client"
 
 import Script from "next/script"
+import { useConsent } from "@/components/consent/consent-provider"
 
 export function GoogleAnalytics({ gaId }: { gaId?: string }) {
+  const { consent } = useConsent()
   const measurementId = gaId || process.env.NEXT_PUBLIC_GA_ID
 
-  if (!measurementId) {
+  // Gated behind analytics consent — no GA cookies load until the user opts in.
+  if (!measurementId || !consent?.analytics) {
     return null
   }
 
@@ -23,6 +26,13 @@ export function GoogleAnalytics({ gaId }: { gaId?: string }) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
+            gtag('consent', 'default', {
+              analytics_storage: 'denied',
+              ad_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+            });
+            gtag('consent', 'update', { analytics_storage: 'granted' });
             gtag('config', '${measurementId}', {
               page_path: window.location.pathname,
               send_page_view: true,

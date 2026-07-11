@@ -22,6 +22,16 @@ We collect information that you provide directly to us, including:
 - **Website Usage**: Browser type, device information, IP address, pages visited, time spent on pages
 - **Cookies and Tracking**: We use cookies and similar technologies to enhance your experience and analyze website traffic
 
+### 2.3 Cookies and Tracking Technologies
+
+Cookies are small text files stored on your device. We use them in the following categories:
+
+- **Strictly necessary**: Required for the website to function (e.g. remembering your language and cookie choices). These are always active and do not track you.
+- **Analytics**: Google Analytics and Firebase Analytics, which help us understand how visitors use the site so we can improve it. These are only set after you opt in.
+- **Marketing**: Google Tag Manager tags used to measure campaigns and personalize content. These are only set after you opt in.
+
+**Your control**: When you first visit, we ask for your consent before setting any analytics or marketing cookies. Nothing non-essential loads until you choose. You can accept all, reject all, or select categories individually, and you can change or withdraw your choice at any time via the **"Cookie settings"** link in the website footer. You can also block or delete cookies in your browser settings, though some features may not work as intended.
+
 ## 3. How We Use Your Information
 
 We use the information we collect to:

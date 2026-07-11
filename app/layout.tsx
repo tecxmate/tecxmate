@@ -6,13 +6,15 @@ import { BackToTop } from "@/components/back-to-top"
 import { FloatingContact } from "@/components/floating-contact"
 import { GoogleAnalytics } from "@/components/google-analytics"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
+import { GoogleTagManager } from "@/components/consent/google-tag-manager"
+import { ConsentProvider } from "@/components/consent/consent-provider"
+import { CookieConsent } from "@/components/consent/cookie-consent"
 import { Analytics } from '@vercel/analytics/react'
 import { LanguageProvider } from "@/components/language-provider"
 import { generateCountryKeywords } from "@/lib/keywords"
 import { readContent } from "@/lib/site-content"
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
-const gtmId = process.env.NEXT_PUBLIC_GTM_ID
 
 export async function generateMetadata(): Promise<Metadata> {
   // ISR-cached read so editable SEO doesn't force every page to render dynamically.
@@ -135,38 +137,24 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/graphics/tecxmate-logo-cropped.png" />
         <link rel="alternate" type="application/rss+xml" title="Tecxmate Blog RSS Feed" href={`${baseUrl}/feed.xml`} />
         <link rel="manifest" href="/manifest.webmanifest" />
-        {gtmId ? (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','${gtmId}');
-              `.trim(),
-            }}
-          />
-        ) : null}
       </head>
       <body>
-        {gtmId ? (
-          <noscript
-            dangerouslySetInnerHTML={{
-              __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe>`.trim(),
-            }}
-          />
-        ) : null}
-        <GoogleAnalytics />
-        <FirebaseAnalytics />
-        <Analytics />
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <LanguageProvider>
-            {children}
-            <FloatingContact />
-            <BackToTop />
-          </LanguageProvider>
-        </ThemeProvider>
+        <ConsentProvider>
+          {/* Non-essential trackers below only load after cookie consent. */}
+          <GoogleTagManager />
+          <GoogleAnalytics />
+          <FirebaseAnalytics />
+          {/* Vercel Analytics is cookieless, so it needs no consent gate. */}
+          <Analytics />
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+            <LanguageProvider>
+              {children}
+              <FloatingContact />
+              <BackToTop />
+              <CookieConsent />
+            </LanguageProvider>
+          </ThemeProvider>
+        </ConsentProvider>
       </body>
     </html>
   )
