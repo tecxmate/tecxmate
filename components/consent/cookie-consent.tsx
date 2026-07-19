@@ -195,7 +195,7 @@ export function CookieConsent() {
       )}
 
       <Dialog open={showSettings} onOpenChange={(open) => (open ? openSettings() : closeSettings())}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="w-[calc(100%-2rem)] max-w-lg rounded-lg p-6 sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>{copy.settingsTitle}</DialogTitle>
             <DialogDescription>{copy.settingsBody}</DialogDescription>
