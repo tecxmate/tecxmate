@@ -171,25 +171,13 @@ export default async function Home() {
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
   const { generateCountryKeywords } = await import("@/lib/keywords")
+  // Read from site content so Admin > Metadata (SEO) edits actually reach the page.
+  const { seo } = await readContent({ revalidate: 60 })
 
   return {
-    title: "TECXMATE - English Websites & Software for Taiwan's Manufacturers",
-    description: "Fast, English-first websites — plus the apps, automation, and AI behind them — for Taiwan's manufacturers going global. Built by engineers who understand your products, not a generic translator. Book a free consultation.",
-    keywords: generateCountryKeywords([
-      "English website Taiwan manufacturer",
-      "manufacturer website design Taiwan",
-      "English website for exporters",
-      "web development",
-      "AI development",
-      "business automation",
-      "SME solutions",
-      "software development",
-      "AI integration",
-      "tech consulting Taiwan",
-      "mobile app development",
-      "enterprise solutions",
-      "Taiwan tech consultancy"
-    ]),
+    title: seo.title,
+    description: seo.description,
+    keywords: generateCountryKeywords(seo.keywords),
     alternates: {
       canonical: baseUrl,
       languages: {
@@ -207,8 +195,8 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: "TECXMATE - English Websites & Software for Taiwan's Manufacturers",
-      description: "Fast, English-first websites — plus the apps, automation, and AI behind them — for Taiwan's manufacturers going global. Built by engineers who understand your products. Book your free consultation.",
+      title: seo.ogTitle,
+      description: seo.ogDescription,
       url: baseUrl,
       siteName: "Tecxmate",
       locale: "en_US",
@@ -219,17 +207,17 @@ export async function generateMetadata(): Promise<Metadata> {
           url: `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
           width: 1200,
           height: 630,
-          alt: "TECXMATE - English Websites & Software for Taiwan's Manufacturers",
+          alt: seo.ogTitle,
           type: "image/png",
         }
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "TECXMATE - English Websites & Software for Taiwan's Manufacturers",
-      description: "Fast, English-first websites — plus the apps, automation, and AI behind them — for Taiwan's manufacturers going global. Built by engineers who understand your products.",
+      title: seo.ogTitle,
+      description: seo.twitterDescription,
       images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
-      creator: "@tecxmate",
+      creator: seo.twitterCreator,
     },
   }
 }
