@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Linkedin, GraduationCap, Building2 } from "lucide-react"
 import Image from "next/image"
 import { useLanguage } from "@/components/language-provider"
-import type { Locale, TeamMember } from "@/lib/site-content"
+import type { TeamMember } from "@/lib/site-content"
 
 // SSR fallback — keeps the section populated before the live content arrives and if the API fails.
 const DEFAULT_TEAM: TeamMember[] = [
@@ -65,11 +65,6 @@ function visibleTeamMembers(teamMembers: TeamMember[]) {
   return teamMembers.filter((member) => !HIDDEN_TEAM_MEMBER_IDS.has(member.id))
 }
 
-/** Bio text for the active language, falling back to English. Empty means "no bio to show". */
-function memberBio(member: TeamMember, language: Locale) {
-  return (member.description[language] || member.description.en || "").trim()
-}
-
 function teamPhotoClassName(memberId: string) {
   const baseClassName = "w-full h-full object-cover object-center"
 
@@ -83,7 +78,6 @@ function teamPhotoClassName(memberId: string) {
 export function TeamSection() {
   const { t, language } = useLanguage()
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(visibleTeamMembers(DEFAULT_TEAM))
-  const [openMemberId, setOpenMemberId] = useState<string | null>(null)
 
   useEffect(() => {
     fetch("/api/content", { cache: "no-store" })
@@ -95,7 +89,6 @@ export function TeamSection() {
   }, [])
 
   return (
-    <>
       <section id="team" className="bg-primary py-24 md:py-28 lg:py-32">
         <div className="container px-4 md:px-6 max-w-6xl">
           <div className="text-center mb-12">
@@ -103,53 +96,20 @@ export function TeamSection() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {teamMembers.map((member) => {
-              const bio = memberBio(member, language)
-
-              return (
-              <div
-                key={member.id}
-              >
+            {teamMembers.map((member) => (
+              <div key={member.id}>
                 <div
                   className="rounded-none bg-card shadow-sm overflow-hidden h-full hover:shadow-xl md:hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
                 >
-                  {bio ? (
-                    // Hover (or keyboard focus, or tap on touch) slides the bio up over the photo.
-                    <button
-                      type="button"
-                      onClick={() => setOpenMemberId((cur) => (cur === member.id ? null : member.id))}
-                      aria-expanded={openMemberId === member.id}
-                      aria-label={`${member.name} — read introduction`}
-                      className="group relative block w-full aspect-[3/4] bg-[#e3e3e3] overflow-hidden cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-inset"
-                    >
-                      <Image
-                        src={member.photo}
-                        alt={member.name}
-                        width={600}
-                        height={800}
-                        className={teamPhotoClassName(member.id)}
-                      />
-                      <span
-                        className={`absolute inset-x-0 bottom-0 bg-primary/95 p-3 text-xs leading-relaxed text-white transition-transform duration-300 ease-out motion-reduce:transition-none ${
-                          openMemberId === member.id
-                            ? "translate-y-0"
-                            : "translate-y-full group-hover:translate-y-0 group-focus-visible:translate-y-0"
-                        }`}
-                      >
-                        {bio}
-                      </span>
-                    </button>
-                  ) : (
-                    <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
-                      <Image
-                        src={member.photo}
-                        alt={member.name}
-                        width={600}
-                        height={800}
-                        className={teamPhotoClassName(member.id)}
-                      />
-                    </div>
-                  )}
+                  <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
+                    <Image
+                      src={member.photo}
+                      alt={member.name}
+                      width={600}
+                      height={800}
+                      className={teamPhotoClassName(member.id)}
+                    />
+                  </div>
                   <div className="p-3 md:p-4 text-center">
                     <h3 className="text-sm md:text-base font-semibold text-foreground mb-1">{member.name}</h3>
                     <p className="text-xs md:text-sm text-primary font-medium mb-2">{member.role[language] || member.role.en}</p>
@@ -184,12 +144,9 @@ export function TeamSection() {
                   </div>
                 </div>
               </div>
-              )
-            })}
+            ))}
           </div>
         </div>
       </section>
-
-    </>
   )
 }
