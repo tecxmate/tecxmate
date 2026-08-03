@@ -11,7 +11,44 @@ export function OfferingArt({ id }: { id: string }) {
   if (id === "apps") return <AppsArt />
   if (id === "modernize") return <ModernizeArt />
   if (id === "ai-seo") return <AiSeoArt />
+  if (id === "ai-agents") return <AgentsArt />
   return <AiArt />
+}
+
+/** Scattered documents feeding a knowledge core, which answers on both sides. */
+function AgentsArt() {
+  return (
+    <div className="h-28 flex items-center justify-center gap-2" aria-hidden>
+      {/* The documents going in */}
+      <span className="flex flex-col gap-1">
+        {[0, 1, 2].map((i) => (
+          <span
+            key={i}
+            className={`w-8 h-4 rounded-sm border-2 border-zinc-400 dark:border-zinc-500 bg-zinc-100 dark:bg-zinc-800 ${ASSEMBLE}`}
+            style={{ animationDelay: `${i * FLOW_STEP_MS}ms` }}
+          />
+        ))}
+      </span>
+      <PulseWire delay={0} dir="ltr" />
+      {/* The knowledge base they become */}
+      <span className="w-10 h-10 shrink-0 rounded-lg bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_3000ms_ease-out_infinite]">
+        <Sparkles className="w-5 h-5 text-white" />
+      </span>
+      <PulseWire delay={FLOW_STEP_MS} dir="ltr" />
+      {/* Answers out: one internal, one external */}
+      <span className="flex flex-col gap-1.5">
+        {[0, 1].map((i) => (
+          <span
+            key={i}
+            className={`w-14 h-5 rounded-md rounded-bl-none border-2 border-primary/60 bg-card px-1 flex items-center ${ASSEMBLE}`}
+            style={{ animationDelay: `${(i + 1) * FLOW_STEP_MS}ms` }}
+          >
+            <span className="h-1.5 w-full rounded-sm bg-primary/40" />
+          </span>
+        ))}
+      </span>
+    </div>
+  )
 }
 
 const ASSEMBLE = "motion-safe:animate-[deck-assemble_3s_ease-in-out_infinite]"
