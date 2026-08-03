@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Linkedin, GraduationCap, Building2 } from "lucide-react"
 import Image from "next/image"
 import { useLanguage } from "@/components/language-provider"
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 import type { Locale, TeamMember } from "@/lib/site-content"
 
 // SSR fallback — keeps the section populated before the live content arrives and if the API fails.
@@ -80,28 +81,11 @@ function teamPhotoClassName(memberId: string) {
   return baseClassName
 }
 
-/**
- * Which grid columns the detail panel occupies, as a `grid-column` value.
- * Members in the left half hand the panel every column to their right;
- * members in the right half hand it every column to their left. Placing it
- * in the grid means gaps line up exactly and it can never leave the section.
- */
-function panelGridColumn(index: number, count: number) {
-  const opensLeft = index >= Math.ceil(count / 2)
-  return opensLeft ? `1 / ${index + 1}` : `${index + 2} / -1`
-}
-
 export function TeamSection() {
   const { t, language } = useLanguage()
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(visibleTeamMembers(DEFAULT_TEAM))
   const [openMemberId, setOpenMemberId] = useState<string | null>(null)
-  const [hoveredMemberId, setHoveredMemberId] = useState<string | null>(null)
-
-  // A pinned member (tap/click) wins over whatever is merely hovered.
-  const activeId = openMemberId ?? hoveredMemberId
-  const activeIndex = teamMembers.findIndex((m) => m.id === activeId)
-  const activeMember = activeIndex >= 0 ? teamMembers[activeIndex] : null
-  const activeBio = activeMember ? memberBio(activeMember, language) : ""
+  const openMember = teamMembers.find((member) => member.id === openMemberId) ?? null
 
   useEffect(() => {
     fetch("/api/content", { cache: "no-store" })
@@ -120,34 +104,23 @@ export function TeamSection() {
             <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white" suppressHydrationWarning>{t("team_heading")}</h2>
           </div>
 
-          {/* Clearing on the grid (not the card) keeps the panel open while the
-              pointer travels across it, since both live inside this container. */}
-          <div
-            className="relative grid grid-cols-2 md:grid-cols-5 gap-4"
-            onMouseLeave={() => setHoveredMemberId(null)}
-          >
-            {teamMembers.map((member, index) => {
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {teamMembers.map((member) => {
               const bio = memberBio(member, language)
-              const isPinned = openMemberId === member.id
 
               return (
               <div
                 key={member.id}
-                className="relative"
-                onMouseEnter={() => bio && setHoveredMemberId(member.id)}
               >
                 <div
                   className="rounded-none bg-card shadow-sm overflow-hidden h-full hover:shadow-xl md:hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
                 >
                   {bio ? (
-                    // Hover, keyboard focus, or tap opens the detail panel beside the card.
                     <button
                       type="button"
-                      onClick={() => setOpenMemberId((cur) => (cur === member.id ? null : member.id))}
-                      onFocus={() => setHoveredMemberId(member.id)}
-                      aria-expanded={isPinned}
+                      onClick={() => setOpenMemberId(member.id)}
                       aria-label={`${member.name} — read introduction`}
-                      className="block w-full aspect-[3/4] bg-[#e3e3e3] overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-inset"
+                      className="block w-full aspect-[3/4] bg-[#e3e3e3] overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
                     >
                       <Image
                         src={member.photo}
@@ -201,29 +174,39 @@ export function TeamSection() {
                     </div>
                   </div>
                 </div>
-
               </div>
               )
             })}
-
-            {activeMember && activeBio && (
-              <aside
-                style={{ ["--panel-col" as string]: panelGridColumn(activeIndex, teamMembers.length) }}
-                className="z-20 row-start-1 flex flex-col justify-center overflow-y-auto bg-card p-6 text-left shadow-2xl ring-1 ring-black/10 [grid-column:1/-1] md:p-8 md:[grid-column:var(--panel-col)]"
-              >
-                <h4 className="text-lg font-semibold text-foreground md:text-xl">{activeMember.name}</h4>
-                <p className="mt-1 text-sm font-medium text-primary">
-                  {activeMember.role[language] || activeMember.role.en}
-                </p>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
-                  {activeBio}
-                </p>
-              </aside>
-            )}
           </div>
         </div>
       </section>
 
+      <Dialog open={Boolean(openMember)} onOpenChange={(open) => !open && setOpenMemberId(null)}>
+        <DialogContent className="rounded-none sm:max-w-xl">
+          {openMember && (
+            <div className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:gap-6 sm:text-left">
+              <div className="w-40 shrink-0 aspect-[3/4] overflow-hidden rounded-none bg-[#e3e3e3]">
+                <Image
+                  src={openMember.photo}
+                  alt={openMember.name}
+                  width={600}
+                  height={800}
+                  className={teamPhotoClassName(openMember.id)}
+                />
+              </div>
+              <div className="mt-4 sm:mt-1">
+                <DialogTitle className="text-xl font-semibold leading-tight">{openMember.name}</DialogTitle>
+                <p className="mt-1 mb-3 text-sm font-medium text-primary">
+                  {openMember.role[language] || openMember.role.en}
+                </p>
+                <DialogDescription className="text-sm leading-relaxed text-muted-foreground">
+                  {memberBio(openMember, language)}
+                </DialogDescription>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   )
 }
