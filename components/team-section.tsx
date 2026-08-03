@@ -184,9 +184,11 @@ export function TeamSection() {
       <Dialog open={Boolean(openMember)} onOpenChange={(open) => !open && setOpenMemberId(null)}>
         {/* Square corners to match the cards (the base sets sm:rounded-lg), no focus
             ring on open, and a slower expo ease so it settles instead of snapping. */}
-        <DialogContent className="max-w-3xl overflow-hidden rounded-none focus:outline-none sm:rounded-none duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+        {/* Square corners to match the cards (the base sets sm:rounded-lg), no focus
+            ring on open, and a slower expo ease so it settles instead of snapping. */}
+        <DialogContent className="max-w-2xl overflow-hidden rounded-none focus:outline-none sm:rounded-none duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
           {openMember && (
-            <div className="relative grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+            <div className="relative flex flex-col sm:flex-row">
               <DialogClose
                 aria-label="Close"
                 className="absolute right-3 top-3 z-10 rounded-none bg-background/80 p-2 text-muted-foreground backdrop-blur transition-colors hover:bg-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
@@ -194,7 +196,8 @@ export function TeamSection() {
                 <X className="h-5 w-5" strokeWidth={1.5} />
               </DialogClose>
 
-              <div className="aspect-[4/3] overflow-hidden bg-[#e3e3e3] sm:aspect-auto sm:h-[26rem]">
+              {/* Same 3/4 portrait framing as the card, so the crop matches. */}
+              <div className="w-full shrink-0 aspect-[3/4] overflow-hidden bg-[#e3e3e3] sm:w-56">
                 <Image
                   src={openMember.photo}
                   alt={openMember.name}
@@ -204,14 +207,14 @@ export function TeamSection() {
                 />
               </div>
 
-              <div className="flex flex-col justify-center p-6 sm:p-10">
-                <DialogTitle className="text-2xl font-semibold leading-tight md:text-3xl">
+              <div className="flex flex-col justify-center p-6 sm:p-8">
+                <DialogTitle className="text-xl font-semibold leading-tight sm:text-2xl">
                   {openMember.name}
                 </DialogTitle>
-                <p className="mt-2 text-base font-medium text-primary">
+                <p className="mt-1.5 text-sm font-medium text-primary">
                   {openMember.role[language] || openMember.role.en}
                 </p>
-                <DialogDescription className="mt-5 text-base leading-relaxed text-muted-foreground">
+                <DialogDescription className="mt-4 text-sm leading-relaxed text-muted-foreground">
                   {memberBio(openMember, language)}
                 </DialogDescription>
               </div>
