@@ -80,10 +80,28 @@ function teamPhotoClassName(memberId: string) {
   return baseClassName
 }
 
+/**
+ * Which grid columns the detail panel occupies, as a `grid-column` value.
+ * Members in the left half hand the panel every column to their right;
+ * members in the right half hand it every column to their left. Placing it
+ * in the grid means gaps line up exactly and it can never leave the section.
+ */
+function panelGridColumn(index: number, count: number) {
+  const opensLeft = index >= Math.ceil(count / 2)
+  return opensLeft ? `1 / ${index + 1}` : `${index + 2} / -1`
+}
+
 export function TeamSection() {
   const { t, language } = useLanguage()
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(visibleTeamMembers(DEFAULT_TEAM))
   const [openMemberId, setOpenMemberId] = useState<string | null>(null)
+  const [hoveredMemberId, setHoveredMemberId] = useState<string | null>(null)
+
+  // A pinned member (tap/click) wins over whatever is merely hovered.
+  const activeId = openMemberId ?? hoveredMemberId
+  const activeIndex = teamMembers.findIndex((m) => m.id === activeId)
+  const activeMember = activeIndex >= 0 ? teamMembers[activeIndex] : null
+  const activeBio = activeMember ? memberBio(activeMember, language) : ""
 
   useEffect(() => {
     fetch("/api/content", { cache: "no-store" })
@@ -102,18 +120,21 @@ export function TeamSection() {
             <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white" suppressHydrationWarning>{t("team_heading")}</h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {/* Clearing on the grid (not the card) keeps the panel open while the
+              pointer travels across it, since both live inside this container. */}
+          <div
+            className="relative grid grid-cols-2 md:grid-cols-5 gap-4"
+            onMouseLeave={() => setHoveredMemberId(null)}
+          >
             {teamMembers.map((member, index) => {
               const bio = memberBio(member, language)
-              // Members in the right half open their panel leftwards, so it never
-              // runs past the section edge.
-              const opensLeft = index >= Math.ceil(teamMembers.length / 2)
               const isPinned = openMemberId === member.id
 
               return (
               <div
                 key={member.id}
-                className="relative group"
+                className="relative"
+                onMouseEnter={() => bio && setHoveredMemberId(member.id)}
               >
                 <div
                   className="rounded-none bg-card shadow-sm overflow-hidden h-full hover:shadow-xl md:hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
@@ -123,6 +144,7 @@ export function TeamSection() {
                     <button
                       type="button"
                       onClick={() => setOpenMemberId((cur) => (cur === member.id ? null : member.id))}
+                      onFocus={() => setHoveredMemberId(member.id)}
                       aria-expanded={isPinned}
                       aria-label={`${member.name} — read introduction`}
                       className="block w-full aspect-[3/4] bg-[#e3e3e3] overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-inset"
@@ -180,27 +202,24 @@ export function TeamSection() {
                   </div>
                 </div>
 
-                {bio && (
-                  <aside
-                    aria-hidden={!isPinned}
-                    className={`absolute top-0 z-20 h-full overflow-y-auto bg-card p-4 text-left shadow-2xl ring-1 ring-black/10 transition-opacity duration-200 motion-reduce:transition-none inset-x-0 md:inset-x-auto md:w-64 ${
-                      opensLeft ? "md:right-full md:mr-3" : "md:left-full md:ml-3"
-                    } ${
-                      isPinned
-                        ? "opacity-100"
-                        : "pointer-events-none opacity-0 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100"
-                    }`}
-                  >
-                    <h4 className="text-sm font-semibold text-foreground">{member.name}</h4>
-                    <p className="mt-0.5 text-xs font-medium text-primary">
-                      {member.role[language] || member.role.en}
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{bio}</p>
-                  </aside>
-                )}
               </div>
               )
             })}
+
+            {activeMember && activeBio && (
+              <aside
+                style={{ ["--panel-col" as string]: panelGridColumn(activeIndex, teamMembers.length) }}
+                className="z-20 row-start-1 flex flex-col justify-center overflow-y-auto bg-card p-6 text-left shadow-2xl ring-1 ring-black/10 [grid-column:1/-1] md:p-8 md:[grid-column:var(--panel-col)]"
+              >
+                <h4 className="text-lg font-semibold text-foreground md:text-xl">{activeMember.name}</h4>
+                <p className="mt-1 text-sm font-medium text-primary">
+                  {activeMember.role[language] || activeMember.role.en}
+                </p>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {activeBio}
+                </p>
+              </aside>
+            )}
           </div>
         </div>
       </section>
