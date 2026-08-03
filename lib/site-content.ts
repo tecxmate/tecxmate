@@ -178,7 +178,11 @@ export const defaultContent: SiteContent = {
       id: "nikolas",
       name: "Nikolas Doan 段皇方",
       role: L("CEO & CFO"),
-      description: L("MSc AI/Robotics (NTU, exp. '26). Former Google Cloud Startups. CEO TECXMATE.COM"),
+      description: M(
+        "MSc AI/Robotics (NTU, exp. '26). Former Google Cloud Startups. CEO TECXMATE.COM",
+        "Thạc sĩ AI/Robotics (NTU, dự kiến '26). Cựu Google Cloud Startups. CEO TECXMATE.COM",
+        "NTU 人工智慧／機器人碩士（預計 2026 年取得）。前 Google Cloud Startups。TECXMATE.COM 執行長",
+      ),
       photo: "/avatars/niko_ava_color.jpg",
       linkedin: "https://www.linkedin.com/in/nikolasdoan/",
       twitter:
@@ -189,8 +193,10 @@ export const defaultContent: SiteContent = {
       id: "brian",
       name: "Brian Nguyen 阮文貴",
       role: L("CTO & COO"),
-      description: L(
+      description: M(
         "MS Gamification Engineering (NTUST, exp. '27). Built 3+ apps on App Store. Specialist in game mechanics for learning.",
+        "Thạc sĩ Kỹ thuật Game hóa (NTUST, dự kiến '27). Đã phát hành hơn 3 ứng dụng trên App Store. Chuyên gia về cơ chế game ứng dụng vào học tập.",
+        "NTUST 遊戲化工程碩士（預計 2027 年取得）。已在 App Store 推出 3 款以上應用程式。專長為學習導向的遊戲機制。",
       ),
       photo: "/avatars/brian_avatar.png",
       linkedin: "https://www.linkedin.com/in/brian-nguyen-587825235/",
@@ -200,7 +206,7 @@ export const defaultContent: SiteContent = {
     {
       id: "lynn",
       name: "Lynn Ta 謝宛伶",
-      role: L("Project Manager"),
+      role: M("Project Manager", "Quản lý dự án", "專案經理"),
       description: L(""),
       photo: "/avatars/lynn_avatar.JPG",
       linkedin: "https://www.linkedin.com/in/uyen-linh-ta-a970b1188/",
@@ -375,51 +381,103 @@ export const defaultContent: SiteContent = {
     },
   },
   about: {
-    subtitle: L("Empowering SMEs and Founders with premier technology consultancy and solutions"),
+    subtitle: M(
+      "Empowering SMEs and Founders with premier technology consultancy and solutions",
+      "Đồng hành cùng doanh nghiệp vừa và nhỏ và các nhà sáng lập bằng tư vấn và giải pháp công nghệ hàng đầu",
+      "以頂尖的技術顧問與解決方案，賦能中小企業與創辦人",
+    ),
     sections: [
       {
         id: "mission",
-        heading: L("Our Mission"),
+        heading: M("Our Mission", "Sứ mệnh của chúng tôi", "我們的使命"),
         paragraphs: [
-          L(
+          M(
             "At Tecxmate, we believe that technology should be accessible and transformative for businesses of all sizes. We are an LLC headquartered in Ho Chi Minh City, Vietnam, with operations in Taiwan, the US, and Vietnam. We specialize in delivering cutting-edge technology solutions that help SMEs and startups thrive in the digital age.",
+            "Tại Tecxmate, chúng tôi tin rằng công nghệ phải dễ tiếp cận và tạo ra thay đổi thực sự cho doanh nghiệp ở mọi quy mô. Chúng tôi là công ty TNHH có trụ sở chính tại Thành phố Hồ Chí Minh, Việt Nam, với hoạt động tại Đài Loan, Hoa Kỳ và Việt Nam. Chúng tôi chuyên cung cấp các giải pháp công nghệ tiên tiến giúp doanh nghiệp vừa và nhỏ cùng startup phát triển mạnh trong kỷ nguyên số.",
+            "在 Tecxmate，我們相信技術應該人人可用，並為各種規模的企業帶來實質改變。我們是一家總部位於越南胡志明市的有限責任公司，業務遍及台灣、美國與越南。我們專注於提供尖端技術解決方案，協助中小企業與新創在數位時代中成長茁壯。",
           ),
-          L(
+          M(
             "We incorporate AI into our core operations while leveraging human talents to achieve maximum delivery speed and product quality. Our mission is to give every business the tools they need to stay competitive and benefit from the world of modern technology.",
+            "Chúng tôi đưa AI vào vận hành cốt lõi, kết hợp với năng lực con người để đạt tốc độ bàn giao và chất lượng sản phẩm cao nhất. Sứ mệnh của chúng tôi là trao cho mọi doanh nghiệp những công cụ cần thiết để duy trì lợi thế cạnh tranh và tận dụng được công nghệ hiện đại.",
+            "我們將 AI 導入核心營運，並結合人才的專業判斷，以達到最快的交付速度與最佳的產品品質。我們的使命是讓每一家企業都能取得所需工具，保持競爭力並從現代技術中獲益。",
           ),
         ],
         bullets: [],
       },
       {
         id: "what-we-do",
-        heading: L("What We Do"),
-        paragraphs: [L("We provide comprehensive technology consultancy and solutions, including:")],
+        heading: M("What We Do", "Chúng tôi làm gì", "我們提供什麼"),
+        paragraphs: [
+          M(
+            "We provide comprehensive technology consultancy and solutions, including:",
+            "Chúng tôi cung cấp dịch vụ tư vấn và giải pháp công nghệ toàn diện, bao gồm:",
+            "我們提供全方位的技術顧問與解決方案，包括：",
+          ),
+        ],
         bullets: [
-          L("AI Application Development - Building intelligent applications powered by machine learning, NLP, and computer vision"),
-          L("Business Automation - Automating workflows, streamlining operations, and integrating systems"),
-          L("AI Chatbot Development - Building chatbots for Line, Messenger, Telegram, and customer service automation"),
-          L("Digital Transformation - Helping businesses transform their operations with modern technology"),
+          M(
+            "AI Application Development - Building intelligent applications powered by machine learning, NLP, and computer vision",
+            "Phát triển ứng dụng AI – Xây dựng các ứng dụng thông minh dựa trên machine learning, NLP và computer vision",
+            "AI 應用開發 – 打造以機器學習、自然語言處理與電腦視覺驅動的智慧應用",
+          ),
+          M(
+            "Business Automation - Automating workflows, streamlining operations, and integrating systems",
+            "Tự động hóa doanh nghiệp – Tự động hóa quy trình, tinh gọn vận hành và tích hợp hệ thống",
+            "企業流程自動化 – 自動化工作流程、精簡營運並整合系統",
+          ),
+          M(
+            "AI Chatbot Development - Building chatbots for Line, Messenger, Telegram, and customer service automation",
+            "Phát triển chatbot AI – Xây dựng chatbot cho Line, Messenger, Telegram và tự động hóa chăm sóc khách hàng",
+            "AI 聊天機器人開發 – 建置 Line、Messenger、Telegram 聊天機器人與客服自動化",
+          ),
+          M(
+            "Digital Transformation - Helping businesses transform their operations with modern technology",
+            "Chuyển đổi số – Giúp doanh nghiệp chuyển đổi vận hành bằng công nghệ hiện đại",
+            "數位轉型 – 協助企業以現代技術轉型營運",
+          ),
         ],
       },
       {
         id: "approach",
-        heading: L("Our Approach"),
+        heading: M("Our Approach", "Cách chúng tôi làm việc", "我們的做法"),
         paragraphs: [
-          L("We combine the power of AI with human expertise to deliver fast, high-quality solutions. Our approach focuses on:"),
+          M(
+            "We combine the power of AI with human expertise to deliver fast, high-quality solutions. Our approach focuses on:",
+            "Chúng tôi kết hợp sức mạnh của AI với chuyên môn con người để mang lại giải pháp nhanh và chất lượng cao. Cách làm của chúng tôi tập trung vào:",
+            "我們結合 AI 的效率與人的專業判斷，快速交付高品質的解決方案。我們的做法著重於：",
+          ),
         ],
         bullets: [
-          L("Fast delivery without compromising quality"),
-          L("Innovative solutions tailored to your business needs"),
-          L("Cost-effective solutions for SMEs and startups"),
-          L("Ongoing support and partnership"),
+          M(
+            "Fast delivery without compromising quality",
+            "Bàn giao nhanh mà không đánh đổi chất lượng",
+            "快速交付，且不犧牲品質",
+          ),
+          M(
+            "Innovative solutions tailored to your business needs",
+            "Giải pháp sáng tạo, thiết kế riêng theo nhu cầu doanh nghiệp của bạn",
+            "依您的業務需求量身打造的創新解決方案",
+          ),
+          M(
+            "Cost-effective solutions for SMEs and startups",
+            "Giải pháp tối ưu chi phí cho doanh nghiệp vừa và nhỏ và startup",
+            "為中小企業與新創打造的高性價比方案",
+          ),
+          M(
+            "Ongoing support and partnership",
+            "Hỗ trợ và đồng hành lâu dài",
+            "持續的支援與長期合作",
+          ),
         ],
       },
       {
         id: "why-choose",
-        heading: L("Why Choose Tecxmate"),
+        heading: M("Why Choose Tecxmate", "Vì sao chọn Tecxmate", "為什麼選擇 Tecxmate"),
         paragraphs: [
-          L(
+          M(
             "We serve clients worldwide with professional, high-quality technology solutions. Whether you're a startup looking to build your first AI application or an established SME seeking to automate operations, we're here to help you build the future.",
+            "Chúng tôi phục vụ khách hàng trên toàn cầu bằng các giải pháp công nghệ chuyên nghiệp, chất lượng cao. Dù bạn là startup đang xây dựng ứng dụng AI đầu tiên hay một doanh nghiệp vừa và nhỏ đã ổn định muốn tự động hóa vận hành, chúng tôi luôn sẵn sàng đồng hành để cùng bạn kiến tạo tương lai.",
+            "我們以專業、高品質的技術解決方案服務全球客戶。無論您是正要打造第一個 AI 應用的新創，或是希望自動化營運的成熟中小企業，我們都能協助您打造未來。",
           ),
         ],
         bullets: [],
