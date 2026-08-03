@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { Linkedin, GraduationCap, Building2 } from "lucide-react"
 import Image from "next/image"
 import { useLanguage } from "@/components/language-provider"
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 import type { Locale, TeamMember } from "@/lib/site-content"
 
 // SSR fallback — keeps the section populated before the live content arrives and if the API fails.
@@ -85,7 +84,6 @@ export function TeamSection() {
   const { t, language } = useLanguage()
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(visibleTeamMembers(DEFAULT_TEAM))
   const [openMemberId, setOpenMemberId] = useState<string | null>(null)
-  const openMember = teamMembers.find((member) => member.id === openMemberId) ?? null
 
   useEffect(() => {
     fetch("/api/content", { cache: "no-store" })
@@ -116,11 +114,13 @@ export function TeamSection() {
                   className="rounded-none bg-card shadow-sm overflow-hidden h-full hover:shadow-xl md:hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
                 >
                   {bio ? (
+                    // Hover (or keyboard focus, or tap on touch) slides the bio up over the photo.
                     <button
                       type="button"
-                      onClick={() => setOpenMemberId(member.id)}
+                      onClick={() => setOpenMemberId((cur) => (cur === member.id ? null : member.id))}
+                      aria-expanded={openMemberId === member.id}
                       aria-label={`${member.name} — read introduction`}
-                      className="block w-full aspect-[3/4] bg-[#e3e3e3] overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+                      className="group relative block w-full aspect-[3/4] bg-[#e3e3e3] overflow-hidden cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-inset"
                     >
                       <Image
                         src={member.photo}
@@ -129,6 +129,15 @@ export function TeamSection() {
                         height={800}
                         className={teamPhotoClassName(member.id)}
                       />
+                      <span
+                        className={`absolute inset-x-0 bottom-0 bg-primary/95 p-3 text-xs leading-relaxed text-white transition-transform duration-300 ease-out motion-reduce:transition-none ${
+                          openMemberId === member.id
+                            ? "translate-y-0"
+                            : "translate-y-full group-hover:translate-y-0 group-focus-visible:translate-y-0"
+                        }`}
+                      >
+                        {bio}
+                      </span>
                     </button>
                   ) : (
                     <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
@@ -181,32 +190,6 @@ export function TeamSection() {
         </div>
       </section>
 
-      <Dialog open={Boolean(openMember)} onOpenChange={(open) => !open && setOpenMemberId(null)}>
-        <DialogContent className="sm:max-w-md">
-          {openMember && (
-            <div className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left sm:gap-5">
-              <div className="w-28 shrink-0 aspect-[3/4] overflow-hidden bg-[#e3e3e3]">
-                <Image
-                  src={openMember.photo}
-                  alt={openMember.name}
-                  width={600}
-                  height={800}
-                  className={teamPhotoClassName(openMember.id)}
-                />
-              </div>
-              <div className="mt-4 sm:mt-0">
-                <DialogTitle className="text-lg font-semibold">{openMember.name}</DialogTitle>
-                <p className="text-sm text-primary font-medium mb-2">
-                  {openMember.role[language] || openMember.role.en}
-                </p>
-                <DialogDescription className="text-sm leading-relaxed text-muted-foreground">
-                  {memberBio(openMember, language)}
-                </DialogDescription>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </>
   )
 }
