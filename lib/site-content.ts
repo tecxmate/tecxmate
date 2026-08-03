@@ -104,6 +104,23 @@ export const SECTION_KEYS = [
   "tecxbook",
 ] as const
 export type SectionKey = (typeof SECTION_KEYS)[number]
+
+/**
+ * Homepage sections in their default top-to-bottom order. Only these are reorderable —
+ * the remaining SECTION_KEYS are navigation/standalone-page toggles.
+ */
+export const HOMEPAGE_SECTION_KEYS = [
+  "hero",
+  "team",
+  "proof",
+  "economics",
+  "problem",
+  "technology",
+  "process",
+  "blog",
+  "cta",
+] as const
+export type HomepageSectionKey = (typeof HOMEPAGE_SECTION_KEYS)[number]
 export type SectionVisibility = Record<SectionKey, boolean>
 
 export const defaultSectionVisibility: SectionVisibility = {
@@ -124,7 +141,7 @@ export const defaultSectionVisibility: SectionVisibility = {
 }
 
 export type SiteContent = {
-  settings: { sections: SectionVisibility }
+  settings: { sections: SectionVisibility; homepageOrder?: HomepageSectionKey[] }
   team: TeamMember[]
   hero: { title: Localized; subtitle: Localized }
   services: { title: Localized; items: Service[] }
@@ -154,6 +171,7 @@ function M(en: string, vi: string, zh: string): Localized {
 export const defaultContent: SiteContent = {
   settings: {
     sections: { ...defaultSectionVisibility },
+    homepageOrder: [...HOMEPAGE_SECTION_KEYS],
   },
   team: [
     {
@@ -557,6 +575,26 @@ function mergeContent(stored?: Partial<SiteContent>): SiteContent {
 
 export function isSectionEnabled(content: SiteContent, section: SectionKey): boolean {
   return content.settings.sections[section] !== false
+}
+
+function isHomepageSectionKey(value: unknown): value is HomepageSectionKey {
+  return HOMEPAGE_SECTION_KEYS.includes(value as HomepageSectionKey)
+}
+
+/**
+ * The saved homepage order, sanitised: unknown/duplicate keys dropped, and any key missing
+ * from the saved list appended in default order so a newly added section never disappears.
+ */
+export function homepageSectionOrder(content: SiteContent): HomepageSectionKey[] {
+  const saved = content.settings.homepageOrder ?? []
+  const ordered: HomepageSectionKey[] = []
+  for (const key of saved) {
+    if (isHomepageSectionKey(key) && !ordered.includes(key)) ordered.push(key)
+  }
+  for (const key of HOMEPAGE_SECTION_KEYS) {
+    if (!ordered.includes(key)) ordered.push(key)
+  }
+  return ordered
 }
 
 async function findContentUrl(): Promise<string | null> {
