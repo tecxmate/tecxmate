@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Linkedin, GraduationCap, Building2 } from "lucide-react"
+import { Linkedin, GraduationCap, Building2, X } from "lucide-react"
 import Image from "next/image"
 import { useLanguage } from "@/components/language-provider"
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 import type { Locale, TeamMember } from "@/lib/site-content"
 
 // SSR fallback — keeps the section populated before the live content arrives and if the API fails.
@@ -182,10 +182,19 @@ export function TeamSection() {
       </section>
 
       <Dialog open={Boolean(openMember)} onOpenChange={(open) => !open && setOpenMemberId(null)}>
-        <DialogContent className="rounded-none sm:max-w-xl">
+        {/* Square corners to match the cards (the base sets sm:rounded-lg), no focus
+            ring on open, and a slower expo ease so it settles instead of snapping. */}
+        <DialogContent className="max-w-3xl overflow-hidden rounded-none focus:outline-none sm:rounded-none duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
           {openMember && (
-            <div className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:gap-6 sm:text-left">
-              <div className="w-40 shrink-0 aspect-[3/4] overflow-hidden rounded-none bg-[#e3e3e3]">
+            <div className="relative grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+              <DialogClose
+                aria-label="Close"
+                className="absolute right-3 top-3 z-10 rounded-none bg-background/80 p-2 text-muted-foreground backdrop-blur transition-colors hover:bg-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                <X className="h-5 w-5" strokeWidth={1.5} />
+              </DialogClose>
+
+              <div className="aspect-[4/3] overflow-hidden bg-[#e3e3e3] sm:aspect-auto sm:h-[26rem]">
                 <Image
                   src={openMember.photo}
                   alt={openMember.name}
@@ -194,12 +203,15 @@ export function TeamSection() {
                   className={teamPhotoClassName(openMember.id)}
                 />
               </div>
-              <div className="mt-4 sm:mt-1">
-                <DialogTitle className="text-xl font-semibold leading-tight">{openMember.name}</DialogTitle>
-                <p className="mt-1 mb-3 text-sm font-medium text-primary">
+
+              <div className="flex flex-col justify-center p-6 sm:p-10">
+                <DialogTitle className="text-2xl font-semibold leading-tight md:text-3xl">
+                  {openMember.name}
+                </DialogTitle>
+                <p className="mt-2 text-base font-medium text-primary">
                   {openMember.role[language] || openMember.role.en}
                 </p>
-                <DialogDescription className="text-sm leading-relaxed text-muted-foreground">
+                <DialogDescription className="mt-5 text-base leading-relaxed text-muted-foreground">
                   {memberBio(openMember, language)}
                 </DialogDescription>
               </div>
