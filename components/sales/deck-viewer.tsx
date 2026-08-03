@@ -245,7 +245,7 @@ export function DeckViewer() {
           </div>
         </section>
 
-        {/* 5 — A service, not a hire */}
+        {/* 5 — A unique collaboration */}
         <section className={slideClass}>
           <div className="max-w-5xl w-full">
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground mb-10">

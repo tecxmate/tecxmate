@@ -26,6 +26,35 @@ export type Service = {
   description: Localized
 }
 
+export type ChatbotQuickQuestion = {
+  id: string
+  label: Localized
+}
+
+export type ChatbotConfig = {
+  enabled: boolean
+  memoryEnabled: boolean
+  title: Localized
+  subtitle: Localized
+  greeting: Localized
+  placeholder: Localized
+  systemPrompt: Localized
+  knowledge: Localized
+  quickQuestions: ChatbotQuickQuestion[]
+  escalation: {
+    primaryChannel: "line"
+    contactEmail: string
+    lineLabel: string
+    lineUrl: string
+    message: Localized
+  }
+  limits: {
+    retainDays: number
+    maxInputChars: number
+    maxMessagesPerHour: number
+  }
+}
+
 export type AboutSection = {
   id: string
   heading: Localized
@@ -99,6 +128,7 @@ export type SiteContent = {
   team: TeamMember[]
   hero: { title: Localized; subtitle: Localized }
   services: { title: Localized; items: Service[] }
+  chatbot: ChatbotConfig
   about: { subtitle: Localized; sections: AboutSection[] }
   company: CompanyInfo
   seo: SeoMetadata
@@ -177,9 +207,9 @@ export const defaultContent: SiteContent = {
       "您的技術夥伴。",
     ),
     subtitle: M(
-      "Cutting-edge AI Integration and Development to accelerate your businesses.",
-      "Tích hợp và phát triển AI tiên tiến, tăng tốc và tối ưu vận hành.",
-      "以尖端 AI 整合與開發，加速您的業務成長。",
+      "Technology unlocks many businesses potential. Let's explore what's possible!",
+      "Công nghệ có thể mở ra tiềm năng thật sự cho doanh nghiệp bạn. Hãy cùng khám phá.",
+      "科技能為您的企業打開真正的潛力。一起來探索。",
     ),
   },
   services: {
@@ -254,6 +284,77 @@ export const defaultContent: SiteContent = {
         ),
       },
     ],
+  },
+  chatbot: {
+    enabled: true,
+    memoryEnabled: true,
+    title: M("Tecxmate Assistant", "Trợ lý Tecxmate", "Tecxmate 助理"),
+    subtitle: M("Online", "Trực tuyến", "線上"),
+    greeting: M(
+      "Hi! Tell me what you want to build, automate, or clarify. I can answer in any language.",
+      "Chào bạn! Hãy cho tôi biết bạn muốn xây dựng, tự động hóa hoặc cần làm rõ điều gì. Tôi có thể trả lời bằng bất kỳ ngôn ngữ nào.",
+      "您好！請告訴我您想打造、導入自動化，或想釐清的問題。我可以用任何語言回答。",
+    ),
+    placeholder: M("Ask about Tecxmate services...", "Hỏi về dịch vụ Tecxmate...", "詢問 Tecxmate 服務..."),
+    systemPrompt: M(
+      [
+        "You are Tecxmate's website support assistant.",
+        "Answer prospective customers clearly and concisely.",
+        "Use the same language as the customer unless they ask otherwise.",
+        "Use only the supplied Tecxmate knowledge and public website context for company-specific claims.",
+        "If you are unsure, say so and offer to connect the customer to LINE.",
+        "Do not invent pricing, delivery dates, client names, legal guarantees, or private company details.",
+        "Only ask for contact information if the customer volunteers to be contacted or asks for a human follow-up.",
+        "Escalate to a human when the customer asks for a person, asks for a quote/proposal, gives contact details, reports dissatisfaction, or asks something you cannot answer well.",
+      ].join("\n"),
+      [
+        "Bạn là trợ lý hỗ trợ khách hàng trên website của Tecxmate.",
+        "Trả lời khách hàng tiềm năng rõ ràng và ngắn gọn.",
+        "Dùng cùng ngôn ngữ với khách hàng trừ khi họ yêu cầu khác.",
+        "Chỉ dùng kiến thức Tecxmate được cung cấp và nội dung công khai trên website cho các thông tin riêng về công ty.",
+        "Nếu không chắc, hãy nói rõ và đề nghị kết nối khách hàng qua LINE.",
+        "Không tự bịa giá, thời gian giao hàng, tên khách hàng, cam kết pháp lý hoặc thông tin riêng của công ty.",
+        "Chỉ hỏi thông tin liên hệ nếu khách hàng tự nguyện để lại hoặc yêu cầu người thật liên hệ.",
+        "Chuyển cho người thật khi khách yêu cầu, hỏi báo giá/đề xuất, để lại thông tin liên hệ, không hài lòng, hoặc hỏi điều bạn không trả lời tốt.",
+      ].join("\n"),
+      [
+        "你是 Tecxmate 網站的客服助理。",
+        "清楚、精簡地回答潛在客戶。",
+        "除非客戶要求，否則使用客戶目前使用的語言。",
+        "公司相關資訊只能依據提供的 Tecxmate 知識與公開網站內容。",
+        "如果不確定，請坦白說明，並提供轉接 LINE 的選項。",
+        "不要編造價格、交付日期、客戶名稱、法律保證或公司內部資訊。",
+        "只有在客戶主動留下資料或要求真人跟進時，才詢問聯絡資訊。",
+        "當客戶要求真人、詢問報價/提案、留下聯絡資料、表示不滿，或詢問你無法妥善回答的內容時，請轉接真人。",
+      ].join("\n"),
+    ),
+    knowledge: M(
+      "Tecxmate provides senior AI and software delivery for SMEs: mobile apps, websites, AI applications, automation, chatbots, voice AI, cloud infrastructure, and support. The first consultation can be free. Primary contact channels are LINE, WhatsApp, email, and a 30-minute booking link.",
+      "Tecxmate cung cấp dịch vụ AI và phần mềm cấp cao cho doanh nghiệp vừa và nhỏ: ứng dụng di động, website, ứng dụng AI, tự động hóa, chatbot, voice AI, hạ tầng cloud và hỗ trợ. Buổi tư vấn đầu tiên có thể miễn phí. Kênh liên hệ chính là LINE, WhatsApp, email và lịch gọi 30 phút.",
+      "Tecxmate 為中小企業提供資深 AI 與軟體交付：行動 App、網站、AI 應用、自動化、聊天機器人、語音 AI、雲端基礎架構與支援。首次諮詢可免費。主要聯絡方式為 LINE、WhatsApp、email 與 30 分鐘預約連結。",
+    ),
+    quickQuestions: [
+      { id: "services", label: M("What can Tecxmate build?", "Tecxmate có thể xây gì?", "Tecxmate 可以做什麼？") },
+      { id: "cost", label: M("How much does a project cost?", "Một dự án tốn bao nhiêu?", "專案費用大概多少？") },
+      { id: "timeline", label: M("How long does delivery take?", "Thời gian bàn giao bao lâu?", "交付需要多久？") },
+      { id: "human", label: M("Talk to a human", "Nói chuyện với người thật", "找真人協助") },
+    ],
+    escalation: {
+      primaryChannel: "line",
+      contactEmail: company.contactEmail,
+      lineLabel: "LINE",
+      lineUrl: "https://lin.ee/PHAOtCo",
+      message: M(
+        "I may not be the best person to finish this. I can connect you with Tecxmate on LINE, or you can leave your email/phone if you want us to follow up.",
+        "Có thể tôi không phải người phù hợp nhất để xử lý tiếp. Tôi có thể kết nối bạn với Tecxmate qua LINE, hoặc bạn có thể để lại email/số điện thoại nếu muốn chúng tôi liên hệ lại.",
+        "這個問題可能需要真人協助。您可以透過 LINE 聯絡 Tecxmate，或主動留下 email/電話讓我們回覆。",
+      ),
+    },
+    limits: {
+      retainDays: 90,
+      maxInputChars: 1200,
+      maxMessagesPerHour: 30,
+    },
   },
   about: {
     subtitle: L("Empowering SMEs and Founders with premier technology consultancy and solutions"),
@@ -355,9 +456,28 @@ export const defaultContent: SiteContent = {
 function mergeContent(stored?: Partial<SiteContent>): SiteContent {
   if (!stored) return defaultContent
 
+  const storedHeroTitle = stored.hero?.title?.en?.trim()
+  const storedHeroSubtitle = stored.hero?.subtitle?.en?.trim()
+  const usesLegacyHero =
+    storedHeroTitle === "Top-tier engineering, without the overhead" ||
+    storedHeroSubtitle === "Senior AI and software delivery for SMEs. One senior team, one invoice, shipping in weeks."
+  const hero = usesLegacyHero
+    ? defaultContent.hero
+    : {
+        title: {
+          ...defaultContent.hero.title,
+          ...stored.hero?.title,
+        },
+        subtitle: {
+          ...defaultContent.hero.subtitle,
+          ...stored.hero?.subtitle,
+        },
+      }
+
   return {
     ...defaultContent,
     ...stored,
+    hero,
     company: {
       ...defaultContent.company,
       ...stored.company,
@@ -389,6 +509,47 @@ function mergeContent(stored?: Partial<SiteContent>): SiteContent {
       sections: {
         ...defaultContent.settings.sections,
         ...stored.settings?.sections,
+      },
+    },
+    chatbot: {
+      ...defaultContent.chatbot,
+      ...stored.chatbot,
+      title: {
+        ...defaultContent.chatbot.title,
+        ...stored.chatbot?.title,
+      },
+      subtitle: {
+        ...defaultContent.chatbot.subtitle,
+        ...stored.chatbot?.subtitle,
+      },
+      greeting: {
+        ...defaultContent.chatbot.greeting,
+        ...stored.chatbot?.greeting,
+      },
+      placeholder: {
+        ...defaultContent.chatbot.placeholder,
+        ...stored.chatbot?.placeholder,
+      },
+      systemPrompt: {
+        ...defaultContent.chatbot.systemPrompt,
+        ...stored.chatbot?.systemPrompt,
+      },
+      knowledge: {
+        ...defaultContent.chatbot.knowledge,
+        ...stored.chatbot?.knowledge,
+      },
+      quickQuestions: stored.chatbot?.quickQuestions ?? defaultContent.chatbot.quickQuestions,
+      escalation: {
+        ...defaultContent.chatbot.escalation,
+        ...stored.chatbot?.escalation,
+        message: {
+          ...defaultContent.chatbot.escalation.message,
+          ...stored.chatbot?.escalation?.message,
+        },
+      },
+      limits: {
+        ...defaultContent.chatbot.limits,
+        ...stored.chatbot?.limits,
       },
     },
   }
