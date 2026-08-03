@@ -16,7 +16,15 @@ export type TeamMember = {
 }
 
 /** Allowed service icons (keys map to lucide-react components in services-section.tsx). */
-export const SERVICE_ICONS = ["smartphone", "layout", "brain", "zap", "bot", "server-cog"] as const
+export const SERVICE_ICONS = [
+  "smartphone",
+  "layout",
+  "brain",
+  "zap",
+  "bot",
+  "bot-message-square",
+  "server-cog",
+] as const
 export type ServiceIcon = (typeof SERVICE_ICONS)[number]
 
 export type Service = {
@@ -240,6 +248,20 @@ export const defaultContent: SiteContent = {
     title: M("Our Services", "Dịch vụ của chúng tôi", "我們的服務"),
     items: [
       {
+        id: "ai-agents-knowledge",
+        icon: "bot-message-square",
+        title: M(
+          "AI Agents, Chatbots & Knowledge Management",
+          "AI Agent, Chatbot & Quản trị tri thức",
+          "AI 代理、聊天機器人與知識管理",
+        ),
+        description: M(
+          "Internal and customer-facing AI agents, chatbots and document processing, plus a customised knowledge management system built on OpenAI, Anthropic, DeepSeek, Kimi and other leading models.",
+          "AI agent, chatbot và xử lý tài liệu cho cả nội bộ lẫn khách hàng, cùng hệ thống quản trị tri thức tùy chỉnh xây dựng trên OpenAI, Anthropic, DeepSeek, Kimi và các mô hình hàng đầu khác.",
+          "面向內部與客戶的 AI 代理、聊天機器人與文件處理，並以 OpenAI、Anthropic、DeepSeek、Kimi 等領先模型打造客製化的知識管理系統。",
+        ),
+      },
+      {
         id: "mobile-app-development",
         icon: "smartphone",
         title: M(
@@ -274,16 +296,6 @@ export const defaultContent: SiteContent = {
         ),
       },
       {
-        id: "business-automation",
-        icon: "zap",
-        title: M("Business Automation", "Tự động hóa doanh nghiệp", "業務自動化"),
-        description: M(
-          "Workflow automation, system integration, and operational streamlining.",
-          "Tự động hóa quy trình làm việc, tích hợp hệ thống và tinh gọn vận hành.",
-          "工作流程自動化、系統整合與營運流程精簡。",
-        ),
-      },
-      {
         id: "ai-integration",
         icon: "bot",
         title: M("AI Integration & Consulting", "Tư vấn & Tích hợp AI", "AI 整合與諮詢"),
@@ -291,6 +303,16 @@ export const defaultContent: SiteContent = {
           "AI strategy, tool selection, and hands-on implementation support.",
           "Chiến lược AI, lựa chọn công cụ và hỗ trợ triển khai thực tế.",
           "AI 策略規劃、工具選用及實作支援。",
+        ),
+      },
+      {
+        id: "business-automation",
+        icon: "zap",
+        title: M("Business Automation", "Tự động hóa doanh nghiệp", "業務自動化"),
+        description: M(
+          "Workflow automation, system integration, and operational streamlining.",
+          "Tự động hóa quy trình làm việc, tích hợp hệ thống và tinh gọn vận hành.",
+          "工作流程自動化、系統整合與營運流程精簡。",
         ),
       },
       {

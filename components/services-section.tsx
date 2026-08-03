@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Brain, Zap, Bot, ServerCog, Smartphone, Layout, type LucideIcon } from "lucide-react"
+import { Brain, Zap, Bot, BotMessageSquare, ServerCog, Smartphone, Layout, type LucideIcon } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import type { ServiceIcon, SiteContent } from "@/lib/site-content"
 
@@ -12,6 +12,7 @@ const ICON_MAP: Record<ServiceIcon, LucideIcon> = {
   brain: Brain,
   zap: Zap,
   bot: Bot,
+  "bot-message-square": BotMessageSquare,
   "server-cog": ServerCog,
 }
 
