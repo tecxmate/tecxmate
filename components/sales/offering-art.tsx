@@ -45,9 +45,9 @@ function DataArt() {
             style={{ height: `${h}px`, animationDelay: `${i * 140}ms` }}
           />
         ))}
-        {/* Handed back in a format they already use */}
-        <span className="absolute -bottom-2 -right-2 h-4 px-1 rounded-[3px] bg-primary text-white text-[7px] font-bold leading-[16px] tracking-wide motion-safe:animate-[deck-pop_3s_ease-in-out_infinite]">
-          XLS
+        {/* Handed back, ready to act on */}
+        <span className="absolute -bottom-2 -right-2 w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center motion-safe:animate-[deck-pop_3s_ease-in-out_infinite]">
+          <Check className="w-3 h-3" strokeWidth={3} />
         </span>
       </span>
     </div>

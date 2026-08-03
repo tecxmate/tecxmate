@@ -406,9 +406,9 @@ export const salesDeck = {
           "資料分析與處理",
         ),
         summary: M(
-          "Your business collects more data than it ever reads. We analyze it, visualize it, and hand it back as Excel and Word.",
-          "Doanh nghiệp của bạn thu thập nhiều dữ liệu hơn mức đọc hết. Chúng tôi phân tích, trực quan hóa, rồi trả lại dưới dạng Excel và Word.",
-          "您的公司蒐集的資料，遠多於實際看過的。我們替您分析、視覺化，再以 Excel 和 Word 交回您手上。",
+          "Your business collects more data than it ever reads. We analyze it, visualize it, and hand back reports your team can act on.",
+          "Doanh nghiệp của bạn thu thập nhiều dữ liệu hơn mức đọc hết. Chúng tôi phân tích, trực quan hóa, rồi trả lại những báo cáo đội ngũ có thể dùng ngay.",
+          "您的公司蒐集的資料，遠多於實際看過的。我們替您分析、視覺化，再交回團隊能直接採取行動的報告。",
         ),
         problem: M(
           "The numbers that would answer your question sit in files nobody opens.",
@@ -428,14 +428,14 @@ export const salesDeck = {
         metrics: [
           {
             label: M("Delivered as", "Bàn giao dưới dạng", "交付格式"),
-            value: M("Excel · Word", "Excel · Word", "Excel · Word"),
+            value: M("Reports & dashboards", "Báo cáo & dashboard", "報告與儀表板"),
           },
           {
             label: M("You keep", "Bạn giữ", "歸您所有"),
             value: M("The data", "Toàn bộ dữ liệu", "全部資料"),
           },
         ],
-        stack: ["Excel", "Word", "Dashboards", "Python", "SQL"],
+        stack: ["Dashboards", "Reporting", "Forecasting", "Python", "SQL"],
       },
       {
         id: "ai-integration",

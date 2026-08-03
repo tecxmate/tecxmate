@@ -6,7 +6,7 @@ import { Menu, X, Globe } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
-import { useLanguage, type Language } from "@/components/language-provider"
+import { AVAILABLE_LANGUAGES, useLanguage, type Language } from "@/components/language-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
 import type { SectionVisibility } from "@/lib/site-content"
 
@@ -143,13 +143,13 @@ export function Navbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {Object.entries(languageLabels).map(([code, label]) => (
+              {AVAILABLE_LANGUAGES.map((code) => (
                 <DropdownMenuItem
                   key={code}
                   onClick={() => handleLanguageSelect(code as Language)}
                   className={mounted && code === language ? "bg-muted/50" : undefined}
                 >
-                  {label}
+                  {languageLabels[code]}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -220,13 +220,13 @@ export function Navbar() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-full">
-                {Object.entries(languageLabels).map(([code, label]) => (
+                {AVAILABLE_LANGUAGES.map((code) => (
                   <DropdownMenuItem
                     key={code}
                     onClick={() => handleLanguageSelect(code as Language)}
                     className={mounted && code === language ? "bg-muted/50" : undefined}
                   >
-                    {label}
+                    {languageLabels[code]}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
