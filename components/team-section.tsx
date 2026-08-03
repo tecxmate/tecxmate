@@ -103,24 +103,29 @@ export function TeamSection() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {teamMembers.map((member) => {
+            {teamMembers.map((member, index) => {
               const bio = memberBio(member, language)
+              // Members in the right half open their panel leftwards, so it never
+              // runs past the section edge.
+              const opensLeft = index >= Math.ceil(teamMembers.length / 2)
+              const isPinned = openMemberId === member.id
 
               return (
               <div
                 key={member.id}
+                className="relative group"
               >
                 <div
                   className="rounded-none bg-card shadow-sm overflow-hidden h-full hover:shadow-xl md:hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
                 >
                   {bio ? (
-                    // Hover (or keyboard focus, or tap on touch) slides the bio up over the photo.
+                    // Hover, keyboard focus, or tap opens the detail panel beside the card.
                     <button
                       type="button"
                       onClick={() => setOpenMemberId((cur) => (cur === member.id ? null : member.id))}
-                      aria-expanded={openMemberId === member.id}
+                      aria-expanded={isPinned}
                       aria-label={`${member.name} — read introduction`}
-                      className="group relative block w-full aspect-[3/4] bg-[#e3e3e3] overflow-hidden cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-inset"
+                      className="block w-full aspect-[3/4] bg-[#e3e3e3] overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-inset"
                     >
                       <Image
                         src={member.photo}
@@ -129,15 +134,6 @@ export function TeamSection() {
                         height={800}
                         className={teamPhotoClassName(member.id)}
                       />
-                      <span
-                        className={`absolute inset-x-0 bottom-0 bg-primary/95 p-3 text-xs leading-relaxed text-white transition-transform duration-300 ease-out motion-reduce:transition-none ${
-                          openMemberId === member.id
-                            ? "translate-y-0"
-                            : "translate-y-full group-hover:translate-y-0 group-focus-visible:translate-y-0"
-                        }`}
-                      >
-                        {bio}
-                      </span>
                     </button>
                   ) : (
                     <div className="w-full aspect-[3/4] bg-[#e3e3e3]">
@@ -183,6 +179,25 @@ export function TeamSection() {
                     </div>
                   </div>
                 </div>
+
+                {bio && (
+                  <aside
+                    aria-hidden={!isPinned}
+                    className={`absolute top-0 z-20 h-full overflow-y-auto bg-card p-4 text-left shadow-2xl ring-1 ring-black/10 transition-opacity duration-200 motion-reduce:transition-none inset-x-0 md:inset-x-auto md:w-64 ${
+                      opensLeft ? "md:right-full md:mr-3" : "md:left-full md:ml-3"
+                    } ${
+                      isPinned
+                        ? "opacity-100"
+                        : "pointer-events-none opacity-0 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100"
+                    }`}
+                  >
+                    <h4 className="text-sm font-semibold text-foreground">{member.name}</h4>
+                    <p className="mt-0.5 text-xs font-medium text-primary">
+                      {member.role[language] || member.role.en}
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{bio}</p>
+                  </aside>
+                )}
               </div>
               )
             })}
