@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, GraduationCap, Sparkles } from "lucide-react"
+import { Check, Sparkles } from "lucide-react"
 
 /**
  * Slim animated illustration strips for the offering cards.
@@ -10,11 +10,37 @@ import { Check, GraduationCap, Sparkles } from "lucide-react"
 export function OfferingArt({ id }: { id: string }) {
   if (id === "apps") return <AppsArt />
   if (id === "modernize") return <ModernizeArt />
-  if (id === "consulting") return <ConsultingArt />
+  if (id === "ai-seo") return <AiSeoArt />
   return <AiArt />
 }
 
 const ASSEMBLE = "motion-safe:animate-[deck-assemble_3s_ease-in-out_infinite]"
+
+/** An AI answer writing itself, ending on a cited source chip that is you. */
+function AiSeoArt() {
+  return (
+    <div className="h-28 flex items-center justify-center gap-3" aria-hidden>
+      {/* The engine doing the answering */}
+      <span className="w-10 h-10 shrink-0 rounded-lg bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_3s_ease-out_infinite]">
+        <Sparkles className="w-5 h-5 text-white" />
+      </span>
+      {/* The answer it returns */}
+      <span className="w-32 h-[84px] rounded-lg border-2 border-zinc-400 dark:border-zinc-500 bg-card p-2 flex flex-col gap-1.5">
+        <span className={`h-2 rounded-sm bg-primary/40 ${ASSEMBLE}`} style={{ animationDelay: "0ms" }} />
+        <span className={`h-2 w-5/6 rounded-sm bg-primary/25 ${ASSEMBLE}`} style={{ animationDelay: "300ms" }} />
+        <span className={`h-2 w-2/3 rounded-sm bg-primary/25 ${ASSEMBLE}`} style={{ animationDelay: "600ms" }} />
+        {/* Cited source — your brand, named in the answer */}
+        <span
+          className={`mt-auto inline-flex items-center gap-1 self-start rounded-full border-2 border-primary/60 bg-primary/10 px-1.5 h-4 ${ASSEMBLE}`}
+          style={{ animationDelay: "900ms" }}
+        >
+          <Check className="w-2.5 h-2.5 text-primary" strokeWidth={3} />
+          <span className="h-[3px] w-6 rounded-full bg-primary" />
+        </span>
+      </span>
+    </div>
+  )
+}
 
 /** A phone and a web-admin window whose UI assembles itself, block by block. */
 function AppsArt() {
@@ -146,42 +172,6 @@ function AiArt() {
         <PulseWire delay={FLOW_STEP_MS} dir="ltr" />
         <ReactBlock delay={FLOW_STEP_MS} />
       </span>
-    </div>
-  )
-}
-
-/** One person who lights up the moment the pulse reaches them. */
-function Learner({ delay }: { delay: number }) {
-  return (
-    <span className="relative flex flex-col items-center shrink-0" aria-hidden>
-      {/* faint base so the team is visible at rest */}
-      <span className="w-3.5 h-3.5 rounded-full bg-primary/20" />
-      <span className="w-6 h-3 mt-0.5 rounded-t-full bg-primary/20" />
-      {/* bright "skill acquired" fill, timed to the pulse arrival */}
-      <span
-        className="absolute inset-x-0 top-0 flex flex-col items-center opacity-0 motion-safe:animate-[deck-react_3000ms_ease-in-out_infinite]"
-        style={{ animationDelay: `${delay}ms` }}
-      >
-        <span className="w-3.5 h-3.5 rounded-full bg-primary" />
-        <span className="w-6 h-3 mt-0.5 rounded-t-full bg-primary" />
-      </span>
-    </span>
-  )
-}
-
-/** Knowledge flowing from the mentor into the team — each person lights up as the pulse arrives. */
-function ConsultingArt() {
-  return (
-    <div className="h-28 flex items-center justify-center gap-1.5" aria-hidden>
-      <span className="w-10 h-10 shrink-0 rounded-lg bg-primary flex items-center justify-center motion-safe:animate-[deck-glow_3000ms_ease-out_infinite]">
-        <GraduationCap className="w-5 h-5 text-white" />
-      </span>
-      <PulseWire delay={0} />
-      <Learner delay={0} />
-      <PulseWire delay={FLOW_STEP_MS} />
-      <Learner delay={FLOW_STEP_MS} />
-      <PulseWire delay={FLOW_STEP_MS * 2} />
-      <Learner delay={FLOW_STEP_MS * 2} />
     </div>
   )
 }

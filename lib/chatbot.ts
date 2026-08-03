@@ -1,6 +1,8 @@
 import "server-only"
 
 import { createHash } from "crypto"
+import { readFile } from "fs/promises"
+import { join } from "path"
 import { Redis } from "@upstash/redis"
 import { Resend } from "resend"
 import type { ChatbotConfig, Locale, Localized, SiteContent } from "./site-content"
@@ -88,23 +90,55 @@ export function buildChatbotKnowledge(content: SiteContent, locale: Locale): str
   ].join("\n")
 }
 
-export function buildSystemPrompt(input: {
+/**
+ * ASSISTANT.md at the repo root is the human-editable brief for the assistant.
+ * Cached for a minute so editing it shows up quickly in dev without re-reading
+ * from disk on every message. Missing file is not an error — the assistant just
+ * falls back to the site-content knowledge.
+ */
+let assistantBriefCache: { text: string; readAt: number } | null = null
+const ASSISTANT_BRIEF_TTL_MS = 60_000
+
+export async function loadAssistantBrief(): Promise<string> {
+  const now = Date.now()
+  if (assistantBriefCache && now - assistantBriefCache.readAt < ASSISTANT_BRIEF_TTL_MS) {
+    return assistantBriefCache.text
+  }
+  let text = ""
+  try {
+    text = (await readFile(join(process.cwd(), "ASSISTANT.md"), "utf8")).trim()
+  } catch (error) {
+    console.warn("[chatbot] ASSISTANT.md not readable, continuing without it:", error)
+  }
+  assistantBriefCache = { text, readAt: now }
+  return text
+}
+
+export async function buildSystemPrompt(input: {
   content: SiteContent
   locale: Locale
   memory?: VisitorMemory | null
-}): string {
+}): Promise<string> {
   const { content, locale, memory } = input
+  const brief = await loadAssistantBrief()
   return [
     localized(content.chatbot.systemPrompt, locale),
     "",
     "Escalation behavior:",
     localized(content.chatbot.escalation.message, locale),
-    "If escalation is useful, call the escalateToHuman tool and then tell the customer the best contact point. Do not ask for contact details unless the customer volunteers them or asks for follow-up.",
+    "If escalation is useful, tell the customer the best contact point and give them the link. Do not ask for contact details unless the customer volunteers them or asks for follow-up.",
     "",
     memory?.summary ? `Known returning-visitor memory:\n${memory.summary}` : "Known returning-visitor memory: none.",
     "",
     "Tecxmate knowledge:",
     buildChatbotKnowledge(content, locale),
+    ...(brief
+      ? [
+          "",
+          "Authoritative Tecxmate brief (ASSISTANT.md). Where this conflicts with anything above, this wins:",
+          brief,
+        ]
+      : []),
   ].join("\n")
 }
 

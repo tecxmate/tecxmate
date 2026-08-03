@@ -16,10 +16,8 @@ function ServiceSection({ cs, index }: { cs: Offering; index: number }) {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20 items-center">
           {/* Text */}
           <div className={flip ? "lg:order-2" : ""}>
-            <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-              {pickLocale(cs.tag, language)}
-            </span>
-            <h3 className="mt-4 text-3xl md:text-4xl xl:text-5xl font-semibold leading-[1.1] tracking-tight text-foreground max-w-xl">
+            <h3 className="text-3xl md:text-4xl xl:text-5xl font-semibold leading-[1.1] tracking-tight text-foreground max-w-xl">
+              <span className="text-primary tabular-nums">{index + 1}.</span>{" "}
               {pickLocale(cs.title, language)}
             </h3>
             <p className="mt-5 text-lg xl:text-xl text-muted-foreground leading-relaxed max-w-lg">

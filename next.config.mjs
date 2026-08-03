@@ -58,6 +58,11 @@ const nextConfig = {
     }
     return config
   },
+  // The assistant reads ASSISTANT.md at request time; tracing does not detect a
+  // runtime path join, so include it explicitly or it is missing on Vercel.
+  outputFileTracingIncludes: {
+    "/api/chat": ["./ASSISTANT.md"],
+  },
   // Exclude sub-projects from being processed
   experimental: {
     // Reduce bundle analysis overhead

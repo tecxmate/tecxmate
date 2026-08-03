@@ -4,11 +4,15 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Facebook, Twitter, Instagram, Linkedin, Video, Phone } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
+import { useConsent } from "@/components/consent/consent-provider"
 import { company } from "@/lib/company"
 import type { CompanyInfo } from "@/lib/site-content"
 
 export function Footer() {
   const { language, t } = useLanguage()
+  const { openSettings } = useConsent()
+  const cookieSettingsLabel =
+    language === "vi" ? "Cài đặt cookie" : language === "zh" ? "Cookie 設定" : "Cookie settings"
   const [live, setLive] = useState<CompanyInfo | null>(null)
 
   useEffect(() => {
@@ -142,13 +146,22 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 text-sm text-white flex items-center justify-between">
-          <Link
-            href="/admin/vcards"
-            className="border border-gray-500 text-gray-300 hover:border-white hover:text-white transition-colors duration-200 text-sm px-3 py-1 rounded-md"
-          >
-            Admin
-          </Link>
+        <div className="mt-10 pt-6 text-sm text-white flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/admin/vcards"
+              className="border border-gray-500 text-gray-300 hover:border-white hover:text-white transition-colors duration-200 text-sm px-3 py-1 rounded-md"
+            >
+              Admin
+            </Link>
+            <button
+              type="button"
+              onClick={openSettings}
+              className="text-gray-300 hover:text-white underline underline-offset-4 transition-colors duration-200 text-xs sm:text-sm"
+            >
+              {cookieSettingsLabel}
+            </button>
+          </div>
           <p className="text-white">
             © {new Date().getFullYear()} {co.name.toUpperCase()}. {t("all_rights_reserved")}
           </p>

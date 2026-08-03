@@ -93,7 +93,7 @@ export function TeamSection() {
       <section id="team" className="bg-primary py-24 md:py-28 lg:py-32">
         <div className="container px-4 md:px-6 max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white" suppressHydrationWarning>{t("team")}</h2>
+            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white" suppressHydrationWarning>{t("team_heading")}</h2>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">

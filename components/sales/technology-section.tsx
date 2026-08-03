@@ -78,6 +78,29 @@ function ChatBubble({ label, delay, alignRight }: { label: string; delay: string
 function TechDemo({ icon }: { icon: string }) {
   const base = "h-28 flex items-center justify-center gap-3"
 
+  if (icon === "globe") {
+    return (
+      <div className={base} aria-hidden>
+        <span className="relative w-40 h-24 rounded-lg border-2 border-zinc-400 dark:border-zinc-500 flex flex-col overflow-hidden">
+          <span className="h-4 shrink-0 bg-zinc-200 dark:bg-zinc-700 flex items-center gap-[3px] px-1.5">
+            <span className="w-1 h-1 rounded-full bg-zinc-400 dark:bg-zinc-500" />
+            <span className="w-1 h-1 rounded-full bg-zinc-400 dark:bg-zinc-500" />
+            <span className="ml-1.5 h-2 flex-1 rounded-full bg-zinc-300 dark:bg-zinc-600" />
+          </span>
+          <span className="flex-1 min-h-0 p-2.5 flex flex-col gap-1.5">
+            <span className={`h-3.5 w-3/4 rounded-sm bg-primary/70 ${ASSEMBLE}`} style={{ animationDelay: "0ms" }} />
+            <span className={`h-2 rounded-sm bg-primary/25 ${ASSEMBLE}`} style={{ animationDelay: "300ms" }} />
+            <span className={`h-2 w-5/6 rounded-sm bg-primary/25 ${ASSEMBLE}`} style={{ animationDelay: "600ms" }} />
+            <span className={`h-2.5 w-2/5 mt-auto rounded-full bg-primary ${ASSEMBLE}`} style={{ animationDelay: "900ms" }} />
+          </span>
+          <span className="absolute top-5 right-2 px-1 h-4 rounded-[3px] bg-primary text-white text-[8px] font-bold leading-4 flex items-center motion-safe:animate-[deck-pop_3s_ease-in-out_infinite]">
+            EN
+          </span>
+        </span>
+      </div>
+    )
+  }
+
   if (icon === "mic") {
     return (
       <div className={base} aria-hidden>

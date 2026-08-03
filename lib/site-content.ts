@@ -207,9 +207,9 @@ export const defaultContent: SiteContent = {
       "您的技術夥伴。",
     ),
     subtitle: M(
-      "Cutting-edge AI Integration and Development to accelerate your businesses.",
-      "Tích hợp và phát triển AI tiên tiến, tăng tốc và tối ưu vận hành.",
-      "以尖端 AI 整合與開發，加速您的業務成長。",
+      "Technology unlocks many businesses potential. Let's explore what's possible!",
+      "Công nghệ có thể mở ra tiềm năng thật sự cho doanh nghiệp bạn. Hãy cùng khám phá.",
+      "科技能為您的企業打開真正的潛力。一起來探索。",
     ),
   },
   services: {
@@ -289,11 +289,11 @@ export const defaultContent: SiteContent = {
     enabled: true,
     memoryEnabled: true,
     title: M("Tecxmate Assistant", "Trợ lý Tecxmate", "Tecxmate 助理"),
-    subtitle: M("Online · can hand off to LINE", "Trực tuyến · có thể chuyển sang LINE", "線上 · 可轉接 LINE"),
+    subtitle: M("Online", "Trực tuyến", "線上"),
     greeting: M(
-      "Hi! Tell me what you want to build, automate, or clarify. I can answer in English, Vietnamese, or Traditional Chinese.",
-      "Chào bạn! Hãy cho tôi biết bạn muốn xây dựng, tự động hóa hoặc cần làm rõ điều gì. Tôi có thể trả lời bằng tiếng Anh, tiếng Việt hoặc tiếng Hoa phồn thể.",
-      "您好！請告訴我您想打造、導入自動化，或想釐清的問題。我可以使用英文、越南文或繁體中文回答。",
+      "Hi! Tell me what you want to build, automate, or clarify. I can answer in any language.",
+      "Chào bạn! Hãy cho tôi biết bạn muốn xây dựng, tự động hóa hoặc cần làm rõ điều gì. Tôi có thể trả lời bằng bất kỳ ngôn ngữ nào.",
+      "您好！請告訴我您想打造、導入自動化，或想釐清的問題。我可以用任何語言回答。",
     ),
     placeholder: M("Ask about Tecxmate services...", "Hỏi về dịch vụ Tecxmate...", "詢問 Tecxmate 服務..."),
     systemPrompt: M(

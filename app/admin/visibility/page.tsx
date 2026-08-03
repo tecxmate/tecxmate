@@ -18,7 +18,7 @@ const SECTION_LABELS: Record<SectionKey, { title: string; desc: string }> = {
   },
   problem: {
     title: "Service vs hire graph",
-    desc: "Sales narrative: interactive before/after org diagram ('a service, not a hire').",
+    desc: "Sales narrative: interactive before/after org diagram ('A unique collaboration').",
   },
   economics: {
     title: "Cost calculator",

@@ -53,9 +53,9 @@ export const salesDeck = {
       "您的技術夥伴。",
     ),
     subtitle: M(
-      "Cutting-edge AI Integration and Development to accelerate your businesses.",
-      "Tích hợp và phát triển AI tiên tiến, tăng tốc và tối ưu vận hành.",
-      "以尖端 AI 整合與開發，加速您的業務成長。",
+      "Technology unlocks many businesses potential. Let's explore what's possible!",
+      "Công nghệ có thể mở ra tiềm năng thật sự cho doanh nghiệp bạn. Hãy cùng khám phá.",
+      "科技能為您的企業打開真正的潛力。一起來探索。",
     ),
     credibility: [
       M(
@@ -188,7 +188,7 @@ export const salesDeck = {
       },
     ],
     serviceNotHire: {
-      title: M("A service, not a hire", "Một dịch vụ, không phải một lần tuyển dụng", "是服務，不是雇傭"),
+      title: M("A unique collaboration", "Một dịch vụ, không phải một lần tuyển dụng", "是服務，不是雇傭"),
       leftTitle: M(
         "Hiring in-house means carrying:",
         "Tự tuyển dụng nghĩa là phải gánh:",
@@ -232,32 +232,72 @@ export const salesDeck = {
     ),
     offerings: [
       {
+        id: "ai-integration",
+        tag: M("Systems & people", "Hệ thống & con người", "系統與人才"),
+        title: M(
+          "AI consulting and strategies",
+          "Tư vấn và chiến lược AI",
+          "AI 顧問與策略",
+        ),
+        summary: M(
+          "We examine how your business can invest in AI, then deliver a comprehensive strategy.",
+          "Chúng tôi tìm nơi AI thực sự sinh lời, gắn vào hệ thống, rồi đào tạo đội ngũ.",
+          "我們找出 AI 真正划算的落點，接進系統，並培訓您的團隊。",
+        ),
+        problem: M(
+          "AI is moving fast, and you don't know where to start.",
+          "AI đi quá nhanh, và bạn chưa biết bắt đầu từ đâu.",
+          "AI 進展飛快，您不知道該從哪裡開始。",
+        ),
+        solution: M(
+          "We audit your workflows, add agents and voice to the systems you already have, then train your people to run them.",
+          "Chúng tôi kiểm định quy trình, thêm agent và giọng nói vào hệ thống sẵn có, rồi đào tạo đội ngũ vận hành.",
+          "我們稽核流程、把代理與語音加進您現有的系統，再培訓團隊自行運作。",
+        ),
+        outcome: M(
+          "Your team runs it without us.",
+          "Đội ngũ của bạn tự vận hành mà không cần chúng tôi.",
+          "您的團隊不需要我們也能運作。",
+        ),
+        metrics: [
+          {
+            label: M("Optimized for", "Tối ưu cho", "優化對象"),
+            value: M("Your system", "Hệ thống của bạn", "您的系統"),
+          },
+          {
+            label: M("First session", "Buổi đầu tiên", "首次課程"),
+            value: M("Free", "Miễn phí", "免費"),
+          },
+        ],
+        stack: ["OpenAI", "Anthropic", "ElevenLabs", "Workshops", "Playbooks"],
+      },
+      {
         id: "apps",
         tag: M("Starting from zero", "Bắt đầu từ con số 0", "從零開始"),
         title: M(
-          "Cross-platform apps — idea to App Store",
-          "Ứng dụng đa nền tảng — từ ý tưởng lên App Store",
-          "跨平台應用——從構想到上架",
+          "Develop iOS & Android Apps",
+          "Ứng dụng, từ ý tưởng đến khi ra mắt",
+          "應用程式，從構想到上架",
         ),
         summary: M(
-          "iOS and Android apps with a web admin panel — designed, built, published, and monetizing in weeks. Our flagship service.",
-          "Ứng dụng iOS và Android kèm trang quản trị web — thiết kế, xây dựng, phát hành và tạo doanh thu trong vài tuần. Dịch vụ chủ lực của chúng tôi.",
-          "iOS 與 Android 應用，附網頁管理後台——數週內完成設計、開發、上架並開始獲利。我們的旗艦服務。",
+          "Apps are modern and delightful way to interact, retain, and present to your customers. We make custom Apps that you need the most.",
+          "iOS, Android và trang quản trị web — xây xong và lên sóng trong vài tuần.",
+          "iOS、Android 與網頁後台——數週內完成並上線。",
         ),
         problem: M(
-          "You have the idea and the customers — but no team, no app, no infrastructure.",
-          "Bạn có ý tưởng và khách hàng — nhưng chưa có đội ngũ, ứng dụng hay hạ tầng.",
-          "您有構想、有客戶——但沒有團隊、沒有應用、沒有基礎架構。",
+          "You have the idea. You don't have a team.",
+          "Bạn có ý tưởng. Bạn chưa có đội ngũ.",
+          "您有構想，但沒有團隊。",
         ),
         solution: M(
-          "We design, build, and publish a cross-platform app — iOS, Android, and a web admin panel — with payments, AI features, and cloud infrastructure included.",
-          "Chúng tôi thiết kế, xây dựng và phát hành ứng dụng đa nền tảng — iOS, Android và trang quản trị web — tích hợp sẵn thanh toán, tính năng AI và hạ tầng đám mây.",
-          "我們設計、開發並上架跨平台應用——iOS、Android 加網頁管理後台——內建金流、AI 功能與雲端架構。",
+          "We design it, build it, and publish it — payments and cloud included.",
+          "Chúng tôi thiết kế, xây dựng và phát hành — kèm thanh toán và hạ tầng đám mây.",
+          "我們設計、開發並上架——含金流與雲端。",
         ),
         outcome: M(
-          "A live product in the app stores, monetizing in weeks — and you own all of it.",
-          "Một sản phẩm thực thụ trên các kho ứng dụng, tạo doanh thu trong vài tuần — và bạn sở hữu toàn bộ.",
-          "數週內在應用商店上線並開始獲利——所有成果完全歸您。",
+          "A live app you own.",
+          "Một ứng dụng đang chạy, thuộc về bạn.",
+          "一個上線的應用，完全屬於您。",
         ),
         metrics: [
           { label: M("MVP", "MVP", "MVP"), value: M("6 weeks", "6 tuần", "6 週") },
@@ -272,29 +312,29 @@ export const salesDeck = {
         id: "modernize",
         tag: M("Legacy business", "Doanh nghiệp truyền thống", "傳統企業數位化"),
         title: M(
-          "Modernize & automate your operations",
-          "Hiện đại hóa & tự động hóa vận hành",
-          "營運現代化與自動化",
+          "Modernize Legacy operations",
+          "Hiện đại hóa vận hành",
+          "營運現代化",
         ),
         summary: M(
-          "We study your legacy workflows, consult on what to modernize first, and automate it — with an app, a web app, or an internal IT system.",
-          "Chúng tôi khảo sát quy trình hiện tại, tư vấn nên hiện đại hóa gì trước, rồi tự động hóa — bằng ứng dụng, web app hoặc hệ thống IT nội bộ.",
-          "我們深入研究您的既有流程，建議優先現代化的環節，再以應用程式、網頁系統或內部 IT 系統將其自動化。",
+          "We automate and optimize your digital operations, save you cost, and achieve the highest efficiency.",
+          "Chúng tôi khảo sát cách bạn đang làm việc, rồi tự động hóa những khâu chậm.",
+          "我們梳理您目前的做法，再把慢的環節自動化。",
         ),
         problem: M(
-          "A running business on paper, Excel, and memory — almost no IT, or systems too old to help.",
-          "Một doanh nghiệp đang vận hành trên giấy tờ, Excel và trí nhớ — gần như không có IT, hoặc hệ thống đã quá cũ.",
-          "一間靠紙本、Excel 和記憶運作的公司——幾乎沒有 IT，或系統老舊到幫不上忙。",
+          "The business runs on paper, Excel, and memory.",
+          "Doanh nghiệp đang chạy bằng giấy tờ, Excel và trí nhớ.",
+          "公司靠紙本、Excel 和記憶在運作。",
         ),
         solution: M(
-          "We map your actual workflows, consult on what to modernize first, then automate it — documents drafted by AI agents, approvals with one tap, answers over WhatsApp, LINE, and Telegram.",
-          "Chúng tôi lập bản đồ quy trình thực tế, tư vấn thứ tự hiện đại hóa, rồi tự động hóa — tài liệu do AI agent soạn, phê duyệt một chạm, trả lời qua WhatsApp, LINE và Telegram.",
-          "我們梳理您的實際流程、建議現代化順序，再進行自動化——AI 代理起草文件、一鍵核准，並透過 WhatsApp、LINE、Telegram 即時應答。",
+          "AI drafts the documents, approvals take one tap, and answers come over WhatsApp, LINE, or Telegram.",
+          "AI soạn tài liệu, phê duyệt chỉ một chạm, và trả lời qua WhatsApp, LINE hay Telegram.",
+          "AI 起草文件、一鍵核准，並透過 WhatsApp、LINE 或 Telegram 回覆。",
         ),
         outcome: M(
-          "Hours of weekly office work become minutes, with most routine documents auto-drafted — no new hire.",
-          "Hàng giờ công việc giấy tờ mỗi tuần chỉ còn vài phút, phần lớn tài liệu thường nhật được soạn tự động — không cần tuyển thêm.",
-          "每週數小時的文書工作縮短為幾分鐘，多數例行文件自動起草——無需新聘人力。",
+          "Hours of paperwork become minutes.",
+          "Hàng giờ giấy tờ chỉ còn vài phút.",
+          "數小時的文書工作縮短為幾分鐘。",
         ),
         metrics: [
           {
@@ -318,90 +358,50 @@ export const salesDeck = {
         ],
       },
       {
-        id: "ai-integration",
-        tag: M("AI for existing systems", "AI cho hệ thống sẵn có", "為現有系統導入 AI"),
+        id: "ai-seo",
+        tag: M("Where buyers search now", "Nơi khách tìm kiếm bây giờ", "買家現在都在這裡找"),
         title: M(
-          "AI audit & technical integration",
-          "Kiểm định AI & tích hợp kỹ thuật",
-          "AI 稽核與技術整合",
+          "Bring you customers from AI Search",
+          "Tối ưu cho ChatGPT và Gemini",
+          "為 ChatGPT 與 Gemini 優化",
         ),
         summary: M(
-          "We audit where AI actually fits, then wire agents, real-time voice, and automation straight into your existing stack.",
-          "Chúng tôi kiểm định nơi AI thực sự phù hợp, rồi tích hợp agent, giọng nói thời gian thực và tự động hóa thẳng vào hệ thống sẵn có.",
-          "我們稽核 AI 真正的落點，再將代理、即時語音與自動化直接接入您的現有系統。",
+          "Customers now ask AI instead of search. We make sure AI name your brands and contents.",
+          "Khách hỏi AI trước khi mở Google. Chúng tôi lo phần để nó gọi tên bạn.",
+          "買家在打開 Google 之前先問 AI。我們讓它說出你的名字。",
         ),
         problem: M(
-          "Your systems already work — but AI is moving fast, and you're not sure where it actually fits.",
-          "Hệ thống của bạn vẫn chạy tốt — nhưng AI tiến quá nhanh, và bạn chưa chắc nó phù hợp ở đâu.",
-          "您的系統運作良好——但 AI 進展飛快，您不確定它真正該用在哪。",
+          "Ask an AI who makes your product. It names your competitor.",
+          "Thử hỏi AI ai làm ra sản phẩm của bạn. Nó đọc tên đối thủ.",
+          "問 AI 誰做這個產品，它說出的是對手的名字。",
         ),
         solution: M(
-          "We audit your workflows and data, pinpoint where AI pays off, then integrate agents, real-time voice, and automation directly into your existing systems — no rip-and-replace.",
-          "Chúng tôi kiểm định quy trình và dữ liệu, xác định nơi AI mang lại giá trị, rồi tích hợp agent, giọng nói thời gian thực và tự động hóa trực tiếp vào hệ thống sẵn có — không phá bỏ để làm lại.",
-          "我們稽核您的流程與資料、鎖定 AI 能帶來效益之處，再將代理、即時語音與自動化直接整合進現有系統——無需打掉重練。",
+          "We rewrite your pages to answer the questions buyers actually ask, and add the markup machines read.",
+          "Chúng tôi viết lại các trang để trả lời đúng câu hỏi khách hay hỏi, và thêm dữ liệu có cấu trúc cho máy đọc.",
+          "我們改寫頁面來回答買家真正會問的問題，並加上機器讀得懂的標記。",
         ),
         outcome: M(
-          "Your systems stay yours — just smarter and faster, with AI wired in where it earns its keep.",
-          "Hệ thống vẫn là của bạn — chỉ thông minh hơn, nhanh hơn, với AI được gắn vào đúng nơi tạo giá trị.",
-          "系統依然是您的——只是更聰明、更快，AI 被接在真正能發揮價值的地方。",
+          "Your name comes up in the answer.",
+          "Tên bạn xuất hiện trong câu trả lời.",
+          "答案裡出現的是你的名字。",
         ),
         metrics: [
           {
-            label: M("Runs inside", "Chạy bên trong", "運行於"),
-            value: M("Your stack", "Hệ thống của bạn", "您的系統"),
+            label: M("Optimized for", "Tối ưu cho", "優化對象"),
+            value: M("ChatGPT · Gemini · Perplexity · Claude", "ChatGPT · Gemini · Perplexity · Claude", "ChatGPT · Gemini · Perplexity · Claude"),
           },
           {
-            label: M("We wire in", "Chúng tôi gắn vào", "我們接入"),
-            value: M("Agents · Voice", "Agent · Giọng nói", "代理 · 語音"),
+            label: M("Reported", "Báo cáo", "回報"),
+            value: M("Monthly", "Hằng tháng", "每月"),
           },
         ],
-        stack: ["OpenAI", "Anthropic", "ElevenLabs", "Deepgram", "APIs"],
-      },
-      {
-        id: "consulting",
-        tag: M("Knowledge & people", "Tri thức & con người", "知識與人才"),
-        title: M(
-          "AI consulting & team training",
-          "Tư vấn AI & đào tạo đội ngũ",
-          "AI 顧問與團隊培訓",
-        ),
-        summary: M(
-          "Strategy, a practical AI roadmap, and hands-on training that make your own people fluent — so the capability stays in-house.",
-          "Chiến lược, lộ trình AI thực tế và đào tạo thực chiến giúp chính đội ngũ của bạn thành thạo — để năng lực ở lại bên trong.",
-          "策略、務實的 AI 藍圖，以及實戰培訓，讓您的團隊真正上手——讓能力留在公司內部。",
-        ),
-        problem: M(
-          "The tools are here, but your team doesn't yet know how to use them — or where to start.",
-          "Công cụ đã có sẵn, nhưng đội ngũ chưa biết dùng thế nào — hay bắt đầu từ đâu.",
-          "工具就在眼前，但您的團隊還不知道怎麼用——或該從哪裡開始。",
-        ),
-        solution: M(
-          "We run strategy sessions, build your AI roadmap, and train your people hands-on until the skills are genuinely theirs.",
-          "Chúng tôi tổ chức các buổi chiến lược, xây lộ trình AI, và đào tạo thực chiến cho đội ngũ đến khi kỹ năng thực sự là của họ.",
-          "我們主持策略工作坊、建立 AI 藍圖，並為團隊進行實戰培訓，直到技能真正屬於他們。",
-        ),
-        outcome: M(
-          "A team that runs AI confidently on its own — knowledge that stays with you.",
-          "Một đội ngũ tự tin vận hành AI độc lập — tri thức ở lại cùng bạn.",
-          "一支能獨立自信運用 AI 的團隊——知識永遠留在您身邊。",
-        ),
-        metrics: [
-          {
-            label: M("First session", "Buổi đầu tiên", "首次課程"),
-            value: M("Free", "Miễn phí", "免費"),
-          },
-          {
-            label: M("Format", "Hình thức", "形式"),
-            value: M("On-site · Remote", "Tại chỗ · Từ xa", "現場 · 遠端"),
-          },
-        ],
-        stack: ["Strategy", "Roadmap", "Workshops", "Playbooks"],
+        stack: ["AI search", "Schema markup", "SEO", "English copy", "Monthly tracking"],
       },
     ] as SalesOffering[],
   },
 
   technology: {
-    title: M("The technology we bring", "Công nghệ chúng tôi mang đến", "我們帶來的技術"),
+    title: M("Technology we bring", "Công nghệ chúng tôi mang đến", "我們帶來的技術"),
     subtitle: M(
       "Concrete capability, already in production — not a service brochure.",
       "Năng lực cụ thể, đã chạy thực tế — không phải lời giới thiệu suông.",
@@ -479,7 +479,7 @@ export const salesDeck = {
   },
 
   process: {
-    title: M("Clear delivery, no black boxes", "Bàn giao minh bạch, không hộp đen", "透明交付，沒有黑箱"),
+    title: M("Clear and timely delivery", "Bàn giao minh bạch, không hộp đen", "透明交付，沒有黑箱"),
     steps: [
       {
         title: M("Discover", "Khảo sát", "釐清"),
@@ -753,7 +753,7 @@ export const salesDeck = {
     },
 
     org: {
-      title: M("A service, not a hire", "Một dịch vụ, không phải một lần tuyển dụng", "是服務，不是雇傭"),
+      title: M("A unique collaboration", "Một dịch vụ, không phải một lần tuyển dụng", "是服務，不是雇傭"),
       toggleBefore: M("Hiring in-house", "Tự tuyển dụng", "自行聘僱"),
       toggleAfter: M("With Tecxmate", "Với Tecxmate", "與 Tecxmate 合作"),
       youLabel: M("You", "Bạn", "您"),

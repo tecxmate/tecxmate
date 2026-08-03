@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { gateway } from "@ai-sdk/gateway"
+import { openai } from "@ai-sdk/openai"
 import { convertToModelMessages, streamText, type UIMessage } from "ai"
 import { z } from "zod"
 import {
@@ -36,9 +36,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Chatbot is disabled." }, { status: 503 })
   }
 
-  if (!process.env.AI_GATEWAY_API_KEY) {
+  if (!process.env.OPENAI_API_KEY) {
     return NextResponse.json(
-      { error: "AI_GATEWAY_API_KEY is not configured." },
+      { error: "OPENAI_API_KEY is not configured." },
       { status: 503 },
     )
   }
@@ -99,8 +99,8 @@ export async function POST(request: NextRequest) {
   const transcriptSoFar = messages.map(toStoredMessage).filter(Boolean) as StoredChatMessage[]
 
   const result = streamText({
-    model: gateway(process.env.CHATBOT_MODEL || "openai/gpt-5.1-mini"),
-    system: buildSystemPrompt({ content, locale: language, memory }),
+    model: openai(process.env.CHATBOT_MODEL || "gpt-4o-mini"),
+    system: await buildSystemPrompt({ content, locale: language, memory }),
     messages: modelMessages,
     temperature: 0.3,
     onEnd: async ({ text }) => {
