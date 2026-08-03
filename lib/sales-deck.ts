@@ -398,6 +398,46 @@ export const salesDeck = {
         stack: ["AI search", "Schema markup", "SEO", "English copy", "Monthly tracking"],
       },
       {
+        id: "data",
+        tag: M("Your own numbers", "Những con số của bạn", "您自己的數字"),
+        title: M(
+          "Data analytics and processing",
+          "Phân tích và xử lý dữ liệu",
+          "資料分析與處理",
+        ),
+        summary: M(
+          "Your business collects more data than it ever reads. We analyze it, visualize it, and hand it back as Excel and Word.",
+          "Doanh nghiệp của bạn thu thập nhiều dữ liệu hơn mức đọc hết. Chúng tôi phân tích, trực quan hóa, rồi trả lại dưới dạng Excel và Word.",
+          "您的公司蒐集的資料，遠多於實際看過的。我們替您分析、視覺化，再以 Excel 和 Word 交回您手上。",
+        ),
+        problem: M(
+          "The numbers that would answer your question sit in files nobody opens.",
+          "Những con số trả lời được câu hỏi của bạn đang nằm trong các tệp không ai mở.",
+          "能回答您問題的數字，就躺在沒人打開的檔案裡。",
+        ),
+        solution: M(
+          "We clean and analyze your data, then turn it into charts and reports that show what is actually happening.",
+          "Chúng tôi làm sạch và phân tích dữ liệu, rồi biến thành biểu đồ và báo cáo cho thấy điều thực sự đang diễn ra.",
+          "我們清理並分析您的資料，再轉成圖表與報告，讓您看見真正在發生的事。",
+        ),
+        outcome: M(
+          "Decisions backed by your own numbers.",
+          "Quyết định dựa trên chính những con số của bạn.",
+          "用自己的數字做決定。",
+        ),
+        metrics: [
+          {
+            label: M("Delivered as", "Bàn giao dưới dạng", "交付格式"),
+            value: M("Excel · Word", "Excel · Word", "Excel · Word"),
+          },
+          {
+            label: M("You keep", "Bạn giữ", "歸您所有"),
+            value: M("The data", "Toàn bộ dữ liệu", "全部資料"),
+          },
+        ],
+        stack: ["Excel", "Word", "Dashboards", "Python", "SQL"],
+      },
+      {
         id: "ai-integration",
         tag: M("Systems & people", "Hệ thống & con người", "系統與人才"),
         title: M(
@@ -406,7 +446,7 @@ export const salesDeck = {
           "AI 顧問與策略",
         ),
         summary: M(
-          "We examine how your business can invest in AI, then deliver a comprehensive strategy.",
+          "We examine how your business can invest in AI and new technology, then deliver a comprehensive strategy.",
           "Chúng tôi tìm nơi AI thực sự sinh lời, gắn vào hệ thống, rồi đào tạo đội ngũ.",
           "我們找出 AI 真正划算的落點，接進系統，並培訓您的團隊。",
         ),

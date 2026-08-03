@@ -12,7 +12,46 @@ export function OfferingArt({ id }: { id: string }) {
   if (id === "modernize") return <ModernizeArt />
   if (id === "ai-seo") return <AiSeoArt />
   if (id === "ai-agents") return <AgentsArt />
+  if (id === "data") return <DataArt />
   return <AiArt />
+}
+
+const GROW = "motion-safe:animate-[deck-grow_3s_ease-in-out_infinite]"
+
+/** Bar heights in px — a believable trend, not a straight ramp. */
+const BARS = [14, 26, 20, 34, 44]
+
+/** Unread rows resolving into a chart, delivered back as a familiar file. */
+function DataArt() {
+  return (
+    <div className="h-28 flex items-center justify-center gap-3" aria-hidden>
+      {/* Raw rows nobody opens — gray, inert */}
+      <span className="w-14 h-[68px] shrink-0 rounded-md border-2 border-zinc-400 dark:border-zinc-500 bg-card p-1.5 flex flex-col gap-1">
+        {[100, 78, 92, 64, 84, 70].map((w, i) => (
+          <span
+            key={i}
+            className="h-1 rounded-full bg-zinc-300 dark:bg-zinc-600"
+            style={{ width: `${w}%` }}
+          />
+        ))}
+      </span>
+
+      {/* The same data, read — bars rise in sequence */}
+      <span className="relative w-[104px] h-[68px] shrink-0 rounded-lg border-2 border-zinc-400 dark:border-zinc-500 bg-card p-2 flex items-end justify-center gap-1.5">
+        {BARS.map((h, i) => (
+          <span
+            key={i}
+            className={`w-3 rounded-t-sm bg-primary origin-bottom ${GROW}`}
+            style={{ height: `${h}px`, animationDelay: `${i * 140}ms` }}
+          />
+        ))}
+        {/* Handed back in a format they already use */}
+        <span className="absolute -bottom-2 -right-2 h-4 px-1 rounded-[3px] bg-primary text-white text-[7px] font-bold leading-[16px] tracking-wide motion-safe:animate-[deck-pop_3s_ease-in-out_infinite]">
+          XLS
+        </span>
+      </span>
+    </div>
+  )
 }
 
 /** Scattered documents feeding a knowledge core, which answers on both sides. */
