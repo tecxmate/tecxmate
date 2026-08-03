@@ -4,7 +4,12 @@ import { Footer } from "@/components/footer"
 import type { Metadata } from "next"
 import Script from "next/script"
 import dynamic from "next/dynamic"
-import { isSectionEnabled, readContent } from "@/lib/site-content"
+import {
+  homepageSectionOrder,
+  isSectionEnabled,
+  readContent,
+  type HomepageSectionKey,
+} from "@/lib/site-content"
 import { AnimationPauser } from "@/components/animation-pauser"
 
 // Lazy load below-the-fold components to reduce initial bundle and TBT
@@ -23,6 +28,19 @@ const CtaSection = dynamic(() => import("@/components/sales/cta-section").then(m
 const CampaignsSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.CampaignsSection })))
 
 const TeamSection = dynamic(() => import("@/components/team-section").then(mod => ({ default: mod.TeamSection })))
+
+/** Maps each reorderable homepage section key to the component that renders it. */
+const HOMEPAGE_SECTION_COMPONENTS: Record<HomepageSectionKey, React.ComponentType> = {
+  hero: HeroSection,
+  proof: ProofSection,
+  economics: EconomicsSection,
+  problem: OrgSection,
+  technology: TechnologySection,
+  process: ProcessSection,
+  team: TeamSection,
+  blog: CampaignsSection,
+  cta: CtaSection,
+}
 
 export default async function Home() {
   const content = await readContent({ revalidate: 60 })
@@ -140,15 +158,11 @@ export default async function Home() {
           }),
         }}
       />
-      {isSectionEnabled(content, "hero") && <HeroSection />}
-      {isSectionEnabled(content, "team") && <TeamSection />}
-      {isSectionEnabled(content, "proof") && <ProofSection />}
-      {isSectionEnabled(content, "economics") && <EconomicsSection />}
-      {isSectionEnabled(content, "problem") && <OrgSection />}
-      {isSectionEnabled(content, "technology") && <TechnologySection />}
-      {isSectionEnabled(content, "process") && <ProcessSection />}
-      {isSectionEnabled(content, "blog") && <CampaignsSection />}
-      {isSectionEnabled(content, "cta") && <CtaSection />}
+      {homepageSectionOrder(content).map((key) => {
+        if (!isSectionEnabled(content, key)) return null
+        const Section = HOMEPAGE_SECTION_COMPONENTS[key]
+        return <Section key={key} />
+      })}
       <Footer />
     </main>
   )
@@ -157,25 +171,13 @@ export default async function Home() {
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
   const { generateCountryKeywords } = await import("@/lib/keywords")
+  // Read from site content so Admin > Metadata (SEO) edits actually reach the page.
+  const { seo } = await readContent({ revalidate: 60 })
 
   return {
-    title: "TECXMATE - English Websites & Software for Taiwan's Manufacturers",
-    description: "Fast, English-first websites — plus the apps, automation, and AI behind them — for Taiwan's manufacturers going global. Built by engineers who understand your products, not a generic translator. Book a free consultation.",
-    keywords: generateCountryKeywords([
-      "English website Taiwan manufacturer",
-      "manufacturer website design Taiwan",
-      "English website for exporters",
-      "web development",
-      "AI development",
-      "business automation",
-      "SME solutions",
-      "software development",
-      "AI integration",
-      "tech consulting Taiwan",
-      "mobile app development",
-      "enterprise solutions",
-      "Taiwan tech consultancy"
-    ]),
+    title: seo.title,
+    description: seo.description,
+    keywords: generateCountryKeywords(seo.keywords),
     alternates: {
       canonical: baseUrl,
       languages: {
@@ -193,8 +195,8 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: "TECXMATE - English Websites & Software for Taiwan's Manufacturers",
-      description: "Fast, English-first websites — plus the apps, automation, and AI behind them — for Taiwan's manufacturers going global. Built by engineers who understand your products. Book your free consultation.",
+      title: seo.ogTitle,
+      description: seo.ogDescription,
       url: baseUrl,
       siteName: "Tecxmate",
       locale: "en_US",
@@ -205,17 +207,17 @@ export async function generateMetadata(): Promise<Metadata> {
           url: `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
           width: 1200,
           height: 630,
-          alt: "TECXMATE - English Websites & Software for Taiwan's Manufacturers",
+          alt: seo.ogTitle,
           type: "image/png",
         }
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "TECXMATE - English Websites & Software for Taiwan's Manufacturers",
-      description: "Fast, English-first websites — plus the apps, automation, and AI behind them — for Taiwan's manufacturers going global. Built by engineers who understand your products.",
+      title: seo.ogTitle,
+      description: seo.twitterDescription,
       images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
-      creator: "@tecxmate",
+      creator: seo.twitterCreator,
     },
   }
 }

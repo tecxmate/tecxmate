@@ -232,44 +232,44 @@ export const salesDeck = {
     ),
     offerings: [
       {
-        id: "ai-integration",
-        tag: M("Systems & people", "Hệ thống & con người", "系統與人才"),
+        id: "ai-agents",
+        tag: M("Internal & customer-facing", "Nội bộ & khách hàng", "對內與對客"),
         title: M(
-          "AI consulting and strategies",
-          "Tư vấn và chiến lược AI",
-          "AI 顧問與策略",
+          "AI agents, chatbots and knowledge",
+          "AI agent, chatbot và tri thức",
+          "AI 代理、聊天機器人與知識庫",
         ),
         summary: M(
-          "We examine how your business can invest in AI, then deliver a comprehensive strategy.",
-          "Chúng tôi tìm nơi AI thực sự sinh lời, gắn vào hệ thống, rồi đào tạo đội ngũ.",
-          "我們找出 AI 真正划算的落點，接進系統，並培訓您的團隊。",
+          "Agents and chatbots that answer from your own documents — for your team and your customers alike.",
+          "Agent và chatbot trả lời dựa trên chính tài liệu của bạn — cho cả đội ngũ lẫn khách hàng.",
+          "以您自己的文件作答的代理與聊天機器人——同時服務團隊與客戶。",
         ),
         problem: M(
-          "AI is moving fast, and you don't know where to start.",
-          "AI đi quá nhanh, và bạn chưa biết bắt đầu từ đâu.",
-          "AI 進展飛快，您不知道該從哪裡開始。",
+          "Your knowledge is scattered across documents nobody can search, and the same questions get answered by hand every day.",
+          "Tri thức nằm rải rác trong tài liệu không ai tìm được, và mỗi ngày vẫn phải trả lời thủ công những câu hỏi giống nhau.",
+          "知識散落在無法搜尋的文件裡，同樣的問題每天仍要人工回答一次。",
         ),
         solution: M(
-          "We audit your workflows, add agents and voice to the systems you already have, then train your people to run them.",
-          "Chúng tôi kiểm định quy trình, thêm agent và giọng nói vào hệ thống sẵn có, rồi đào tạo đội ngũ vận hành.",
-          "我們稽核流程、把代理與語音加進您現有的系統，再培訓團隊自行運作。",
+          "We process your documents into a knowledge base you own, then put agents and chatbots on top of it — internal for your staff, external for your customers.",
+          "Chúng tôi xử lý tài liệu thành một kho tri thức thuộc về bạn, rồi đặt agent và chatbot lên trên — nội bộ cho nhân viên, đối ngoại cho khách hàng.",
+          "我們將您的文件整理成專屬的知識庫，再於其上建置代理與聊天機器人——對內供員工使用，對外服務客戶。",
         ),
         outcome: M(
-          "Your team runs it without us.",
-          "Đội ngũ của bạn tự vận hành mà không cần chúng tôi.",
-          "您的團隊不需要我們也能運作。",
+          "Answers in seconds, from sources you control.",
+          "Câu trả lời trong vài giây, từ nguồn do bạn kiểm soát.",
+          "數秒內得到答案，且來源由您掌控。",
         ),
         metrics: [
           {
-            label: M("Optimized for", "Tối ưu cho", "優化對象"),
-            value: M("Your system", "Hệ thống của bạn", "您的系統"),
+            label: M("Runs on", "Chạy trên", "運行於"),
+            value: M("Your documents", "Tài liệu của bạn", "您的文件"),
           },
           {
-            label: M("First session", "Buổi đầu tiên", "首次課程"),
-            value: M("Free", "Miễn phí", "免費"),
+            label: M("Serves", "Phục vụ", "服務對象"),
+            value: M("Staff & customers", "Nhân viên & khách hàng", "員工與客戶"),
           },
         ],
-        stack: ["OpenAI", "Anthropic", "ElevenLabs", "Workshops", "Playbooks"],
+        stack: ["OpenAI", "Anthropic", "DeepSeek", "Kimi", "Knowledge base"],
       },
       {
         id: "apps",
@@ -396,6 +396,46 @@ export const salesDeck = {
           },
         ],
         stack: ["AI search", "Schema markup", "SEO", "English copy", "Monthly tracking"],
+      },
+      {
+        id: "ai-integration",
+        tag: M("Systems & people", "Hệ thống & con người", "系統與人才"),
+        title: M(
+          "AI consulting and strategies",
+          "Tư vấn và chiến lược AI",
+          "AI 顧問與策略",
+        ),
+        summary: M(
+          "We examine how your business can invest in AI, then deliver a comprehensive strategy.",
+          "Chúng tôi tìm nơi AI thực sự sinh lời, gắn vào hệ thống, rồi đào tạo đội ngũ.",
+          "我們找出 AI 真正划算的落點，接進系統，並培訓您的團隊。",
+        ),
+        problem: M(
+          "AI is moving fast, and you don't know where to start.",
+          "AI đi quá nhanh, và bạn chưa biết bắt đầu từ đâu.",
+          "AI 進展飛快，您不知道該從哪裡開始。",
+        ),
+        solution: M(
+          "We audit your workflows, add agents and voice to the systems you already have, then train your people to run them.",
+          "Chúng tôi kiểm định quy trình, thêm agent và giọng nói vào hệ thống sẵn có, rồi đào tạo đội ngũ vận hành.",
+          "我們稽核流程、把代理與語音加進您現有的系統，再培訓團隊自行運作。",
+        ),
+        outcome: M(
+          "Your team runs it without us.",
+          "Đội ngũ của bạn tự vận hành mà không cần chúng tôi.",
+          "您的團隊不需要我們也能運作。",
+        ),
+        metrics: [
+          {
+            label: M("Optimized for", "Tối ưu cho", "優化對象"),
+            value: M("Your system", "Hệ thống của bạn", "您的系統"),
+          },
+          {
+            label: M("First session", "Buổi đầu tiên", "首次課程"),
+            value: M("Free", "Miễn phí", "免費"),
+          },
+        ],
+        stack: ["OpenAI", "Anthropic", "ElevenLabs", "Workshops", "Playbooks"],
       },
     ] as SalesOffering[],
   },
