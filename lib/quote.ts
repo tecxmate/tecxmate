@@ -11,8 +11,8 @@ import { company } from "./company"
  * when they would rather fill something in than keep chatting.
  *
  * Every submission goes to two places on purpose — email for immediate
- * awareness, a Google Sheet for the running pipeline. One failing must never
- * lose the lead, so both are attempted and only a total failure is an error.
+ * awareness, Jira for the pipeline. One failing must never lose the lead, so
+ * both are attempted and only a total failure is an error.
  */
 
 export const SERVICE_OPTIONS = [
@@ -77,20 +77,20 @@ export async function enforceQuoteRateLimit(input: {
   return { ok: true }
 }
 
-export type DeliveryResult = { email: boolean; sheet: boolean }
+export type DeliveryResult = { email: boolean; jira: boolean }
 
 export async function deliverQuote(quote: QuoteRequest, meta: { receivedAt: string }): Promise<DeliveryResult> {
-  const [email, sheet] = await Promise.allSettled([
+  const [email, jira] = await Promise.allSettled([
     sendQuoteEmail(quote, meta.receivedAt),
-    appendQuoteToSheet(quote, meta.receivedAt),
+    createJiraIssue(quote, meta.receivedAt),
   ])
 
   if (email.status === "rejected") console.error("[quote] email delivery failed:", email.reason)
-  if (sheet.status === "rejected") console.error("[quote] sheet delivery failed:", sheet.reason)
+  if (jira.status === "rejected") console.error("[quote] jira delivery failed:", jira.reason)
 
   return {
     email: email.status === "fulfilled" && email.value,
-    sheet: sheet.status === "fulfilled" && sheet.value,
+    jira: jira.status === "fulfilled" && jira.value,
   }
 }
 
@@ -121,50 +121,70 @@ async function sendQuoteEmail(quote: QuoteRequest, receivedAt: string): Promise<
   const resend = new Resend(apiKey)
   const to = process.env.QUOTE_NOTIFY_EMAIL || process.env.CHATBOT_TRANSCRIPT_EMAIL || company.contactEmail
   const from = process.env.RESEND_FROM_EMAIL || "Tecxmate Website <onboarding@resend.dev>"
-  await resend.emails.send({
+  // Resend reports failures in the response body rather than throwing, so an
+  // unchecked call would report a delivered lead that never arrived.
+  const { error } = await resend.emails.send({
     from,
     to,
     subject: `Quote request — ${quote.name}${quote.company ? ` (${quote.company})` : ""}`,
     replyTo: quote.email || undefined,
     text: formatQuote(quote, receivedAt),
   })
+  if (error) throw new Error(`Resend: ${error.name} — ${error.message}`)
   return true
 }
 
 /**
- * Appends a row via a Google Apps Script web app bound to the sheet. Chosen
- * over the Sheets API so there is no service account to manage and no extra
- * dependency — the script is a dozen lines and lives in your Google account.
+ * Files the lead as a Jira issue. Uses REST v3, which requires the description
+ * in Atlassian Document Format rather than a plain string — a raw string is
+ * accepted by the API and then renders empty, so it is built explicitly here.
  */
-async function appendQuoteToSheet(quote: QuoteRequest, receivedAt: string): Promise<boolean> {
-  const url = process.env.QUOTE_SHEET_WEBHOOK_URL
-  if (!url) return false
+async function createJiraIssue(quote: QuoteRequest, receivedAt: string): Promise<boolean> {
+  const baseUrl = (process.env.JIRA_BASE_URL || "https://tecxmate.atlassian.net").replace(/\/$/, "")
+  const projectKey = process.env.JIRA_PROJECT_KEY
+  const email = process.env.JIRA_EMAIL
+  const token = process.env.JIRA_API_TOKEN
+  if (!projectKey || !email || !token) return false
 
-  const response = await fetch(url, {
+  const auth = Buffer.from(`${email}:${token}`).toString("base64")
+  const response = await fetch(`${baseUrl}/rest/api/3/issue`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Basic ${auth}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
     body: JSON.stringify({
-      secret: process.env.QUOTE_SHEET_WEBHOOK_SECRET || "",
-      receivedAt,
-      name: quote.name,
-      company: quote.company || "",
-      email: quote.email || "",
-      phone: quote.phone || "",
-      preferredContact: quote.preferredContact,
-      service: quote.service,
-      budget: quote.budget,
-      timeline: quote.timeline,
-      language: quote.language,
-      conversationId: quote.conversationId || "",
-      details: quote.details,
+      fields: {
+        project: { key: projectKey },
+        issuetype: { name: process.env.JIRA_ISSUE_TYPE || "Task" },
+        summary: `Lead: ${quote.name}${quote.company ? ` — ${quote.company}` : ""} (${quote.service})`,
+        description: toAdf(formatQuote(quote, receivedAt)),
+      },
     }),
     signal: AbortSignal.timeout(10_000),
   })
 
   if (!response.ok) {
-    throw new Error(`Sheet webhook returned ${response.status}`)
+    const detail = await response.text().catch(() => "")
+    throw new Error(`Jira returned ${response.status}: ${detail.slice(0, 300)}`)
   }
   return true
+}
+
+/** Minimal Atlassian Document Format: one paragraph per line, blanks skipped. */
+function toAdf(text: string) {
+  return {
+    type: "doc",
+    version: 1,
+    content: text
+      .split("\n")
+      .filter((line) => line.trim().length > 0)
+      .map((line) => ({
+        type: "paragraph",
+        content: [{ type: "text", text: line }],
+      })),
+  }
 }
 
 let redisClient: Redis | null | undefined

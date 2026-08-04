@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
   // Both destinations failing means the lead is gone — tell them so they can
   // reach us another way rather than assuming it arrived.
-  if (!result.email && !result.sheet) {
+  if (!result.email && !result.jira) {
     return NextResponse.json(
       { error: "We could not record your request. Please contact us directly and we will pick it up." },
       { status: 502 },
