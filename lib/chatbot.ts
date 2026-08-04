@@ -207,6 +207,51 @@ export async function enforceChatRateLimit(input: {
   return { ok: true }
 }
 
+/**
+ * Answer budget: a visitor gets 10 credits per rolling 24h. A short answer
+ * costs 1, a long one 2 — so roughly 10 short answers or 5 long ones. Credits
+ * are charged after the reply is generated (we cannot know its length before),
+ * so the budget stops the *next* message once it is spent.
+ *
+ * Without Redis there is no budget — the site stays usable rather than
+ * refusing everyone when the store is down.
+ */
+export const ANSWER_BUDGET = 10
+export const LONG_ANSWER_CHARS = 700
+const BUDGET_WINDOW_SECONDS = 86_400
+
+export function answerCost(text: string): number {
+  return text.trim().length >= LONG_ANSWER_CHARS ? 2 : 1
+}
+
+function budgetKey(visitorId: string) {
+  return `chatbot:budget:${createHash("sha256").update(visitorId).digest("hex").slice(0, 32)}`
+}
+
+export async function getAnswerBudget(visitorId: string): Promise<{ spent: number; remaining: number }> {
+  const redis = getRedis()
+  if (!redis || !visitorId) return { spent: 0, remaining: ANSWER_BUDGET }
+  try {
+    const spent = (await redis.get<number>(budgetKey(visitorId))) ?? 0
+    return { spent, remaining: Math.max(0, ANSWER_BUDGET - spent) }
+  } catch (error) {
+    logOptionalIntegrationError("chatbot budget read", error)
+    return { spent: 0, remaining: ANSWER_BUDGET }
+  }
+}
+
+export async function chargeAnswerBudget(visitorId: string, cost: number): Promise<void> {
+  const redis = getRedis()
+  if (!redis || !visitorId || cost <= 0) return
+  try {
+    const key = budgetKey(visitorId)
+    const total = await redis.incrby(key, cost)
+    if (total === cost) await redis.expire(key, BUDGET_WINDOW_SECONDS)
+  } catch (error) {
+    logOptionalIntegrationError("chatbot budget charge", error)
+  }
+}
+
 export async function loadVisitorMemory(visitorId: string): Promise<VisitorMemory | null> {
   const redis = getRedis()
   if (!redis || !visitorId) return null

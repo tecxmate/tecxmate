@@ -3,7 +3,11 @@ import { openai } from "@ai-sdk/openai"
 import { convertToModelMessages, streamText, type UIMessage } from "ai"
 import { z } from "zod"
 import {
+  ANSWER_BUDGET,
+  answerCost,
   appendChatMessages,
+  chargeAnswerBudget,
+  getAnswerBudget,
   buildSystemPrompt,
   enforceChatRateLimit,
   extractContactHint,
@@ -80,6 +84,21 @@ export async function POST(request: NextRequest) {
     )
   }
 
+  // Answer budget: ~10 short answers or 5 long ones per visitor per day.
+  const budget = await getAnswerBudget(visitorId)
+  if (budget.remaining <= 0) {
+    return NextResponse.json(
+      {
+        error: "chat_budget_reached",
+        message:
+          "We have covered a lot here. To keep going, tell us what you need on the quote form and a real person will pick it up.",
+        quoteUrl: "/quote",
+        budget: { limit: ANSWER_BUDGET, spent: budget.spent },
+      },
+      { status: 429 },
+    )
+  }
+
   const now = new Date().toISOString()
   const contactHint = extractContactHint(lastText)
   const userStored: StoredChatMessage = { role: "user", text: lastText, createdAt: now }
@@ -104,6 +123,7 @@ export async function POST(request: NextRequest) {
     messages: modelMessages,
     temperature: 0.3,
     onEnd: async ({ text }) => {
+      await chargeAnswerBudget(visitorId, answerCost(text))
       await persistChatResult({
         assistantText: text.trim(),
         contactHint,
