@@ -376,18 +376,6 @@ html[data-idle] *::after {
   animation-play-state: paused !important;
 }
 
-/*
- * Below lg the services are stacked one per screen and snap as you scroll.
- * Proximity rather than mandatory: snap points exist only inside that one
- * section, and mandatory would let a scroll anywhere else on the page get
- * yanked toward them.
- */
-@media (max-width: 1023.98px) {
-  html {
-    scroll-snap-type: y proximity;
-  }
-}
-
 /* Countdown line on the active service tab while the rail is auto-rotating. */
 @keyframes tab-progress {
   from { transform: scaleX(0); }
