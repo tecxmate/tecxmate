@@ -64,9 +64,22 @@ function wpFeaturedImage(post: any) {
   return "/placeholder.svg?height=200&width=400"
 }
 
+/**
+ * Categories in WordPress double as language and housekeeping markers
+ * ("en", "vn", "lang", "Non"), and they sort ahead of the topical one — so a
+ * post filed under "Our Stories" reports its category as "en" if we just take
+ * the first term. Skip the markers and return the first real topic.
+ */
+const NON_TOPICAL_CATEGORIES = new Set(["en", "vn", "vi", "zh", "lang", "non", "uncategorized"])
+
 function wpPrimaryCategory(post: any) {
-  const cat = post._embedded?.["wp:term"]?.[0]?.[0]
-  return cat?.name || "Uncategorized"
+  const categories: any[] = post._embedded?.["wp:term"]?.[0] || []
+  const names = categories
+    .map((cat) => String(cat?.name || "").trim())
+    .filter((name) => name.length > 0)
+
+  const topical = names.find((name) => !NON_TOPICAL_CATEGORIES.has(name.toLowerCase()))
+  return topical || names[0] || "Uncategorized"
 }
 
 function wpTags(post: any): string[] {

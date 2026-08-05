@@ -11,11 +11,27 @@ export const BLOG_CATEGORY_TABS = [
     id: "industry-news",
     wpCategory: "Industry News",
     labelKey: "blog_tab_industry_news",
-    // Briefs published before the rename still carry the old category name.
-    aliases: ["Automated News"],
+    // "News" is the category the WordPress blog already files industry pieces
+    // under; "Automated News" is what the agent used before the rename.
+    aliases: ["News", "Automated News"],
+    tags: [],
   },
-  { id: "our-products", wpCategory: "Our Products", labelKey: "blog_tab_our_products", aliases: [] },
-  { id: "our-stories", wpCategory: "Our Stories", labelKey: "blog_tab_our_stories", aliases: ["Tecxmate News"] },
+  {
+    id: "our-products",
+    wpCategory: "Our Products",
+    labelKey: "blog_tab_our_products",
+    aliases: [],
+    // Product write-ups (TECXWORK, TECXNOTE, Vietnamy) are marked by tag
+    // rather than by category.
+    tags: ["projects"],
+  },
+  {
+    id: "our-stories",
+    wpCategory: "Our Stories",
+    labelKey: "blog_tab_our_stories",
+    aliases: ["Tecxmate News"],
+    tags: [],
+  },
 ] as const
 
 /** Category the RSS+LLM news agent files its daily briefs under. */
@@ -30,6 +46,12 @@ function normalize(value: string): string {
 }
 
 export function postsForTab(posts: readonly WPBlogPost[], tab: BlogCategoryTab): WPBlogPost[] {
-  const accepted = new Set([tab.wpCategory, ...tab.aliases].map(normalize))
-  return posts.filter((post) => accepted.has(normalize(post.category || "")))
+  const categories = new Set([tab.wpCategory, ...tab.aliases].map(normalize))
+  const tags = new Set(tab.tags.map(normalize))
+
+  return posts.filter(
+    (post) =>
+      categories.has(normalize(post.category || "")) ||
+      (post.tags ?? []).some((tag) => tags.has(normalize(tag))),
+  )
 }
