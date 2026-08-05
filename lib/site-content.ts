@@ -117,11 +117,11 @@ export const HOMEPAGE_SECTION_KEYS = [
   "team",
   "products",
   "proof",
-  "blog",
   "economics",
   "problem",
   "technology",
   "process",
+  "blog",
   "cta",
 ] as const
 export type HomepageSectionKey = (typeof HOMEPAGE_SECTION_KEYS)[number]
