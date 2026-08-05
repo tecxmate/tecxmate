@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck, pickLocale } from "@/lib/sales-deck"
 import type { Locale } from "@/lib/site-content"
@@ -78,7 +78,6 @@ export function ProofSection() {
   const [isDesktop, setIsDesktop] = useState(false)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const sectionRef = useRef<HTMLElement | null>(null)
-  const trackRef = useRef<HTMLDivElement | null>(null)
 
   const offerings = proof.offerings
   const active: Offering = offerings[activeIndex]
@@ -129,53 +128,6 @@ export function ProofSection() {
     )
     return () => window.clearInterval(timer)
   }, [isAdvancing, offerings.length])
-
-  // Mobile: map scroll position within the pinned track onto a service.
-  useEffect(() => {
-    if (isDesktop) return
-    const track = trackRef.current
-    if (!track) return
-
-    let frame = 0
-    const update = () => {
-      frame = 0
-      const rect = track.getBoundingClientRect()
-      const scrollable = rect.height - window.innerHeight
-      if (scrollable <= 0) return
-
-      const progress = Math.min(Math.max(-rect.top / scrollable, 0), 1)
-      // The last step would only be reached at exactly 1, so clamp into range.
-      const index = Math.min(offerings.length - 1, Math.floor(progress * offerings.length))
-      setActiveIndex(index)
-    }
-
-    const onScroll = () => {
-      if (frame) return
-      frame = window.requestAnimationFrame(update)
-    }
-
-    update()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    window.addEventListener("resize", onScroll)
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      window.removeEventListener("resize", onScroll)
-      if (frame) window.cancelAnimationFrame(frame)
-    }
-  }, [isDesktop, offerings.length])
-
-  /** Jump the page to the scroll offset that shows a given service. */
-  const scrollToOffering = useCallback(
-    (index: number) => {
-      const track = trackRef.current
-      if (!track) return
-      const scrollable = track.offsetHeight - window.innerHeight
-      const step = scrollable / offerings.length
-      // Land mid-step so the position is comfortably inside the target range.
-      window.scrollTo({ top: track.offsetTop + step * (index + 0.5), behavior: "smooth" })
-    },
-    [offerings.length],
-  )
 
   const selectTab = (index: number) => {
     setIsRotating(false)
@@ -281,39 +233,28 @@ export function ProofSection() {
         </div>
       </div>
 
-      {/* Mobile: the section pins and vertical scrolling steps through the services */}
-      <div
-        ref={trackRef}
-        className="lg:hidden relative"
-        style={{ height: `${offerings.length * 100}svh` }}
-      >
-        {/* No overflow-hidden: the tallest panel leaves only ~46px spare on a
-            small phone, and clipping would drop copy silently if a visitor
-            scales up their text. Overflowing visibly is the safer failure. */}
-        <div className="sticky top-0 flex h-[100svh] items-center">
-          <div className="container mx-auto px-4 w-full">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="flex gap-1.5">
-                {offerings.map((offering, index) => (
-                  <button
-                    key={offering.id}
-                    type="button"
-                    onClick={() => scrollToOffering(index)}
-                    aria-label={pickLocale(offering.title, language)}
-                    aria-current={index === activeIndex}
-                    className={`h-1.5 rounded-full transition-all ${
-                      index === activeIndex ? "w-6 bg-primary" : "w-1.5 bg-border"
-                    }`}
-                  />
-                ))}
-              </div>
-              <p className="text-xs text-muted-foreground tabular-nums">
-                {activeIndex + 1} / {offerings.length}
+      {/*
+        Mobile: one service per screen, snapping as you scroll. Nothing is
+        pinned — a sticky panel fought iOS Safari's collapsing URL bar, which
+        resizes the viewport mid-scroll and made the pin jitter. Ordinary
+        blocks in normal flow have no such problem.
+      */}
+      <div className="lg:hidden">
+        {offerings.map((offering, index) => (
+          <div
+            key={offering.id}
+            // scroll-mt clears the fixed 4rem navbar, which would otherwise
+            // cover the top of each service as it snaps into place.
+            className="snap-start scroll-mt-16 flex min-h-[100svh] flex-col justify-center py-12"
+          >
+            <div className="container mx-auto px-4">
+              <p className="mb-4 text-xs text-muted-foreground tabular-nums">
+                {index + 1} / {offerings.length}
               </p>
+              <OfferingPanel offering={offering} language={language} />
             </div>
-            <OfferingPanel offering={active} language={language} />
           </div>
-        </div>
+        ))}
       </div>
     </section>
   )
