@@ -53,5 +53,9 @@
   "visit_project": "Truy cập dự án",
   "news_insights_subtitle": "Cập nhật những xu hướng và thông tin mới nhất từ các chuyên gia công nghệ của chúng tôi.",
   "view_all_posts": "Xem tất cả bài viết",
-  "read_full_article": "Đọc bài viết đầy đủ"
+  "read_full_article": "Đọc bài viết đầy đủ",
+  "blog_tab_industry_news": "Tin ngành",
+  "blog_tab_our_products": "Sản phẩm của chúng tôi",
+  "blog_tab_our_stories": "Câu chuyện của chúng tôi",
+  "blog_tab_empty": "Chưa có bài viết trong danh mục này."
 }

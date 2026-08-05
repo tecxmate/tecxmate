@@ -1,14 +1,20 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Calendar, ArrowRight, Clock } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
+import { BLOG_CATEGORY_TABS, postsForTab, type BlogCategoryTabId } from "@/lib/blog-categories"
 import type { WPBlogPost as BlogPost } from "@/lib/wordpress"
+
+/** Posts shown per tab before the visitor is sent to the full blog listing. */
+const POSTS_PER_TAB = 3
 
 export function CampaignsSection() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
+  // null until the visitor picks a tab, so the default can follow the data.
+  const [selectedTabId, setSelectedTabId] = useState<BlogCategoryTabId | null>(null)
   const { language, t } = useLanguage()
 
   useEffect(() => {
@@ -20,7 +26,7 @@ export function CampaignsSection() {
         if (!response.ok) throw new Error(`Failed: ${response.status}`)
         const data = await response.json()
         if (mounted) {
-          setPosts(data.slice(0, 3)) // Show top 3 recent posts
+          setPosts(data)
           setLoading(false)
         }
       } catch (err) {
@@ -37,6 +43,21 @@ export function CampaignsSection() {
     return () => { mounted = false }
   }, [language])
 
+  // One bucket per tab, computed once so the tab bar can show counts and the
+  // default tab can skip over categories that have nothing published yet.
+  const postsByTab = useMemo(
+    () =>
+      BLOG_CATEGORY_TABS.map((tab) => ({
+        tab,
+        posts: postsForTab(posts, tab).slice(0, POSTS_PER_TAB),
+      })),
+    [posts],
+  )
+
+  const activeTabId =
+    selectedTabId ?? postsByTab.find((entry) => entry.posts.length > 0)?.tab.id ?? BLOG_CATEGORY_TABS[0].id
+  const activePosts = postsByTab.find((entry) => entry.tab.id === activeTabId)?.posts ?? []
+
   if (loading) {
     return (
       <section id="campaigns" className="bg-muted py-24 md:py-28 lg:py-32">
@@ -47,7 +68,9 @@ export function CampaignsSection() {
     )
   }
 
-  if (posts.length === 0) return null
+  // Nothing categorised into any of the three tabs — hide the section entirely
+  // rather than render an empty shell.
+  if (postsByTab.every((entry) => entry.posts.length === 0)) return null
 
   return (
     <section id="campaigns" className="bg-muted py-24 md:py-28 lg:py-32">
@@ -70,8 +93,47 @@ export function CampaignsSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post) => (
+        <div
+          role="tablist"
+          aria-label={t("news_insights")}
+          className="flex flex-wrap gap-2 border-b border-border mb-10"
+        >
+          {postsByTab.map(({ tab, posts: tabPosts }) => {
+            const isActive = tab.id === activeTabId
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                role="tab"
+                id={`campaigns-tab-${tab.id}`}
+                aria-selected={isActive}
+                aria-controls={`campaigns-panel-${tab.id}`}
+                onClick={() => setSelectedTabId(tab.id)}
+                className={`-mb-px border-b-2 px-4 py-3 text-sm font-semibold tracking-wide transition-colors ${
+                  isActive
+                    ? "border-primary text-primary"
+                    : "border-transparent text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <span suppressHydrationWarning>{t(tab.labelKey)}</span>
+                <span className="ml-2 text-xs font-normal text-muted-foreground">{tabPosts.length}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        <div
+          role="tabpanel"
+          id={`campaigns-panel-${activeTabId}`}
+          aria-labelledby={`campaigns-tab-${activeTabId}`}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {activePosts.length === 0 && (
+            <p className="text-muted-foreground md:col-span-2 lg:col-span-3" suppressHydrationWarning>
+              {t("blog_tab_empty")}
+            </p>
+          )}
+          {activePosts.map((post) => (
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}

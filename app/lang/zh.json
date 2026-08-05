@@ -53,5 +53,9 @@
   "visit_project": "造訪專案",
   "news_insights_subtitle": "掌握技術專家的最新趨勢分析與洞察。",
   "view_all_posts": "查看所有文章",
-  "read_full_article": "閱讀全文"
+  "read_full_article": "閱讀全文",
+  "blog_tab_industry_news": "產業新聞",
+  "blog_tab_our_products": "產品動態",
+  "blog_tab_our_stories": "我們的故事",
+  "blog_tab_empty": "此分類尚無文章。"
 }
