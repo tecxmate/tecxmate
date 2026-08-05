@@ -61,7 +61,15 @@ const SECTION_LABELS: Record<SectionKey, { title: string; desc: string }> = {
   },
   blog: {
     title: "Blog / News",
-    desc: "Blog navigation, homepage news cards, blog pages, feed, and blog APIs.",
+    desc: "Blog navigation, homepage Industry News row, blog pages, feed, and blog APIs.",
+  },
+  stories: {
+    title: "Our Stories",
+    desc: "Homepage row of posts categorised 'Our Stories' in WordPress.",
+  },
+  products: {
+    title: "Our Products",
+    desc: "Homepage row of posts tagged 'projects' or categorised 'Our Products' in WordPress.",
   },
   about: {
     title: "About",

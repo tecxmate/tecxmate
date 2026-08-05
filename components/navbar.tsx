@@ -23,6 +23,8 @@ const DEFAULT_SECTIONS: SectionVisibility = {
   services: false,
   team: true,
   blog: true,
+  stories: true,
+  products: false,
   about: true,
   tecxbook: true,
 }

@@ -141,7 +141,9 @@ export const defaultSectionVisibility: SectionVisibility = {
   team: true,
   blog: true,
   stories: true,
-  products: true,
+  // Temporarily off. Turn it back on in Admin > Visibility — no deploy needed,
+  // since a stored value overrides this default.
+  products: false,
   about: true,
   tecxbook: true,
 }
