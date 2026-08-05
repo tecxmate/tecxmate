@@ -27,6 +27,10 @@ const CtaSection = dynamic(() => import("@/components/sales/cta-section").then(m
 
 const CampaignsSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.CampaignsSection })))
 
+const StoriesSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.StoriesSection })))
+
+const ProductsSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.ProductsSection })))
+
 const TeamSection = dynamic(() => import("@/components/team-section").then(mod => ({ default: mod.TeamSection })))
 
 /** Maps each reorderable homepage section key to the component that renders it. */
@@ -38,6 +42,8 @@ const HOMEPAGE_SECTION_COMPONENTS: Record<HomepageSectionKey, React.ComponentTyp
   technology: TechnologySection,
   process: ProcessSection,
   team: TeamSection,
+  stories: StoriesSection,
+  products: ProductsSection,
   blog: CampaignsSection,
   cta: CtaSection,
 }
