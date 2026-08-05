@@ -8,12 +8,10 @@ import type { WPBlogPost } from "./wordpress"
  */
 export const BLOG_CATEGORY_TABS = [
   {
-    id: "industry-news",
-    wpCategory: "Industry News",
-    labelKey: "blog_tab_industry_news",
-    // "News" is the category the WordPress blog already files industry pieces
-    // under; "Automated News" is what the agent used before the rename.
-    aliases: ["News", "Automated News"],
+    id: "our-stories",
+    wpCategory: "Our Stories",
+    labelKey: "blog_tab_our_stories",
+    aliases: ["Tecxmate News"],
     tags: [],
   },
   {
@@ -26,16 +24,22 @@ export const BLOG_CATEGORY_TABS = [
     tags: ["projects"],
   },
   {
-    id: "our-stories",
-    wpCategory: "Our Stories",
-    labelKey: "blog_tab_our_stories",
-    aliases: ["Tecxmate News"],
+    id: "industry-news",
+    wpCategory: "Industry News",
+    labelKey: "blog_tab_industry_news",
+    // "News" is the category the WordPress blog already files industry pieces
+    // under; "Automated News" is what the agent used before the rename.
+    aliases: ["News", "Automated News"],
     tags: [],
   },
 ] as const
 
-/** Category the RSS+LLM news agent files its daily briefs under. */
-export const AUTOMATED_NEWS_CATEGORY = BLOG_CATEGORY_TABS[0].wpCategory
+/**
+ * Category the RSS+LLM news agent files its daily briefs under. Named
+ * explicitly rather than read by position, so reordering the tabs above
+ * cannot silently redirect the agent's output into another section.
+ */
+export const AUTOMATED_NEWS_CATEGORY = "Industry News"
 
 export type BlogCategoryTab = (typeof BLOG_CATEGORY_TABS)[number]
 export type BlogCategoryTabId = BlogCategoryTab["id"]

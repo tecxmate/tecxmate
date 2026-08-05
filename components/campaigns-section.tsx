@@ -47,10 +47,12 @@ export function CampaignsSection() {
   // default tab can skip over categories that have nothing published yet.
   const postsByTab = useMemo(
     () =>
-      BLOG_CATEGORY_TABS.map((tab) => ({
-        tab,
-        posts: postsForTab(posts, tab).slice(0, POSTS_PER_TAB),
-      })),
+      BLOG_CATEGORY_TABS.map((tab) => {
+        const matched = postsForTab(posts, tab)
+        // `total` is what the tab badge reports: the cap is a display limit,
+        // so counting after slicing would understate a busy category.
+        return { tab, posts: matched.slice(0, POSTS_PER_TAB), total: matched.length }
+      }),
     [posts],
   )
 
@@ -98,7 +100,7 @@ export function CampaignsSection() {
           aria-label={t("news_insights")}
           className="flex flex-wrap gap-2 border-b border-border mb-10"
         >
-          {postsByTab.map(({ tab, posts: tabPosts }) => {
+          {postsByTab.map(({ tab, total }) => {
             const isActive = tab.id === activeTabId
             return (
               <button
@@ -116,7 +118,7 @@ export function CampaignsSection() {
                 }`}
               >
                 <span suppressHydrationWarning>{t(tab.labelKey)}</span>
-                <span className="ml-2 text-xs font-normal text-muted-foreground">{tabPosts.length}</span>
+                <span className="ml-2 text-xs font-normal text-muted-foreground">{total}</span>
               </button>
             )
           })}
