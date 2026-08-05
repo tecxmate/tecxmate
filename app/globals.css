@@ -376,6 +376,12 @@ html[data-idle] *::after {
   animation-play-state: paused !important;
 }
 
+/* Countdown line on the active service tab while the rail is auto-rotating. */
+@keyframes tab-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 /* Sales-narrative infographic animations (waveform bars, traveling pulse, flowing line) */
 @keyframes deck-wave {
   0%, 100% { height: 6px; }

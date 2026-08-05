@@ -100,6 +100,8 @@ export const SECTION_KEYS = [
   "services",
   "team",
   "blog",
+  "stories",
+  "products",
   "about",
   "tecxbook",
 ] as const
@@ -111,7 +113,9 @@ export type SectionKey = (typeof SECTION_KEYS)[number]
  */
 export const HOMEPAGE_SECTION_KEYS = [
   "hero",
+  "stories",
   "team",
+  "products",
   "proof",
   "economics",
   "problem",
@@ -136,6 +140,10 @@ export const defaultSectionVisibility: SectionVisibility = {
   services: false,
   team: true,
   blog: true,
+  stories: true,
+  // Temporarily off. Turn it back on in Admin > Visibility — no deploy needed,
+  // since a stored value overrides this default.
+  products: false,
   about: true,
   tecxbook: true,
 }
