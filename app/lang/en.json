@@ -53,5 +53,9 @@
   "visit_project": "Visit Project",
   "news_insights_subtitle": "Stay updated with the latest trends and insights from our technology experts.",
   "view_all_posts": "View all posts",
-  "read_full_article": "Read Full Article"
+  "read_full_article": "Read Full Article",
+  "blog_tab_industry_news": "Industry News",
+  "blog_tab_our_products": "Our Products",
+  "blog_tab_tecxmate_news": "Tecxmate News",
+  "blog_tab_empty": "No posts in this category yet."
 }
