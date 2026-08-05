@@ -1,21 +1,63 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck, pickLocale } from "@/lib/sales-deck"
 import { OfferingArt } from "@/components/sales/offering-art"
 
 type Offering = (typeof salesDeck.proof.offerings)[number]
 
+/** How long each service holds before the rail advances on its own. */
+const ROTATE_INTERVAL_MS = 6000
+
 /** The six services as one panel driven by a vertical rail, rather than six stacked blocks. */
 export function ProofSection() {
   const { language } = useLanguage()
   const { proof } = salesDeck
   const [activeIndex, setActiveIndex] = useState(0)
+  // Rotation is a hint for someone who has not engaged yet. The moment a
+  // visitor picks a service it stops for good, so the panel never moves out
+  // from under someone who is reading it.
+  const [isRotating, setIsRotating] = useState(true)
+  const [isHovered, setIsHovered] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const sectionRef = useRef<HTMLElement | null>(null)
 
   const offerings = proof.offerings
   const active: Offering = offerings[activeIndex]
+
+  // Only rotate while the section is actually on screen, so a visitor who
+  // scrolls down does not arrive mid-cycle at service four.
+  useEffect(() => {
+    const node = sectionRef.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.35 },
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!isRotating || isHovered || !isVisible) return
+    // Motion that starts on its own is exactly what this setting asks us not
+    // to do, so respect it rather than merely shortening the animation.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    const timer = window.setInterval(
+      () => setActiveIndex((current) => (current + 1) % offerings.length),
+      ROTATE_INTERVAL_MS,
+    )
+    return () => window.clearInterval(timer)
+  }, [isRotating, isHovered, isVisible, offerings.length])
+
+  const selectTab = (index: number) => {
+    setIsRotating(false)
+    setActiveIndex(index)
+  }
 
   // A tablist is expected to move selection with the arrow keys; only the
   // selected tab is in the tab order, so without this the other five are
@@ -31,12 +73,22 @@ export function ProofSection() {
 
     if (next === null) return
     event.preventDefault()
-    setActiveIndex(next)
+    selectTab(next)
     tabRefs.current[next]?.focus()
   }
 
   return (
-    <section id="proof" className="bg-muted/30 py-16 md:py-20">
+    <section
+      id="proof"
+      ref={sectionRef}
+      // Pausing on hover and on keyboard focus keeps the panel still while it
+      // is being read, without needing a separate pause control.
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocusCapture={() => setIsHovered(true)}
+      onBlurCapture={() => setIsHovered(false)}
+      className="bg-muted/30 py-16 md:py-20"
+    >
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-3">
           {pickLocale(proof.title, language)}
@@ -66,7 +118,7 @@ export function ProofSection() {
                   aria-selected={isActive}
                   aria-controls={`offering-panel-${offering.id}`}
                   tabIndex={isActive ? 0 : -1}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => selectTab(index)}
                   className={`shrink-0 lg:w-full text-left px-4 py-3 border-l-2 transition-colors ${
                     isActive
                       ? "border-primary bg-card text-foreground"
