@@ -234,19 +234,13 @@ export function ProofSection() {
       </div>
 
       {/*
-        Mobile: one service per screen, snapping as you scroll. Nothing is
-        pinned — a sticky panel fought iOS Safari's collapsing URL bar, which
-        resizes the viewport mid-scroll and made the pin jitter. Ordinary
-        blocks in normal flow have no such problem.
+        Mobile: the services simply stack and scroll. Pinning fought iOS
+        Safari's collapsing URL bar, and snapping made the page decide where
+        the scroll should stop — both got in the reader's way.
       */}
-      <div className="lg:hidden">
+      <div className="lg:hidden pb-16">
         {offerings.map((offering, index) => (
-          <div
-            key={offering.id}
-            // scroll-mt clears the fixed 4rem navbar, which would otherwise
-            // cover the top of each service as it snaps into place.
-            className="snap-start scroll-mt-16 flex min-h-[100svh] flex-col justify-center py-12"
-          >
+          <div key={offering.id} className="py-10 border-t border-border/60 first:border-t-0">
             <div className="container mx-auto px-4">
               <p className="mb-4 text-xs text-muted-foreground tabular-nums">
                 {index + 1} / {offerings.length}
