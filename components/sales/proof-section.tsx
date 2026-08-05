@@ -21,28 +21,41 @@ export function ProofSection() {
   const [isRotating, setIsRotating] = useState(true)
   const [isHovered, setIsHovered] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const [isIdle, setIsIdle] = useState(false)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const sectionRef = useRef<HTMLElement | null>(null)
 
   const offerings = proof.offerings
   const active: Offering = offerings[activeIndex]
 
-  // Only rotate while the section is actually on screen, so a visitor who
-  // scrolls down does not arrive mid-cycle at service four.
+  /** Rotation is actually running — drives both the timer and the countdown bar. */
+  const isAdvancing = isRotating && !isHovered && isVisible && !isIdle
+
+  // Only rotate while the section is on screen, so a visitor who scrolls down
+  // does not arrive mid-cycle at service four. Threshold 0: the section is
+  // taller than a short viewport, where a fractional threshold can never be
+  // reached and rotation would never start at all.
   useEffect(() => {
     const node = sectionRef.current
     if (!node) return
 
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.35 },
-    )
+    const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), {
+      threshold: 0,
+    })
     observer.observe(node)
     return () => observer.disconnect()
   }, [])
 
+  // The page pauses decorative CSS animations once idle; follow it, so the
+  // progress bar and the rotation it describes never disagree.
   useEffect(() => {
-    if (!isRotating || isHovered || !isVisible) return
+    const onIdle = (event: Event) => setIsIdle(Boolean((event as CustomEvent).detail?.idle))
+    window.addEventListener("app:idle", onIdle)
+    return () => window.removeEventListener("app:idle", onIdle)
+  }, [])
+
+  useEffect(() => {
+    if (!isAdvancing) return
     // Motion that starts on its own is exactly what this setting asks us not
     // to do, so respect it rather than merely shortening the animation.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
@@ -52,7 +65,7 @@ export function ProofSection() {
       ROTATE_INTERVAL_MS,
     )
     return () => window.clearInterval(timer)
-  }, [isRotating, isHovered, isVisible, offerings.length])
+  }, [isAdvancing, offerings.length])
 
   const selectTab = (index: number) => {
     setIsRotating(false)
@@ -78,24 +91,23 @@ export function ProofSection() {
   }
 
   return (
-    <section
-      id="proof"
-      ref={sectionRef}
-      // Pausing on hover and on keyboard focus keeps the panel still while it
-      // is being read, without needing a separate pause control.
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onFocusCapture={() => setIsHovered(true)}
-      onBlurCapture={() => setIsHovered(false)}
-      className="bg-muted/30 py-16 md:py-20"
-    >
+    <section id="proof" ref={sectionRef} className="bg-muted/30 py-16 md:py-20">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-foreground mb-3">
           {pickLocale(proof.title, language)}
         </h2>
         <p className="text-muted-foreground max-w-2xl">{pickLocale(proof.subtitle, language)}</p>
 
-        <div className="mt-10 grid lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] gap-8 lg:gap-14 items-start">
+        <div
+          // Hover pause is scoped to the rail and panel, not the whole section:
+          // the section spans the full viewport width, so a cursor resting
+          // anywhere on screen used to freeze the rotation silently.
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onFocusCapture={() => setIsHovered(true)}
+          onBlurCapture={() => setIsHovered(false)}
+          className="mt-10 grid lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] gap-8 lg:gap-14 items-start"
+        >
           {/* Rail — vertical from lg, a horizontally scrollable strip below it */}
           <div
             role="tablist"
@@ -119,12 +131,21 @@ export function ProofSection() {
                   aria-controls={`offering-panel-${offering.id}`}
                   tabIndex={isActive ? 0 : -1}
                   onClick={() => selectTab(index)}
-                  className={`shrink-0 lg:w-full text-left px-4 py-3 border-l-2 transition-colors ${
+                  className={`relative shrink-0 lg:w-full text-left px-4 py-3 border-l-2 transition-colors ${
                     isActive
                       ? "border-primary bg-card text-foreground"
                       : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/60"
                   }`}
                 >
+                  {isActive && isAdvancing && (
+                    // Keyed on the index so the countdown restarts with each
+                    // service rather than continuing from where it left off.
+                    <span
+                      key={activeIndex}
+                      aria-hidden="true"
+                      className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-full origin-left bg-primary/50 motion-safe:animate-[tab-progress_6s_linear] motion-reduce:hidden"
+                    />
+                  )}
                   <span className="flex items-baseline gap-2">
                     <span className="text-primary tabular-nums text-sm font-semibold">{index + 1}.</span>
                     <span className="font-semibold leading-snug">{pickLocale(offering.title, language)}</span>
