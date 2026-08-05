@@ -87,10 +87,27 @@ function wpTags(post: any): string[] {
   return tags.map((tag: any) => tag.name || "").filter((name: string) => name.length > 0)
 }
 
-const languageToTagSlug: Record<string, string> = {
+const TERM_SLUG_TO_LANGUAGE: Record<string, string> = {
   en: "en",
-  vi: "vn",
+  vn: "vi",
+  vi: "vi",
   zh: "zh",
+  "zh-tw": "zh",
+}
+
+/**
+ * Language is marked with a tag (and, on older posts, a category) whose slug is
+ * en/vn/zh. A post carrying no marker is treated as English rather than dropped:
+ * forgetting the tag should put a post in the wrong language list, where it is
+ * visible and fixable, not remove it from the site with no trace.
+ */
+function wpPostLanguage(post: any): string {
+  const terms: any[] = (post._embedded?.["wp:term"] ?? []).flat()
+  for (const term of terms) {
+    const language = TERM_SLUG_TO_LANGUAGE[String(term?.slug || "").toLowerCase()]
+    if (language) return language
+  }
+  return "en"
 }
 
 function shouldShowAiNewsPosts(): boolean {
@@ -109,40 +126,15 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
     return storedPosts
   }
 
+  // Language is filtered below, in code, rather than by asking WordPress for a
+  // tag id: querying by tag makes an untagged post invisible everywhere.
+  const wantedLanguage = TERM_SLUG_TO_LANGUAGE[normalizedLanguage] || "en"
+
   try {
-    const tagSlug = languageToTagSlug[normalizedLanguage] || languageToTagSlug.en
-    let tagId: number | undefined
-
-    try {
-      const tagRes = await fetch(`${WORDPRESS_API_URL}/tags?slug=${encodeURIComponent(tagSlug)}`)
-
-      if (tagRes.ok) {
-        const tagData = await tagRes.json()
-        tagId = tagData?.[0]?.id
-
-        if (!tagId) {
-          console.warn("No WordPress tag found for language slug:", { language: normalizedLanguage, tagSlug })
-        }
-      } else {
-        console.warn("Failed to fetch WordPress tag for language:", {
-          language: normalizedLanguage,
-          tagSlug,
-          status: tagRes.status,
-          statusText: tagRes.statusText,
-        })
-      }
-    } catch (tagError) {
-      console.error("Error fetching WordPress tag:", { language: normalizedLanguage, tagSlug, error: tagError })
-    }
-
     const params = new URLSearchParams({
-      per_page: "20",
+      per_page: "100",
       _embed: "1",
     })
-
-    if (tagId) {
-      params.append("tags", String(tagId))
-    }
 
     const url = `${WORDPRESS_API_URL}/posts?${params.toString()}`
     console.log('🔍 Fetching WordPress posts from:', url)
@@ -180,7 +172,7 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
       return storedPosts
     }
     
-    const posts = data.map((p: any) => {
+    const posts = data.filter((p: any) => wpPostLanguage(p) === wantedLanguage).map((p: any) => {
       // Decode URL-encoded slugs (important for non-ASCII characters)
       let decodedSlug = p.slug
       try {
