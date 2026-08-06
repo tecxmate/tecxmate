@@ -9,6 +9,7 @@ import { Calendar, Clock, ArrowRight, Search, X, Eye, Star } from "lucide-react"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import type { WPBlogPost as BlogPost } from "@/lib/wordpress"
+import { BLOG_CATEGORY_TABS, postsForTab } from "@/lib/blog-categories"
 import { useLanguage } from "@/components/language-provider"
 
 export function BlogListing() {
@@ -22,7 +23,7 @@ export function BlogListing() {
   const selectedCategory = searchParams.get("category")
   const selectedTag = searchParams.get("tag")
   const searchParam = searchParams.get("search")
-  const { language } = useLanguage()
+  const { language, t } = useLanguage()
 
   useEffect(() => {
     async function fetchPosts() {
@@ -154,7 +155,16 @@ export function BlogListing() {
   // Filter posts based on category, tag, or search
   let filteredPosts: BlogPost[] = allPosts
 
-  if (selectedCategory && selectedCategory !== "All") {
+  // A section tab matches the same way the homepage rows do — by category name,
+  // its aliases, or a marker tag — so a post cannot appear in a homepage row
+  // and then be missing from the same section here.
+  const activeTab = BLOG_CATEGORY_TABS.find(
+    (tab) => tab.wpCategory.toLowerCase() === (selectedCategory ?? "").trim().toLowerCase(),
+  )
+
+  if (activeTab) {
+    filteredPosts = postsForTab(filteredPosts, activeTab)
+  } else if (selectedCategory && selectedCategory !== "All") {
     filteredPosts = filteredPosts.filter(post => post.category === selectedCategory)
   }
 
@@ -219,6 +229,34 @@ export function BlogListing() {
       <div className="container px-4 md:px-6 w-full max-w-full">
         <div className="grid gap-10 md:grid-cols-4">
           <div className="md:col-span-3">
+            {/* Section tabs, so a reader can see which part of the blog they are in */}
+            <div className="mb-8 flex flex-wrap items-center gap-1 border-b border-border">
+              {BLOG_CATEGORY_TABS.map((tab) => {
+                const isActive = activeTab?.id === tab.id
+                return (
+                  <Link
+                    key={tab.id}
+                    href={`/blog?category=${encodeURIComponent(tab.wpCategory)}`}
+                    className={`-mb-px border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
+                      isActive
+                        ? "border-primary text-primary"
+                        : "border-transparent text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <span suppressHydrationWarning>{t(tab.labelKey)}</span>
+                  </Link>
+                )
+              })}
+              <Link
+                href="/blog"
+                className={`ml-auto px-4 py-3 text-sm transition-colors ${
+                  activeTab ? "text-muted-foreground hover:text-foreground" : "font-semibold text-foreground"
+                }`}
+              >
+                {t("view_all_posts")}
+              </Link>
+            </div>
+
             {displayPosts.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-muted-foreground mb-4">No posts found matching your criteria.</p>
