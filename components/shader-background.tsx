@@ -30,7 +30,10 @@ export default function ShaderBackground({ children }: ShaderBackgroundProps) {
   return (
     <div
       id="hero"
-      className="min-h-screen relative overflow-hidden -mt-16 pt-16 transition-colors duration-300"
+      // Deliberately short of a full viewport so the first stories are visible
+      // underneath: a section starting on screen tells a reader there is more
+      // below far better than any prompt to scroll would.
+      className="min-h-[82svh] md:min-h-[78vh] relative overflow-hidden -mt-16 pt-16 transition-colors duration-300"
       style={{
         background: isDark
           ? 'linear-gradient(135deg, #0a0a1a 0%, #1a1030 40%, #0d0820 100%)'
