@@ -70,44 +70,44 @@ function wpFeaturedImage(post: any) {
  * post filed under "Our Stories" reports its category as "en" if we just take
  * the first term. Skip the markers and return the first real topic.
  */
-const NON_TOPICAL_CATEGORIES = new Set(["en", "vn", "vi", "zh", "lang", "non", "uncategorized"])
+/**
+ * Categories that mark language or house-keeping rather than a topic. Matched
+ * on slug *and* name, and covering the names these have been through: renaming
+ * "lang" to "Language" in WordPress changed the slug too, and a list that knew
+ * only the old spelling promoted the language marker to the post's topic —
+ * which quietly dropped the post out of its homepage row.
+ */
+const NON_TOPICAL_CATEGORIES = new Set([
+  "en",
+  "vn",
+  "vi",
+  "zh",
+  "zh-tw",
+  "lang",
+  "language",
+  "languages",
+  "non",
+  "none",
+  "uncategorized",
+])
+
+function isNonTopical(category: any): boolean {
+  const slug = String(category?.slug || "").trim().toLowerCase()
+  const name = String(category?.name || "").trim().toLowerCase()
+  return NON_TOPICAL_CATEGORIES.has(slug) || NON_TOPICAL_CATEGORIES.has(name)
+}
 
 function wpPrimaryCategory(post: any) {
   const categories: any[] = post._embedded?.["wp:term"]?.[0] || []
-  const names = categories
-    .map((cat) => String(cat?.name || "").trim())
-    .filter((name) => name.length > 0)
+  const named = categories.filter((cat) => String(cat?.name || "").trim().length > 0)
 
-  const topical = names.find((name) => !NON_TOPICAL_CATEGORIES.has(name.toLowerCase()))
-  return topical || names[0] || "Uncategorized"
+  const topical = named.find((cat) => !isNonTopical(cat))
+  return String(topical?.name || named[0]?.name || "Uncategorized").trim()
 }
 
 function wpTags(post: any): string[] {
   const tags = post._embedded?.["wp:term"]?.[1] || []
   return tags.map((tag: any) => tag.name || "").filter((name: string) => name.length > 0)
-}
-
-const TERM_SLUG_TO_LANGUAGE: Record<string, string> = {
-  en: "en",
-  vn: "vi",
-  vi: "vi",
-  zh: "zh",
-  "zh-tw": "zh",
-}
-
-/**
- * Language is marked with a tag (and, on older posts, a category) whose slug is
- * en/vn/zh. A post carrying no marker is treated as English rather than dropped:
- * forgetting the tag should put a post in the wrong language list, where it is
- * visible and fixable, not remove it from the site with no trace.
- */
-function wpPostLanguage(post: any): string {
-  const terms: any[] = (post._embedded?.["wp:term"] ?? []).flat()
-  for (const term of terms) {
-    const language = TERM_SLUG_TO_LANGUAGE[String(term?.slug || "").toLowerCase()]
-    if (language) return language
-  }
-  return "en"
 }
 
 function shouldShowAiNewsPosts(): boolean {
@@ -126,10 +126,10 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
     return storedPosts
   }
 
-  // Language is filtered below, in code, rather than by asking WordPress for a
-  // tag id: querying by tag makes an untagged post invisible everywhere.
-  const wantedLanguage = TERM_SLUG_TO_LANGUAGE[normalizedLanguage] || "en"
-
+  // Every WordPress post is shown whatever language it is written in. Filtering
+  // by language meant one stray tick in the category tree removed a post from
+  // the site with no visible cause, and a reader meeting a post in another
+  // language is a smaller problem than a post nobody can find.
   try {
     const params = new URLSearchParams({
       per_page: "100",
@@ -172,7 +172,7 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
       return storedPosts
     }
     
-    const posts = data.filter((p: any) => wpPostLanguage(p) === wantedLanguage).map((p: any) => {
+    const posts = data.map((p: any) => {
       // Decode URL-encoded slugs (important for non-ASCII characters)
       let decodedSlug = p.slug
       try {
