@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Redis } from '@upstash/redis'
+import { checkRateLimit, clientIp } from '@/lib/rate-limit'
 
 // Initialize Redis using environment variables
 // Redis.fromEnv() automatically reads UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN
@@ -7,13 +8,30 @@ const redis = Redis.fromEnv()
 
 // Track a view for a blog post
 export async function POST(request: NextRequest) {
+  let slug: unknown
   try {
-    const { slug } = await request.json()
+    ;({ slug } = await request.json())
 
     if (!slug || typeof slug !== 'string') {
       return NextResponse.json(
         { error: 'Invalid slug' },
         { status: 400 }
+      )
+    }
+
+    // Fires once per page load, but an unbounded increment lets anyone
+    // script arbitrary view-count inflation. 60/10min per IP comfortably
+    // covers a reader browsing many posts while blocking spam.
+    const rate = await checkRateLimit({
+      scope: 'blog-views',
+      identity: clientIp(request),
+      limit: 60,
+      windowSeconds: 600,
+    })
+    if (!rate.ok) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { status: 429, headers: { 'Retry-After': String(rate.retryAfterSeconds) } },
       )
     }
 
@@ -29,8 +47,13 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('Error tracking view:', error)
-    // If Redis is not configured, return 0 views gracefully
-    if (error instanceof Error && error.message.includes('UPSTASH')) {
+    // If Redis isn't configured, return 0 views gracefully. Checking the env
+    // vars directly (rather than pattern-matching the thrown error's
+    // message) is what the intent here actually needs: the SDK's real
+    // failure text for a missing URL/token doesn't contain "UPSTASH" at
+    // all, so that check never matched and every Redis hiccup — configured
+    // or not — was falling through to a hard 500.
+    if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
       return NextResponse.json({
         success: true,
         views: 0,
