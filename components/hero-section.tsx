@@ -51,7 +51,7 @@ export function HeroSection() {
           </Button>
         </div>
       </div>
-      {/* <LogoCarousel /> */}
+      <LogoCarousel />
     </ShaderBackground>
   )
 }
