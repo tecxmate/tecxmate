@@ -24,6 +24,12 @@ export function HeroSection() {
   const title = hero ? hero.title[language] || hero.title.en : t("hero_title")
   const subtitle = hero ? hero.subtitle[language] || hero.subtitle.en : t("hero_subtitle")
 
+  // CTA label and destination are admin-editable. Fall back to the i18n label
+  // and the original booking link until live content loads (or if an older
+  // content blob predates the editable CTA).
+  const ctaLabel = hero?.cta?.label?.[language] || hero?.cta?.label?.en || t("book_call")
+  const ctaUrl = hero?.cta?.url || "https://cal.com/nikolasdoan/30min"
+
   return (
     <ShaderBackground>
       <div className="absolute inset-0 flex flex-col items-start justify-center px-8 md:px-8 pt-20 pb-24 z-10">
@@ -39,8 +45,8 @@ export function HeroSection() {
             className="bg-primary hover:bg-primary/90 text-white text-base px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 self-start"
             asChild
           >
-          <a href="https://cal.com/nikolasdoan/30min" target="_blank" rel="noopener noreferrer">
-              {t("book_call")}
+          <a href={ctaUrl} target="_blank" rel="noopener noreferrer">
+              {ctaLabel}
             </a>
           </Button>
         </div>

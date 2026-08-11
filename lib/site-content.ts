@@ -151,7 +151,7 @@ export const defaultSectionVisibility: SectionVisibility = {
 export type SiteContent = {
   settings: { sections: SectionVisibility; homepageOrder?: HomepageSectionKey[] }
   team: TeamMember[]
-  hero: { title: Localized; subtitle: Localized }
+  hero: { title: Localized; subtitle: Localized; cta: { label: Localized; url: string } }
   services: { title: Localized; items: Service[] }
   chatbot: ChatbotConfig
   about: { subtitle: Localized; sections: AboutSection[] }
@@ -243,6 +243,10 @@ export const defaultContent: SiteContent = {
       "Công nghệ có thể mở ra tiềm năng thật sự cho doanh nghiệp bạn. Hãy cùng khám phá.",
       "科技能為您的企業打開真正的潛力。一起來探索。",
     ),
+    cta: {
+      label: M("Book a consultation call", "Đặt lịch tư vấn", "預約諮詢通話"),
+      url: "https://cal.com/nikolasdoan/30min",
+    },
   },
   services: {
     title: M("Our Services", "Dịch vụ của chúng tôi", "我們的服務"),
@@ -556,6 +560,17 @@ function mergeContent(stored?: Partial<SiteContent>): SiteContent {
         subtitle: {
           ...defaultContent.hero.subtitle,
           ...stored.hero?.subtitle,
+        },
+        cta: {
+          label: {
+            ...defaultContent.hero.cta.label,
+            ...stored.hero?.cta?.label,
+          },
+          // Empty string is a valid "cleared" URL only if intentional; treat a
+          // missing/blank stored URL as "use the default" so an older saved
+          // content blob (written before the CTA was editable) still renders
+          // the working calendar link instead of a dead button.
+          url: stored.hero?.cta?.url?.trim() || defaultContent.hero.cta.url,
         },
       }
 
