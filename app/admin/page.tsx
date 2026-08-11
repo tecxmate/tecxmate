@@ -9,6 +9,7 @@ const CARDS = [
   { href: "/admin/services", label: "Services", desc: "Service card titles and descriptions.", ready: true },
   { href: "/admin/chatbot", label: "Chatbot", desc: "Prompt, memory, escalation copy, and recent support transcripts.", ready: true },
   { href: "/admin/about", label: "Hero & About", desc: "Homepage hero and About page copy.", ready: true },
+  { href: "/admin/homepage", label: "Homepage Blocks", desc: "Partner logos, bottom call-to-action, and proof stat figures.", ready: true },
   { href: "/admin/company", label: "Company & Footer", desc: "Address, phones, emails, markets, legal names, social links.", ready: true },
   { href: "/admin/metadata", label: "Metadata (SEO)", desc: "Page titles, descriptions, OG tags.", ready: true },
   { href: "/admin/tecxbook", label: "Tecxbook", desc: "Upload and manage HTML artifacts.", ready: true },

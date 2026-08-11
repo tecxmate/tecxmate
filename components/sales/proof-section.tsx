@@ -1,12 +1,14 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck, pickLocale } from "@/lib/sales-deck"
-import type { Locale } from "@/lib/site-content"
+import type { Locale, Localized } from "@/lib/site-content"
+import { useSiteContent } from "@/lib/use-site-content"
 import { OfferingArt } from "@/components/sales/offering-art"
 
 type Offering = (typeof salesDeck.proof.offerings)[number]
+type Metric = { label: Localized; value: Localized }
 
 /** How long each service holds before the desktop rail advances on its own. */
 const ROTATE_INTERVAL_MS = 6000
@@ -15,7 +17,18 @@ const ROTATE_INTERVAL_MS = 6000
 const DESKTOP_QUERY = "(min-width: 1024px)"
 
 /** Copy and illustration for one service — shared by the rail and the mobile panel. */
-function OfferingPanel({ offering, language }: { offering: Offering; language: Locale }) {
+function OfferingPanel({
+  offering,
+  language,
+  metrics,
+}: {
+  offering: Offering
+  language: Locale
+  // Admin-overridden stat figures for this service; falls back to the ones
+  // defined alongside the offering in lib/sales-deck.ts.
+  metrics?: Metric[]
+}) {
+  const shownMetrics = metrics ?? offering.metrics
   return (
     <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
       <div>
@@ -26,7 +39,7 @@ function OfferingPanel({ offering, language }: { offering: Offering; language: L
           {pickLocale(offering.summary, language)}
         </p>
         <div className="mt-7 flex flex-wrap gap-x-10 gap-y-4">
-          {offering.metrics.map((metric, i) => (
+          {shownMetrics.map((metric, i) => (
             <div key={i}>
               <p className="text-xs text-muted-foreground mb-1.5">{pickLocale(metric.label, language)}</p>
               <p className="text-2xl md:text-3xl font-semibold text-primary tabular-nums leading-none">
@@ -67,6 +80,18 @@ function OfferingPanel({ offering, language }: { offering: Offering; language: L
 export function ProofSection() {
   const { language } = useLanguage()
   const { proof } = salesDeck
+  const content = useSiteContent()
+
+  // offeringId -> overridden metrics, from admin content. Offerings without an
+  // override (or overrides for offerings no longer in code) fall through to the
+  // static metrics.
+  const metricsById = useMemo(() => {
+    const map = new Map<string, Metric[]>()
+    for (const entry of content?.homepage?.proofMetrics ?? []) {
+      if (entry?.offeringId && Array.isArray(entry.metrics)) map.set(entry.offeringId, entry.metrics)
+    }
+    return map
+  }, [content])
   const [activeIndex, setActiveIndex] = useState(0)
   // Rotation is a hint for someone who has not engaged yet. The moment a
   // visitor picks a service it stops for good, so the panel never moves out
@@ -228,7 +253,7 @@ export function ProofSection() {
             aria-labelledby={`offering-tab-${active.id}`}
             className="min-w-0"
           >
-            <OfferingPanel offering={active} language={language} />
+            <OfferingPanel offering={active} language={language} metrics={metricsById.get(active.id)} />
           </div>
         </div>
       </div>
@@ -245,7 +270,7 @@ export function ProofSection() {
               <p className="mb-4 text-xs text-muted-foreground tabular-nums">
                 {index + 1} / {offerings.length}
               </p>
-              <OfferingPanel offering={offering} language={language} />
+              <OfferingPanel offering={offering} language={language} metrics={metricsById.get(offering.id)} />
             </div>
           </div>
         ))}

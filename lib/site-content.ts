@@ -87,6 +87,31 @@ export type SeoMetadata = {
   twitterCreator: string
 }
 
+export type HeroLogo = { name: string; src: string }
+
+/**
+ * Admin overrides for the two proof-section stat figures shown under each
+ * service. Keyed by the offering's code id — a service that no longer exists
+ * in code just has its override ignored, and a service with no override falls
+ * back to the metrics defined alongside it in lib/sales-deck.ts.
+ */
+export type ProofMetricOverride = {
+  offeringId: string
+  metrics: { label: Localized; value: Localized }[]
+}
+
+/**
+ * Editable homepage pieces that otherwise live hardcoded in components /
+ * lib/sales-deck.ts: the hero partner-logo carousel, the bottom call-to-action
+ * band, and the proof-section stat figures. Defaults mirror the current live
+ * values so an empty Blob renders identically to today.
+ */
+export type HomepageBlocks = {
+  heroLogos: { enabled: boolean; caption: Localized; items: HeroLogo[] }
+  cta: { title: Localized; body: Localized; buttonLabel: Localized; url: string }
+  proofMetrics: ProofMetricOverride[]
+}
+
 export const SECTION_KEYS = [
   "hero",
   "problem",
@@ -157,6 +182,7 @@ export type SiteContent = {
   about: { subtitle: Localized; sections: AboutSection[] }
   company: CompanyInfo
   seo: SeoMetadata
+  homepage: HomepageBlocks
 }
 
 const CONTENT_PATHNAME = "site-content/content.json"
@@ -540,6 +566,95 @@ export const defaultContent: SiteContent = {
       "Custom AI, apps, web, product development and software engineering. Your global technology partner.",
     twitterCreator: "@tecxmate",
   },
+  homepage: {
+    heroLogos: {
+      // Off by default: the carousel is currently not shown on the live hero.
+      // Turn it on in Admin → Homepage Blocks once the logos are set.
+      enabled: false,
+      caption: M("with partners from", "cùng đối tác từ", "合作夥伴來自"),
+      items: [
+        { name: "Crypted", src: "/logos/crypted.png" },
+        { name: "HealthMaxers", src: "/logos/healthmaxers.png" },
+        { name: "IPRP Shield", src: "/logos/IPRPSHIELD.png" },
+        { name: "CHI CHI Vietnamese", src: "/logos/chichi.png" },
+      ],
+    },
+    cta: {
+      title: M("The answer is here.", "Câu trả lời ở đây.", "答案就在這裡"),
+      body: M(
+        "A 30-minute Consultation gives you a clear read on what's possible.",
+        "Buổi tư vấn 30 phút giúp bạn thấy rõ những gì khả thi.",
+        "30 分鐘諮詢讓您清楚了解可行方案。",
+      ),
+      buttonLabel: M("Book a Consultation", "Đặt lịch tư vấn", "預約諮詢"),
+      url: "https://cal.com/nikolasdoan/30min",
+    },
+    proofMetrics: [
+      {
+        offeringId: "ai-agents",
+        metrics: [
+          { label: M("Runs on", "Chạy trên", "運行於"), value: M("Your documents", "Tài liệu của bạn", "您的文件") },
+          { label: M("Serves", "Phục vụ", "服務對象"), value: M("Staff & customers", "Nhân viên & khách hàng", "員工與客戶") },
+        ],
+      },
+      {
+        offeringId: "apps",
+        metrics: [
+          { label: M("MVP", "MVP", "MVP"), value: M("6 weeks", "6 tuần", "6 週") },
+          { label: M("Platforms", "Nền tảng", "平台"), value: M("iOS · Android · Web", "iOS · Android · Web", "iOS · Android · Web") },
+        ],
+      },
+      {
+        offeringId: "modernize",
+        metrics: [
+          { label: M("Office productivity", "Năng suất văn phòng", "辦公生產力"), value: M("+70–80%", "+70–80%", "+70–80%") },
+          { label: M("Auto-drafted", "Soạn tự động", "自動起草"), value: M("~90%", "~90%", "約 90%") },
+        ],
+      },
+      {
+        offeringId: "ai-seo",
+        metrics: [
+          { label: M("Optimized for", "Tối ưu cho", "優化對象"), value: M("ChatGPT · Gemini · Perplexity · Claude", "ChatGPT · Gemini · Perplexity · Claude", "ChatGPT · Gemini · Perplexity · Claude") },
+          { label: M("Reported", "Báo cáo", "回報"), value: M("Monthly", "Hằng tháng", "每月") },
+        ],
+      },
+      {
+        offeringId: "data",
+        metrics: [
+          { label: M("Delivered as", "Bàn giao dưới dạng", "交付格式"), value: M("Reports & dashboards", "Báo cáo & dashboard", "報告與儀表板") },
+          { label: M("You keep", "Bạn giữ", "歸您所有"), value: M("The data", "Toàn bộ dữ liệu", "全部資料") },
+        ],
+      },
+      {
+        offeringId: "ai-integration",
+        metrics: [
+          { label: M("Optimized for", "Tối ưu cho", "優化對象"), value: M("Your system", "Hệ thống của bạn", "您的系統") },
+          { label: M("First session", "Buổi đầu tiên", "首次課程"), value: M("Free", "Miễn phí", "免費") },
+        ],
+      },
+    ],
+  },
+}
+
+function mergeHomepage(stored?: Partial<HomepageBlocks>): HomepageBlocks {
+  const d = defaultContent.homepage
+  return {
+    heroLogos: {
+      enabled: stored?.heroLogos?.enabled ?? d.heroLogos.enabled,
+      caption: { ...d.heroLogos.caption, ...stored?.heroLogos?.caption },
+      // A stored array wins wholesale (the admin edits the full list); only
+      // fall back to defaults when nothing was ever saved.
+      items: stored?.heroLogos?.items ?? d.heroLogos.items,
+    },
+    cta: {
+      title: { ...d.cta.title, ...stored?.cta?.title },
+      body: { ...d.cta.body, ...stored?.cta?.body },
+      buttonLabel: { ...d.cta.buttonLabel, ...stored?.cta?.buttonLabel },
+      // Blank/missing URL falls back so an older blob can't produce a dead button.
+      url: stored?.cta?.url?.trim() || d.cta.url,
+    },
+    proofMetrics: stored?.proofMetrics ?? d.proofMetrics,
+  }
 }
 
 function mergeContent(stored?: Partial<SiteContent>): SiteContent {
@@ -578,6 +693,7 @@ function mergeContent(stored?: Partial<SiteContent>): SiteContent {
     ...defaultContent,
     ...stored,
     hero,
+    homepage: mergeHomepage(stored.homepage),
     company: {
       ...defaultContent.company,
       ...stored.company,
