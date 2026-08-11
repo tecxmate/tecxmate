@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # --frozen-lockfile fails if pnpm-lock.yaml is out of sync with
+      # package.json, catching the exact class of bug that once broke a
+      # Vercel deploy: a dependency bumped in package.json without the
+      # lockfile that actually ships being updated to match.
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run build
