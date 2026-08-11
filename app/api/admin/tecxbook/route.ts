@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       { status: 503 },
     )
   }
-  if (!isAdmin(request)) {
+  if (!(await isAdmin(request))) {
     return NextResponse.json(
       { error: "Unauthorized" },
       { status: 401 },
