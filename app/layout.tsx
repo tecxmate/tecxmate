@@ -146,7 +146,7 @@ export default function RootLayout({
           <FirebaseAnalytics />
           {/* Vercel Analytics is cookieless, so it needs no consent gate. */}
           <Analytics />
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <LanguageProvider>
               {children}
               <FloatingContact />
