@@ -75,6 +75,24 @@ const nextConfig = {
       '@radix-ui/react-dropdown-menu',
     ],
   },
+  // Baseline hardening headers. No CSP here: the site loads GTM, GA, and
+  // Firebase from third-party origins, and a wrong CSP silently breaks those
+  // rather than failing loudly, so it needs to be authored and tested
+  // against the real script/connect origins rather than guessed.
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+        ],
+      },
+    ]
+  },
 }
 
 export default nextConfig
