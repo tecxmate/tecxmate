@@ -26,6 +26,7 @@ export type WPComment = {
 
 import { WORDPRESS_API_URL } from "./wp-config"
 import { getStoredBlogPostBySlug, readStoredBlogPosts } from "./blog-store"
+import { sanitizeWpHtml } from "./sanitize-html"
 
 function stripHtml(html: string) {
   return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim()
@@ -322,9 +323,9 @@ export async function wpGetPostBySlug(slug: string): Promise<WPBlogPost | null> 
       readTime: estimateReadTime(stripHtml(contentHtml)),
       category: wpPrimaryCategory(p),
       coverImage: wpFeaturedImage(p),
-      content: contentHtml,
+      content: sanitizeWpHtml(contentHtml),
       tags: wpTags(p),
-      citations: citations,
+      citations: citations ? sanitizeWpHtml(citations) : citations,
     }
   } catch (error) {
     console.error('❌ Error fetching post by slug:', error)
@@ -371,7 +372,7 @@ export async function wpGetCommentsByPostId(postId: number): Promise<WPComment[]
       authorUrl: c.author_url || undefined,
       authorAvatar: c.author_avatar_urls?.['96'] || undefined,
       date: new Date(c.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
-      content: c.content?.rendered || '',
+      content: sanitizeWpHtml(c.content?.rendered || ''),
       parent: c.parent || undefined,
     }))
     
