@@ -57,5 +57,9 @@
   "blog_tab_industry_news": "Industry News",
   "blog_tab_our_products": "Our Products",
   "blog_tab_our_stories": "Our Stories",
-  "blog_tab_empty": "No posts in this category yet."
+  "blog_tab_empty": "No posts in this category yet.",
+  "product_coming_soon": "Coming soon",
+  "product_tecxwork_tagline": "A web platform that connects students, recruiters, and organizers at career fairs.",
+  "product_tecxbot_tagline": "An AI assistant that answers your clients on LINE and WhatsApp.",
+  "product_alphatecx_tagline": "Taiwan stock market data and analysis, in plain language."
 }

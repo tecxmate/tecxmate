@@ -57,5 +57,9 @@
   "blog_tab_industry_news": "產業新聞",
   "blog_tab_our_products": "產品動態",
   "blog_tab_our_stories": "我們的故事",
-  "blog_tab_empty": "此分類尚無文章。"
+  "blog_tab_empty": "此分類尚無文章。",
+  "product_coming_soon": "即將推出",
+  "product_tecxwork_tagline": "連結學生、招募者與主辦單位的就業博覽會網路平台。",
+  "product_tecxbot_tagline": "在 LINE 與 WhatsApp 上回覆客戶的 AI 助理。",
+  "product_alphatecx_tagline": "台股市場數據與分析，簡單易懂。"
 }

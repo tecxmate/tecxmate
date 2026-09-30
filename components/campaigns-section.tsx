@@ -5,6 +5,7 @@ import { Calendar, ArrowRight, Clock } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { BLOG_CATEGORY_TABS, postsForTab, type BlogCategoryTab } from "@/lib/blog-categories"
+import { PRODUCTS, postForProduct, type Product } from "@/lib/products"
 import type { WPBlogPost as BlogPost } from "@/lib/wordpress"
 
 /** Posts shown per row before the visitor is sent to the full blog listing. */
@@ -130,8 +131,110 @@ export function StoriesSection() {
   return <BlogCategoryRow tab={tabById("our-stories")} className="bg-background py-20 md:py-24" />
 }
 
+function ProductCard({ product, post }: { product: Product; post: BlogPost | undefined }) {
+  const { t } = useLanguage()
+
+  const body = (
+    <>
+      <div className="aspect-video w-full overflow-hidden bg-gray-100 relative">
+        {post ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={post.coverImage || "/placeholder.svg?height=200&width=400"}
+            alt={post.title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-primary/5">
+            <span className="text-3xl font-bold tracking-tight text-primary/40">{product.name}</span>
+          </div>
+        )}
+      </div>
+      <div className="p-6 flex flex-col flex-1">
+        <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+          {product.name}
+        </h3>
+        <p className="text-muted-foreground text-sm line-clamp-3 mb-6 flex-1">
+          {post?.excerpt || t(product.taglineKey)}
+        </p>
+        {post ? (
+          <div className="inline-flex items-center text-sm font-bold text-primary group-hover:gap-2 transition-all">
+            <span>{t("read_full_article")}</span>
+            <ArrowRight className="h-4 w-4 ml-1" />
+          </div>
+        ) : (
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {t("product_coming_soon")}
+          </span>
+        )}
+      </div>
+    </>
+  )
+
+  const cardClass = "group block bg-card border border-border shadow-sm overflow-hidden h-full flex flex-col"
+
+  if (!post) return <div className={cardClass}>{body}</div>
+
+  return (
+    <Link
+      href={`/blog/${post.slug}`}
+      className={`${cardClass} hover:shadow-md hover:border-primary transition-all duration-300`}
+    >
+      {body}
+    </Link>
+  )
+}
+
+/**
+ * The fixed product lineup. Unlike the category rows it always renders all
+ * three cards; each links to its write-up once that post is published. A
+ * translation that has not been written yet falls back to the English post.
+ */
 export function ProductsSection() {
-  return <BlogCategoryRow tab={tabById("our-products")} className="bg-muted py-20 md:py-24" />
+  const [postsByProduct, setPostsByProduct] = useState<Record<string, BlogPost | undefined> | null>(null)
+  const { language, t } = useLanguage()
+
+  useEffect(() => {
+    let mounted = true
+    Promise.all([loadPosts(language), loadPosts("en")]).then(([localized, english]) => {
+      if (!mounted) return
+      setPostsByProduct(
+        Object.fromEntries(
+          PRODUCTS.map((product) => [
+            product.id,
+            postForProduct(localized, product) ?? postForProduct(english, product),
+          ]),
+        ),
+      )
+    })
+    return () => {
+      mounted = false
+    }
+  }, [language])
+
+  return (
+    <section id="products" className="bg-muted py-20 md:py-24">
+      <div className="container px-4 md:px-6 max-w-7xl">
+        <h2
+          className="text-3xl font-semibold md:text-4xl tracking-tight text-foreground mb-10"
+          suppressHydrationWarning
+        >
+          {t("blog_tab_our_products")}
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {PRODUCTS.map((product) =>
+            postsByProduct === null ? (
+              <div key={product.id} className="h-[26rem] bg-card border border-border animate-pulse" />
+            ) : (
+              <ProductCard key={product.id} product={product} post={postsByProduct[product.id]} />
+            ),
+          )}
+        </div>
+      </div>
+    </section>
+  )
 }
 
 export function CampaignsSection() {
