@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { WORDPRESS_API_URL } from "@/lib/wp-config"
+import { WORDPRESS_API_URL, WORDPRESS_CONFIGURED } from "@/lib/wp-config"
 import { isSectionEnabled, readContent } from "@/lib/site-content"
 
 export type WPProject = {
@@ -44,6 +44,13 @@ export async function GET() {
     const content = await readContent({ revalidate: 60 })
     if (!isSectionEnabled(content, "projects")) {
       return NextResponse.json([])
+    }
+
+    // Projects live only in WordPress, so without it configured there is nothing
+    // to list — and nothing worth guessing at from an unrelated site. Same
+    // X-Blog-Source vocabulary as /api/blog/posts.
+    if (!WORDPRESS_CONFIGURED) {
+      return NextResponse.json([], { headers: { "X-Blog-Source": "unavailable" } })
     }
 
     // Look up the "projects" tag ID

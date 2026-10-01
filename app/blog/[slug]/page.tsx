@@ -2,7 +2,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { BlogPostContent } from "@/components/blog-post-content"
 import { wpGetPostBySlug } from "@/lib/wordpress"
-import { WORDPRESS_API_URL } from "@/lib/wp-config"
+import { WORDPRESS_API_URL, WORDPRESS_CONFIGURED } from "@/lib/wp-config"
 import { generateCountryKeywords } from "@/lib/keywords"
 import { isSectionEnabled, readContent } from "@/lib/site-content"
 import type { Metadata } from "next"
@@ -25,11 +25,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   // Fetch raw post data for structured data
   const fallbackDate = (post as any).publishedAt || new Date(post.date).toISOString()
   let rawPost: any = { date: fallbackDate, modified: (post as any).updatedAt || fallbackDate }
+  // The defaults above already describe the post; WordPress only sharpens the
+  // dates, so skip the request entirely when it is not configured.
   try {
-    const res = await fetch(`${WORDPRESS_API_URL}/posts?slug=${encodeURIComponent(slug)}&_embed=1`, {
-      next: { revalidate: 300 }
-    })
-    if (res.ok) {
+    const res = WORDPRESS_CONFIGURED
+      ? await fetch(`${WORDPRESS_API_URL}/posts?slug=${encodeURIComponent(slug)}&_embed=1`, {
+          next: { revalidate: 300 }
+        })
+      : null
+    if (res?.ok) {
       const data = await res.json()
       if (data[0]) rawPost = data[0]
     }
@@ -239,10 +243,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   let publishedDate: string | undefined = (post as any).publishedAt
   let modifiedDate: string | undefined = (post as any).updatedAt || publishedDate
   try {
-    const res = await fetch(`${WORDPRESS_API_URL}/posts?slug=${encodeURIComponent(slug)}&_fields=date,modified`, {
-      next: { revalidate: 300 }
-    })
-    if (res.ok) {
+    const res = WORDPRESS_CONFIGURED
+      ? await fetch(`${WORDPRESS_API_URL}/posts?slug=${encodeURIComponent(slug)}&_fields=date,modified`, {
+          next: { revalidate: 300 }
+        })
+      : null
+    if (res?.ok) {
       const data = await res.json()
       if (data[0]) {
         publishedDate = data[0].date

@@ -24,7 +24,7 @@ export type WPComment = {
   parent?: number
 }
 
-import { WORDPRESS_API_URL } from "./wp-config"
+import { WORDPRESS_API_URL, WORDPRESS_CONFIGURED } from "./wp-config"
 import { getStoredBlogPostBySlug, readStoredBlogPosts } from "./blog-store"
 import { sanitizeWpHtml } from "./sanitize-html"
 
@@ -123,7 +123,10 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
     return matchesLanguage && isVisibleSource
   })
 
-  if (process.env.BLOG_SOURCE === "local") {
+  // No WordPress configured is the same situation as BLOG_SOURCE=local: serve our
+  // own stored posts. If there are none either, the caller returns an empty list
+  // and the page says the section is being improved.
+  if (!WORDPRESS_CONFIGURED || process.env.BLOG_SOURCE === "local") {
     return storedPosts
   }
 
@@ -219,7 +222,7 @@ export async function wpGetPostBySlug(slug: string): Promise<WPBlogPost | null> 
     return storedPost
   }
 
-  if (process.env.BLOG_SOURCE === "local") {
+  if (!WORDPRESS_CONFIGURED || process.env.BLOG_SOURCE === "local") {
     return null
   }
 
@@ -334,6 +337,8 @@ export async function wpGetPostBySlug(slug: string): Promise<WPBlogPost | null> 
 }
 
 export async function wpGetCommentsByPostId(postId: number): Promise<WPComment[]> {
+  if (!WORDPRESS_CONFIGURED) return []
+
   try {
     const url = `${WORDPRESS_API_URL}/comments?post=${postId}&status=approve&orderby=date&order=asc`
     console.log('🔍 Fetching WordPress comments from:', url)
