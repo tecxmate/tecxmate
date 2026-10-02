@@ -18,11 +18,14 @@ export function BlogListing() {
   const [searchQuery, setSearchQuery] = useState("")
   const [viewCounts, setViewCounts] = useState<Record<string, number>>({})
   const [likeCounts, setLikeCounts] = useState<Record<string, number>>({})
+  // The route sets X-Blog-Source: unavailable when it has no posts to serve at
+  // all, which an empty array cannot distinguish from "no filter matches".
+  const [unavailable, setUnavailable] = useState(false)
   const searchParams = useSearchParams()
   const selectedCategory = searchParams.get("category")
   const selectedTag = searchParams.get("tag")
   const searchParam = searchParams.get("search")
-  const { language } = useLanguage()
+  const { language, t } = useLanguage()
 
   useEffect(() => {
     async function fetchPosts() {
@@ -38,6 +41,7 @@ export function BlogListing() {
         }
 
         const data = await response.json()
+        setUnavailable(response.headers.get("X-Blog-Source") === "unavailable")
         setBlogPosts(data)
         
         // Fetch view counts and like counts for all posts
@@ -78,78 +82,12 @@ export function BlogListing() {
     }
   }, [searchParam])
 
-  // Placeholder posts for when real posts aren't available
-  const placeholderPosts: BlogPost[] = [
-    {
-      id: 1,
-      slug: "#",
-      title: "Web Design Trends to Watch",
-      excerpt: "Explore the latest web design trends that are shaping the digital landscape this year.",
-      date: "January 1, 2023",
-      readTime: "5 min read",
-      category: "Design",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-    {
-      id: 2,
-      slug: "#",
-      title: "Improving Website Loading Speed",
-      excerpt: "Learn practical tips and techniques to optimize your website's performance.",
-      date: "January 1, 2023",
-      readTime: "7 min read",
-      category: "Performance",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-    {
-      id: 3,
-      slug: "#",
-      title: "Mobile-First Design Importance",
-      excerpt: "With mobile traffic continuing to rise, designing for mobile-first is no longer optional.",
-      date: "January 1, 2023",
-      readTime: "6 min read",
-      category: "Design",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-    {
-      id: 4,
-      slug: "#",
-      title: "Understanding SEO for Developers",
-      excerpt: "A comprehensive guide to search engine optimization for web developers.",
-      date: "January 1, 2023",
-      readTime: "8 min read",
-      category: "SEO",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-    {
-      id: 5,
-      slug: "#",
-      title: "The Future of JavaScript Frameworks",
-      excerpt: "An in-depth look at where JavaScript frameworks are headed in the coming years.",
-      date: "January 1, 2023",
-      readTime: "9 min read",
-      category: "Development",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-    {
-      id: 6,
-      slug: "#",
-      title: "Building Accessible Web Applications",
-      excerpt: "Learn how to create web applications that are accessible to all users.",
-      date: "January 1, 2023",
-      readTime: "7 min read",
-      category: "Accessibility",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-  ]
+  // No placeholder posts. This component used to substitute six invented
+  // articles whenever the API returned nothing — every one with slug "#", so the
+  // page looked populated and every card was a dead link. An empty list now stays
+  // empty and the notice below explains why.
+  const allPosts: BlogPost[] = blogPosts
 
-  // Use real posts if available, otherwise use placeholders
-  const allPosts: BlogPost[] = blogPosts.length > 0 ? blogPosts : placeholderPosts
 
   // Filter posts based on category, tag, or search
   let filteredPosts: BlogPost[] = allPosts
@@ -221,10 +159,17 @@ export function BlogListing() {
           <div className="md:col-span-3">
             {displayPosts.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground mb-4">No posts found matching your criteria.</p>
-                <Button onClick={clearFilters} variant="outline">
-                  Clear filters
-                      </Button>
+                {unavailable ? (
+                  // Nothing to show at all, so "clear filters" would be a dead end.
+                  <p className="text-muted-foreground">{t("blog_unavailable")}</p>
+                ) : (
+                  <>
+                    <p className="text-muted-foreground mb-4">No posts found matching your criteria.</p>
+                    <Button onClick={clearFilters} variant="outline">
+                      Clear filters
+                    </Button>
+                  </>
+                )}
               </div>
             ) : (
               <>
