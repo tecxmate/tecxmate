@@ -10,14 +10,14 @@ import {
 
 export const dynamic = "force-dynamic"
 
-function guard(request: NextRequest): NextResponse | null {
+async function guard(request: NextRequest): Promise<NextResponse | null> {
   if (!isAdminConfigured()) {
     return NextResponse.json(
       { error: "ADMIN_PASSWORD is not configured on the server." },
       { status: 503 },
     )
   }
-  if (!isAdmin(request)) {
+  if (!(await isAdmin(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
   if (!isBlobConfigured()) {
@@ -31,14 +31,14 @@ function guard(request: NextRequest): NextResponse | null {
 
 // GET — authoritative current content (admin editor convenience).
 export async function GET(request: NextRequest) {
-  const blocked = guard(request)
+  const blocked = await guard(request)
   if (blocked) return blocked
   return NextResponse.json(await readContent())
 }
 
 // PUT — overwrite content. Body merges over current so partial section writes are allowed.
 export async function PUT(request: NextRequest) {
-  const blocked = guard(request)
+  const blocked = await guard(request)
   if (blocked) return blocked
 
   let body: Partial<SiteContent>
@@ -75,7 +75,7 @@ export async function PUT(request: NextRequest) {
 
 // POST — multipart image upload (returns { url }). Empty form acts as the login probe.
 export async function POST(request: NextRequest) {
-  const blocked = guard(request)
+  const blocked = await guard(request)
   if (blocked) return blocked
 
   const form = await request.formData()

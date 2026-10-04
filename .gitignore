@@ -7,6 +7,11 @@
 .pnp.js
 .yarn/install-state.gz
 
+# this project deploys with pnpm (pnpm-lock.yaml is the lockfile of record) —
+# an npm-generated lockfile silently drifting out of sync with it is what
+# broke a Vercel deploy once already, so keep npm from ever committing one
+package-lock.json
+
 # testing
 /coverage
 

@@ -4,41 +4,49 @@ import { Footer } from "@/components/footer"
 import type { Metadata } from "next"
 import Script from "next/script"
 import dynamic from "next/dynamic"
-import { isSectionEnabled, readContent } from "@/lib/site-content"
+import {
+  homepageSectionOrder,
+  isSectionEnabled,
+  readContent,
+  type HomepageSectionKey,
+} from "@/lib/site-content"
 import { AnimationPauser } from "@/components/animation-pauser"
 
 // Lazy load below-the-fold components to reduce initial bundle and TBT
-const EconomicsSection = dynamic(() => import("@/components/sales/economics-section").then(mod => ({ default: mod.EconomicsSection })), {
-  loading: () => <div className="h-64 bg-gray-50" />,
-})
+const EconomicsSection = dynamic(() => import("@/components/sales/economics-section").then(mod => ({ default: mod.EconomicsSection })))
 
-const OrgSection = dynamic(() => import("@/components/sales/org-section").then(mod => ({ default: mod.OrgSection })), {
-  loading: () => <div className="h-64 bg-gray-50" />,
-})
+const OrgSection = dynamic(() => import("@/components/sales/org-section").then(mod => ({ default: mod.OrgSection })))
 
-const ProofSection = dynamic(() => import("@/components/sales/proof-section").then(mod => ({ default: mod.ProofSection })), {
-  loading: () => <div className="h-64 bg-gray-50" />,
-})
+const ProofSection = dynamic(() => import("@/components/sales/proof-section").then(mod => ({ default: mod.ProofSection })))
 
-const TechnologySection = dynamic(() => import("@/components/sales/technology-section").then(mod => ({ default: mod.TechnologySection })), {
-  loading: () => <div className="h-64 bg-gray-50" />,
-})
+const TechnologySection = dynamic(() => import("@/components/sales/technology-section").then(mod => ({ default: mod.TechnologySection })))
 
-const ProcessSection = dynamic(() => import("@/components/sales/process-section").then(mod => ({ default: mod.ProcessSection })), {
-  loading: () => <div className="h-64 bg-gray-50" />,
-})
+const ProcessSection = dynamic(() => import("@/components/sales/process-section").then(mod => ({ default: mod.ProcessSection })))
 
-const CtaSection = dynamic(() => import("@/components/sales/cta-section").then(mod => ({ default: mod.CtaSection })), {
-  loading: () => <div className="h-64 bg-gray-950" />,
-})
+const CtaSection = dynamic(() => import("@/components/sales/cta-section").then(mod => ({ default: mod.CtaSection })))
 
-const CampaignsSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.CampaignsSection })), {
-  loading: () => <div className="h-64 bg-gray-50" />,
-})
+const CampaignsSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.CampaignsSection })))
 
-const TeamSection = dynamic(() => import("@/components/team-section").then(mod => ({ default: mod.TeamSection })), {
-  loading: () => <div className="h-64 bg-gray-50" />,
-})
+const StoriesSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.StoriesSection })))
+
+const ProductsSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.ProductsSection })))
+
+const TeamSection = dynamic(() => import("@/components/team-section").then(mod => ({ default: mod.TeamSection })))
+
+/** Maps each reorderable homepage section key to the component that renders it. */
+const HOMEPAGE_SECTION_COMPONENTS: Record<HomepageSectionKey, React.ComponentType> = {
+  hero: HeroSection,
+  proof: ProofSection,
+  economics: EconomicsSection,
+  problem: OrgSection,
+  technology: TechnologySection,
+  process: ProcessSection,
+  team: TeamSection,
+  stories: StoriesSection,
+  products: ProductsSection,
+  blog: CampaignsSection,
+  cta: CtaSection,
+}
 
 export default async function Home() {
   const content = await readContent({ revalidate: 60 })
@@ -60,7 +68,7 @@ export default async function Home() {
             "url": process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com",
             "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"}/graphics/tecxmate-logo-cropped.png`,
             "image": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"}/graphics/tecxmate-logo-cropped.png`,
-            "description": "Premier technology consultancy providing AI development, web development, business automation, and digital transformation services for SMEs and startups.",
+            "description": "English websites and software for Taiwan's manufacturers going global — fast English-first sites, plus the apps, automation, and AI behind them, built by engineers who understand your products.",
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "Villa Park Villa Compound, Bung Ong Thoan Street, Long Truong Ward",
@@ -156,15 +164,11 @@ export default async function Home() {
           }),
         }}
       />
-      {isSectionEnabled(content, "hero") && <HeroSection />}
-      {isSectionEnabled(content, "proof") && <ProofSection />}
-      {isSectionEnabled(content, "economics") && <EconomicsSection />}
-      {isSectionEnabled(content, "problem") && <OrgSection />}
-      {isSectionEnabled(content, "technology") && <TechnologySection />}
-      {isSectionEnabled(content, "process") && <ProcessSection />}
-      {isSectionEnabled(content, "team") && <TeamSection />}
-      {isSectionEnabled(content, "blog") && <CampaignsSection />}
-      {isSectionEnabled(content, "cta") && <CtaSection />}
+      {homepageSectionOrder(content).map((key) => {
+        if (!isSectionEnabled(content, key)) return null
+        const Section = HOMEPAGE_SECTION_COMPONENTS[key]
+        return <Section key={key} />
+      })}
       <Footer />
     </main>
   )
@@ -173,27 +177,13 @@ export default async function Home() {
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
   const { generateCountryKeywords } = await import("@/lib/keywords")
+  // Read from site content so Admin > Metadata (SEO) edits actually reach the page.
+  const { seo } = await readContent({ revalidate: 60 })
 
   return {
-    title: "TECXMATE - Your Technology Partner | AI Integration and Development",
-    description: "Cutting-edge AI Integration and Development to accelerate your businesses. Book a consultation with Tecxmate.",
-    keywords: generateCountryKeywords([
-      "technology consultancy",
-      "AI development",
-      "business automation",
-      "web development",
-      "startup consulting",
-      "SME solutions",
-      "digital transformation",
-      "software development",
-      "AI integration",
-      "tech consulting Taiwan",
-      "business technology",
-      "blockchain development",
-      "mobile app development",
-      "enterprise solutions",
-      "Taiwan tech consultancy"
-    ]),
+    title: seo.title,
+    description: seo.description,
+    keywords: generateCountryKeywords(seo.keywords),
     alternates: {
       canonical: baseUrl,
       languages: {
@@ -211,8 +201,8 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: "TECXMATE - Premier Technology Partner | AI Software Solutions",
-      description: "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting for SMEs and founders. Book your free discovery call.",
+      title: seo.ogTitle,
+      description: seo.ogDescription,
       url: baseUrl,
       siteName: "Tecxmate",
       locale: "en_US",
@@ -223,17 +213,17 @@ export async function generateMetadata(): Promise<Metadata> {
           url: `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
           width: 1200,
           height: 630,
-          alt: "TECXMATE - Premier Technology Partner | AI Software Solutions",
+          alt: seo.ogTitle,
           type: "image/png",
         }
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "TECXMATE - Premier Technology Partner | AI Software Solutions",
-      description: "Transform your business with AI-powered solutions, web development, and business automation. Fast delivery, innovative technology consulting.",
+      title: seo.ogTitle,
+      description: seo.twitterDescription,
       images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
-      creator: "@tecxmate",
+      creator: seo.twitterCreator,
     },
   }
 }

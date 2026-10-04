@@ -25,7 +25,11 @@ type Status = { kind: "idle" } | { kind: "ok"; msg: string } | { kind: "err"; ms
 
 function AboutEditor() {
   const { authedFetch } = useAdminContext()
-  const [hero, setHero] = useState<SiteContent["hero"]>({ title: EMPTY_LOCALIZED, subtitle: EMPTY_LOCALIZED })
+  const [hero, setHero] = useState<SiteContent["hero"]>({
+    title: EMPTY_LOCALIZED,
+    subtitle: EMPTY_LOCALIZED,
+    cta: { label: EMPTY_LOCALIZED, url: "" },
+  })
   const [subtitle, setSubtitle] = useState<Localized>(EMPTY_LOCALIZED)
   const [sections, setSections] = useState<AboutSection[]>([])
   const [locale, setLocale] = useState<Locale>("en")
@@ -37,7 +41,14 @@ function AboutEditor() {
     fetch("/api/content", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((c: SiteContent | null) => {
-        if (c?.hero) setHero(c.hero)
+        if (c?.hero) {
+          // Backfill cta for content blobs saved before it became editable,
+          // so the inputs below always have a value to bind to.
+          setHero({
+            ...c.hero,
+            cta: c.hero.cta ?? { label: EMPTY_LOCALIZED, url: "" },
+          })
+        }
         if (c?.about) {
           setSubtitle(c.about.subtitle)
           setSections(c.about.sections)
@@ -48,6 +59,12 @@ function AboutEditor() {
 
   const setHeroField = (field: "title" | "subtitle", value: string) =>
     setHero((prev) => ({ ...prev, [field]: { ...prev[field], [locale]: value } }))
+
+  const setCtaLabel = (value: string) =>
+    setHero((prev) => ({ ...prev, cta: { ...prev.cta, label: { ...prev.cta.label, [locale]: value } } }))
+
+  const setCtaUrl = (value: string) =>
+    setHero((prev) => ({ ...prev, cta: { ...prev.cta, url: value } }))
 
   const updateSection = useCallback((idx: number, patch: Partial<AboutSection>) => {
     setSections((prev) => prev.map((s, i) => (i === idx ? { ...s, ...patch } : s)))
@@ -161,6 +178,34 @@ function AboutEditor() {
             rows={2}
             className="w-full rounded-md border px-3 py-2 text-sm bg-background"
           />
+        </div>
+        <div className="border-t pt-3 space-y-3">
+          <p className="text-xs font-semibold text-muted-foreground">Call-to-action button</p>
+          <div>
+            <label className="block text-xs font-medium text-muted-foreground mb-1">Button label ({L})</label>
+            <input
+              value={hero.cta.label[locale]}
+              onChange={(e) => setCtaLabel(e.target.value)}
+              placeholder="Book a consultation call"
+              className="w-full rounded-md border px-3 py-2 text-sm bg-background"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-muted-foreground mb-1">
+              Button link <span className="font-normal normal-case">(same for all languages)</span>
+            </label>
+            <input
+              type="url"
+              inputMode="url"
+              value={hero.cta.url}
+              onChange={(e) => setCtaUrl(e.target.value)}
+              placeholder="https://cal.com/nikolasdoan/30min"
+              className="w-full rounded-md border px-3 py-2 text-sm bg-background"
+            />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Where the hero button sends visitors — e.g. your booking link, contact page, or a mailto: address.
+            </p>
+          </div>
         </div>
       </section>
 

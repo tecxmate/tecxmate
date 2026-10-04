@@ -13,6 +13,18 @@ const dictionaries = {
 
 type Language = keyof typeof dictionaries
 
+/**
+ * Languages actually offered on the site. Vietnamese copy still exists
+ * throughout the content files — dropping it from this list hides it
+ * everywhere without deleting a single translation, so it can be turned
+ * back on by adding "vi" here.
+ */
+export const AVAILABLE_LANGUAGES = ["en", "zh"] as const satisfies readonly Language[]
+
+function isAvailableLanguage(value: string): value is Language {
+  return (AVAILABLE_LANGUAGES as readonly string[]).includes(value)
+}
+
 interface LanguageContextValue {
   language: Language
   setLanguage: (lang: Language) => void
@@ -33,8 +45,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
     const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY)
 
-    if (storedLanguage && storedLanguage in dictionaries) {
-      setLanguageState(storedLanguage as Language)
+    // A visitor who previously chose a now-disabled language falls back to English.
+    if (storedLanguage && isAvailableLanguage(storedLanguage)) {
+      setLanguageState(storedLanguage)
     }
   }, [])
 

@@ -14,8 +14,8 @@ const DEFAULT_TEAM: TeamMember[] = [
     role: { en: "CEO & CFO", vi: "CEO & CFO", zh: "CEO & CFO" },
     description: {
       en: "MSc AI/Robotics (NTU, exp. '26). Former Google Cloud Startups. CEO TECXMATE.COM",
-      vi: "MSc AI/Robotics (NTU, exp. '26). Former Google Cloud Startups. CEO TECXMATE.COM",
-      zh: "MSc AI/Robotics (NTU, exp. '26). Former Google Cloud Startups. CEO TECXMATE.COM",
+      vi: "Thạc sĩ AI/Robotics (NTU, dự kiến '26). Cựu Google Cloud Startups. CEO TECXMATE.COM",
+      zh: "NTU 人工智慧／機器人碩士（預計 2026 年取得）。前 Google Cloud Startups。TECXMATE.COM 執行長",
     },
     photo: "/avatars/niko_ava_color.jpg",
     linkedin: "https://www.linkedin.com/in/nikolasdoan/",
@@ -29,8 +29,8 @@ const DEFAULT_TEAM: TeamMember[] = [
     role: { en: "CTO & COO", vi: "CTO & COO", zh: "CTO & COO" },
     description: {
       en: "MS Gamification Engineering (NTUST, exp. '27). Built 3+ apps on App Store. Specialist in game mechanics for learning.",
-      vi: "MS Gamification Engineering (NTUST, exp. '27). Built 3+ apps on App Store. Specialist in game mechanics for learning.",
-      zh: "MS Gamification Engineering (NTUST, exp. '27). Built 3+ apps on App Store. Specialist in game mechanics for learning.",
+      vi: "Thạc sĩ Kỹ thuật Game hóa (NTUST, dự kiến '27). Đã phát hành hơn 3 ứng dụng trên App Store. Chuyên gia về cơ chế game ứng dụng vào học tập.",
+      zh: "NTUST 遊戲化工程碩士（預計 2027 年取得）。已在 App Store 推出 3 款以上應用程式。專長為學習導向的遊戲機制。",
     },
     photo: "/avatars/brian_avatar.png",
     linkedin: "https://www.linkedin.com/in/brian-nguyen-587825235/",
@@ -40,7 +40,7 @@ const DEFAULT_TEAM: TeamMember[] = [
   {
     id: "lynn",
     name: "Lynn Ta 謝宛伶",
-    role: { en: "Project Manager", vi: "Project Manager", zh: "Project Manager" },
+    role: { en: "Project Manager", vi: "Quản lý dự án", zh: "專案經理" },
     description: { en: "", vi: "", zh: "" },
     photo: "/avatars/lynn_avatar.JPG",
     linkedin: "https://www.linkedin.com/in/uyen-linh-ta-a970b1188/",
@@ -89,18 +89,15 @@ export function TeamSection() {
   }, [])
 
   return (
-    <>
       <section id="team" className="bg-primary py-24 md:py-28 lg:py-32">
         <div className="container px-4 md:px-6 max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white" suppressHydrationWarning>{t("team")}</h2>
+            <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white" suppressHydrationWarning>{t("team_heading")}</h2>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {teamMembers.map((member) => (
-              <div
-                key={member.id}
-              >
+              <div key={member.id}>
                 <div
                   className="rounded-none bg-card shadow-sm overflow-hidden h-full hover:shadow-xl md:hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
                 >
@@ -151,6 +148,5 @@ export function TeamSection() {
           </div>
         </div>
       </section>
-    </>
   )
 }

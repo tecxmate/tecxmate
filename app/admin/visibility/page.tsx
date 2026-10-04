@@ -4,8 +4,11 @@ import { useEffect, useState } from "react"
 import { AdminShell, useAdminContext } from "@/components/admin/admin-shell"
 import { Switch } from "@/components/ui/switch"
 import {
+  HOMEPAGE_SECTION_KEYS,
   SECTION_KEYS,
   defaultSectionVisibility,
+  homepageSectionOrder,
+  type HomepageSectionKey,
   type SectionKey,
   type SectionVisibility,
   type SiteContent,
@@ -18,7 +21,7 @@ const SECTION_LABELS: Record<SectionKey, { title: string; desc: string }> = {
   },
   problem: {
     title: "Service vs hire graph",
-    desc: "Sales narrative: interactive before/after org diagram ('a service, not a hire').",
+    desc: "Sales narrative: interactive before/after org diagram ('A unique collaboration').",
   },
   economics: {
     title: "Cost calculator",
@@ -58,7 +61,15 @@ const SECTION_LABELS: Record<SectionKey, { title: string; desc: string }> = {
   },
   blog: {
     title: "Blog / News",
-    desc: "Blog navigation, homepage news cards, blog pages, feed, and blog APIs.",
+    desc: "Blog navigation, homepage Industry News row, blog pages, feed, and blog APIs.",
+  },
+  stories: {
+    title: "Our Stories",
+    desc: "Homepage row of posts categorised 'Our Stories' in WordPress.",
+  },
+  products: {
+    title: "Our Products",
+    desc: "Homepage row of posts tagged 'projects' or categorised 'Our Products' in WordPress.",
   },
   about: {
     title: "About",
@@ -75,6 +86,7 @@ type Status = { kind: "idle" } | { kind: "ok"; msg: string } | { kind: "err"; ms
 function VisibilityEditor() {
   const { authedFetch } = useAdminContext()
   const [sections, setSections] = useState<SectionVisibility>(defaultSectionVisibility)
+  const [order, setOrder] = useState<HomepageSectionKey[]>([...HOMEPAGE_SECTION_KEYS])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [status, setStatus] = useState<Status>({ kind: "idle" })
@@ -87,9 +99,21 @@ function VisibilityEditor() {
           ...defaultSectionVisibility,
           ...content?.settings?.sections,
         })
+        if (content) setOrder(homepageSectionOrder(content))
       })
       .finally(() => setLoading(false))
   }, [])
+
+  const moveSection = (idx: number, dir: -1 | 1) => {
+    setOrder((prev) => {
+      const target = idx + dir
+      if (target < 0 || target >= prev.length) return prev
+      const next = [...prev]
+      ;[next[idx], next[target]] = [next[target], next[idx]]
+      return next
+    })
+    setStatus({ kind: "idle" })
+  }
 
   const save = async () => {
     setSaving(true)
@@ -98,7 +122,7 @@ function VisibilityEditor() {
       const res = await authedFetch("/api/admin/content", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ settings: { sections } }),
+        body: JSON.stringify({ settings: { sections, homepageOrder: order } }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) {
@@ -116,7 +140,7 @@ function VisibilityEditor() {
   return (
     <div className="max-w-3xl space-y-4">
       <div className="flex items-center justify-between sticky top-0 bg-muted/20 py-2">
-        <p className="text-sm text-muted-foreground">Turn public website sections on or off.</p>
+        <p className="text-sm text-muted-foreground">Reorder the homepage and turn sections on or off.</p>
         <div className="flex items-center gap-3">
           {status.kind === "ok" && <span className="text-sm text-green-600">{status.msg}</span>}
           {status.kind === "err" && <span className="text-sm text-red-600">{status.msg}</span>}
@@ -127,6 +151,43 @@ function VisibilityEditor() {
           >
             {saving ? "Saving..." : "Save changes"}
           </button>
+        </div>
+      </div>
+
+      <div className="rounded-lg border bg-card">
+        <div className="border-b p-4">
+          <p className="font-medium">Homepage section order</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Top-to-bottom order of the homepage. Sections turned off below are skipped.
+          </p>
+        </div>
+        <div className="divide-y">
+          {order.map((key, idx) => (
+            <div key={key} className="flex items-center justify-between gap-4 px-4 py-3">
+              <p className={`text-sm ${sections[key] ? "" : "text-muted-foreground line-through"}`}>
+                <span className="mr-2 text-muted-foreground">{idx + 1}.</span>
+                {SECTION_LABELS[key].title}
+              </p>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => moveSection(idx, -1)}
+                  disabled={idx === 0}
+                  aria-label={`Move ${SECTION_LABELS[key].title} up`}
+                  className="rounded border px-2 py-1 text-sm disabled:opacity-40"
+                >
+                  ↑
+                </button>
+                <button
+                  onClick={() => moveSection(idx, 1)}
+                  disabled={idx === order.length - 1}
+                  aria-label={`Move ${SECTION_LABELS[key].title} down`}
+                  className="rounded border px-2 py-1 text-sm disabled:opacity-40"
+                >
+                  ↓
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

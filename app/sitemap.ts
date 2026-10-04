@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next"
 import { wpGetAllPosts } from "@/lib/wordpress"
-import { WORDPRESS_API_URL } from "@/lib/wp-config"
+import { WORDPRESS_API_URL, WORDPRESS_CONFIGURED } from "@/lib/wp-config"
 import { isSectionEnabled, readContent } from "@/lib/site-content"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -87,12 +87,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (!blogEnabled) return staticUrls
 
     const posts = await wpGetAllPosts()
-    // Fetch raw posts to get actual modified dates
-    const rawPostsRes = await fetch(`${WORDPRESS_API_URL}/posts?per_page=100&_fields=slug,modified`, {
-      next: { revalidate: 300 }
-    })
-    
-    if (rawPostsRes.ok) {
+    // Raw posts carry the real `modified` dates. Skip the call when WordPress is
+    // not configured: the posts are then our own stored ones, and the branch
+    // below dates them as of now.
+    const rawPostsRes = WORDPRESS_CONFIGURED
+      ? await fetch(`${WORDPRESS_API_URL}/posts?per_page=100&_fields=slug,modified`, {
+          next: { revalidate: 300 }
+        })
+      : null
+
+    if (rawPostsRes?.ok) {
       const rawPosts = await rawPostsRes.json()
       const postDatesMap = new Map<string, string>(rawPosts.map((p: any) => [p.slug, p.modified]))
       

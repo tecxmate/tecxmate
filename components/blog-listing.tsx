@@ -9,6 +9,7 @@ import { Calendar, Clock, ArrowRight, Search, X, Eye, Star } from "lucide-react"
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import type { WPBlogPost as BlogPost } from "@/lib/wordpress"
+import { BLOG_CATEGORY_TABS, postsForTab } from "@/lib/blog-categories"
 import { useLanguage } from "@/components/language-provider"
 
 export function BlogListing() {
@@ -18,11 +19,14 @@ export function BlogListing() {
   const [searchQuery, setSearchQuery] = useState("")
   const [viewCounts, setViewCounts] = useState<Record<string, number>>({})
   const [likeCounts, setLikeCounts] = useState<Record<string, number>>({})
+  // The route sets X-Blog-Source: unavailable when it has no posts to serve at
+  // all, which an empty array cannot distinguish from "no filter matches".
+  const [unavailable, setUnavailable] = useState(false)
   const searchParams = useSearchParams()
   const selectedCategory = searchParams.get("category")
   const selectedTag = searchParams.get("tag")
   const searchParam = searchParams.get("search")
-  const { language } = useLanguage()
+  const { language, t } = useLanguage()
 
   useEffect(() => {
     async function fetchPosts() {
@@ -38,6 +42,7 @@ export function BlogListing() {
         }
 
         const data = await response.json()
+        setUnavailable(response.headers.get("X-Blog-Source") === "unavailable")
         setBlogPosts(data)
         
         // Fetch view counts and like counts for all posts
@@ -78,83 +83,26 @@ export function BlogListing() {
     }
   }, [searchParam])
 
-  // Placeholder posts for when real posts aren't available
-  const placeholderPosts: BlogPost[] = [
-    {
-      id: 1,
-      slug: "#",
-      title: "Web Design Trends to Watch",
-      excerpt: "Explore the latest web design trends that are shaping the digital landscape this year.",
-      date: "January 1, 2023",
-      readTime: "5 min read",
-      category: "Design",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-    {
-      id: 2,
-      slug: "#",
-      title: "Improving Website Loading Speed",
-      excerpt: "Learn practical tips and techniques to optimize your website's performance.",
-      date: "January 1, 2023",
-      readTime: "7 min read",
-      category: "Performance",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-    {
-      id: 3,
-      slug: "#",
-      title: "Mobile-First Design Importance",
-      excerpt: "With mobile traffic continuing to rise, designing for mobile-first is no longer optional.",
-      date: "January 1, 2023",
-      readTime: "6 min read",
-      category: "Design",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-    {
-      id: 4,
-      slug: "#",
-      title: "Understanding SEO for Developers",
-      excerpt: "A comprehensive guide to search engine optimization for web developers.",
-      date: "January 1, 2023",
-      readTime: "8 min read",
-      category: "SEO",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-    {
-      id: 5,
-      slug: "#",
-      title: "The Future of JavaScript Frameworks",
-      excerpt: "An in-depth look at where JavaScript frameworks are headed in the coming years.",
-      date: "January 1, 2023",
-      readTime: "9 min read",
-      category: "Development",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-    {
-      id: 6,
-      slug: "#",
-      title: "Building Accessible Web Applications",
-      excerpt: "Learn how to create web applications that are accessible to all users.",
-      date: "January 1, 2023",
-      readTime: "7 min read",
-      category: "Accessibility",
-      coverImage: "/placeholder.svg?height=200&width=400",
-      tags: [],
-    },
-  ]
+  // No placeholder posts. This component used to substitute six invented
+  // articles whenever the API returned nothing — every one with slug "#", so the
+  // page looked populated and every card was a dead link. An empty list now stays
+  // empty and the notice below explains why.
+  const allPosts: BlogPost[] = blogPosts
 
-  // Use real posts if available, otherwise use placeholders
-  const allPosts: BlogPost[] = blogPosts.length > 0 ? blogPosts : placeholderPosts
 
   // Filter posts based on category, tag, or search
   let filteredPosts: BlogPost[] = allPosts
 
-  if (selectedCategory && selectedCategory !== "All") {
+  // A section tab matches the same way the homepage rows do — by category name,
+  // its aliases, or a marker tag — so a post cannot appear in a homepage row
+  // and then be missing from the same section here.
+  const activeTab = BLOG_CATEGORY_TABS.find(
+    (tab) => tab.wpCategory.toLowerCase() === (selectedCategory ?? "").trim().toLowerCase(),
+  )
+
+  if (activeTab) {
+    filteredPosts = postsForTab(filteredPosts, activeTab)
+  } else if (selectedCategory && selectedCategory !== "All") {
     filteredPosts = filteredPosts.filter(post => post.category === selectedCategory)
   }
 
@@ -219,12 +167,47 @@ export function BlogListing() {
       <div className="container px-4 md:px-6 w-full max-w-full">
         <div className="grid gap-10 md:grid-cols-4">
           <div className="md:col-span-3">
+            {/* Section tabs, so a reader can see which part of the blog they are in */}
+            <div className="mb-8 flex flex-wrap items-center gap-1 border-b border-border">
+              {BLOG_CATEGORY_TABS.map((tab) => {
+                const isActive = activeTab?.id === tab.id
+                return (
+                  <Link
+                    key={tab.id}
+                    href={`/blog?category=${encodeURIComponent(tab.wpCategory)}`}
+                    className={`-mb-px border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
+                      isActive
+                        ? "border-primary text-primary"
+                        : "border-transparent text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <span suppressHydrationWarning>{t(tab.labelKey)}</span>
+                  </Link>
+                )
+              })}
+              <Link
+                href="/blog"
+                className={`ml-auto px-4 py-3 text-sm transition-colors ${
+                  activeTab ? "text-muted-foreground hover:text-foreground" : "font-semibold text-foreground"
+                }`}
+              >
+                {t("view_all_posts")}
+              </Link>
+            </div>
+
             {displayPosts.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground mb-4">No posts found matching your criteria.</p>
-                <Button onClick={clearFilters} variant="outline">
-                  Clear filters
-                      </Button>
+                {unavailable ? (
+                  // Nothing to show at all, so "clear filters" would be a dead end.
+                  <p className="text-muted-foreground">{t("blog_unavailable")}</p>
+                ) : (
+                  <>
+                    <p className="text-muted-foreground mb-4">No posts found matching your criteria.</p>
+                    <Button onClick={clearFilters} variant="outline">
+                      Clear filters
+                    </Button>
+                  </>
+                )}
               </div>
             ) : (
               <>

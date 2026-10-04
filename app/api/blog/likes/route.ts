@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Redis } from '@upstash/redis'
+import { checkRateLimit, clientIp } from '@/lib/rate-limit'
 
 // Initialize Redis using environment variables
 const redis = Redis.fromEnv()
@@ -13,6 +14,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Invalid slug' },
         { status: 400 }
+      )
+    }
+
+    // A click toggles this once; an unbounded increment otherwise lets
+    // anyone script arbitrary like-count inflation. 30/10min per IP is well
+    // above normal like/unlike toggling.
+    const rate = await checkRateLimit({
+      scope: 'blog-likes',
+      identity: clientIp(request),
+      limit: 30,
+      windowSeconds: 600,
+    })
+    if (!rate.ok) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { status: 429, headers: { 'Retry-After': String(rate.retryAfterSeconds) } },
       )
     }
 
@@ -53,8 +70,13 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error('Error toggling like:', error)
-    // If Redis is not configured, return gracefully
-    if (error instanceof Error && error.message.includes('UPSTASH')) {
+    // If Redis isn't configured, return gracefully. Checking the env vars
+    // directly (rather than pattern-matching the thrown error's message) is
+    // what the intent here actually needs: the SDK's real failure text for
+    // a missing URL/token doesn't contain "UPSTASH" at all, so that check
+    // never matched and every Redis hiccup — configured or not — was
+    // falling through to a hard 500.
+    if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
       return NextResponse.json({
         success: true,
         likes: 0,

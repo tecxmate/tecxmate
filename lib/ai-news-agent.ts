@@ -1,5 +1,6 @@
 import { XMLParser } from "fast-xml-parser"
 import { z } from "zod"
+import { AUTOMATED_NEWS_CATEGORY } from "./blog-categories"
 import type { StoredBlogPost } from "./blog-store"
 
 type NewsSource = {
@@ -439,7 +440,7 @@ export function assembleDailyPost(
     publishedAt: now.toISOString(),
     updatedAt: now.toISOString(),
     readTime: estimateReadTime(content),
-    category: "Automated News",
+    category: AUTOMATED_NEWS_CATEGORY,
     coverImage: generated.coverImage?.trim() || "/graphics/Strategy & Research.png",
     content,
     tags: Array.from(new Set(["AI", "Startups", "Industry", languageTag(language), ...generated.tags])),

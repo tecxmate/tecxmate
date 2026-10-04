@@ -97,7 +97,9 @@ replace the manual blog workflow unless `BLOG_SOURCE=local` is set.
 Generated news entries use:
 
 - `source: ai-news-agent`
-- `category: Automated News`
+- `category: Industry News` (so briefs land in the homepage Industry News tab;
+  older briefs still carry the previous `Automated News` name and are matched by
+  an alias in `lib/blog-categories.ts`)
 - `language: en`, `language: zh`, or `language: vi`
 - Slugs starting with `ai-industry-brief-YYYY-MM-DD-language-`
 

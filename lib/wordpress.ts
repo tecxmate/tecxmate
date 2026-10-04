@@ -24,8 +24,9 @@ export type WPComment = {
   parent?: number
 }
 
-import { WORDPRESS_API_URL } from "./wp-config"
+import { WORDPRESS_API_URL, WORDPRESS_CONFIGURED } from "./wp-config"
 import { getStoredBlogPostBySlug, readStoredBlogPosts } from "./blog-store"
+import { sanitizeWpHtml } from "./sanitize-html"
 
 function stripHtml(html: string) {
   return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim()
@@ -64,20 +65,50 @@ function wpFeaturedImage(post: any) {
   return "/placeholder.svg?height=200&width=400"
 }
 
+/**
+ * Categories in WordPress double as language and housekeeping markers
+ * ("en", "vn", "lang", "Non"), and they sort ahead of the topical one — so a
+ * post filed under "Our Stories" reports its category as "en" if we just take
+ * the first term. Skip the markers and return the first real topic.
+ */
+/**
+ * Categories that mark language or house-keeping rather than a topic. Matched
+ * on slug *and* name, and covering the names these have been through: renaming
+ * "lang" to "Language" in WordPress changed the slug too, and a list that knew
+ * only the old spelling promoted the language marker to the post's topic —
+ * which quietly dropped the post out of its homepage row.
+ */
+const NON_TOPICAL_CATEGORIES = new Set([
+  "en",
+  "vn",
+  "vi",
+  "zh",
+  "zh-tw",
+  "lang",
+  "language",
+  "languages",
+  "non",
+  "none",
+  "uncategorized",
+])
+
+function isNonTopical(category: any): boolean {
+  const slug = String(category?.slug || "").trim().toLowerCase()
+  const name = String(category?.name || "").trim().toLowerCase()
+  return NON_TOPICAL_CATEGORIES.has(slug) || NON_TOPICAL_CATEGORIES.has(name)
+}
+
 function wpPrimaryCategory(post: any) {
-  const cat = post._embedded?.["wp:term"]?.[0]?.[0]
-  return cat?.name || "Uncategorized"
+  const categories: any[] = post._embedded?.["wp:term"]?.[0] || []
+  const named = categories.filter((cat) => String(cat?.name || "").trim().length > 0)
+
+  const topical = named.find((cat) => !isNonTopical(cat))
+  return String(topical?.name || named[0]?.name || "Uncategorized").trim()
 }
 
 function wpTags(post: any): string[] {
   const tags = post._embedded?.["wp:term"]?.[1] || []
   return tags.map((tag: any) => tag.name || "").filter((name: string) => name.length > 0)
-}
-
-const languageToTagSlug: Record<string, string> = {
-  en: "en",
-  vi: "vn",
-  zh: "zh",
 }
 
 function shouldShowAiNewsPosts(): boolean {
@@ -92,44 +123,22 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
     return matchesLanguage && isVisibleSource
   })
 
-  if (process.env.BLOG_SOURCE === "local") {
+  // No WordPress configured is the same situation as BLOG_SOURCE=local: serve our
+  // own stored posts. If there are none either, the caller returns an empty list
+  // and the page says the section is being improved.
+  if (!WORDPRESS_CONFIGURED || process.env.BLOG_SOURCE === "local") {
     return storedPosts
   }
 
+  // Every WordPress post is shown whatever language it is written in. Filtering
+  // by language meant one stray tick in the category tree removed a post from
+  // the site with no visible cause, and a reader meeting a post in another
+  // language is a smaller problem than a post nobody can find.
   try {
-    const tagSlug = languageToTagSlug[normalizedLanguage] || languageToTagSlug.en
-    let tagId: number | undefined
-
-    try {
-      const tagRes = await fetch(`${WORDPRESS_API_URL}/tags?slug=${encodeURIComponent(tagSlug)}`)
-
-      if (tagRes.ok) {
-        const tagData = await tagRes.json()
-        tagId = tagData?.[0]?.id
-
-        if (!tagId) {
-          console.warn("No WordPress tag found for language slug:", { language: normalizedLanguage, tagSlug })
-        }
-      } else {
-        console.warn("Failed to fetch WordPress tag for language:", {
-          language: normalizedLanguage,
-          tagSlug,
-          status: tagRes.status,
-          statusText: tagRes.statusText,
-        })
-      }
-    } catch (tagError) {
-      console.error("Error fetching WordPress tag:", { language: normalizedLanguage, tagSlug, error: tagError })
-    }
-
     const params = new URLSearchParams({
-      per_page: "20",
+      per_page: "100",
       _embed: "1",
     })
-
-    if (tagId) {
-      params.append("tags", String(tagId))
-    }
 
     const url = `${WORDPRESS_API_URL}/posts?${params.toString()}`
     console.log('🔍 Fetching WordPress posts from:', url)
@@ -213,7 +222,7 @@ export async function wpGetPostBySlug(slug: string): Promise<WPBlogPost | null> 
     return storedPost
   }
 
-  if (process.env.BLOG_SOURCE === "local") {
+  if (!WORDPRESS_CONFIGURED || process.env.BLOG_SOURCE === "local") {
     return null
   }
 
@@ -317,9 +326,9 @@ export async function wpGetPostBySlug(slug: string): Promise<WPBlogPost | null> 
       readTime: estimateReadTime(stripHtml(contentHtml)),
       category: wpPrimaryCategory(p),
       coverImage: wpFeaturedImage(p),
-      content: contentHtml,
+      content: sanitizeWpHtml(contentHtml),
       tags: wpTags(p),
-      citations: citations,
+      citations: citations ? sanitizeWpHtml(citations) : citations,
     }
   } catch (error) {
     console.error('❌ Error fetching post by slug:', error)
@@ -328,6 +337,8 @@ export async function wpGetPostBySlug(slug: string): Promise<WPBlogPost | null> 
 }
 
 export async function wpGetCommentsByPostId(postId: number): Promise<WPComment[]> {
+  if (!WORDPRESS_CONFIGURED) return []
+
   try {
     const url = `${WORDPRESS_API_URL}/comments?post=${postId}&status=approve&orderby=date&order=asc`
     console.log('🔍 Fetching WordPress comments from:', url)
@@ -366,7 +377,7 @@ export async function wpGetCommentsByPostId(postId: number): Promise<WPComment[]
       authorUrl: c.author_url || undefined,
       authorAvatar: c.author_avatar_urls?.['96'] || undefined,
       date: new Date(c.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
-      content: c.content?.rendered || '',
+      content: sanitizeWpHtml(c.content?.rendered || ''),
       parent: c.parent || undefined,
     }))
     

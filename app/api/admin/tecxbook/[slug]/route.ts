@@ -19,7 +19,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       { status: 503 },
     )
   }
-  if (!isAdmin(request)) {
+  if (!(await isAdmin(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
   if (!isBlobConfigured()) {
@@ -86,7 +86,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
       { status: 503 },
     )
   }
-  if (!isAdmin(request)) {
+  if (!(await isAdmin(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
   if (!isBlobConfigured()) {

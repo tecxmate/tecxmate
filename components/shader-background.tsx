@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useTheme } from "next-themes"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { GlobeBackground } from "@/components/globe-background"
 import { Starfield } from "@/components/starfield"
 
@@ -12,52 +12,10 @@ interface ShaderBackgroundProps {
 
 export default function ShaderBackground({ children }: ShaderBackgroundProps) {
   const { resolvedTheme } = useTheme()
-  const mobilePatternRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    const pattern = mobilePatternRef.current
-    if (!pattern) return
-
-    const mobileMq = window.matchMedia("(max-width: 767px)")
-    let frame = 0
-
-    const update = () => {
-      frame = 0
-      if (!mobileMq.matches) {
-        pattern.style.transform = ""
-        return
-      }
-
-      const hero = document.getElementById("hero")
-      const top = hero?.getBoundingClientRect().top ?? 0
-      const height = hero?.offsetHeight || window.innerHeight
-      const progress = Math.max(0, Math.min(1, -top / height))
-      const offset = Math.max(-42, Math.min(42, -top * 0.12))
-      const spread = 1 + progress * 0.18
-      pattern.style.transform = `translate3d(0, ${offset}px, 0) scale(${spread})`
-    }
-
-    const requestUpdate = () => {
-      if (frame) return
-      frame = window.requestAnimationFrame(update)
-    }
-
-    update()
-    window.addEventListener("scroll", requestUpdate, { passive: true })
-    window.addEventListener("resize", requestUpdate)
-    mobileMq.addEventListener("change", requestUpdate)
-
-    return () => {
-      if (frame) window.cancelAnimationFrame(frame)
-      window.removeEventListener("scroll", requestUpdate)
-      window.removeEventListener("resize", requestUpdate)
-      mobileMq.removeEventListener("change", requestUpdate)
-    }
   }, [])
 
   const isDark = mounted && resolvedTheme === "dark"
@@ -72,7 +30,10 @@ export default function ShaderBackground({ children }: ShaderBackgroundProps) {
   return (
     <div
       id="hero"
-      className="min-h-screen relative overflow-hidden -mt-16 pt-16 transition-colors duration-300"
+      // Deliberately short of a full viewport so the first stories are visible
+      // underneath: a section starting on screen tells a reader there is more
+      // below far better than any prompt to scroll would.
+      className="min-h-[82svh] md:min-h-[78vh] relative overflow-hidden -mt-16 pt-16 transition-colors duration-300"
       style={{
         background: isDark
           ? 'linear-gradient(135deg, #0a0a1a 0%, #1a1030 40%, #0d0820 100%)'
@@ -100,11 +61,9 @@ export default function ShaderBackground({ children }: ShaderBackgroundProps) {
         }}
         aria-hidden
       />
-      <div
-        ref={mobilePatternRef}
-        className="absolute inset-0 z-[1] h-full w-full origin-center md:hidden pointer-events-none will-change-transform"
-        aria-hidden
-      >
+      {/* Static on mobile: this pattern used to translate and scale with scroll,
+          which read as drift behind the headline rather than depth. */}
+      <div className="absolute inset-0 z-[1] h-full w-full md:hidden pointer-events-none" aria-hidden>
         {tileClusters.map((cluster) => (
           <div
             key={cluster.id}

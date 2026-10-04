@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   if (!isAdminConfigured()) {
     return NextResponse.json({ error: "ADMIN_PASSWORD is not configured on the server." }, { status: 503 })
   }
-  if (!isAdmin(request)) {
+  if (!(await isAdmin(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
   return NextResponse.json(vcards as VCardData[])
