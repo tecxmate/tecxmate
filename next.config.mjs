@@ -37,27 +37,9 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  // Performance optimizations for development
-  webpack: (config, { dev, isServer }) => {
-    if (dev && !isServer) {
-      // Reduce file watching overhead
-      config.watchOptions = {
-        poll: false,
-        aggregateTimeout: 300,
-        ignored: [
-          '**/node_modules/**',
-          '**/.next/**',
-          '**/tecxmate-main/**',
-          '**/crypted.vc/**',
-          '**/package-lock.json',
-          '**/pnpm-lock.yaml',
-          '**/yarn.lock',
-          '**/.git/**',
-        ],
-      }
-    }
-    return config
-  },
+  // NOTE: no `webpack()` hook here. `npm run dev` uses `next dev --turbo`, and
+  // Turbopack never calls that hook, so a watchOptions ignore list configured
+  // there is silently dead. Keep the dev file tree small instead (.gitignore).
   // The assistant reads ASSISTANT.md at request time; tracing does not detect a
   // runtime path join, so include it explicitly or it is missing on Vercel.
   outputFileTracingIncludes: {
