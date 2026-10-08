@@ -62,6 +62,27 @@
     "photoUrl": ""
   },
   {
+    "id": "lynn",
+    "prefix": "Ms.",
+    "firstName": "Lynn",
+    "lastName": "Ta",
+    "suffix": "",
+    "org": "TECXMATE COMPANY LIMITED",
+    "title": "Project Manager",
+    "phones": [],
+    "emails": [],
+    "website": "https://www.tecxmate.com",
+    "address": {
+      "street": "",
+      "city": "",
+      "state": "",
+      "zip": "",
+      "country": ""
+    },
+    "note": "",
+    "photoUrl": ""
+  },
+  {
     "id": "ellis",
     "prefix": "Mr.",
     "firstName": "Ellis",
