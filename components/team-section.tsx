@@ -38,6 +38,16 @@ const DEFAULT_TEAM: TeamMember[] = [
     socialIcon: "company",
   },
   {
+    id: "lynn",
+    name: "Lynn Ta 謝宛伶",
+    role: { en: "Project Manager", vi: "Quản lý dự án", zh: "專案經理" },
+    description: { en: "", vi: "", zh: "" },
+    photo: "/avatars/lynn_avatar.JPG",
+    linkedin: "https://www.linkedin.com/in/uyen-linh-ta-a970b1188/",
+    twitter: "",
+    socialIcon: "academic",
+  },
+  {
     id: "andrea",
     name: "Andrea Peretto",
     role: { en: "Business Developer", vi: "Phát triển kinh doanh", zh: "業務開發" },
@@ -49,11 +59,7 @@ const DEFAULT_TEAM: TeamMember[] = [
   },
 ]
 
-// Ids filtered out of BOTH the defaults above and the team array fetched from
-// /api/content. The stored content is edited through the admin panel and can still
-// carry a member removed from this file, so dropping the entry alone would not take
-// them off the live page — this set is what does.
-const HIDDEN_TEAM_MEMBER_IDS = new Set(["jane", "lynn"])
+const HIDDEN_TEAM_MEMBER_IDS = new Set(["jane"])
 
 function visibleTeamMembers(teamMembers: TeamMember[]) {
   return teamMembers.filter((member) => !HIDDEN_TEAM_MEMBER_IDS.has(member.id))

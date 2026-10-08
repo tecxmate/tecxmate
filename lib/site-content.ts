@@ -236,6 +236,16 @@ export const defaultContent: SiteContent = {
       socialIcon: "company",
     },
     {
+      id: "lynn",
+      name: "Lynn Ta 謝宛伶",
+      role: M("Project Manager", "Quản lý dự án", "專案經理"),
+      description: L(""),
+      photo: "/avatars/lynn_avatar.JPG",
+      linkedin: "https://www.linkedin.com/in/uyen-linh-ta-a970b1188/",
+      twitter: "",
+      socialIcon: "academic",
+    },
+    {
       id: "andrea",
       name: "Andrea Peretto",
       role: M("Business Developer", "Phát triển kinh doanh", "業務開發"),
