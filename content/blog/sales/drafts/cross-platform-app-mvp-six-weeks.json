@@ -1,0 +1,75 @@
+{
+  "slug": "cross-platform-app-mvp-six-weeks",
+  "language": "en",
+  "coverImage": "/graphics/Software Development.png",
+  "title": "What a Six-Week App MVP Really Looks Like",
+  "excerpt": "A six-week MVP is not a shrunken version of your whole idea. It is one real workflow, built and shipped on iOS, Android, and the web, ready to put in front of users.",
+  "keyTakeaways": [
+    "An MVP is scoped in weeks, not months, by cutting to one workflow that proves the idea.",
+    "Work moves through four stages: Discover, Architect, Build and sync, then Ship and support.",
+    "You get a cross-platform app plus a web admin panel, with payments and cloud included.",
+    "You see progress every week, not a reveal at the end. No black boxes.",
+    "You own the product and the source code outright when it ships."
+  ],
+  "sections": [
+    {
+      "heading": "A six-week MVP is a decision, not a demo",
+      "paragraphs": [
+        "MVP stands for minimum viable product. The word that trips people up is minimum. It does not mean a rough sketch or a throwaway prototype. It means the smallest real product that proves whether your idea works with actual users and real money.",
+        "The way to hit six weeks is not to rush. It is to choose. We pick the one workflow that matters most, build that well on iOS, Android, and the web, and leave the rest for later. A focused product that ships beats a feature-complete plan that never does."
+      ]
+    },
+    {
+      "heading": "The four stages, week by week",
+      "paragraphs": [
+        "Delivery runs through four stages: Discover, Architect, Build and sync, then Ship and support. Discover and Architect usually take the first week or so. We agree on the one job the app must do, map the screens, and decide what goes in and what waits.",
+        "Build and sync is the long middle. We build the app and its web admin panel together, wire up payments through Stripe, and stand up the cloud infrastructure so the app has somewhere to live. You test real builds as they come, not slides.",
+        "Ship and support is the last stretch: we publish to the App Store and Google Play, fix what real use turns up, and hand everything over. By the end you have a working product, not a report about one."
+      ]
+    },
+    {
+      "heading": "What fits, and what to cut",
+      "paragraphs": [
+        "What fits: one core workflow end to end, sign-in, a clean path to pay, and an admin panel so you can run the thing. That is usually enough to put in front of customers and learn something real.",
+        "What waits: the second and third user types, deep reporting, every edge case, and the nice-to-have screens. None of it is forbidden, it is just sequenced. Cutting it now is what keeps the timeline honest. You add it once the core has earned it, and because you own the code, adding later is straightforward."
+      ]
+    },
+    {
+      "heading": "What you see each week",
+      "paragraphs": [
+        "The biggest risk in app projects is the silent build, where you pay for weeks and see nothing until a big reveal that misses the mark. We work the opposite way. Progress is visible continuously, so there are no black boxes and no surprises at the end.",
+        "In practice that means early designs you can react to, running builds you can open on your own phone, and the admin panel coming to life as data flows through it. If something is heading the wrong way, you catch it in week two, when changing course is cheap, not in week six."
+      ]
+    },
+    {
+      "heading": "Where to start",
+      "paragraphs": [
+        "Scope drives cost, so the honest first step is a short conversation about what the one workflow should be. That shapes the timeline, the price, and what makes the first cut. The first consultation costs nothing, and most projects start in the low five figures.",
+        "If you have an idea you have been circling for a while, the fastest way to find out whether six weeks is realistic is to talk it through with the Tecxmate team and let us map the first version with you."
+      ]
+    }
+  ],
+  "tags": [
+    "App Development",
+    "MVP",
+    "Cross-Platform",
+    "iOS",
+    "Android",
+    "Product Strategy",
+    "SME"
+  ],
+  "faq": [
+    {
+      "q": "Is six weeks realistic for a real app?",
+      "a": "Yes, for a focused MVP. It works because we build one core workflow well rather than everything at once. Broader products take longer, and we say so up front."
+    },
+    {
+      "q": "Does the six weeks include publishing to the app stores?",
+      "a": "Yes. Publishing to the App Store and Google Play is part of the Ship and support stage, along with the cloud setup and payments."
+    },
+    {
+      "q": "What happens after the MVP ships?",
+      "a": "You own the product and source code, so you can keep building in-house or with us. We offer ongoing support and dedicated-team options when you want to keep going."
+    }
+  ]
+}

@@ -25,7 +25,7 @@ export type WPComment = {
 }
 
 import { WORDPRESS_API_URL, WORDPRESS_CONFIGURED } from "./wp-config"
-import { getStoredBlogPostBySlug, readStoredBlogPosts } from "./blog-store"
+import { getSitePostBySlug, readSitePosts } from "./site-posts"
 import { sanitizeWpHtml } from "./sanitize-html"
 
 function stripHtml(html: string) {
@@ -117,15 +117,18 @@ function shouldShowAiNewsPosts(): boolean {
 
 export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost[]> {
   const normalizedLanguage = language?.toLowerCase?.() || "en"
-  const storedPosts = (await readStoredBlogPosts({ revalidate: 300 })).filter((post) => {
+  const storedPosts = (await readSitePosts({ revalidate: 300 })).filter((post) => {
     const matchesLanguage = post.language === normalizedLanguage || (normalizedLanguage === "en" && post.tags?.includes("en"))
     const isVisibleSource = shouldShowAiNewsPosts() || post.source !== "ai-news-agent"
     return matchesLanguage && isVisibleSource
   })
 
-  // No WordPress configured is the same situation as BLOG_SOURCE=local: serve our
-  // own stored posts. If there are none either, the caller returns an empty list
-  // and the page says the section is being improved.
+  // Our own store (committed seed content + the Blob store) is the source of
+  // truth. WordPress is a dormant fallback: it is consulted only when a site
+  // explicitly sets WORDPRESS_SITE_URL, and even then our posts lead the list.
+  // With no WordPress configured (the default) or BLOG_SOURCE=local, we serve
+  // only our own posts; an empty result makes the page show the being-improved
+  // notice.
   if (!WORDPRESS_CONFIGURED || process.env.BLOG_SOURCE === "local") {
     return storedPosts
   }
@@ -206,7 +209,8 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
     })
     
     console.log('✅ Processed posts:', posts.length)
-    return [...posts, ...storedPosts]
+    // Our own posts lead; WordPress posts follow as a fallback tail.
+    return [...storedPosts, ...posts]
   } catch (error) {
     console.error('❌ Error fetching WordPress posts:', error)
     return storedPosts
@@ -214,7 +218,7 @@ export async function wpGetAllPosts(language: string = "en"): Promise<WPBlogPost
 }
 
 export async function wpGetPostBySlug(slug: string): Promise<WPBlogPost | null> {
-  const storedPost = await getStoredBlogPostBySlug(slug)
+  const storedPost = await getSitePostBySlug(slug)
   if (storedPost) {
     if (storedPost.source === "ai-news-agent" && !shouldShowAiNewsPosts()) {
       return null

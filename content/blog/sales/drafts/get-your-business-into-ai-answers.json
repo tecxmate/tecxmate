@@ -1,0 +1,66 @@
+{
+  "slug": "get-your-business-into-ai-answers",
+  "language": "en",
+  "coverImage": "/graphics/Idea Launchpad.png",
+  "title": "Buyers Ask ChatGPT Before Google — Get Your Business Into the Answer",
+  "excerpt": "More buyers now ask an AI assistant before they open a search engine. Here is why your business can be missing from that answer, and what it takes to show up.",
+  "keyTakeaways": [
+    "Buyers increasingly ask ChatGPT or Gemini first, then act on the single answer they get back.",
+    "A decent website can still be invisible in AI answers because machines cannot read it clearly.",
+    "AI assistants quote sources they can parse, trust, and match to a real question a buyer asked.",
+    "Showing up means answering real buyer questions in plain words and adding markup machines read.",
+    "This is ongoing work, not a one-time fix, so it is reported monthly as the answers keep changing."
+  ],
+  "sections": [
+    {
+      "heading": "The shift from results to answers",
+      "paragraphs": [
+        "For twenty years, finding a business meant typing a few words into Google and scanning a page of blue links. You picked from a list. That habit is changing fast. More buyers now open ChatGPT or Gemini, describe what they need in a full sentence, and read one answer written back to them.",
+        "The difference matters. A search engine hands you ten options and lets you choose. An AI assistant hands you a recommendation. If your business is named in that answer, you are in the running. If it is not, the buyer may never learn you exist, because there is no page of links to scroll through and no second place to be found."
+      ]
+    },
+    {
+      "heading": "Why a good website can still be invisible",
+      "paragraphs": [
+        "Plenty of owners assume a clean, modern website is enough. It often is not. AI assistants do not see your site the way a person does. They read the underlying text and structure, and they pull from sources they can parse quickly and trust. A beautiful page built mostly from images, sliders, and vague marketing lines gives a machine very little to work with.",
+        "There is a second gap. Your site may describe what you sell, but not in the words buyers actually use when they ask a question. Someone types \"who can build a booking app for a small clinic in Taipei\" while your page says \"bespoke digital solutions.\" The meaning is close, but the machine cannot confidently connect the two, so it reaches for a competitor who spelled it out."
+      ]
+    },
+    {
+      "heading": "What it actually takes to show up",
+      "paragraphs": [
+        "Getting into AI answers comes down to a few concrete things. First, your pages have to answer the real questions buyers ask, in plain language, with specifics: what you do, who you serve, where you operate, and how you work. Clear beats clever here.",
+        "Second, the facts about your business need to be consistent wherever they appear, so an assistant sees one coherent story rather than conflicting details. Third, pages need structured markup, the hidden labels that tell a machine \"this is the service, this is the location, this is the answer to that question.\" Together these make your business easy to read, easy to trust, and easy to quote."
+      ]
+    },
+    {
+      "heading": "How Tecxmate gets you into the answer",
+      "paragraphs": [
+        "This is one of the services we run for small and mid-sized businesses. We rewrite your pages to answer the questions buyers genuinely ask, and we add the structured markup that AI assistants read, so your name comes up when it counts. We do not invent rankings or promise a fixed spot. We make your business the clearest, most quotable option we can.",
+        "Because AI assistants keep changing what they surface, this is not a one-time fix. We report on it every month, so you can see how your visibility is moving instead of guessing. The work is staged the way we run every project: we discover where you stand, architect the fix, build and sync it into your site, then ship and support it."
+      ]
+    },
+    {
+      "heading": "Where to start",
+      "paragraphs": [
+        "You do not need to be an SEO expert to act on this. The first step is simply knowing whether an AI assistant can find and recommend you today, and most owners have never checked. Scope drives the cost, the first consultation is free, and projects typically start in the low five figures USD depending on what your site needs.",
+        "If buyers in your market are already asking an assistant before they search, the sooner your pages are readable to those tools, the better. It is worth a short conversation with the Tecxmate team to see where you stand and what it would take to be the answer rather than the afterthought."
+      ]
+    }
+  ],
+  "tags": ["AI search", "GEO", "visibility", "ChatGPT", "SME marketing", "structured data", "lead generation"],
+  "faq": [
+    {
+      "q": "Is this just SEO with a new name?",
+      "a": "It overlaps, but the target is different. Classic SEO aims to rank in a list of links. This aims to be named inside the single answer an AI assistant writes back, which rewards clear, specific, machine-readable pages."
+    },
+    {
+      "q": "Can you guarantee I will appear in ChatGPT or Gemini?",
+      "a": "No, and be wary of anyone who does. These systems change often and no one controls their output. We make your business the clearest and most quotable option we can, then report monthly on how your visibility moves."
+    },
+    {
+      "q": "How much does it cost?",
+      "a": "Scope drives the cost. The first consultation is free, and projects typically start in the low five figures USD depending on your site. Since AI answers keep shifting, the work is reported monthly."
+    }
+  ]
+}
