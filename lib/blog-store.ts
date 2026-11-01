@@ -8,8 +8,12 @@ export type StoredBlogPost = WPBlogPost & {
   publishedAt: string
   updatedAt: string
   language: "en" | "vi" | "zh"
-  source: "ai-news-agent" | "manual"
+  source: "ai-news-agent" | "manual" | "sales-blog"
   sourceUrls?: string[]
+  // Draft posts are written into the store (or committed as seed content) but
+  // kept off the public site until someone approves them. A missing status is
+  // treated as "published" so every pre-existing post stays visible.
+  status?: "draft" | "published"
 }
 
 type BlogPostStore = {

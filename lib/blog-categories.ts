@@ -15,6 +15,16 @@ export const BLOG_CATEGORY_TABS = [
     tags: [],
   },
   {
+    // Sales / solution content the in-house blog engine publishes: practical
+    // guides tied to each Tecxmate service. Filed under the "Guides" category by
+    // assembleSalesPost, so these must stay in sync with SALES_BLOG_CATEGORY.
+    id: "guides",
+    wpCategory: "Guides",
+    labelKey: "blog_tab_guides",
+    aliases: ["Solutions", "Playbooks", "Insights"],
+    tags: [],
+  },
+  {
     id: "our-products",
     wpCategory: "Our Products",
     labelKey: "blog_tab_our_products",
@@ -40,6 +50,14 @@ export const BLOG_CATEGORY_TABS = [
  * cannot silently redirect the agent's output into another section.
  */
 export const AUTOMATED_NEWS_CATEGORY = "Industry News"
+
+/**
+ * Category the in-house sales-blog engine files its articles under. Named
+ * explicitly (not read by tab position) so reordering the tabs above cannot
+ * silently move the sales articles into another section. Must equal the
+ * "guides" tab's wpCategory above.
+ */
+export const SALES_BLOG_CATEGORY = "Guides"
 
 export type BlogCategoryTab = (typeof BLOG_CATEGORY_TABS)[number]
 export type BlogCategoryTabId = BlogCategoryTab["id"]

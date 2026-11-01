@@ -12,6 +12,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "sales:build": "node scripts/build-sales-posts.mjs",
+    "sales:approve": "node scripts/approve-sales-post.mjs",
     "setup-keyword-tracking": "node scripts/setup-keyword-tracking.js"
   },
   "dependencies": {

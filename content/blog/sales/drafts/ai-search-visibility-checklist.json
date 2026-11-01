@@ -1,0 +1,63 @@
+{
+  "slug": "ai-search-visibility-checklist",
+  "language": "en",
+  "coverImage": "/graphics/Software Development.png",
+  "title": "The AI-Search Visibility Checklist for Small Businesses",
+  "excerpt": "A practical, do-this checklist for getting your business named in AI answers: write for real buyer questions, structure pages for machines, and measure it monthly.",
+  "keyTakeaways": [
+    "Start by writing down the exact questions buyers ask, then make sure a page answers each one plainly.",
+    "Structure each page so a machine can find the question, the answer, and the key facts fast.",
+    "Add structured markup, the hidden labels that tell AI assistants what each part of a page means.",
+    "Keep your name, services, and location identical everywhere they appear online.",
+    "Treat visibility as a monthly measurement, not a one-time task, because AI answers keep changing."
+  ],
+  "sections": [
+    {
+      "heading": "Start with the questions buyers actually ask",
+      "paragraphs": [
+        "AI assistants answer questions, so your work starts with the questions. Write down the exact things a buyer would type or say when they need what you sell. Not \"digital services,\" but \"who can build an ordering app for a bakery\" or \"how long does a small clinic booking system take to build.\" Use the words your customers use, not your industry's jargon.",
+        "Then check each question against your site. Is there a page that answers it directly, early, and in plain language? If a buyer would have to dig, infer, or translate marketing copy to get the answer, a machine will struggle too. One clear question with one clear answer beats a paragraph of clever lines every time."
+      ]
+    },
+    {
+      "heading": "Structure each page so a machine can read it",
+      "paragraphs": [
+        "A person can skim a messy page and still get the point. A machine needs structure. Give each page a clear heading that states its subject, short sections with honest subheadings, and answers placed right under the question they resolve. Lead with the point, then explain, rather than building up to it.",
+        "Spell out the specifics that assistants look for and buyers care about: what you do, who you serve, where you operate, and how you work with clients. Keep sentences short and concrete. The easier a page is to parse, the more confidently an assistant can pull from it and name you in an answer."
+      ]
+    },
+    {
+      "heading": "Add the structured markup machines read",
+      "paragraphs": [
+        "Beyond the visible words, pages carry hidden labels that tell a machine what each part means: this is a service, this is a location, this is a question and its answer, this is the business behind the page. That labeling is structured markup, and most small-business sites have little or none of it.",
+        "Adding it well is the technical half of this work. Done right, it turns a page an assistant has to guess about into one it can read with confidence. This is the part most owners should hand to someone who does it daily, because a small mistake in the markup quietly undoes the benefit."
+      ]
+    },
+    {
+      "heading": "Keep your facts consistent across the web",
+      "paragraphs": [
+        "AI assistants build a picture of your business from everywhere it appears, not just your homepage. If your name, services, or location are written one way on your site, another way in a directory, and a third way on a profile, the machine sees a blurry, conflicting story and trusts it less.",
+        "So pick the exact wording for your business name, what you offer, and where you work, and make it identical everywhere you control. Consistency sounds dull, but it is one of the cheapest ways to look like a single, credible source that an assistant is comfortable quoting."
+      ]
+    },
+    {
+      "heading": "Measure it monthly, and get help where it pays",
+      "paragraphs": [
+        "Last item, and the one most people skip: measure. Ask the assistants the questions on your list and see whether you come up, and how you are described. Because these systems change what they surface, a check once a quarter is not enough. This is why we report on AI-search visibility every month rather than treating it as a one-time task.",
+        "You can work through this checklist yourself. Where the markup or the measurement gets technical, that is exactly the kind of thing we run for small and mid-sized businesses, staged the way we run every project: discover, architect, build and sync, ship and support. Scope drives the cost, the first consultation is free, and projects typically start in the low five figures USD.",
+        "If you have been meaning to get your business into AI answers but are not sure where it stands today, it is worth a short conversation with the Tecxmate team to turn this checklist into a plan built around your site."
+      ]
+    }
+  ],
+  "tags": ["AI search", "checklist", "GEO", "structured data", "SME marketing", "visibility", "content strategy"],
+  "faq": [
+    {
+      "q": "Do I have to do all of these at once?",
+      "a": "No. They stack, but each one helps on its own. Start by matching real buyer questions to clear answers on your pages, then add structure and markup, then keep your facts consistent and measure the result each month."
+    },
+    {
+      "q": "Which step should a non-technical owner do first?",
+      "a": "The questions step. Writing down the exact questions buyers ask, in their words, and making sure a page answers each one plainly needs no technical skill and does the most to make your pages readable to AI assistants."
+    }
+  ]
+}

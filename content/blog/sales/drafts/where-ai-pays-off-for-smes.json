@@ -1,0 +1,67 @@
+{
+  "slug": "where-ai-pays-off-for-smes",
+  "language": "en",
+  "coverImage": "/graphics/Strategy & Research.png",
+  "title": "Where AI Actually Pays Off for Your Business (and Where It Doesn't)",
+  "excerpt": "AI is not magic, and it is not a toy. The trick for a small business is knowing which of your workflows will return money and which will just burn it.",
+  "keyTakeaways": [
+    "AI pays off on work that is high-volume, rule-heavy, and already written down somewhere.",
+    "It disappoints on judgment calls, one-off tasks, and anything built on messy or missing data.",
+    "Start from your slowest workflow, not from the newest tool.",
+    "Measure payoff in hours saved and errors avoided, not in how impressive the demo looks.",
+    "Scope drives cost, so a tight first project beats a sprawling one."
+  ],
+  "sections": [
+    {
+      "heading": "Start with the work, not the tool",
+      "paragraphs": [
+        "Most AI projects fail for a simple reason: they start with the technology instead of the problem. Someone sees a demo, gets excited, and goes looking for a place to use it. That is backwards. The businesses that get real value start with a boring question: where does my team lose the most hours every week?",
+        "Make a short list. The invoice that gets re-typed into three systems. The quote that takes two days because one person has to write it from scratch each time. The customer question that gets asked forty times a week in slightly different words. Those are the candidates. AI pays off when it removes repeated, predictable effort, not when it does something flashy once."
+      ]
+    },
+    {
+      "heading": "Where AI reliably returns money",
+      "paragraphs": [
+        "AI earns its keep on work that is high in volume, heavy on rules, and already documented in some form. Think drafting routine documents from a template, pulling key fields out of emails and PDFs, answering common questions over LINE, WhatsApp, or Telegram, sorting and routing incoming requests, and turning a messy pile of notes into a clean first draft.",
+        "The common thread is leverage: the same task, done many times, where a good-enough draft reviewed by a human beats a perfect one written slowly by hand. If a person on your team does something dozens of times a week and could explain the steps to a new hire in a few minutes, that work is usually a strong fit.",
+        "The payoff shows up as hours given back and fewer dropped balls. A quote that took two days now takes an hour. A support inbox that ran a day behind now answers the easy half instantly, leaving your people for the cases that actually need them."
+      ]
+    },
+    {
+      "heading": "Where it quietly costs you",
+      "paragraphs": [
+        "AI disappoints in three places. First, genuine judgment calls, where being wrong is expensive and the right answer depends on context no system has. Second, one-off tasks, where the effort to set it up will never be repaid because you only do the thing once. Third, anything sitting on top of messy, scattered, or missing data, because a model can only work with what it can actually see.",
+        "That last one catches the most businesses. If your customer records live half in a spreadsheet, half in someone's head, and half in a chat history, AI will not fix that. It will confidently produce wrong answers faster. The data problem comes first, and sometimes cleaning it up is the real win hiding underneath the AI request."
+      ]
+    },
+    {
+      "heading": "A simple test before you spend",
+      "paragraphs": [
+        "Before committing to any AI project, run each candidate workflow through four questions. How often does this happen? How clear are the rules? How clean is the data behind it? And what does one mistake cost? High frequency, clear rules, clean data, and a low cost of a caught mistake point to a strong first project. The opposite pattern is a sign to wait.",
+        "This is also why a tight, honest scope matters more than ambition. Scope drives cost, and a narrow project that saves ten hours a week is worth far more than a grand platform that never ships. The goal is a working result you can measure in weeks, then a decision about what to automate next based on real numbers rather than a pitch."
+      ]
+    },
+    {
+      "heading": "How we approach it with you",
+      "paragraphs": [
+        "This is the work we do first in an AI consulting engagement: we audit your actual workflows, find the handful where AI pays off, and are just as clear about the ones where it is a distraction. We integrate agents and real-time voice into the systems you already run rather than asking you to rip anything out, and we train your own team to run it afterward, so you are not dependent on us forever.",
+        "We work as one B2B contract, not a hire, so there is no payroll or severance to think about, and the first consultation is free. If you are not sure which of your workflows would actually return money, that is exactly the conversation to have. Tell the Tecxmate team what is slow or painful, and we will tell you honestly where AI fits and where it does not."
+      ]
+    }
+  ],
+  "tags": ["AI", "Consulting", "SME", "Automation", "Strategy", "Workflows"],
+  "faq": [
+    {
+      "q": "How do I know if my business is ready for AI?",
+      "a": "If you have a workflow that happens often, follows fairly clear rules, and runs on data you can actually access, you are ready to try. If your records are scattered or the task is a rare judgment call, start by tidying the process first. A free first consultation will tell you which is which."
+    },
+    {
+      "q": "Will AI replace my staff?",
+      "a": "In most SME work it does not replace people, it removes the repetitive parts of their day so they handle the cases that need a human. The aim of our training is that your team runs the tools and spends their time on higher-value work."
+    },
+    {
+      "q": "How much does an AI project cost?",
+      "a": "Scope drives the cost, so it depends on which workflow you tackle and how deep it goes. The first consultation is free, and projects typically start in the low five figures USD. A tight first project is usually the smart place to begin."
+    }
+  ]
+}
