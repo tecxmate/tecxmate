@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Calendar, ArrowRight, Clock } from "lucide-react"
+import { Calendar, ArrowRight, ArrowUpRight, Clock } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { BLOG_CATEGORY_TABS, postsForTab, type BlogCategoryTab } from "@/lib/blog-categories"
@@ -131,17 +131,35 @@ export function StoriesSection() {
   return <BlogCategoryRow tab={tabById("our-stories")} className="bg-background py-20 md:py-24" />
 }
 
+/**
+ * A card has four states, and which one it is depends on the product's own
+ * `status` and `url` first — never on whether a blog post happens to exist.
+ * Getting that order wrong is what made shipped products advertise themselves
+ * as "Coming soon"; see the note in lib/products.ts.
+ *
+ *   coming-soon            → wordmark, "Coming soon", not a link
+ *   live + url             → links out to the product's own site
+ *   live, no url, post     → links to the write-up
+ *   live, no url, no post  → tagline only, no call to action and NO
+ *                            "Coming soon", because the thing is live
+ */
 function ProductCard({ product, post }: { product: Product; post: BlogPost | undefined }) {
   const { t } = useLanguage()
+
+  const comingSoon = product.status === "coming-soon"
+  // A live product never shows the post's cover, name or excerpt in place of
+  // its own; the post only supplies a cover image when there is nothing better.
+  const cover = comingSoon ? undefined : post?.coverImage
+  const tagline = product.taglineKey ? t(product.taglineKey) : post?.excerpt
 
   const body = (
     <>
       <div className="aspect-video w-full overflow-hidden bg-gray-100 relative">
-        {post ? (
+        {cover ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={post.coverImage || "/placeholder.svg?height=200&width=400"}
-            alt={post.title}
+            src={cover}
+            alt={product.name}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
@@ -155,41 +173,61 @@ function ProductCard({ product, post }: { product: Product; post: BlogPost | und
         <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
           {product.name}
         </h3>
-        <p className="text-muted-foreground text-sm line-clamp-3 mb-6 flex-1">
-          {post?.excerpt || t(product.taglineKey)}
-        </p>
-        {post ? (
+        <p className="text-muted-foreground text-sm line-clamp-3 mb-6 flex-1">{tagline}</p>
+        {comingSoon ? (
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {t("product_coming_soon")}
+          </span>
+        ) : product.url ? (
+          <div className="inline-flex items-center text-sm font-bold text-primary group-hover:gap-2 transition-all">
+            <span>{t("product_visit")}</span>
+            <ArrowUpRight className="h-4 w-4 ml-1" />
+          </div>
+        ) : post ? (
           <div className="inline-flex items-center text-sm font-bold text-primary group-hover:gap-2 transition-all">
             <span>{t("read_full_article")}</span>
             <ArrowRight className="h-4 w-4 ml-1" />
           </div>
-        ) : (
-          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {t("product_coming_soon")}
-          </span>
-        )}
+        ) : null}
       </div>
     </>
   )
 
   const cardClass = "group block bg-card border border-border shadow-sm overflow-hidden h-full flex flex-col"
+  const hoverClass = "hover:shadow-md hover:border-primary transition-all duration-300"
 
-  if (!post) return <div className={cardClass}>{body}</div>
+  // Its own site wins over the write-up: a visitor clicking tecxmap wants the
+  // map, not an article about the map.
+  if (!comingSoon && product.url) {
+    return (
+      <a
+        href={product.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${cardClass} ${hoverClass}`}
+      >
+        {body}
+      </a>
+    )
+  }
 
-  return (
-    <Link
-      href={`/blog/${post.slug}`}
-      className={`${cardClass} hover:shadow-md hover:border-primary transition-all duration-300`}
-    >
-      {body}
-    </Link>
-  )
+  if (!comingSoon && post) {
+    return (
+      <Link href={`/blog/${post.slug}`} className={`${cardClass} ${hoverClass}`}>
+        {body}
+      </Link>
+    )
+  }
+
+  return <div className={cardClass}>{body}</div>
 }
 
 /**
- * The fixed product lineup. Unlike the category rows it always renders all
- * three cards; each links to its write-up once that post is published. A
- * translation that has not been written yet falls back to the English post.
+ * The fixed product lineup. Unlike the category rows it always renders every
+ * card, whatever the blog holds: a card's destination and status come from
+ * lib/products.ts, and the post only adds a cover image or a "read more" where
+ * the product has no site of its own. A translation that has not been written
+ * yet falls back to the English post.
  */
 export function ProductsSection() {
   const [postsByProduct, setPostsByProduct] = useState<Record<string, BlogPost | undefined> | null>(null)
