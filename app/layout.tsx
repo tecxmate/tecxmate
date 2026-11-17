@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { BackToTop } from "@/components/back-to-top"
-import { FloatingContact } from "@/components/floating-contact"
 import { GoogleAnalytics } from "@/components/google-analytics"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
 import { GoogleTagManager } from "@/components/consent/google-tag-manager"
@@ -149,7 +148,6 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <LanguageProvider>
               {children}
-              <FloatingContact />
               <BackToTop />
               <CookieConsent />
             </LanguageProvider>
