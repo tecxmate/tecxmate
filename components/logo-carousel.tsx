@@ -14,7 +14,8 @@ const FALLBACK_LOGOS = [
   { name: "CHI CHI Vietnamese", src: "/logos/chichi.png" },
 ]
 
-export function LogoCarousel() {
+/** `inline` places the row in normal flow (clients section) instead of pinned to the hero's bottom edge. */
+export function LogoCarousel({ inline = false }: { inline?: boolean } = {}) {
   const { language } = useLanguage()
   const content = useSiteContent()
   const config = content?.homepage?.heroLogos
@@ -30,7 +31,7 @@ export function LogoCarousel() {
   const caption = config.caption?.[language] || config.caption?.en || "with partners from"
 
   return (
-    <div className="absolute left-4 md:left-8 right-4 bottom-24 md:bottom-20">
+    <div className={inline ? "relative" : "absolute left-4 md:left-8 right-4 bottom-24 md:bottom-20"}>
       <div className="flex items-center gap-2 md:gap-4">
         <div className="flex-shrink-0">
           <div className="flex flex-col text-left">

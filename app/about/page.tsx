@@ -12,8 +12,8 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
-  title: "About Us - Technology Consultancy Team | Tecxmate",
-  description: "Learn About TECXMATE - a premier technology consultancy specializing in AI development, business automation, and digital transformation for SMEs and startups. LLC headquartered in Ho Chi Minh City, Vietnam. Operating in Taiwan, US, and Vietnam.",
+  title: "About TECXMATE | AI-native products",
+  description: "TECXMATE COMPANY LIMITED builds AI-native products for Taiwan data, stock markets and circuit design. Headquartered in Ho Chi Minh City, Vietnam; operating in Taiwan, the US and Vietnam.",
   keywords: [
     "About TECXMATE",
     "technology consultancy team",
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     canonical: `${baseUrl}/about`,
   },
   openGraph: {
-    title: "About Us - Technology Consultancy Team | Tecxmate",
-    description: "Learn About TECXMATE - a premier technology consultancy specializing in AI development, business automation, and digital transformation for SMEs and startups.",
+    title: "About TECXMATE | AI-native products",
+    description: "TECXMATE COMPANY LIMITED builds AI-native products for Taiwan data, stock markets and circuit design.",
     url: `${baseUrl}/about`,
     siteName: "Tecxmate",
     locale: "en_US",
@@ -39,15 +39,15 @@ export const metadata: Metadata = {
         url: `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
         width: 1200,
         height: 630,
-        alt: "About TECXMATE - Technology Consultancy Team",
+        alt: "About TECXMATE",
         type: "image/png",
       }
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Us - Technology Consultancy Team | Tecxmate",
-    description: "Learn About TECXMATE - a premier technology consultancy specializing in AI development, business automation, and digital transformation.",
+    title: "About TECXMATE | AI-native products",
+    description: "TECXMATE COMPANY LIMITED builds AI-native products for Taiwan data, stock markets and circuit design.",
     images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
   },
 }
@@ -72,7 +72,7 @@ export default async function AboutPage() {
         "addressLocality": company.address.locality,
         "addressCountry": company.address.countryCode
       },
-      "description": "Premier technology consultancy specializing in AI development, business automation, and digital transformation for SMEs and startups.",
+      "description": "TECXMATE COMPANY LIMITED builds AI-native products for Taiwan data, stock markets and circuit design.",
       "url": baseUrl,
     }
   }

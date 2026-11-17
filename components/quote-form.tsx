@@ -70,18 +70,21 @@ const SERVICES: Record<Locale, [string, string][]> = {
     ["ai-agents", "AI agents, chatbots and knowledge"], ["apps", "iOS & Android apps"],
     ["modernize", "Modernize legacy operations"], ["ai-seo", "Get found in AI search"],
     ["data", "Data analytics and processing"], ["ai-integration", "AI consulting and strategy"],
+    ["tecxmap", "TECXMAP (Taiwan Atlas)"], ["datatecx", "DATATECX (sovereign AI)"], ["alphatecx", "AlphaTecx (Taiwan Stock AI Connector)"], ["etecx", "eTecx (circuit simulator)"],
     ["not-sure", "Not sure yet — help me work it out"],
   ],
   vi: [
     ["ai-agents", "AI agent, chatbot và tri thức"], ["apps", "Ứng dụng iOS & Android"],
     ["modernize", "Hiện đại hóa vận hành cũ"], ["ai-seo", "Xuất hiện trên AI search"],
     ["data", "Phân tích và xử lý dữ liệu"], ["ai-integration", "Tư vấn và chiến lược AI"],
+    ["tecxmap", "TECXMAP (Taiwan Atlas)"], ["datatecx", "DATATECX (AI chủ quyền)"], ["alphatecx", "AlphaTecx (kết nối AI chứng khoán Đài Loan)"], ["etecx", "eTecx (mô phỏng mạch)"],
     ["not-sure", "Chưa rõ — cần tư vấn thêm"],
   ],
   zh: [
     ["ai-agents", "AI 代理、聊天機器人與知識庫"], ["apps", "iOS 與 Android 應用程式"],
     ["modernize", "傳統營運現代化"], ["ai-seo", "讓 AI 搜尋找到您"],
     ["data", "資料分析與處理"], ["ai-integration", "AI 顧問與策略"],
+    ["tecxmap", "TECXMAP（臺灣地圖集）"], ["datatecx", "DATATECX（主權 AI）"], ["alphatecx", "AlphaTecx（臺股 AI 連接器）"], ["etecx", "eTecx（電路模擬器）"],
     ["not-sure", "還不確定——希望有人幫我釐清"],
   ],
 }
@@ -116,7 +119,7 @@ function Label({ children, note }: { children: string; note?: string }) {
   )
 }
 
-export function QuoteForm({ conversationId }: { conversationId?: string }) {
+export function QuoteForm({ conversationId, product }: { conversationId?: string; product?: string }) {
   const { language } = useLanguage()
   const locale = (language === "vi" || language === "zh" ? language : "en") as Locale
   const c = COPY[locale]
@@ -200,7 +203,7 @@ export function QuoteForm({ conversationId }: { conversationId?: string }) {
         </label>
         <label>
           <Label>{c.service}</Label>
-          <select name="service" defaultValue="not-sure" className={field}>
+          <select name="service" defaultValue={product ?? "not-sure"} className={field}>
             {SERVICES[locale].map(([v, l]) => <option key={v} value={v}>{l}</option>)}
           </select>
         </label>

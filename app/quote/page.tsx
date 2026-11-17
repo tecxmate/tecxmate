@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { QuoteForm } from "@/components/quote-form"
+import { PRODUCT_OPTIONS } from "@/lib/quote"
 
 export const metadata: Metadata = {
   title: "Request a quote | Tecxmate",
@@ -13,9 +14,11 @@ export const metadata: Metadata = {
 export default async function QuotePage({
   searchParams,
 }: {
-  searchParams: Promise<{ chat?: string }>
+  searchParams: Promise<{ chat?: string; product?: string }>
 }) {
-  const { chat } = await searchParams
+  const { chat, product } = await searchParams
+  // ?product=alphatecx preselects that product in the form; anything else is ignored.
+  const preselected = PRODUCT_OPTIONS.find((id) => id === product)
 
   return (
     <main className="min-h-screen bg-background">
@@ -29,7 +32,7 @@ export default async function QuotePage({
           number — and the first consultation is free.
         </p>
         <div className="mt-10">
-          <QuoteForm conversationId={chat} />
+          <QuoteForm conversationId={chat} product={preselected} />
         </div>
       </section>
       <Footer />

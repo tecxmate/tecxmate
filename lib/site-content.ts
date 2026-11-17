@@ -538,30 +538,23 @@ export const defaultContent: SiteContent = {
   },
   seo: {
     // Kept under ~60 characters so Google does not truncate it in results.
-    title: "TECXMATE — Global Technology Partner | Custom AI, Apps & Web",
+    title: "TECXMATE — Frontier AI-native products",
     description:
-      "Tecxmate is your global technology partner for custom AI, mobile and web apps, product development and software engineering. Book a consultation today.",
+      "TECXMATE builds AI-native products: TECXMAP (Taiwan business map), DATATECX (sovereign AI for Taiwan data), AlphaTecx (Taiwan stock AI) and eTecx.",
     keywords: [
-      "technology partner",
-      "custom AI development",
+      "AI-native products",
+      "Taiwan business map",
+      "Taiwan open data",
+      "sovereign AI",
+      "Taiwan stock AI",
+      "MCP connector",
+      "power electronics simulator",
       "AI integration",
       "app development",
-      "mobile app development",
-      "web development",
-      "product development",
-      "software engineering",
-      "software development",
-      "digital transformation",
-      "business automation",
-      "startup consulting",
-      "SME solutions",
-      "enterprise solutions",
     ],
-    ogTitle: "TECXMATE — Your Global Technology Partner",
-    ogDescription:
-      "Custom AI, apps, web, product development and software engineering — built and delivered by a partner that owns the outcome. Book a consultation today.",
-    twitterDescription:
-      "Custom AI, apps, web, product development and software engineering. Your global technology partner.",
+    ogTitle: "TECXMATE — Frontier AI-native products",
+    ogDescription: "TECXMATE builds AI-native products: TECXMAP (Taiwan business map), DATATECX (sovereign AI for Taiwan data), AlphaTecx (Taiwan stock AI) and eTecx.",
+    twitterDescription: "AI-native products for Taiwan data, stock markets and circuit design.",
     twitterCreator: "@tecxmate",
   },
   homepage: {

@@ -1,56 +1,31 @@
 import { Navbar } from "@/components/navbar"
-import { HeroSection } from "@/components/hero-section"
 import { Footer } from "@/components/footer"
 import type { Metadata } from "next"
 import Script from "next/script"
 import dynamic from "next/dynamic"
-import {
-  homepageSectionOrder,
-  isSectionEnabled,
-  readContent,
-  type HomepageSectionKey,
-} from "@/lib/site-content"
 import { AnimationPauser } from "@/components/animation-pauser"
+import { ClientsSection, FinalCta, ProductsGrid, ProductsHero, WhySection } from "@/components/products-home"
 
-// Lazy load below-the-fold components to reduce initial bundle and TBT
-const EconomicsSection = dynamic(() => import("@/components/sales/economics-section").then(mod => ({ default: mod.EconomicsSection })))
+// The homepage frames TECXMATE as a product company. The order is fixed here;
+// the admin "homepage order" setting only applied to the old sales sections.
+const TeamSection = dynamic(() => import("@/components/team-section").then((mod) => ({ default: mod.TeamSection })))
+const StoriesSection = dynamic(() =>
+  import("@/components/campaigns-section").then((mod) => ({ default: mod.StoriesSection })),
+)
 
-const OrgSection = dynamic(() => import("@/components/sales/org-section").then(mod => ({ default: mod.OrgSection })))
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
+const HOME_TITLE = "TECXMATE — Frontier AI-native products"
+const HOME_DESCRIPTION =
+  "TECXMATE builds AI-native products: TECXMAP (Taiwan business map), DATATECX (sovereign AI for Taiwan data), AlphaTecx (Taiwan stock AI) and eTecx."
 
-const ProofSection = dynamic(() => import("@/components/sales/proof-section").then(mod => ({ default: mod.ProofSection })))
+const PRODUCTS_JSONLD = [
+  { name: "TECXMAP", url: "https://map.tecxmate.com", description: "A map of about 1.7 million businesses registered in Taiwan, with district data from government open datasets." },
+  { name: "DATATECX", description: "Sovereign AI for Taiwan data: a data layer for Taiwan's open data with a small open AI model that can run offline." },
+  { name: "AlphaTecx", description: "Taiwan Stock AI Connector: connects Claude to Taiwan stock-market open data for sourced answers." },
+  { name: "eTecx", description: "A power-electronics circuit simulator, desktop and web, with built-in AI design help." },
+]
 
-const TechnologySection = dynamic(() => import("@/components/sales/technology-section").then(mod => ({ default: mod.TechnologySection })))
-
-const ProcessSection = dynamic(() => import("@/components/sales/process-section").then(mod => ({ default: mod.ProcessSection })))
-
-const CtaSection = dynamic(() => import("@/components/sales/cta-section").then(mod => ({ default: mod.CtaSection })))
-
-const CampaignsSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.CampaignsSection })))
-
-const StoriesSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.StoriesSection })))
-
-const ProductsSection = dynamic(() => import("@/components/campaigns-section").then(mod => ({ default: mod.ProductsSection })))
-
-const TeamSection = dynamic(() => import("@/components/team-section").then(mod => ({ default: mod.TeamSection })))
-
-/** Maps each reorderable homepage section key to the component that renders it. */
-const HOMEPAGE_SECTION_COMPONENTS: Record<HomepageSectionKey, React.ComponentType> = {
-  hero: HeroSection,
-  proof: ProofSection,
-  economics: EconomicsSection,
-  problem: OrgSection,
-  technology: TechnologySection,
-  process: ProcessSection,
-  team: TeamSection,
-  stories: StoriesSection,
-  products: ProductsSection,
-  blog: CampaignsSection,
-  cta: CtaSection,
-}
-
-export default async function Home() {
-  const content = await readContent({ revalidate: 60 })
-
+export default function Home() {
   return (
     <main className="min-h-screen bg-background">
       <Navbar />
@@ -62,13 +37,14 @@ export default async function Home() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "ProfessionalService",
-            "name": "Tecxmate",
-            "alternateName": ["tecxmate", "TECXMATE COMPANY LIMITED", "CÔNG TY TNHH TECXMATE"],
-            "url": process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com",
-            "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"}/graphics/tecxmate-logo-cropped.png`,
-            "image": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"}/graphics/tecxmate-logo-cropped.png`,
-            "description": "English websites and software for Taiwan's manufacturers going global — fast English-first sites, plus the apps, automation, and AI behind them, built by engineers who understand your products.",
+            "@type": "Organization",
+            "name": "TECXMATE",
+            "legalName": "TECXMATE COMPANY LIMITED",
+            "alternateName": ["Tecxmate", "CÔNG TY TNHH TECXMATE"],
+            "url": SITE_URL,
+            "logo": `${SITE_URL}/graphics/tecxmate-logo-cropped.png`,
+            "image": `${SITE_URL}/graphics/tecxmate-logo-cropped.png`,
+            "description": HOME_DESCRIPTION,
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "Villa Park Villa Compound, Bung Ong Thoan Street, Long Truong Ward",
@@ -105,44 +81,10 @@ export default async function Home() {
               "https://www.instagram.com/tecxmate",
               "https://tw.linkedin.com/company/tecxmate"
             ],
-            "hasOfferCatalog": {
-              "@type": "OfferCatalog",
-              "name": "Technology Consultancy Services",
-              "itemListElement": [
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "AI Development & Integration",
-                    "description": "Cutting-edge AI application development and integration services"
-                  }
-                },
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "Web Development",
-                    "description": "Custom web development and software solutions"
-                  }
-                },
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "Business Automation",
-                    "description": "Streamline operations with automated workflows and system integration"
-                  }
-                },
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "Digital Transformation",
-                    "description": "Comprehensive digital transformation consulting for SMEs"
-                  }
-                }
-              ]
-            }
+            "makesOffer": PRODUCTS_JSONLD.map((product) => ({
+              "@type": "Offer",
+              "itemOffered": { "@type": "SoftwareApplication", ...product },
+            })),
           }),
         }}
       />
@@ -155,34 +97,38 @@ export default async function Home() {
             "@context": "https://schema.org",
             "@type": "WebSite",
             "name": "tecxmate",
-            "url": process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com",
+            "url": SITE_URL,
             "potentialAction": {
               "@type": "SearchAction",
-              "target": (process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com") + "/search?q={search_term_string}",
+              "target": (SITE_URL) + "/search?q={search_term_string}",
               "query-input": "required name=search_term_string"
             }
           }),
         }}
       />
-      {homepageSectionOrder(content).map((key) => {
-        if (!isSectionEnabled(content, key)) return null
-        const Section = HOMEPAGE_SECTION_COMPONENTS[key]
-        return <Section key={key} />
-      })}
+      <ProductsHero />
+      <ProductsGrid />
+      <WhySection />
+      <TeamSection />
+      <ClientsSection />
+      <StoriesSection />
+      <FinalCta />
       <Footer />
     </main>
   )
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
+  const baseUrl = SITE_URL
   const { generateCountryKeywords } = await import("@/lib/keywords")
-  // Read from site content so Admin > Metadata (SEO) edits actually reach the page.
+  // Keywords and the Twitter handle still come from Admin > Metadata; the homepage
+  // title and descriptions are fixed in code so they always describe the products.
+  const { readContent } = await import("@/lib/site-content")
   const { seo } = await readContent({ revalidate: 60 })
 
   return {
-    title: seo.title,
-    description: seo.description,
+    title: { absolute: HOME_TITLE },
+    description: HOME_DESCRIPTION,
     keywords: generateCountryKeywords(seo.keywords),
     alternates: {
       canonical: baseUrl,
@@ -201,8 +147,8 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: seo.ogTitle,
-      description: seo.ogDescription,
+      title: HOME_TITLE,
+      description: HOME_DESCRIPTION,
       url: baseUrl,
       siteName: "Tecxmate",
       locale: "en_US",
@@ -213,15 +159,15 @@ export async function generateMetadata(): Promise<Metadata> {
           url: `${baseUrl}/graphics/tecxmate-logo-cropped.png`,
           width: 1200,
           height: 630,
-          alt: seo.ogTitle,
+          alt: HOME_TITLE,
           type: "image/png",
         }
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: seo.ogTitle,
-      description: seo.twitterDescription,
+      title: HOME_TITLE,
+      description: HOME_DESCRIPTION,
       images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
       creator: seo.twitterCreator,
     },

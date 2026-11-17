@@ -8,9 +8,8 @@ import { useLanguage } from "@/components/language-provider"
 import { salesDeck } from "@/lib/sales-deck"
 
 /**
- * Preview of a product-first homepage (served at /home-preview only).
- * Reuses the live hero background, card style, team and blog sections;
- * only the words and the section order are new.
+ * The product-first homepage sections. They reuse the hero background, the
+ * card style, the team and blog sections; the words and the order are new.
  */
 
 type T = ReturnType<typeof useLanguage>["t"]
@@ -23,7 +22,7 @@ type ProductCardData = {
   status: Key
   line: Key
   points: Key[]
-  link?: { label: Key; href: string }
+  link?: { label: Key; href: string; internal?: boolean }
 }
 
 const PRODUCTS: ProductCardData[] = [
@@ -42,7 +41,7 @@ const PRODUCTS: ProductCardData[] = [
     sub: "ph_datatecx_sub",
     status: "ph_status_pilot",
     line: "ph_datatecx_line",
-    points: ["ph_datatecx_p1", "ph_datatecx_p2", "ph_datatecx_p3"],
+    points: ["ph_datatecx_p1", "ph_datatecx_p3"],
     link: { label: "ph_datatecx_link", href: salesDeck.bookingUrl },
   },
   {
@@ -51,7 +50,8 @@ const PRODUCTS: ProductCardData[] = [
     sub: "ph_alphatecx_sub",
     status: "ph_status_demo",
     line: "ph_alphatecx_line",
-    points: ["ph_alphatecx_p1", "ph_alphatecx_p2", "ph_alphatecx_p3"],
+    points: ["ph_alphatecx_p1", "ph_alphatecx_p2"],
+    link: { label: "ph_contact_link", href: "/quote?product=alphatecx", internal: true },
   },
   {
     id: "etecx",
@@ -60,6 +60,7 @@ const PRODUCTS: ProductCardData[] = [
     status: "ph_status_dev",
     line: "ph_etecx_line",
     points: ["ph_etecx_p1", "ph_etecx_p2"],
+    link: { label: "ph_contact_link", href: "/quote?product=etecx", internal: true },
   },
 ]
 
@@ -99,7 +100,6 @@ export function ProductsHero() {
           </div>
         </div>
       </div>
-      <LogoCarousel />
     </ShaderBackground>
   )
 }
@@ -129,8 +129,7 @@ function ProductCard({ product }: { product: ProductCardData }) {
         {product.link && (
           <a
             href={product.link.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...(product.link.internal ? {} : { target: "_blank", rel: "noopener noreferrer" })}
             className="inline-flex items-center gap-1 text-sm font-bold text-primary hover:gap-2 transition-all whitespace-nowrap"
           >
             {t(product.link.label)}
@@ -180,13 +179,14 @@ export function ClientsSection() {
       <div className="container px-4 md:px-6 max-w-7xl">
         <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">{t("ph_clients_title")}</h2>
         <p className="text-muted-foreground mb-6">{t("ph_clients_body")}</p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mb-8">
           {items.map((key) => (
             <span key={key} className="whitespace-nowrap text-sm px-3 py-1.5 rounded-full border border-border bg-card text-foreground">
               {t(key)}
             </span>
           ))}
         </div>
+        <LogoCarousel inline />
       </div>
     </section>
   )

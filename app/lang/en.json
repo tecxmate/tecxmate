@@ -79,16 +79,14 @@
   "ph_tecxmap_p3": "AI connector (MCP): Claude answers with source and date",
   "ph_tecxmap_link": "Open the map",
   "ph_datatecx_sub": "Sovereign AI for Taiwan data",
-  "ph_datatecx_line": "A data layer and a small open AI model that run offline on an agency's own servers.",
+  "ph_datatecx_line": "A data layer for Taiwan's open data, with a small open AI model that can run offline.",
   "ph_datatecx_p1": "Answers only from sourced records of Taiwan's agencies, with source and date",
-  "ph_datatecx_p2": "Internal test, fact mode: Llama 3.1 8B 17/17, TAIDE 12B 16/17",
   "ph_datatecx_p3": "Seeking a first government pilot",
   "ph_datatecx_link": "Talk about a pilot",
   "ph_alphatecx_sub": "Taiwan Stock AI Connector",
   "ph_alphatecx_line": "Connects Claude to Taiwan stock-market open data (TWSE, TPEx, MOPS). Ask in plain language, get sourced answers.",
   "ph_alphatecx_p1": "Fund flows, supply chain, risk alerts",
   "ph_alphatecx_p2": "Never reads bank or brokerage accounts",
-  "ph_alphatecx_p3": "No buy or sell signals",
   "ph_etecx_sub": "Power-electronics simulator",
   "ph_etecx_line": "A circuit simulator, desktop and web, for engineers who design power converters.",
   "ph_etecx_p1": "Built-in AI design help",
@@ -102,5 +100,7 @@
   "ph_clients_search": "AI-search visibility",
   "ph_final_title": "Try the map. Or talk to us.",
   "ph_final_body": "TECXMAP is free to use. For pilots and partnerships, book a 30-minute call.",
-  "ph_final_map": "Open TECXMAP"
+  "ph_final_map": "Open TECXMAP",
+  "nav_products": "Products",
+  "ph_contact_link": "Contact us"
 }

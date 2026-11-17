@@ -108,12 +108,12 @@ export function Navbar() {
               {t("projects")}
             </Link>
           )}
-          {sections.proof && (
+          {sections.products && (
             <Link
-              href="/#proof"
-              className={`text-sm font-medium transition-colors ${isActive("/#proof") ? "text-primary" : "hover:text-primary"}`}
+              href="/#products"
+              className={`text-sm font-medium transition-colors ${isActive("/#products") ? "text-primary" : "hover:text-primary"}`}
             >
-              {t("services")}
+              {t("nav_products")}
             </Link>
           )}
           {sections.team && (
@@ -181,13 +181,13 @@ export function Navbar() {
                 {t("projects")}
               </Link>
             )}
-            {sections.proof && (
+            {sections.products && (
               <Link
-                href="/#proof"
-                className={`text-sm font-medium transition-colors ${isActive("/#proof") ? "text-primary" : "hover:text-primary"}`}
+                href="/#products"
+                className={`text-sm font-medium transition-colors ${isActive("/#products") ? "text-primary" : "hover:text-primary"}`}
                 onClick={closeMenu}
               >
-                {t("services")}
+                {t("nav_products")}
               </Link>
             )}
             {sections.team && (

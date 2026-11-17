@@ -79,16 +79,14 @@
   "ph_tecxmap_p3": "Kết nối AI (MCP): Claude trả lời kèm nguồn và ngày",
   "ph_tecxmap_link": "Mở bản đồ",
   "ph_datatecx_sub": "AI chủ quyền cho dữ liệu Đài Loan",
-  "ph_datatecx_line": "Lớp dữ liệu và mô hình AI mở nhỏ, chạy ngoại tuyến trên máy chủ của chính cơ quan.",
+  "ph_datatecx_line": "Lớp dữ liệu cho dữ liệu mở Đài Loan, kèm mô hình AI mở nhỏ có thể chạy ngoại tuyến.",
   "ph_datatecx_p1": "Chỉ trả lời từ hồ sơ có nguồn của các cơ quan Đài Loan, kèm nguồn và ngày",
-  "ph_datatecx_p2": "Thử nghiệm nội bộ, chế độ dữ kiện: Llama 3.1 8B 17/17, TAIDE 12B 16/17",
   "ph_datatecx_p3": "Đang tìm đơn vị chính phủ thí điểm đầu tiên",
   "ph_datatecx_link": "Trao đổi thí điểm",
   "ph_alphatecx_sub": "Kết nối AI chứng khoán Đài Loan",
   "ph_alphatecx_line": "Kết nối Claude với dữ liệu mở chứng khoán Đài Loan (TWSE, TPEx, MOPS). Hỏi bằng lời thường, nhận câu trả lời có nguồn.",
   "ph_alphatecx_p1": "Dòng tiền, chuỗi cung ứng, cảnh báo rủi ro",
   "ph_alphatecx_p2": "Không đọc tài khoản ngân hàng hay chứng khoán",
-  "ph_alphatecx_p3": "Không đưa tín hiệu mua bán",
   "ph_etecx_sub": "Trình mô phỏng điện tử công suất",
   "ph_etecx_line": "Trình mô phỏng mạch, bản desktop và web, cho kỹ sư thiết kế bộ biến đổi công suất.",
   "ph_etecx_p1": "Hỗ trợ thiết kế bằng AI tích hợp",
@@ -102,5 +100,7 @@
   "ph_clients_search": "Hiển thị trên tìm kiếm AI",
   "ph_final_title": "Thử bản đồ. Hoặc trò chuyện với chúng tôi.",
   "ph_final_body": "TECXMAP miễn phí. Về thí điểm và hợp tác, hãy đặt lịch gọi 30 phút.",
-  "ph_final_map": "Mở TECXMAP"
+  "ph_final_map": "Mở TECXMAP",
+  "nav_products": "Sản phẩm",
+  "ph_contact_link": "Liên hệ"
 }

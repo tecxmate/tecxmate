@@ -1,6 +1,6 @@
-# Homepage preview: products first
+# Homepage: products first
 
-Preview only, at `/home-preview` (noindex, not linked). The live homepage `/` is unchanged.
+The homepage at `/` now frames TECXMATE as a product company. Approved by Niko (「做」); not yet in production.
 
 ## Reused
 - Hero background (shader, globe, starfield, tile clusters), logo carousel, navbar, footer
@@ -10,7 +10,10 @@ Preview only, at `/home-preview` (noindex, not linked). The live homepage `/` is
 
 ## Changed
 - Words: hero, product cards, "why" line, CTA (en / zh-Hant / vi in `app/lang/*.json`, keys `ph_*`)
-- Order: Hero → Products (4) → Sources first → Team → We also build for clients → Our stories → CTA
+- Order: Hero → Products (4) → Sources first → Team → We also build for clients (with the client logo row) → Our stories → CTA
+- Navbar: Services → Products (`/#products`)
+- AlphaTecx and eTecx cards link to `/quote?product=…`, which preselects the product
+- DATATECX test scores and AlphaTecx "no buy or sell signals" left off (repo evidence: no TAIDE score on file; AlphaTecx has buy/watch/sell labels)
 - Left out: the six-service rail, economics, problem, technology, process, old product cards (Tecxwork, Tecxbot)
 
 ## Copy
@@ -33,16 +36,14 @@ Preview only, at `/home-preview` (noindex, not linked). The live homepage `/` is
 | `ph_tecxmap_p3` | AI connector (MCP): Claude answers with source and date | AI 連接器（MCP）：Claude 回答附來源與日期 |
 | `ph_tecxmap_link` | Open the map | 開啟地圖 |
 | `ph_datatecx_sub` | Sovereign AI for Taiwan data | 臺灣資料的主權 AI |
-| `ph_datatecx_line` | A data layer and a small open AI model that run offline on an agency's own servers. | 資料層與小型開放 AI 模型，離線運行於機關自有伺服器。 |
+| `ph_datatecx_line` | A data layer for Taiwan's open data, with a small open AI model that can run offline. | 臺灣開放資料的資料層，搭配可離線運行的小型開放 AI 模型。 |
 | `ph_datatecx_p1` | Answers only from sourced records of Taiwan's agencies, with source and date | 只從臺灣政府機關有來源的紀錄中回答，附來源與日期 |
-| `ph_datatecx_p2` | Internal test, fact mode: Llama 3.1 8B 17/17, TAIDE 12B 16/17 | 內部測試（事實模式）：Llama 3.1 8B 17/17，國科會 TAIDE 12B 16/17 |
 | `ph_datatecx_p3` | Seeking a first government pilot | 正在尋找首個政府試行單位 |
 | `ph_datatecx_link` | Talk about a pilot | 洽談試行 |
 | `ph_alphatecx_sub` | Taiwan Stock AI Connector | 臺股 AI 連接器 |
 | `ph_alphatecx_line` | Connects Claude to Taiwan stock-market open data (TWSE, TPEx, MOPS). Ask in plain language, get sourced answers. | 將 Claude 連上臺股開放資料（證交所、櫃買中心、公開資訊觀測站）。用白話提問，取得附來源的回答。 |
 | `ph_alphatecx_p1` | Fund flows, supply chain, risk alerts | 資金流向、供應鏈、風險提醒 |
 | `ph_alphatecx_p2` | Never reads bank or brokerage accounts | 不讀取任何銀行或券商帳戶 |
-| `ph_alphatecx_p3` | No buy or sell signals | 不提供買賣訊號 |
 | `ph_etecx_sub` | Power-electronics simulator | 電力電子模擬器 |
 | `ph_etecx_line` | A circuit simulator, desktop and web, for engineers who design power converters. | 電路模擬器（桌面版與網頁版），為設計電源轉換器的工程師打造。 |
 | `ph_etecx_p1` | Built-in AI design help | 內建 AI 設計協助 |
@@ -57,3 +58,5 @@ Preview only, at `/home-preview` (noindex, not linked). The live homepage `/` is
 | `ph_final_title` | Try the map. Or talk to us. | 先試用地圖，或與我們聊聊。 |
 | `ph_final_body` | TECXMAP is free to use. For pilots and partnerships, book a 30-minute call. | TECXMAP 免費使用。洽談試行與合作，請預約 30 分鐘通話。 |
 | `ph_final_map` | Open TECXMAP | 開啟 TECXMAP |
+| `ph_contact_link` | Contact us | 聯絡我們 |
+| `nav_products` | Products | 產品 |
