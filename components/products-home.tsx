@@ -48,7 +48,7 @@ const PRODUCTS: ProductCardData[] = [
     id: "alphatecx",
     name: "AlphaTecx",
     sub: "ph_alphatecx_sub",
-    status: "ph_status_demo",
+    status: "ph_status_preview",
     line: "ph_alphatecx_line",
     points: ["ph_alphatecx_p1", "ph_alphatecx_p2"],
     link: { label: "ph_contact_link", href: "/quote?product=alphatecx", internal: true },

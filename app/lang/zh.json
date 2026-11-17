@@ -70,16 +70,15 @@
   "ph_products_title": "產品",
   "ph_status_live": "上線中",
   "ph_status_pilot": "尋求試行",
-  "ph_status_demo": "展示版",
   "ph_status_dev": "開發中",
   "ph_tecxmap_sub": "臺灣地圖集",
   "ph_tecxmap_line": "約 170 萬家臺灣登記營業單位的地圖，加上政府開放資料的行政區資訊。",
   "ph_tecxmap_p1": "公開地圖，免費使用",
-  "ph_tecxmap_p2": "臺灣商情 TBIS：為業務團隊產出名單、轄區與拜訪路線",
+  "ph_tecxmap_p2": "臺灣商情 TBIS：為業務團隊產出名單、轄區與拜訪路線，從免費試行開始",
   "ph_tecxmap_p3": "AI 連接器（MCP）：Claude 回答附來源與日期",
   "ph_tecxmap_link": "開啟地圖",
   "ph_datatecx_sub": "臺灣資料的主權 AI",
-  "ph_datatecx_line": "臺灣開放資料的資料層，搭配可離線運行的小型開放 AI 模型。",
+  "ph_datatecx_line": "設計為在機關自有伺服器離線運行，離線 AI 已在單台筆電完成測試。",
   "ph_datatecx_p1": "只從臺灣政府機關有來源的紀錄中回答，附來源與日期",
   "ph_datatecx_p3": "正在尋找首個政府試行單位",
   "ph_datatecx_link": "洽談試行",
@@ -102,5 +101,6 @@
   "ph_final_body": "TECXMAP 免費使用。洽談試行與合作，請預約 30 分鐘通話。",
   "ph_final_map": "開啟 TECXMAP",
   "nav_products": "產品",
-  "ph_contact_link": "聯絡我們"
+  "ph_contact_link": "聯絡我們",
+  "ph_status_preview": "搶先體驗"
 }

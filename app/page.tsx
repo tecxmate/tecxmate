@@ -20,7 +20,7 @@ const HOME_DESCRIPTION =
 
 const PRODUCTS_JSONLD = [
   { name: "TECXMAP", url: "https://map.tecxmate.com", description: "A map of about 1.7 million businesses registered in Taiwan, with district data from government open datasets." },
-  { name: "DATATECX", description: "Sovereign AI for Taiwan data: a data layer for Taiwan's open data with a small open AI model that can run offline." },
+  { name: "DATATECX", description: "Sovereign AI for Taiwan data: a data layer and a small open AI model, built to run offline on an agency's own servers." },
   { name: "AlphaTecx", description: "Taiwan Stock AI Connector: connects Claude to Taiwan stock-market open data for sourced answers." },
   { name: "eTecx", description: "A power-electronics circuit simulator, desktop and web, with built-in AI design help." },
 ]

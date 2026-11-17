@@ -27,16 +27,16 @@ The homepage at `/` now frames TECXMATE as a product company. Approved by Niko (
 | `ph_products_title` | Products | 產品 |
 | `ph_status_live` | Live | 上線中 |
 | `ph_status_pilot` | Pilot wanted | 尋求試行 |
-| `ph_status_demo` | Demo | 展示版 |
+| `ph_status_preview` | Live preview | 搶先體驗 |
 | `ph_status_dev` | In development | 開發中 |
 | `ph_tecxmap_sub` | 臺灣地圖集 Taiwan Atlas | 臺灣地圖集 |
 | `ph_tecxmap_line` | A map of about 1.7 million businesses registered in Taiwan, with district data from government open datasets. | 約 170 萬家臺灣登記營業單位的地圖，加上政府開放資料的行政區資訊。 |
 | `ph_tecxmap_p1` | Free public map | 公開地圖，免費使用 |
-| `ph_tecxmap_p2` | 臺灣商情 TBIS: lead lists, territories and visit routes for sales teams | 臺灣商情 TBIS：為業務團隊產出名單、轄區與拜訪路線 |
+| `ph_tecxmap_p2` | 臺灣商情 TBIS: lead lists, territories and visit routes for sales teams, starting with a free pilot | 臺灣商情 TBIS：為業務團隊產出名單、轄區與拜訪路線，從免費試行開始 |
 | `ph_tecxmap_p3` | AI connector (MCP): Claude answers with source and date | AI 連接器（MCP）：Claude 回答附來源與日期 |
 | `ph_tecxmap_link` | Open the map | 開啟地圖 |
 | `ph_datatecx_sub` | Sovereign AI for Taiwan data | 臺灣資料的主權 AI |
-| `ph_datatecx_line` | A data layer for Taiwan's open data, with a small open AI model that can run offline. | 臺灣開放資料的資料層，搭配可離線運行的小型開放 AI 模型。 |
+| `ph_datatecx_line` | Built to run offline on an agency's own servers. Offline AI tested on one laptop. | 設計為在機關自有伺服器離線運行，離線 AI 已在單台筆電完成測試。 |
 | `ph_datatecx_p1` | Answers only from sourced records of Taiwan's agencies, with source and date | 只從臺灣政府機關有來源的紀錄中回答，附來源與日期 |
 | `ph_datatecx_p3` | Seeking a first government pilot | 正在尋找首個政府試行單位 |
 | `ph_datatecx_link` | Talk about a pilot | 洽談試行 |

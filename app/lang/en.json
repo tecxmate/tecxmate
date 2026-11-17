@@ -70,16 +70,15 @@
   "ph_products_title": "Products",
   "ph_status_live": "Live",
   "ph_status_pilot": "Pilot wanted",
-  "ph_status_demo": "Demo",
   "ph_status_dev": "In development",
   "ph_tecxmap_sub": "臺灣地圖集 Taiwan Atlas",
   "ph_tecxmap_line": "A map of about 1.7 million businesses registered in Taiwan, with district data from government open datasets.",
   "ph_tecxmap_p1": "Free public map",
-  "ph_tecxmap_p2": "臺灣商情 TBIS: lead lists, territories and visit routes for sales teams",
+  "ph_tecxmap_p2": "臺灣商情 TBIS: lead lists, territories and visit routes for sales teams, starting with a free pilot",
   "ph_tecxmap_p3": "AI connector (MCP): Claude answers with source and date",
   "ph_tecxmap_link": "Open the map",
   "ph_datatecx_sub": "Sovereign AI for Taiwan data",
-  "ph_datatecx_line": "A data layer for Taiwan's open data, with a small open AI model that can run offline.",
+  "ph_datatecx_line": "Built to run offline on an agency's own servers. Offline AI tested on one laptop.",
   "ph_datatecx_p1": "Answers only from sourced records of Taiwan's agencies, with source and date",
   "ph_datatecx_p3": "Seeking a first government pilot",
   "ph_datatecx_link": "Talk about a pilot",
@@ -102,5 +101,6 @@
   "ph_final_body": "TECXMAP is free to use. For pilots and partnerships, book a 30-minute call.",
   "ph_final_map": "Open TECXMAP",
   "nav_products": "Products",
-  "ph_contact_link": "Contact us"
+  "ph_contact_link": "Contact us",
+  "ph_status_preview": "Live preview"
 }

@@ -70,16 +70,15 @@
   "ph_products_title": "Sản phẩm",
   "ph_status_live": "Đang chạy",
   "ph_status_pilot": "Tìm thí điểm",
-  "ph_status_demo": "Bản demo",
   "ph_status_dev": "Đang phát triển",
   "ph_tecxmap_sub": "臺灣地圖集 Taiwan Atlas",
   "ph_tecxmap_line": "Bản đồ khoảng 1,7 triệu doanh nghiệp đăng ký tại Đài Loan, kèm dữ liệu quận huyện từ dữ liệu mở của chính phủ.",
   "ph_tecxmap_p1": "Bản đồ công khai, miễn phí",
-  "ph_tecxmap_p2": "臺灣商情 TBIS: danh sách khách hàng, vùng và lộ trình cho đội bán hàng",
+  "ph_tecxmap_p2": "臺灣商情 TBIS: danh sách khách hàng, vùng và lộ trình cho đội bán hàng, bắt đầu bằng thí điểm miễn phí",
   "ph_tecxmap_p3": "Kết nối AI (MCP): Claude trả lời kèm nguồn và ngày",
   "ph_tecxmap_link": "Mở bản đồ",
   "ph_datatecx_sub": "AI chủ quyền cho dữ liệu Đài Loan",
-  "ph_datatecx_line": "Lớp dữ liệu cho dữ liệu mở Đài Loan, kèm mô hình AI mở nhỏ có thể chạy ngoại tuyến.",
+  "ph_datatecx_line": "Được thiết kế để chạy ngoại tuyến trên máy chủ của chính cơ quan. AI ngoại tuyến đã được thử trên một máy tính xách tay.",
   "ph_datatecx_p1": "Chỉ trả lời từ hồ sơ có nguồn của các cơ quan Đài Loan, kèm nguồn và ngày",
   "ph_datatecx_p3": "Đang tìm đơn vị chính phủ thí điểm đầu tiên",
   "ph_datatecx_link": "Trao đổi thí điểm",
@@ -102,5 +101,6 @@
   "ph_final_body": "TECXMAP miễn phí. Về thí điểm và hợp tác, hãy đặt lịch gọi 30 phút.",
   "ph_final_map": "Mở TECXMAP",
   "nav_products": "Sản phẩm",
-  "ph_contact_link": "Liên hệ"
+  "ph_contact_link": "Liên hệ",
+  "ph_status_preview": "Bản xem trước"
 }
