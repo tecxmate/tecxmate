@@ -98,6 +98,15 @@ export function Footer() {
                   {co.contactEmail}
                 </a>
               </p>
+              <p className="text-sm text-gray-300 flex flex-wrap gap-x-4 gap-y-1">
+                <a href="https://lin.ee/PHAOtCo" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors duration-200 whitespace-nowrap">
+                  LINE
+                </a>
+                <a href="https://wa.me/886966860602" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors duration-200 whitespace-nowrap">
+                  WhatsApp
+                </a>
+                <span className="whitespace-nowrap">WeChat ID: <span className="text-white select-all">nikolasdoan</span></span>
+              </p>
             </div>
           </div>
 

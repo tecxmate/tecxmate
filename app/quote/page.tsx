@@ -34,6 +34,35 @@ export default async function QuotePage({
         <div className="mt-10">
           <QuoteForm conversationId={chat} product={preselected} />
         </div>
+        <div className="mt-12 border-t border-border pt-8">
+          <h2 className="text-lg font-semibold text-foreground">Or reach us directly</h2>
+          <ul className="mt-4 grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
+            <li>
+              <a href="https://cal.com/nikolasdoan/30min" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline whitespace-nowrap">
+                Book a 30-min call
+              </a>
+            </li>
+            <li>
+              Email:{" "}
+              <a href="mailto:official@tecxmate.com" className="font-medium text-primary hover:underline">
+                official@tecxmate.com
+              </a>
+            </li>
+            <li>
+              <a href="https://lin.ee/PHAOtCo" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline whitespace-nowrap">
+                Chat on LINE
+              </a>
+            </li>
+            <li>
+              <a href="https://wa.me/886966860602" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline whitespace-nowrap">
+                Message on WhatsApp
+              </a>
+            </li>
+            <li>
+              WeChat ID: <span className="font-medium text-foreground select-all">nikolasdoan</span>
+            </li>
+          </ul>
+        </div>
       </section>
       <Footer />
     </main>
