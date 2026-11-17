@@ -38,16 +38,6 @@ const DEFAULT_TEAM: TeamMember[] = [
     socialIcon: "company",
   },
   {
-    id: "lynn",
-    name: "Lynn Ta 謝宛伶",
-    role: { en: "Project Manager", vi: "Quản lý dự án", zh: "專案經理" },
-    description: { en: "", vi: "", zh: "" },
-    photo: "/avatars/lynn_avatar.JPG",
-    linkedin: "https://www.linkedin.com/in/uyen-linh-ta-a970b1188/",
-    twitter: "",
-    socialIcon: "academic",
-  },
-  {
     id: "andrea",
     name: "Andrea Peretto",
     role: { en: "Business Developer", vi: "Phát triển kinh doanh", zh: "業務開發" },
@@ -59,7 +49,7 @@ const DEFAULT_TEAM: TeamMember[] = [
   },
 ]
 
-const HIDDEN_TEAM_MEMBER_IDS = new Set(["jane"])
+const HIDDEN_TEAM_MEMBER_IDS = new Set(["jane", "lynn"])
 
 function visibleTeamMembers(teamMembers: TeamMember[]) {
   return teamMembers.filter((member) => !HIDDEN_TEAM_MEMBER_IDS.has(member.id))

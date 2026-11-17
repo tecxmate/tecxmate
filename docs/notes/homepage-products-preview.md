@@ -32,7 +32,7 @@ The homepage at `/` now frames TECXMATE as a product company. Approved by Niko (
 | `ph_tecxmap_sub` | 臺灣地圖集 Taiwan Atlas | 臺灣地圖集 |
 | `ph_tecxmap_line` | A map of about 1.7 million businesses registered in Taiwan, with district data from government open datasets. | 約 170 萬家臺灣登記營業單位的地圖，加上政府開放資料的行政區資訊。 |
 | `ph_tecxmap_p1` | Free public map | 公開地圖，免費使用 |
-| `ph_tecxmap_p2` | 臺灣商情 TBIS: lead lists, territories and visit routes for sales teams, starting with a free pilot | 臺灣商情 TBIS：為業務團隊產出名單、轄區與拜訪路線，從免費試行開始 |
+| `ph_tecxmap_p2` | For sales teams: lead lists, territories and visit routes, starting with a free pilot | 為業務團隊產出名單、轄區與拜訪路線，從免費試行開始 |
 | `ph_tecxmap_p3` | AI connector (MCP): Claude answers with source and date | AI 連接器（MCP）：Claude 回答附來源與日期 |
 | `ph_tecxmap_link` | Open the map | 開啟地圖 |
 | `ph_datatecx_sub` | Sovereign AI for Taiwan data | 臺灣資料的主權 AI |
@@ -55,7 +55,7 @@ The homepage at `/` now frames TECXMATE as a product company. Approved by Niko (
 | `ph_clients_apps` | Apps | 應用程式 |
 | `ph_clients_ai` | AI integration | AI 整合 |
 | `ph_clients_search` | AI-search visibility | AI 搜尋曝光 |
-| `ph_final_title` | Try the map. Or talk to us. | 先試用地圖，或與我們聊聊。 |
+| `ph_final_title` | The answer is here. | 答案就在這裡 |
 | `ph_final_body` | TECXMAP is free to use. For pilots and partnerships, book a 30-minute call. | TECXMAP 免費使用。洽談試行與合作，請預約 30 分鐘通話。 |
 | `ph_final_map` | Open TECXMAP | 開啟 TECXMAP |
 | `ph_contact_link` | Contact us | 聯絡我們 |

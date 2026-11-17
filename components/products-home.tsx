@@ -6,6 +6,7 @@ import { LogoCarousel } from "@/components/logo-carousel"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck } from "@/lib/sales-deck"
+import { useSiteContent } from "@/lib/use-site-content"
 
 /**
  * The product-first homepage sections. They reuse the hero background, the
@@ -193,11 +194,15 @@ export function ClientsSection() {
 }
 
 export function FinalCta() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const content = useSiteContent()
+  // The heading stays admin-editable (Admin › Homepage › CTA title), as before.
+  const override = content?.homepage?.cta?.title
+  const title = override?.[language] || override?.en || t("ph_final_title")
   return (
     <section id="cta" className="bg-gray-950 py-24 md:py-32">
       <div className="container px-4 md:px-6 max-w-4xl text-center">
-        <h2 className="text-4xl font-semibold md:text-5xl lg:text-6xl tracking-tight text-white mb-6">{t("ph_final_title")}</h2>
+        <h2 className="text-4xl font-semibold md:text-5xl lg:text-6xl tracking-tight text-white mb-6">{title}</h2>
         <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto">{t("ph_final_body")}</p>
         <div className="flex flex-wrap justify-center gap-3">
           <Button
