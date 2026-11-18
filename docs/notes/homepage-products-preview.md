@@ -21,7 +21,6 @@ The homepage at `/` now frames TECXMATE as a product company. Approved by Niko (
 | Key | English | 繁體中文 |
 |---|---|---|
 | `ph_hero_title` | Frontier AI-native products | 前沿 AI 原生產品 |
-| `ph_hero_subtitle` | Four products for Taiwan data, stock markets and circuit design. | 四項產品：臺灣資料、臺股資訊與電路設計。 |
 | `ph_cta_products` | See products | 查看產品 |
 | `ph_cta_call` | Book a call | 預約通話 |
 | `ph_products_title` | Products | 產品 |

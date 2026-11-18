@@ -184,7 +184,7 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
       offset: [width * 0.72, -height * 0.52],
       onRender: (state) => {
         if (!prefersReducedMotionRef.current) {
-          phiRef.current += 0.001
+          phiRef.current += 0.004 // about one turn every 105 s at 15 fps; 0.001 (one turn in 7 min) looked still
           state.phi = phiRef.current
         }
 
