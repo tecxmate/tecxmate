@@ -89,9 +89,7 @@ export function Navbar() {
       >
         <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-baseline gap-2">
-          <span className="text-2xl font-accent italic tracking-wide text-primary">
-            <span className="font-thin">tecx</span><span className="font-thin">mate</span>
-          </span>
+          <span className="text-2xl font-accent font-bold tracking-tight text-primary">tecxmate</span>
         </Link>
         <nav className="hidden md:flex gap-6">
           <Link

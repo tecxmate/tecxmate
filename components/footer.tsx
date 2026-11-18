@@ -35,10 +35,7 @@ export function Footer() {
           {/* Brand & Social */}
           <div className="space-y-4 md:col-span-4">
             <Link href="/" className="flex items-baseline gap-2">
-              <span className="text-2xl font-accent italic tracking-wide text-white">
-                <span className="font-thin">tecx</span>
-                <span className="font-thin">mate</span>
-              </span>
+              <span className="text-2xl font-accent font-bold tracking-tight text-white">tecxmate</span>
             </Link>
             <p className="text-sm text-gray-300 leading-relaxed">{t("got_idea")}</p>
             <div className="flex flex-wrap items-center gap-3">

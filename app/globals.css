@@ -3,15 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Load FussionPersonalUse font for logo */
-@font-face {
-  font-family: 'FussionPersonalUse';
-  src: url('/fonts/FussionPersonalUse.ttf') format('truetype');
-  font-display: swap;
-  font-weight: normal;
-  font-style: normal;
-}
-
 @layer base {
   :root {
     /* Apple-inspired color palette */

@@ -72,7 +72,7 @@ export default async function TecxbookPage() {
                         />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/10 to-primary/30">
-                          <span className="font-accent italic text-3xl text-primary/70">
+                          <span className="font-accent font-bold text-3xl text-primary/70">
                             tecxbook
                           </span>
                         </div>

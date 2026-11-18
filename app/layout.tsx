@@ -12,6 +12,10 @@ import { Analytics } from '@vercel/analytics/react'
 import { LanguageProvider } from "@/components/language-provider"
 import { generateCountryKeywords } from "@/lib/keywords"
 import { readContent } from "@/lib/site-content"
+import { Sora } from "next/font/google"
+
+// The tecxmate wordmark. Only weight 700 is used; the rest of the site uses the system font.
+const sora = Sora({ subsets: ["latin"], weight: "700", variable: "--font-sora", display: "swap" })
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 
@@ -116,7 +120,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={sora.variable} suppressHydrationWarning>
       <head>
         <meta name="language" content="English" />
         <meta name="geo.region" content="VN" />

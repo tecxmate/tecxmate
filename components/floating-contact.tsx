@@ -334,7 +334,7 @@ export function FloatingContact() {
               <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-primary bg-green-400" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="font-accent text-sm font-semibold italic leading-tight">{title}</p>
+              <p className="font-accent text-sm font-semibold leading-tight">{title}</p>
               <p className="truncate text-[11px] leading-tight text-white/80">{subtitle}</p>
             </div>
             <button
