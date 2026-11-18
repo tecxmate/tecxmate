@@ -2,7 +2,6 @@
 
 import { ArrowRight, Check } from "lucide-react"
 import ShaderBackground from "@/components/shader-background"
-import { LogoCarousel } from "@/components/logo-carousel"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck } from "@/lib/sales-deck"
@@ -159,26 +158,6 @@ export function ProductsGrid() {
 }
 
 
-export function ClientsSection() {
-  const { t } = useLanguage()
-  const items: Key[] = ["ph_clients_apps", "ph_clients_ai", "ph_clients_search"]
-  return (
-    <section id="clients" className="bg-muted/30 py-16 md:py-20">
-      <div className="container px-4 md:px-6 max-w-7xl">
-        <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">{t("ph_clients_title")}</h2>
-        <p className="text-muted-foreground mb-6">{t("ph_clients_body")}</p>
-        <div className="flex flex-wrap gap-2 mb-8">
-          {items.map((key) => (
-            <span key={key} className="whitespace-nowrap text-sm px-3 py-1.5 rounded-full border border-border bg-card text-foreground">
-              {t(key)}
-            </span>
-          ))}
-        </div>
-        <LogoCarousel inline />
-      </div>
-    </section>
-  )
-}
 
 export function FinalCta() {
   const { t, language } = useLanguage()
