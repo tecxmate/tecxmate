@@ -68,6 +68,8 @@ const ARC_CONNECTIONS = [
 // Target fps: low enough to keep devices cool, high enough for smooth rotation
 const TARGET_FPS = 15
 const FRAME_INTERVAL = 1000 / TARGET_FPS
+// Rotation speed in radians per second: 0.001 per frame at 15 fps, one turn in about 7 minutes.
+const ROTATION_PER_SECOND = 0.001 * TARGET_FPS
 
 interface GlobeBackgroundProps {
   isDark?: boolean
@@ -82,7 +84,6 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
   const rafRef = useRef<number>(0)
   const prefersReducedMotionRef = useRef(false)
   const isInViewRef = useRef(true)
-  const idleRef = useRef(false)
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 })
   const [isMobile, setIsMobile] = useState(false)
 
@@ -136,13 +137,10 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
     )
     io.observe(hero)
 
-    // Stop rendering once the page goes idle (AnimationPauser); resume on activity.
-    const onIdle = (e: Event) => { idleRef.current = !!(e as CustomEvent).detail?.idle }
-    window.addEventListener("app:idle", onIdle)
-
+    // The globe deliberately ignores the page-idle pause (AnimationPauser): it keeps
+    // turning steadily while on screen, and still stops off-screen or in a hidden tab.
     return () => {
       io.disconnect()
-      window.removeEventListener("app:idle", onIdle)
     }
   }, [])
 
@@ -163,6 +161,7 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
     const mapSamples = android ? (isMobile ? 3000 : 6000) : isMobile ? 5000 : 8000
 
     let time = 0
+    let lastRotateAt = 0
 
     const globe = createGlobe(canvas, {
       devicePixelRatio: dpr,
@@ -184,7 +183,11 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
       offset: [width * 0.72, -height * 0.52],
       onRender: (state) => {
         if (!prefersReducedMotionRef.current) {
-          phiRef.current += 0.004 // about one turn every 105 s at 15 fps; 0.001 (one turn in 7 min) looked still
+          // Angle from elapsed time, not frame count, so the speed stays even when
+          // frames are skipped. Same speed as before: 0.001 rad per frame at 15 fps.
+          const now = performance.now()
+          if (lastRotateAt) phiRef.current += ((now - lastRotateAt) / 1000) * ROTATION_PER_SECOND
+          lastRotateAt = now
           state.phi = phiRef.current
         }
 
@@ -221,7 +224,10 @@ export function GlobeBackground({ isDark = false }: GlobeBackgroundProps) {
     const tick = (now: number) => {
       rafRef.current = requestAnimationFrame(tick)
 
-      if (!isInViewRef.current || document.hidden || idleRef.current) return // skip GPU work off-screen, hidden, or idle
+      if (!isInViewRef.current || document.hidden) {
+        lastRotateAt = 0 // resume without a jump
+        return // skip GPU work off-screen or in a hidden tab
+      }
 
       if (now - lastFrameTime < FRAME_INTERVAL) return
       lastFrameTime = now
