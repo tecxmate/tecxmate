@@ -145,7 +145,7 @@ export function Footer() {
               <div className="space-y-2">
                 <p className="font-medium text-white text-sm sm:text-base">{language === "vi" ? co.legalName.vi : co.legalName.en}</p>
                 <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">ADD: {displayAddress}</p>
-                <p className="text-gray-300 text-xs sm:text-sm">MST: {co.taxNumber}</p>
+                <p className="text-gray-300 text-xs sm:text-sm">TAX: {co.taxNumber}</p>
                 <a
                   href={`tel:${co.phone.vn.tel}`}
                   className="inline-flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors duration-200 text-xs sm:text-sm"
