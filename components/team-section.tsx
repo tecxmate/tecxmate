@@ -51,8 +51,20 @@ const DEFAULT_TEAM: TeamMember[] = [
 
 const HIDDEN_TEAM_MEMBER_IDS = new Set(["jane", "lynn"])
 
+/**
+ * Titles set in code win over the admin content, which still stores the old
+ * "CEO & CFO" / "CTO & COO" (Niko, 2026-11-18). Remove an entry once Admin
+ * matches it.
+ */
+const ROLE_OVERRIDES: Record<string, TeamMember["role"]> = {
+  nikolas: { en: "CEO", vi: "CEO", zh: "CEO" },
+  brian: { en: "CTO", vi: "CTO", zh: "CTO" },
+}
+
 function visibleTeamMembers(teamMembers: TeamMember[]) {
-  return teamMembers.filter((member) => !HIDDEN_TEAM_MEMBER_IDS.has(member.id))
+  return teamMembers
+    .filter((member) => !HIDDEN_TEAM_MEMBER_IDS.has(member.id))
+    .map((member) => (ROLE_OVERRIDES[member.id] ? { ...member, role: ROLE_OVERRIDES[member.id] } : member))
 }
 
 function teamPhotoClassName(memberId: string) {
