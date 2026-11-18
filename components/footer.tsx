@@ -26,7 +26,9 @@ export function Footer() {
 
   // Live content overrides the static defaults once it arrives.
   const co = live ?? company
-  const displayAddress = co.addressDisplay?.[language] || co.addressDisplay?.en || t("address")
+  // The short address is set in code (Niko, 2026-11-18); Admin still stores the long one.
+  // The full street address stays in the legal pages and the structured data.
+  const displayAddress = company.addressDisplay?.[language] || company.addressDisplay?.en || t("address")
 
   return (
     <footer id="footer" className="bg-alt-black py-12 md:py-16 border-0">
