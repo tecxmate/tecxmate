@@ -151,15 +151,9 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Phones stack the copyright above the links so neither wraps; wider screens keep one row. */}
+        {/* Phones stack the copyright above Cookie settings so neither wraps; wider screens keep one row. The admin pages have no link: open /admin directly. */}
         <div className="mt-10 pt-6 text-sm text-white flex flex-col-reverse items-start gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
           <div className="flex items-center gap-3">
-            <Link
-              href="/admin/vcards"
-              className="whitespace-nowrap border border-gray-500 text-gray-300 hover:border-white hover:text-white transition-colors duration-200 text-sm px-3 py-1 rounded-md"
-            >
-              Admin
-            </Link>
             <button
               type="button"
               onClick={openSettings}
