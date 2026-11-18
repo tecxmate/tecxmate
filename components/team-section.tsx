@@ -97,9 +97,10 @@ export function TeamSection() {
             <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white" suppressHydrationWarning>{t("team_heading")}</h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {/* Centred row of equal cards: any number of members spreads evenly instead of filling a fixed grid from the left. */}
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
             {teamMembers.map((member) => (
-              <div key={member.id}>
+              <div key={member.id} className="w-[calc(50%-0.5rem)] md:w-60">
                 <div
                   className="rounded-none bg-card shadow-sm overflow-hidden h-full hover:shadow-xl md:hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
                 >
