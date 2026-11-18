@@ -102,7 +102,6 @@ export function Footer() {
                 <a href="https://wa.me/886966860602" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors duration-200 whitespace-nowrap">
                   WhatsApp
                 </a>
-                <span className="whitespace-nowrap">WeChat ID: <span className="text-white select-all">nikolasdoan</span></span>
               </p>
             </div>
           </div>
@@ -152,23 +151,24 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 text-sm text-white flex items-center justify-between gap-3">
+        {/* Phones stack the copyright above the links so neither wraps; wider screens keep one row. */}
+        <div className="mt-10 pt-6 text-sm text-white flex flex-col-reverse items-start gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
           <div className="flex items-center gap-3">
             <Link
               href="/admin/vcards"
-              className="border border-gray-500 text-gray-300 hover:border-white hover:text-white transition-colors duration-200 text-sm px-3 py-1 rounded-md"
+              className="whitespace-nowrap border border-gray-500 text-gray-300 hover:border-white hover:text-white transition-colors duration-200 text-sm px-3 py-1 rounded-md"
             >
               Admin
             </Link>
             <button
               type="button"
               onClick={openSettings}
-              className="text-gray-300 hover:text-white underline underline-offset-4 transition-colors duration-200 text-xs sm:text-sm"
+              className="whitespace-nowrap text-gray-300 hover:text-white underline underline-offset-4 transition-colors duration-200 text-xs sm:text-sm"
             >
               {cookieSettingsLabel}
             </button>
           </div>
-          <p className="text-white">
+          <p className="whitespace-nowrap text-white">
             © {new Date().getFullYear()} {co.name.toUpperCase()}. {t("all_rights_reserved")}
           </p>
         </div>

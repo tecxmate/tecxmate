@@ -4,7 +4,7 @@ import type { Metadata } from "next"
 import Script from "next/script"
 import dynamic from "next/dynamic"
 import { AnimationPauser } from "@/components/animation-pauser"
-import { ClientsSection, FinalCta, ProductsGrid, ProductsHero, WhySection } from "@/components/products-home"
+import { ClientsSection, FinalCta, ProductsGrid, ProductsHero } from "@/components/products-home"
 
 // The homepage frames TECXMATE as a product company. The order is fixed here;
 // the admin "homepage order" setting only applied to the old sales sections.
@@ -107,11 +107,10 @@ export default function Home() {
         }}
       />
       <ProductsHero />
+      <StoriesSection />
       <ProductsGrid />
-      <WhySection />
       <TeamSection />
       <ClientsSection />
-      <StoriesSection />
       <FinalCta />
       <Footer />
     </main>

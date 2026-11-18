@@ -209,7 +209,7 @@ export const defaultContent: SiteContent = {
     {
       id: "nikolas",
       name: "Nikolas Doan 段皇方",
-      role: L("CEO & CFO"),
+      role: L("CEO"),
       description: M(
         "MSc AI/Robotics (NTU, exp. '26). Former Google Cloud Startups. CEO TECXMATE.COM",
         "Thạc sĩ AI/Robotics (NTU, dự kiến '26). Cựu Google Cloud Startups. CEO TECXMATE.COM",
@@ -224,7 +224,7 @@ export const defaultContent: SiteContent = {
     {
       id: "brian",
       name: "Brian Nguyen 阮文貴",
-      role: L("CTO & COO"),
+      role: L("CTO"),
       description: M(
         "MS Gamification Engineering (NTUST, exp. '27). Built 3+ apps on App Store. Specialist in game mechanics for learning.",
         "Thạc sĩ Kỹ thuật Game hóa (NTUST, dự kiến '27). Đã phát hành hơn 3 ứng dụng trên App Store. Chuyên gia về cơ chế game ứng dụng vào học tập.",

@@ -58,9 +58,6 @@ export default async function QuotePage({
                 Message on WhatsApp
               </a>
             </li>
-            <li>
-              WeChat ID: <span className="font-medium text-foreground select-all">nikolasdoan</span>
-            </li>
           </ul>
         </div>
       </section>

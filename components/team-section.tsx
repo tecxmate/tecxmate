@@ -11,7 +11,7 @@ const DEFAULT_TEAM: TeamMember[] = [
   {
     id: "nikolas",
     name: "Nikolas Doan 段皇方",
-    role: { en: "CEO & CFO", vi: "CEO & CFO", zh: "CEO & CFO" },
+    role: { en: "CEO", vi: "CEO", zh: "CEO" },
     description: {
       en: "MSc AI/Robotics (NTU, exp. '26). Former Google Cloud Startups. CEO TECXMATE.COM",
       vi: "Thạc sĩ AI/Robotics (NTU, dự kiến '26). Cựu Google Cloud Startups. CEO TECXMATE.COM",
@@ -26,7 +26,7 @@ const DEFAULT_TEAM: TeamMember[] = [
   {
     id: "brian",
     name: "Brian Nguyen 阮文貴",
-    role: { en: "CTO & COO", vi: "CTO & COO", zh: "CTO & COO" },
+    role: { en: "CTO", vi: "CTO", zh: "CTO" },
     description: {
       en: "MS Gamification Engineering (NTUST, exp. '27). Built 3+ apps on App Store. Specialist in game mechanics for learning.",
       vi: "Thạc sĩ Kỹ thuật Game hóa (NTUST, dự kiến '27). Đã phát hành hơn 3 ứng dụng trên App Store. Chuyên gia về cơ chế game ứng dụng vào học tập.",

@@ -158,19 +158,6 @@ export function ProductsGrid() {
   )
 }
 
-export function WhySection() {
-  const { t } = useLanguage()
-  return (
-    <section id="why" className="bg-background py-20 md:py-28">
-      <div className="container px-4 md:px-6 max-w-4xl">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground mb-6">
-          {t("ph_why_title")}
-        </h2>
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">{t("ph_why_body")}</p>
-      </div>
-    </section>
-  )
-}
 
 export function ClientsSection() {
   const { t } = useLanguage()
