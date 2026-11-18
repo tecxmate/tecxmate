@@ -144,7 +144,7 @@ export function Footer() {
             <div className="space-y-4 text-sm text-gray-300">
               <div className="space-y-2">
                 <p className="font-medium text-white text-sm sm:text-base">{language === "vi" ? co.legalName.vi : co.legalName.en}</p>
-                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{displayAddress}</p>
+                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">ADD: {displayAddress}</p>
                 <p className="text-gray-300 text-xs sm:text-sm">MST: {co.taxNumber}</p>
                 <a
                   href={`tel:${co.phone.vn.tel}`}
