@@ -129,6 +129,11 @@ export function Footer() {
                   {t("terms_of_service")}
                 </Link>
               </li>
+              <li>
+                <button type="button" onClick={openSettings} className="hover:text-white transition-colors duration-200">
+                  {cookieSettingsLabel}
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -151,17 +156,8 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Phones stack the copyright above Cookie settings so neither wraps; wider screens keep one row. The admin pages have no link: open /admin directly. */}
-        <div className="mt-10 pt-6 text-sm text-white flex flex-col-reverse items-start gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={openSettings}
-              className="whitespace-nowrap text-gray-300 hover:text-white underline underline-offset-4 transition-colors duration-200 text-xs sm:text-sm"
-            >
-              {cookieSettingsLabel}
-            </button>
-          </div>
+        {/* Cookie settings sits in the link list above; the admin pages have no link: open /admin directly. */}
+        <div className="mt-10 pt-6 text-sm text-white flex items-center sm:justify-end">
           <p className="whitespace-nowrap text-white">
             © {new Date().getFullYear()} {co.name.toUpperCase()}. {t("all_rights_reserved")}
           </p>
