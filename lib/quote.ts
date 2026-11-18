@@ -22,8 +22,16 @@ export const SERVICE_OPTIONS = [
   "ai-seo",
   "data",
   "ai-integration",
+  "tecxmap",
+  "datatecx",
+  "alphatecx",
+  "etecx",
   "not-sure",
 ] as const
+
+/** Products a visitor can preselect on /quote with ?product=<id>. */
+export const PRODUCT_OPTIONS = ["tecxmap", "datatecx", "alphatecx", "etecx"] as const
+export type ProductOption = (typeof PRODUCT_OPTIONS)[number]
 
 export const BUDGET_OPTIONS = ["under-10k", "10-30k", "30-100k", "over-100k", "not-decided"] as const
 export const TIMELINE_OPTIONS = ["asap", "1-3-months", "3-6-months", "exploring"] as const

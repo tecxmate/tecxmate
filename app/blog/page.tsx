@@ -13,7 +13,7 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 
 export const metadata: Metadata = {
   title: "Blog - Technology Insights & Expert Articles | Tecxmate",
-  description: "Insights, tutorials, and updates from our team of technology consultancy experts. Learn about web development, business technology, digital transformation, and SME solutions.",
+  description: "Product news, AI and technology notes from the TECXMATE team.",
   keywords: generateCountryKeywords([
     "technology blog",
     "web development",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Blog - Technology Insights & Expert Articles | Tecxmate",
-    description: "Insights, tutorials, and updates from our team of technology consultancy experts. Learn about web development, business technology, and digital transformation.",
+    description: "Product news, AI and technology notes from the TECXMATE team.",
     url: `${baseUrl}/blog`,
     siteName: "Tecxmate",
     locale: "en_US",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Blog - Technology Insights & Expert Articles | Tecxmate",
-    description: "Insights, tutorials, and updates from our team of technology consultancy experts.",
+    description: "Product news, AI and technology notes from the TECXMATE team.",
     images: [`${baseUrl}/graphics/tecxmate-logo-cropped.png`],
   },
   robots: {
@@ -92,7 +92,7 @@ export default async function BlogPage() {
     "@type": "CollectionPage",
     "@id": `${baseUrl}/blog`,
     "name": "Tecxmate Blog",
-    "description": "Insights, tutorials, and updates from our team of technology consultancy experts",
+    "description": "Product news, AI and technology notes from the TECXMATE team.",
     "url": `${baseUrl}/blog`,
     "mainEntity": {
       "@type": "ItemList",

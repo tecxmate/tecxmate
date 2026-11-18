@@ -157,7 +157,7 @@ function Thrust() {
 
 const PILL_STYLES = {
   primary: "bg-primary text-white border-primary font-medium",
-  wordmark: "bg-foreground text-background border-foreground font-accent italic text-base md:text-lg",
+  wordmark: "bg-foreground text-background border-foreground font-accent font-bold text-base md:text-lg",
   ink: "bg-foreground text-background border-foreground font-medium",
   muted: "bg-card text-muted-foreground border-border",
 } as const

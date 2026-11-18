@@ -109,7 +109,7 @@ export function DeckViewer() {
     <div className="relative bg-background">
       {/* Chrome */}
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-16 lg:px-24 py-4">
-        <Link href="/" className="text-2xl font-accent italic tracking-wide text-primary">
+        <Link href="/" className="text-2xl font-accent font-bold tracking-wide text-primary">
           <span className="font-thin">tecxmate</span>
         </Link>
         <span className="text-xs font-mono text-muted-foreground">

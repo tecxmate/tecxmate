@@ -11,7 +11,7 @@ const DEFAULT_TEAM: TeamMember[] = [
   {
     id: "nikolas",
     name: "Nikolas Doan 段皇方",
-    role: { en: "CEO & CFO", vi: "CEO & CFO", zh: "CEO & CFO" },
+    role: { en: "CEO", vi: "CEO", zh: "CEO" },
     description: {
       en: "MSc AI/Robotics (NTU, exp. '26). Former Google Cloud Startups. CEO TECXMATE.COM",
       vi: "Thạc sĩ AI/Robotics (NTU, dự kiến '26). Cựu Google Cloud Startups. CEO TECXMATE.COM",
@@ -26,7 +26,7 @@ const DEFAULT_TEAM: TeamMember[] = [
   {
     id: "brian",
     name: "Brian Nguyen 阮文貴",
-    role: { en: "CTO & COO", vi: "CTO & COO", zh: "CTO & COO" },
+    role: { en: "CTO", vi: "CTO", zh: "CTO" },
     description: {
       en: "MS Gamification Engineering (NTUST, exp. '27). Built 3+ apps on App Store. Specialist in game mechanics for learning.",
       vi: "Thạc sĩ Kỹ thuật Game hóa (NTUST, dự kiến '27). Đã phát hành hơn 3 ứng dụng trên App Store. Chuyên gia về cơ chế game ứng dụng vào học tập.",
@@ -36,16 +36,6 @@ const DEFAULT_TEAM: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/brian-nguyen-587825235/",
     twitter: "https://www.tecxmate.com",
     socialIcon: "company",
-  },
-  {
-    id: "lynn",
-    name: "Lynn Ta 謝宛伶",
-    role: { en: "Project Manager", vi: "Quản lý dự án", zh: "專案經理" },
-    description: { en: "", vi: "", zh: "" },
-    photo: "/avatars/lynn_avatar.JPG",
-    linkedin: "https://www.linkedin.com/in/uyen-linh-ta-a970b1188/",
-    twitter: "",
-    socialIcon: "academic",
   },
   {
     id: "andrea",
@@ -59,10 +49,22 @@ const DEFAULT_TEAM: TeamMember[] = [
   },
 ]
 
-const HIDDEN_TEAM_MEMBER_IDS = new Set(["jane"])
+const HIDDEN_TEAM_MEMBER_IDS = new Set(["jane", "lynn"])
+
+/**
+ * Titles set in code win over the admin content, which still stores the old
+ * "CEO & CFO" / "CTO & COO" (Niko, 2026-11-18). Remove an entry once Admin
+ * matches it.
+ */
+const ROLE_OVERRIDES: Record<string, TeamMember["role"]> = {
+  nikolas: { en: "CEO", vi: "CEO", zh: "CEO" },
+  brian: { en: "CTO", vi: "CTO", zh: "CTO" },
+}
 
 function visibleTeamMembers(teamMembers: TeamMember[]) {
-  return teamMembers.filter((member) => !HIDDEN_TEAM_MEMBER_IDS.has(member.id))
+  return teamMembers
+    .filter((member) => !HIDDEN_TEAM_MEMBER_IDS.has(member.id))
+    .map((member) => (ROLE_OVERRIDES[member.id] ? { ...member, role: ROLE_OVERRIDES[member.id] } : member))
 }
 
 function teamPhotoClassName(memberId: string) {
@@ -95,9 +97,10 @@ export function TeamSection() {
             <h2 className="text-3xl font-semibold md:text-4xl lg:text-5xl tracking-tight text-white" suppressHydrationWarning>{t("team_heading")}</h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {/* Centred row of equal cards: any number of members spreads evenly instead of filling a fixed grid from the left. */}
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
             {teamMembers.map((member) => (
-              <div key={member.id}>
+              <div key={member.id} className="w-[calc(50%-0.5rem)] md:w-60">
                 <div
                   className="rounded-none bg-card shadow-sm overflow-hidden h-full hover:shadow-xl md:hover:-translate-y-1 transition-[transform,box-shadow] duration-300 will-change-[transform]"
                 >

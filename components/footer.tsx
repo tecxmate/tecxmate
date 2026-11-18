@@ -26,7 +26,9 @@ export function Footer() {
 
   // Live content overrides the static defaults once it arrives.
   const co = live ?? company
-  const displayAddress = co.addressDisplay?.[language] || co.addressDisplay?.en || t("address")
+  // The short address is set in code (Niko, 2026-11-18); Admin still stores the long one.
+  // The full street address stays in the legal pages and the structured data.
+  const displayAddress = company.addressDisplay?.[language] || company.addressDisplay?.en || t("address")
 
   return (
     <footer id="footer" className="bg-alt-black py-12 md:py-16 border-0">
@@ -35,10 +37,7 @@ export function Footer() {
           {/* Brand & Social */}
           <div className="space-y-4 md:col-span-4">
             <Link href="/" className="flex items-baseline gap-2">
-              <span className="text-2xl font-accent italic tracking-wide text-white">
-                <span className="font-thin">tecx</span>
-                <span className="font-thin">mate</span>
-              </span>
+              <span className="text-2xl font-accent font-bold tracking-tight text-white">tecxmate</span>
             </Link>
             <p className="text-sm text-gray-300 leading-relaxed">{t("got_idea")}</p>
             <div className="flex flex-wrap items-center gap-3">
@@ -98,6 +97,14 @@ export function Footer() {
                   {co.contactEmail}
                 </a>
               </p>
+              <p className="text-sm text-gray-300 flex flex-wrap gap-x-4 gap-y-1">
+                <a href="https://lin.ee/PHAOtCo" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors duration-200 whitespace-nowrap">
+                  LINE
+                </a>
+                <a href="https://wa.me/886966860602" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors duration-200 whitespace-nowrap">
+                  WhatsApp
+                </a>
+              </p>
             </div>
           </div>
 
@@ -124,6 +131,11 @@ export function Footer() {
                   {t("terms_of_service")}
                 </Link>
               </li>
+              <li>
+                <button type="button" onClick={openSettings} className="hover:text-white transition-colors duration-200">
+                  {cookieSettingsLabel}
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -132,8 +144,8 @@ export function Footer() {
             <div className="space-y-4 text-sm text-gray-300">
               <div className="space-y-2">
                 <p className="font-medium text-white text-sm sm:text-base">{language === "vi" ? co.legalName.vi : co.legalName.en}</p>
-                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{displayAddress}</p>
-                <p className="text-gray-300 text-xs sm:text-sm">MST: {co.taxNumber}</p>
+                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">ADD: {displayAddress}</p>
+                <p className="text-gray-300 text-xs sm:text-sm">TAX: {co.taxNumber}</p>
                 <a
                   href={`tel:${co.phone.vn.tel}`}
                   className="inline-flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors duration-200 text-xs sm:text-sm"
@@ -146,23 +158,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 text-sm text-white flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <Link
-              href="/admin/vcards"
-              className="border border-gray-500 text-gray-300 hover:border-white hover:text-white transition-colors duration-200 text-sm px-3 py-1 rounded-md"
-            >
-              Admin
-            </Link>
-            <button
-              type="button"
-              onClick={openSettings}
-              className="text-gray-300 hover:text-white underline underline-offset-4 transition-colors duration-200 text-xs sm:text-sm"
-            >
-              {cookieSettingsLabel}
-            </button>
-          </div>
-          <p className="text-white">
+        {/* Cookie settings sits in the link list above; the admin pages have no link: open /admin directly. */}
+        <div className="mt-10 pt-6 text-sm text-white flex items-center sm:justify-end">
+          <p className="whitespace-nowrap text-white">
             © {new Date().getFullYear()} {co.name.toUpperCase()}. {t("all_rights_reserved")}
           </p>
         </div>

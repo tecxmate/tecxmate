@@ -21,9 +21,9 @@ export const company = {
     countryCode: "VN",
   },
   addressDisplay: {
-    en: "Villa Park Villa Compound, Bung Ong Thoan Street, Long Truong Ward, Ho Chi Minh City, Vietnam",
-    vi: "Khu Biệt Thự Villa Park, Đường Bưng Ông Thoàn, Phường Long Trường, TP Hồ Chí Minh, Việt Nam",
-    zh: "越南胡志明市隆長坊 Bưng Ông Thoàn 路 Villa Park 別墅區",
+    en: "Villa Park Compound, Ho Chi Minh City, Vietnam",
+    vi: "Khu Villa Park, TP Hồ Chí Minh, Việt Nam",
+    zh: "越南胡志明市 Villa Park 別墅區",
   },
   /** Tax identification number */
   taxNumber: "0319431089",
