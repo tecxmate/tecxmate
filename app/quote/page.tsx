@@ -5,7 +5,7 @@ import { QuoteForm } from "@/components/quote-form"
 import { PRODUCT_OPTIONS } from "@/lib/quote"
 
 export const metadata: Metadata = {
-  title: "Request a quote | Tecxmate",
+  title: "Request a quote",
   description:
     "Tell us what you need and we will come back with scope, timeline, and a real number. First consultation is free.",
   robots: { index: true, follow: true },

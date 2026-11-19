@@ -12,7 +12,7 @@ import { notFound } from "next/navigation"
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 
 export const metadata: Metadata = {
-  title: "Blog - Technology Insights & Expert Articles | Tecxmate",
+  title: "Blog - Technology Insights & Expert Articles",
   description: "Product news, AI and technology notes from the TECXMATE team.",
   keywords: generateCountryKeywords([
     "technology blog",
