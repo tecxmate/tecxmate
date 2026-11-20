@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation"
 import { AVAILABLE_LANGUAGES, useLanguage, type Language } from "@/components/language-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
 import type { SectionVisibility } from "@/lib/site-content"
+import { SHOW_PRODUCTS } from "@/lib/features"
 
 const DEFAULT_SECTIONS: SectionVisibility = {
   hero: true,
@@ -106,7 +107,7 @@ export function Navbar() {
               {t("projects")}
             </Link>
           )}
-          {sections.products && (
+          {SHOW_PRODUCTS && sections.products && (
             <Link
               href="/#products"
               className={`text-sm font-medium transition-colors ${isActive("/#products") ? "text-primary" : "hover:text-primary"}`}
@@ -179,7 +180,7 @@ export function Navbar() {
                 {t("projects")}
               </Link>
             )}
-            {sections.products && (
+            {SHOW_PRODUCTS && sections.products && (
               <Link
                 href="/#products"
                 className={`text-sm font-medium transition-colors ${isActive("/#products") ? "text-primary" : "hover:text-primary"}`}
