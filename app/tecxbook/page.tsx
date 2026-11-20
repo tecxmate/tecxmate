@@ -11,7 +11,7 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: "Tecxbook — Interactive HTML Artifacts | Tecxmate",
+  title: "Tecxbook — Interactive HTML Artifacts",
   description:
     "A growing library of interactive HTML artifacts — visual essays, maps, and references you can open in your browser.",
   alternates: { canonical: `${baseUrl}/tecxbook` },
