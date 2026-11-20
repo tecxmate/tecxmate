@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/language-provider"
 import { salesDeck } from "@/lib/sales-deck"
 import { useSiteContent } from "@/lib/use-site-content"
+import { SHOW_PRODUCTS } from "@/lib/features"
 
 /**
  * The product-first homepage sections. They reuse the hero background, the
@@ -77,13 +78,15 @@ export function ProductsHero() {
             {t("ph_hero_title")}
           </h1>
           <div className="flex flex-wrap gap-3">
-            <Button
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-white text-base px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 whitespace-nowrap"
-              asChild
-            >
-              <a href="#products">{t("ph_cta_products")}</a>
-            </Button>
+            {SHOW_PRODUCTS && (
+              <Button
+                size="lg"
+                className="bg-primary hover:bg-primary/90 text-white text-base px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 whitespace-nowrap"
+                asChild
+              >
+                <a href="#products">{t("ph_cta_products")}</a>
+              </Button>
+            )}
             <Button
               size="lg"
               variant="outline"
