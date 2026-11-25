@@ -117,5 +117,12 @@
   "tw_f6_t": "Đội nhóm và AI agent",
   "tw_f6_d": "Không gian làm việc riêng, phân quyền theo vai trò và nhật ký kiểm toán. AI agent kết nối qua MCP connector bảo mật.",
   "tw_stack": "Xây dựng bằng Next.js, PostgreSQL, Drizzle ORM và Vercel.",
-  "tw_cta": "Xem cách hoạt động"
+  "tw_cta": "Xem cách hoạt động",
+  "nav_research": "Nghiên cứu",
+  "rs_eyebrow": "Nghiên cứu",
+  "rs_title": "Phát hiện từ các dự án của chúng tôi",
+  "rs_body": "Các nghiên cứu dựa trên dữ liệu mở, mỗi nghiên cứu đều ghi nguồn. Mỗi nghiên cứu cũng được đăng trên trang của dự án, nơi bạn có thể đọc toàn văn.",
+  "rs_all": "Tất cả",
+  "rs_read": "Đọc nghiên cứu",
+  "rs_more": "Sẽ có thêm nghiên cứu."
 }
