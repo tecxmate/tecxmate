@@ -6,7 +6,8 @@
  *   wider than Sora's own x on purpose).
  * - <BrandMark>: the standalone ⟩⟨ X (45°), used for icons.
  *
- * The logo is purple, except all white on the black footer (set by the parent's
+ * The logo is purple in light mode and white in dark mode; the black footer has
+ * white letters with a purple X (set by the parent's
  * text colour). It is a
  * graphic: wherever the name is written as text, it stays plain "tecxmate".
  * Sora is under the SIL Open Font License, which allows outlining it in a logo.
