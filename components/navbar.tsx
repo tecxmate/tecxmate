@@ -134,6 +134,12 @@ export function Navbar() {
               {t("about")}
             </Link>
           )}
+          <Link
+            href="/careers"
+            className={`text-sm font-medium transition-colors ${isActive("/careers") ? "text-primary" : "hover:text-primary"}`}
+          >
+            {t("nav_careers")}
+          </Link>
         </nav>
         <div className="flex items-center gap-2">
           <div className="hidden md:flex">
@@ -210,6 +216,13 @@ export function Navbar() {
                 {t("about")}
               </Link>
             )}
+            <Link
+              href="/careers"
+              className={`text-sm font-medium transition-colors ${isActive("/careers") ? "text-primary" : "hover:text-primary"}`}
+              onClick={closeMenu}
+            >
+              {t("nav_careers")}
+            </Link>
             <div className="flex items-center gap-2">
               <ThemeToggle />
               <span className="text-sm text-muted-foreground">Toggle theme</span>
