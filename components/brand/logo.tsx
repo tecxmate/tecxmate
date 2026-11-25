@@ -26,7 +26,7 @@ type WordmarkProps = {
 
 export function Wordmark({ className, textClassName, markClassName, title = "tecxmate" }: WordmarkProps) {
   return (
-    <svg viewBox="0 -706 4934 728" className={className} role="img" aria-label={title} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 -730 4934 780" overflow="visible" className={className} role="img" aria-label={title} xmlns="http://www.w3.org/2000/svg">
       <path d={TEXT} className={textClassName} fill="currentColor" />
       <path d={X} className={markClassName} fill="currentColor" />
     </svg>
