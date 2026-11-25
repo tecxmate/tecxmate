@@ -117,5 +117,12 @@
   "tw_f6_t": "團隊與 AI 代理",
   "tw_f6_d": "獨立工作區、角色權限與稽核紀錄。AI 代理可透過安全的 MCP 連接器接入。",
   "tw_stack": "使用 Next.js、PostgreSQL、Drizzle ORM 與 Vercel 打造。",
-  "tw_cta": "了解運作方式"
+  "tw_cta": "了解運作方式",
+  "nav_research": "研究",
+  "rs_eyebrow": "研究",
+  "rs_title": "我們各項專案的研究發現",
+  "rs_body": "以開放資料完成的研究，每份都附資料來源。每份研究也都發表在各專案自己的網站，可在那裡閱讀全文。",
+  "rs_all": "全部",
+  "rs_read": "閱讀研究",
+  "rs_more": "更多研究陸續發表。"
 }

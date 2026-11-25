@@ -135,6 +135,12 @@ export function Navbar() {
             </Link>
           )}
           <Link
+            href="/research"
+            className={`text-sm font-medium transition-colors ${isActive("/research") ? "text-primary" : "hover:text-primary"}`}
+          >
+            {t("nav_research")}
+          </Link>
+          <Link
             href="/careers"
             className={`text-sm font-medium transition-colors ${isActive("/careers") ? "text-primary" : "hover:text-primary"}`}
           >
@@ -216,6 +222,13 @@ export function Navbar() {
                 {t("about")}
               </Link>
             )}
+            <Link
+              href="/research"
+              className={`text-sm font-medium transition-colors ${isActive("/research") ? "text-primary" : "hover:text-primary"}`}
+              onClick={closeMenu}
+            >
+              {t("nav_research")}
+            </Link>
             <Link
               href="/careers"
               className={`text-sm font-medium transition-colors ${isActive("/careers") ? "text-primary" : "hover:text-primary"}`}

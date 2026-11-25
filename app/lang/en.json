@@ -117,5 +117,12 @@
   "tw_f6_t": "Teams and AI agents",
   "tw_f6_d": "Separate workspaces, role-based access and an audit log. AI agents connect through a secure MCP connector.",
   "tw_stack": "Built with Next.js, PostgreSQL, Drizzle ORM and Vercel.",
-  "tw_cta": "See how it works"
+  "tw_cta": "See how it works",
+  "nav_research": "Research",
+  "rs_eyebrow": "Research",
+  "rs_title": "Findings from our projects",
+  "rs_body": "Studies built on open data, each with its sources. Every study also lives on its own project's site, where you can read it in full.",
+  "rs_all": "All",
+  "rs_read": "Read the study",
+  "rs_more": "More studies are on the way."
 }

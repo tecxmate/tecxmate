@@ -120,6 +120,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/research" className="hover:text-white transition-colors duration-200">
+                  {t("nav_research")}
+                </Link>
+              </li>
+              <li>
                 <Link href="/careers" className="hover:text-white transition-colors duration-200">
                   {t("nav_careers")}
                 </Link>
