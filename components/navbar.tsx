@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react"
 import Link from "next/link"
+import { Wordmark } from "@/components/brand/logo"
 import { Menu, X, Globe } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
@@ -90,7 +91,9 @@ export function Navbar() {
       >
         <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-baseline gap-2">
-          <span className="text-2xl font-accent font-bold tracking-tight text-primary">tecxmate</span>
+          <span className="text-2xl text-primary">
+            <Wordmark className="block h-[0.728em] w-auto" />
+          </span>
         </Link>
         <nav className="hidden md:flex gap-6">
           <Link

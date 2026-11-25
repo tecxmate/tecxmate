@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import { Wordmark } from "@/components/brand/logo"
 import { Facebook, Twitter, Instagram, Linkedin, Video, Phone } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { useConsent } from "@/components/consent/consent-provider"
@@ -37,7 +38,9 @@ export function Footer() {
           {/* Brand & Social */}
           <div className="space-y-4 md:col-span-4">
             <Link href="/" className="flex items-baseline gap-2">
-              <span className="text-2xl font-accent font-bold tracking-tight text-white">tecxmate</span>
+              <span className="text-2xl text-white">
+                <Wordmark className="block h-[0.728em] w-auto" markClassName="text-primary" />
+              </span>
             </Link>
             <p className="text-sm text-gray-300 leading-relaxed">{t("got_idea")}</p>
             <div className="flex flex-wrap items-center gap-3">
