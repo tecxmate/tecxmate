@@ -11,7 +11,6 @@ type Key = Parameters<T>[0]
 
 // TECXWORK lives at its own address; these are its public pages.
 const TECXWORK_URL = "https://work.tecxmate.com"
-const ROLES_URL = `${TECXWORK_URL}/jobs`
 const HOW_IT_WORKS_URL = `${TECXWORK_URL}/how-it-works`
 const CAREERS_EMAIL = "mailto:official@tecxmate.com?subject=Careers%20at%20TECXMATE"
 
@@ -44,16 +43,6 @@ export function CareersContent() {
               <Button
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-white text-base px-8 py-6 rounded-full shadow-lg whitespace-nowrap"
-                asChild
-              >
-                <a href={ROLES_URL} target="_blank" rel="noopener noreferrer">
-                  {t("cr_cta_roles")}
-                </a>
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-base px-8 py-6 rounded-full bg-white/70 dark:bg-white/5 whitespace-nowrap"
                 asChild
               >
                 <a href={CAREERS_EMAIL}>{t("cr_cta_cv")}</a>

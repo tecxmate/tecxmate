@@ -5,7 +5,7 @@ import type { Metadata } from "next"
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 const description =
-  "Join TECXMATE. Our open roles are posted on TECXWORK, the full-stack hiring platform we built and run ourselves."
+  "Join TECXMATE, building at the frontier of AI product development. Roles are posted on TECXWORK, the hiring platform we built and run ourselves."
 
 export const metadata: Metadata = {
   title: "Careers",
