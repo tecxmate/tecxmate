@@ -36,9 +36,9 @@ export async function generateMetadata(): Promise<Metadata> {
   publisher: 'Tecxmate',
   metadataBase: new URL(baseUrl),
   icons: {
-    icon: '/icon.png',
-    shortcut: '/icon.png',
-    apple: '/apple-icon.png',
+    icon: '/icon.png?v=2',
+    shortcut: '/icon.png?v=2',
+    apple: '/apple-icon.png?v=2',
   },
   alternates: {
     canonical: baseUrl,
