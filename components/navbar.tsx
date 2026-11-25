@@ -92,7 +92,7 @@ export function Navbar() {
         <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-baseline gap-2">
           <span className="text-2xl text-primary dark:text-white">
-            <Wordmark className="block h-[0.728em] w-auto" />
+            <Wordmark className="block h-[0.78em] w-auto" />
           </span>
         </Link>
         <nav className="hidden md:flex gap-6">
