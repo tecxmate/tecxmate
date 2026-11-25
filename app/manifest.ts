@@ -18,17 +18,17 @@ export default function manifest(): MetadataRoute.Manifest {
         type: 'image/png',
       },
       {
-        src: '/favicon-192.png',
+        src: '/favicon-192.png?v=3',
         sizes: '192x192',
         type: 'image/png',
       },
       {
-        src: '/favicon-512.png',
+        src: '/favicon-512.png?v=3',
         sizes: '512x512',
         type: 'image/png',
       },
       {
-        src: '/apple-touch-icon.png',
+        src: '/apple-touch-icon.png?v=3',
         sizes: '180x180',
         type: 'image/png',
       }
