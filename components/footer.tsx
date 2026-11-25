@@ -38,7 +38,7 @@ export function Footer() {
           {/* Brand & Social */}
           <div className="space-y-4 md:col-span-4">
             <Link href="/" className="flex items-baseline gap-2">
-              <span className="text-2xl text-primary">
+              <span className="text-2xl text-white">
                 <Wordmark className="block h-[0.728em] w-auto" />
               </span>
             </Link>
