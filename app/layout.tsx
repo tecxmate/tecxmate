@@ -35,10 +35,16 @@ export async function generateMetadata(): Promise<Metadata> {
   creator: 'Tecxmate',
   publisher: 'Tecxmate',
   metadataBase: new URL(baseUrl),
+  // New file names (not /icon.png) so browsers that cached the old X fetch the new mark.
   icons: {
-    icon: '/icon.png',
-    shortcut: '/icon.png',
-    apple: '/apple-icon.png',
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: { url: '/apple-touch-icon.png', sizes: '180x180' },
   },
   alternates: {
     canonical: baseUrl,
