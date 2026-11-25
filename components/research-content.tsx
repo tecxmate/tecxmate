@@ -5,6 +5,8 @@ import { ArrowUpRight } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { PROJECTS, STUDIES, type ResearchProject } from "@/lib/research"
 
+const pick = (v: string | { en: string; zh: string }, lang: "en" | "zh") => (typeof v === "string" ? v : v[lang])
+
 function monthLabel(month: string, lang: string) {
   const [y, m] = month.split("-").map(Number)
   if (lang === "zh") return `${y} 年 ${m} 月`
@@ -48,7 +50,7 @@ export function ResearchContent() {
           {shown.map((s) => (
             <a
               key={s.id}
-              href={s.url}
+              href={pick(s.url, lang)}
               target="_blank"
               rel="noopener noreferrer"
               className="group bg-card border border-border shadow-sm overflow-hidden flex flex-col hover:border-primary transition-colors"
@@ -56,7 +58,7 @@ export function ResearchContent() {
               {s.image && (
                 // Images stay on the project's own site, so the gallery never holds a stale copy.
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={s.image} alt="" width={1200} height={630} loading="lazy" className="w-full aspect-[1200/630] object-cover" />
+                <img src={pick(s.image, lang)} alt="" width={1200} height={630} loading="lazy" className="w-full aspect-[1200/630] object-cover" />
               )}
               <div className="p-6 flex flex-col flex-1">
                 <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">

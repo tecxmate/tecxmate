@@ -17,8 +17,9 @@ export type Study = {
   topic: Bi
   /** Year and month published, YYYY-MM. */
   month: string
-  url: string
-  image?: string
+  /** One link, or one per language. */
+  url: string | Bi
+  image?: string | Bi
   /** false keeps a study out of the public page. */
   public: boolean
 }
@@ -50,6 +51,26 @@ export const STUDIES: Study[] = [
     month: "2026-11",
     url: "https://health.tecxmate.com/",
     image: "https://map.tecxmate.com/research/og-health.jpg",
+    public: true,
+  },
+  {
+    id: "etecx-accuracy",
+    project: "eTecx",
+    title: { zh: "電力電子模擬器準確度報告", en: "Power Electronics Simulator Accuracy Report" },
+    finding: {
+      zh: "338 項比對中有 322 項落在容許誤差內，對照解析解、ngspice 與規格書數值",
+      en: "322 of 338 checks fall within tolerance against analytic, ngspice and data-sheet references",
+    },
+    topic: { zh: "電力電子", en: "Power electronics" },
+    month: "2026-11",
+    url: {
+      en: "https://voltecx-web.nguyenvanqui291.workers.dev/benchmarks/",
+      zh: "https://voltecx-web.nguyenvanqui291.workers.dev/zh/benchmarks/",
+    },
+    image: {
+      en: "https://voltecx-web.nguyenvanqui291.workers.dev/og/en/benchmarks.png",
+      zh: "https://voltecx-web.nguyenvanqui291.workers.dev/og/zh/benchmarks.png",
+    },
     public: true,
   },
 ]
