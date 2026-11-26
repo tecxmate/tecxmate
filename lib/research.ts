@@ -63,14 +63,9 @@ export const STUDIES: Study[] = [
     },
     topic: { zh: "電力電子", en: "Power electronics" },
     month: "2026-11",
-    url: {
-      en: "https://voltecx-web.nguyenvanqui291.workers.dev/benchmarks/",
-      zh: "https://voltecx-web.nguyenvanqui291.workers.dev/zh/benchmarks/",
-    },
-    image: {
-      en: "https://voltecx-web.nguyenvanqui291.workers.dev/og/en/benchmarks.png",
-      zh: "https://voltecx-web.nguyenvanqui291.workers.dev/og/zh/benchmarks.png",
-    },
+    // The product's own site is not public yet: the study links to its product page here, and the image is a local copy.
+    url: "/products/etecx",
+    image: { en: "/research/etecx-accuracy-en.png", zh: "/research/etecx-accuracy-zh.png" },
     public: true,
   },
 ]
