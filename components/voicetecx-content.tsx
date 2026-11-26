@@ -105,16 +105,27 @@ function Cards({ items }: { items: typeof FEATURES }) {
   )
 }
 
+// The notarized beta (tecxmate/voicetecx tools/release.sh): VoiceTecx.dmg is always the latest release.
+const DOWNLOAD_URL = "https://huggingface.co/nikolas-doan/VoiceTecx-releases/resolve/main/VoiceTecx.dmg"
+
 function Cta() {
   const { t } = useLanguage()
   return (
-    <Button
-      size="lg"
-      className="bg-primary hover:bg-primary/90 text-white text-base px-8 py-6 rounded-full shadow-lg whitespace-nowrap"
-      asChild
-    >
-      <a href="/quote?product=voicetecx">{t("vt_cta")}</a>
-    </Button>
+    <div>
+      <div className="flex flex-wrap items-center gap-3">
+        <Button
+          size="lg"
+          className="bg-primary hover:bg-primary/90 text-white text-base px-8 py-6 rounded-full shadow-lg whitespace-nowrap"
+          asChild
+        >
+          <a href={DOWNLOAD_URL}>{t("vt_download")}</a>
+        </Button>
+        <Button size="lg" variant="outline" className="text-base px-8 py-6 rounded-full whitespace-nowrap" asChild>
+          <a href="/quote?product=voicetecx">{t("vt_cta")}</a>
+        </Button>
+      </div>
+      <p className="mt-3 text-sm text-muted-foreground">{t("vt_download_note")}</p>
+    </div>
   )
 }
 

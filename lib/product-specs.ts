@@ -31,6 +31,8 @@ export type ProductSpec = {
 
 const b = (en: string, zh: string): Bi => ({ en, zh })
 
+const VOICETECX_DMG = "https://huggingface.co/nikolas-doan/VoiceTecx-releases/resolve/main/VoiceTecx.dmg"
+
 export const PRODUCT_SPECS: ProductSpec[] = [
   {
     id: "tecxmap",
@@ -242,11 +244,11 @@ export const PRODUCT_SPECS: ProductSpec[] = [
       "Speak to type in any app and on the web. Traditional Chinese and English, even mixed in one sentence. Fully offline, private and secure.",
       "用說的打字，任何 App 和網頁都能用。支援繁體中文與英文，一句話中英夾雜也行。完全離線，私密又安全。",
     ),
-    status: b("Coming soon", "即將推出"),
-    statusLink: { label: b("Join the early-bird list", "加入早鳥名單"), href: "/quote?product=voicetecx", joiner: "dot" },
+    // The notarized beta (#60): VoiceTecx.dmg is always the latest release.
+    status: b("Free public beta · Mac with Apple silicon", "免費公開測試中 · 搭載 Apple 晶片的 Mac"),
     ctas: [
-      { label: b("Join the early-bird list", "加入早鳥名單"), href: "/quote?product=voicetecx", primary: true },
-      { label: b("See the test results", "看測試結果"), href: "#results" },
+      { label: b("Download the beta", "下載測試版"), href: VOICETECX_DMG, primary: true },
+      { label: b("Join the early-bird list", "加入早鳥名單"), href: "/quote?product=voicetecx" },
     ],
     summary: b(
       "Dictation built for Taiwan: Traditional Chinese with the punctuation in place, English names spelled right, and nothing ever uploaded. No account, no subscription.",
