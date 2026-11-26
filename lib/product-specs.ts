@@ -202,14 +202,10 @@ export const PRODUCT_SPECS: ProductSpec[] = [
       "給設計電源轉換器的工程師使用的電路模擬器，有桌面版與網頁版。",
     ),
     status: b("In development", "開發中"),
-    statusLink: {
-      label: b("Read the accuracy report", "閱讀準確度報告"),
-      href: "https://voltecx-web.nguyenvanqui291.workers.dev/benchmarks/",
-      joiner: "dot",
-    },
+    statusLink: { label: b("Talk with us", "與我們聊聊"), href: salesDeck.bookingUrl, joiner: "dot" },
     ctas: [
       { label: b("Contact us", "聯絡我們"), href: "/quote?product=etecx", primary: true },
-      { label: b("Accuracy report", "準確度報告"), href: "https://voltecx-web.nguyenvanqui291.workers.dev/benchmarks/" },
+      { label: b("See the research", "看研究"), href: "/research" },
     ],
     summary: b("Built-in AI design help, on the desktop and in the browser.", "內建 AI 設計協助，桌面版與網頁版都有。"),
     groups: [

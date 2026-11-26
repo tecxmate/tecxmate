@@ -51,8 +51,7 @@ export function ResearchContent() {
             <a
               key={s.id}
               href={pick(s.url, lang)}
-              target="_blank"
-              rel="noopener noreferrer"
+              {...(pick(s.url, lang).startsWith("/") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
               className="group bg-card border border-border shadow-sm overflow-hidden flex flex-col hover:border-primary transition-colors"
             >
               {s.image && (
