@@ -118,14 +118,11 @@ function Cta() {
   )
 }
 
-export function VoiceTecxContent() {
+/** The test results against macOS dictation: shown right after the spec sheet's hero (Niko, 2026-11-26). */
+export function VoiceTecxResults() {
   const { t } = useLanguage()
   return (
-    <>
-
-      {/* TODO(Niko): a 15-second screen recording here (dictating mixed Mandarin and English into LINE, Notes, Mail). */}
-
-      <section className="py-20 md:py-24 scroll-mt-20" id="results">
+    <section className="py-20 md:py-24 scroll-mt-20" id="results">
         <div className="container px-4 md:px-6 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-3">{t("vt_num_title")}</h2>
           <p className="text-lg text-muted-foreground mb-10 max-w-3xl">{t("vt_num_lead")}</p>
@@ -145,6 +142,16 @@ export function VoiceTecxContent() {
           <p className="mt-6 text-sm text-muted-foreground max-w-3xl">{t("vt_num_note")}</p>
         </div>
       </section>
+  )
+}
+
+export function VoiceTecxContent() {
+  const { t } = useLanguage()
+  return (
+    <>
+
+      {/* TODO(Niko): a 15-second screen recording here (dictating mixed Mandarin and English into LINE, Notes, Mail). */}
+
 
       <section className="bg-muted py-20 md:py-24">
         <div className="container px-4 md:px-6 max-w-6xl">

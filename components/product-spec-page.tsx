@@ -1,13 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type ReactNode } from "react"
 import { ChevronDown } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { ProductWordmark } from "@/components/brand/product-wordmark"
 import type { Bi, ProductSpec } from "@/lib/product-specs"
 
 /** A product page in the spec-sheet layout. Chinese for zh readers, English for everyone else. */
-export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
+/** `afterHero`: a product's own section between the hero and the specifications (VoiceTecx: its test results). */
+export function ProductSpecPage({ spec, afterHero }: { spec: ProductSpec; afterHero?: ReactNode }) {
   const { language } = useLanguage()
   const lang = language === "zh" ? "zh" : "en"
   const tx = (v: Bi) => v[lang]
@@ -19,7 +20,8 @@ export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
     : { products: "Products", specs: "Specifications", expand: "Expand all", collapse: "Collapse all" }
 
   return (
-    <div className="container px-4 md:px-6 max-w-6xl pt-6 pb-20 md:pt-10 md:pb-24">
+    <>
+    <div className="container px-4 md:px-6 max-w-6xl pt-6 md:pt-10">
       <p className="text-sm text-muted-foreground mb-6">
         <a href="/#products" className="hover:underline">{L.products}</a> › <span className="font-semibold text-foreground">{spec.name}</span>
       </p>
@@ -81,7 +83,11 @@ export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
           </div>
         </div>
       </section>
+      </div>
 
+      {afterHero}
+
+      <div className="container px-4 md:px-6 max-w-6xl pb-20 md:pb-24">
       <section className="grid grid-cols-1 md:grid-cols-[5fr_7fr] gap-6 md:gap-14">
         <aside>
           <h2 className="text-2xl font-semibold text-foreground mb-2">{L.specs}</h2>
@@ -126,5 +132,6 @@ export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
         </div>
       </section>
     </div>
+    </>
   )
 }

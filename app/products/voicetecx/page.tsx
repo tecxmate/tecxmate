@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { VoiceTecxContent } from "@/components/voicetecx-content"
+import { VoiceTecxContent, VoiceTecxResults } from "@/components/voicetecx-content"
 import { ProductSpecPage } from "@/components/product-spec-page"
 import { productSpec } from "@/lib/product-specs"
 import type { Metadata } from "next"
@@ -28,8 +28,8 @@ export default function VoiceTecxPage() {
     <div className="min-h-screen bg-background">
       <Navbar />
       <main>
-        {/* Niko, 2026-11-26: the spec sheet on top, like every product page; the evidence and selling sections below. */}
-        <ProductSpecPage spec={productSpec("voicetecx")!} />
+        {/* Niko, 2026-11-26: the spec sheet on top, like every product page, with the test results right after its hero (Niko); the selling sections below. */}
+        <ProductSpecPage spec={productSpec("voicetecx")!} afterHero={<VoiceTecxResults />} />
         <VoiceTecxContent />
       </main>
       <Footer />
