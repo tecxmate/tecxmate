@@ -38,9 +38,11 @@ export function ProductSpecPage({ spec, afterHero }: { spec: ProductSpec; afterH
         ) : (
         <div className="relative aspect-square w-full max-w-[240px] md:max-w-none bg-[#1d1d1f] dark:bg-[#1c1c1e] border border-[#3a3a3c] grid place-items-center overflow-hidden">
           <div className="absolute inset-[9%] border border-[#3a3a3c]" aria-hidden="true" />
-          <div className="relative w-full px-[16%] text-center">
-            <ProductWordmark name={spec.name} className="block w-full h-auto text-white" />
-            <p className="mt-3 text-xs md:text-sm uppercase tracking-[0.12em] text-[#a1a1a6]">{tx(spec.sub)}</p>
+          <div className="relative w-full text-center">
+            <div className="px-[16%]">
+              <ProductWordmark name={spec.name} className="block w-full h-auto text-white" />
+            </div>
+            <p className="mt-3 px-[11%] whitespace-nowrap text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.04em] sm:tracking-[0.12em] text-[#a1a1a6]">{tx(spec.sub)}</p>
           </div>
           <div className="absolute left-[9%] right-[9%] bottom-[4%] flex justify-between" aria-hidden="true">
             {Array.from({ length: 14 }, (_, i) => (
