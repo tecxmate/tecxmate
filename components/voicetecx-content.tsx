@@ -19,12 +19,14 @@ const FEATURES: { icon: LucideIcon; title: Key; body: Key }[] = [
   { icon: Lock, title: "vt_f6_t", body: "vt_f6_d" },
 ]
 // Figures from tecxmate/voicetecx eval/results-niko.md (500d4e3), agreed with the VoiceTecx session:
-// VoiceTecx against the public reference only; no other app until it is measured; bars start at 0.
+// VoiceTecx against the two models it builds on (MediaTek shown at Niko's request, 2026-11-26);
+// no other app until it is measured; bars start at 0.
 const CHARTS: { title: Key; rows: { label: Key | "VoiceTecx"; value: number; display: string; ours?: boolean }[] }[] = [
   {
     title: "vt_c1_title",
     rows: [
       { label: "VoiceTecx", value: 92.8, display: "~93", ours: true },
+      { label: "vt_c_mediatek", value: 92.8, display: "~93" },
       { label: "vt_c_whisper", value: 90.3, display: "~90" },
     ],
   },
@@ -32,6 +34,7 @@ const CHARTS: { title: Key; rows: { label: Key | "VoiceTecx"; value: number; dis
     title: "vt_c2_title",
     rows: [
       { label: "VoiceTecx", value: 84, display: "84", ours: true },
+      { label: "vt_c_mediatek", value: 9, display: "9" },
       { label: "vt_c_whisper", value: 76, display: "76" },
     ],
   },

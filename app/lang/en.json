@@ -154,5 +154,6 @@
   "vt_c2_title": "Punctuation score",
   "vt_c_whisper": "OpenAI Whisper (large-v3-turbo)",
   "vt_c_scale": "Out of 100, higher is better",
-  "vt_n3_title": "Speed"
+  "vt_n3_title": "Speed",
+  "vt_c_mediatek": "MediaTek Breeze-ASR-25"
 }

@@ -154,5 +154,6 @@
   "vt_c2_title": "標點分數",
   "vt_c_whisper": "OpenAI Whisper（large-v3-turbo）",
   "vt_c_scale": "滿分 100，越高越好",
-  "vt_n3_title": "速度"
+  "vt_n3_title": "速度",
+  "vt_c_mediatek": "聯發創新基地 Breeze-ASR-25"
 }

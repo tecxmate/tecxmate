@@ -154,5 +154,6 @@
   "vt_c2_title": "Điểm dấu câu",
   "vt_c_whisper": "OpenAI Whisper (large-v3-turbo)",
   "vt_c_scale": "Trên thang 100, cao hơn là tốt hơn",
-  "vt_n3_title": "Tốc độ"
+  "vt_n3_title": "Tốc độ",
+  "vt_c_mediatek": "MediaTek Breeze-ASR-25"
 }
