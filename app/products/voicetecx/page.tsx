@@ -5,14 +5,14 @@ import type { Metadata } from "next"
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 const description =
-  "VoiceTecx: offline dictation for the Mac, built for Taiwan Mandarin, English and Traditional Chinese. Nothing leaves your computer."
+  "VoiceTecx: on-device dictation for the Mac, built for Taiwan Mandarin, English and Traditional Chinese. Your voice and text never leave your Mac."
 
 export const metadata: Metadata = {
   title: "VoiceTecx",
   description,
   alternates: { canonical: `${baseUrl}/products/voicetecx` },
   openGraph: {
-    title: "VoiceTecx · Offline dictation for the Mac",
+    title: "VoiceTecx · On-device dictation for the Mac",
     description,
     url: `${baseUrl}/products/voicetecx`,
     siteName: "Tecxmate",

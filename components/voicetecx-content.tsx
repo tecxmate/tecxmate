@@ -18,10 +18,11 @@ const FEATURES: { icon: LucideIcon; title: Key; body: Key }[] = [
   { icon: Subtitles, title: "vt_f5_t", body: "vt_f5_d" },
   { icon: Lock, title: "vt_f6_t", body: "vt_f6_d" },
 ]
-const NUMBERS: { figure: string; text: Key }[] = [
-  { figure: "26%", text: "vt_n1" },
-  { figure: "84", text: "vt_n2" },
-  { figure: "0.75 s", text: "vt_n3" },
+// Figures from tecxmate/voicetecx eval/results-niko.md (500d4e3); no other app is measured yet.
+const NUMBERS: { figure: string; unit?: string; text: Key; compare: Key }[] = [
+  { figure: "~93", unit: "%", text: "vt_n1", compare: "vt_n1_cmp" },
+  { figure: "84", unit: "/100", text: "vt_n2", compare: "vt_n2_cmp" },
+  { figure: "~0.75", unit: " s", text: "vt_n3", compare: "vt_n3_cmp" },
 ]
 
 export function VoiceTecxContent() {
@@ -70,10 +71,14 @@ export function VoiceTecxContent() {
         <div className="container px-4 md:px-6 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-10">{t("vt_num_title")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {NUMBERS.map(({ figure, text }) => (
+            {NUMBERS.map(({ figure, unit, text, compare }) => (
               <div key={text} className="border border-border p-6">
-                <p className="text-5xl font-semibold tracking-tight text-primary mb-3">{figure}</p>
-                <p className="text-foreground leading-relaxed">{t(text)}</p>
+                <p className="text-5xl font-semibold tracking-tight text-primary mb-3 whitespace-nowrap">
+                  {figure}
+                  {unit && <span className="text-2xl font-medium text-muted-foreground">{unit}</span>}
+                </p>
+                <p className="text-foreground leading-relaxed mb-3">{t(text)}</p>
+                <p className="text-sm text-muted-foreground border-t border-border pt-3">{t(compare)}</p>
               </div>
             ))}
           </div>
