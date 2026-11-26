@@ -239,10 +239,16 @@ export const PRODUCT_SPECS: ProductSpec[] = [
       "Speak into any app on your Mac, in Taiwan Mandarin or English. Your voice and text never leave your Mac.",
       "在 Mac 上的任何 App 用說的輸入，臺灣華語或英文都可以。你的聲音與文字不會離開你的 Mac。",
     ),
-    status: b("Coming soon", "即將推出"),
-    statusLink: { label: b("Join the early-bird list", "加入早鳥名單"), href: "/quote?product=voicetecx", joiner: "dot" },
+    // the notarized beta (tecxmate/voicetecx tools/release.sh): VoiceTecx.dmg is always the latest release
+    status: b("Public beta · macOS 14+, Apple silicon", "公開測試中 · macOS 14 以上、Apple 晶片"),
+    statusLink: {
+      label: b("Download the beta", "下載測試版"),
+      href: "https://huggingface.co/nikolas-doan/VoiceTecx-releases/resolve/main/VoiceTecx.dmg",
+      joiner: "dot",
+    },
     ctas: [
-      { label: b("Join the early-bird list", "加入早鳥名單"), href: "/quote?product=voicetecx", primary: true },
+      { label: b("Download the beta", "下載測試版"), href: "https://huggingface.co/nikolas-doan/VoiceTecx-releases/resolve/main/VoiceTecx.dmg", primary: true },
+      { label: b("Join the early-bird list", "加入早鳥名單"), href: "/quote?product=voicetecx" },
       { label: b("See the test results", "看測試結果"), href: "#results" },
     ],
     summary: b(
