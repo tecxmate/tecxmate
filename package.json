@@ -12,7 +12,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "setup-keyword-tracking": "node scripts/setup-keyword-tracking.js"
+    "setup-keyword-tracking": "node scripts/setup-keyword-tracking.js",
+    "cf:build": "NEXT_BUILD_TARGET=cloudflare opennextjs-cloudflare build",
+    "cf:deploy": "NEXT_BUILD_TARGET=cloudflare opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf:preview": "NEXT_BUILD_TARGET=cloudflare opennextjs-cloudflare build && opennextjs-cloudflare preview"
   },
   "dependencies": {
     "@ai-sdk/gateway": "^4.0.14",
@@ -85,12 +88,14 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.19",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/sanitize-html": "^2.16.1",
     "postcss": "^8",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.168.0"
   }
 }

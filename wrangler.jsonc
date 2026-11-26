@@ -1,0 +1,13 @@
+{
+  // Cloudflare Workers config for www.tecxmate.com, built with @opennextjs/cloudflare.
+  // Staging runs at tecxmate-site.<account>.workers.dev; the tecxmate.com DNS is not pointed here yet.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tecxmate-site",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "r2_buckets": [{ "binding": "SITE_BUCKET", "bucket_name": "tecxmate-site" }],
+  "vars": { "STORAGE_BACKEND": "r2" },
+  "observability": { "enabled": true }
+}
