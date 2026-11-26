@@ -208,7 +208,8 @@ export function VoiceTecxContent() {
               <p className="text-sm text-muted-foreground leading-relaxed">{t("vt_p2_d")}</p>
             </article>
           </div>
-          <p className="mt-6 text-sm text-muted-foreground max-w-3xl">{t("vt_price_cmp")}</p>
+          <p className="mt-6 text-sm font-medium text-foreground max-w-3xl">{t("vt_req")}</p>
+          <p className="mt-2 text-sm text-muted-foreground max-w-3xl">{t("vt_price_cmp")}</p>
           <div className="mt-8">
             <Cta />
           </div>
