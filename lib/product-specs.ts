@@ -264,7 +264,7 @@ export const PRODUCT_SPECS: ProductSpec[] = [
           [b("Not supported", "不支援"), b("Intel Macs", "Intel 處理器的 Mac")],
           [b("Memory", "記憶體"), b("16 GB minimum · 24 GB good · 32 GB best", "最低 16 GB・24 GB 佳・32 GB 最佳")],
           [b("Languages", "語言"), b("Taiwan Mandarin, English, or both in one sentence", "臺灣華語、英文，或一句話裡中英夾雜")],
-          [b("Download", "下載大小"), b("About 3.3 GB for Chinese (English included); 1.6 GB for English only", "中文約 3.3 GB（含英文）；只要英文約 1.6 GB")],
+          [b("Download", "下載大小"), b("About 2.5 GB for Chinese (English included); about 0.9 GB for English only", "中文約 2.5 GB（含英文）；只要英文約 0.9 GB")],
           [b("Price", "價格"), b("NT$1,490 incl. VAT, pay once (personal); NT$2,990 a seat (business)", "個人版 NT$1,490（含稅），一次買斷；企業版每席 NT$2,990")],
           [b("Free use", "免費使用"), b("Unlimited for 7 days, then 30 minutes of speech a month", "前 7 天不限時，之後每月 30 分鐘")],
         ],
