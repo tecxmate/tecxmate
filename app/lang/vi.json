@@ -127,7 +127,7 @@
   "vt_f6_d": "Giọng nói và văn bản ở lại trên Mac, không cần tài khoản. Bản ghi không bao giờ được giữ, và mỗi tệp ngôn ngữ được kiểm tra dấu vân tay cố định khi tải về.",
   "vt_num_title": "Chính xác hơn tính năng đọc chính tả có sẵn trên Mac",
   "vt_n3": "mỗi câu trên MacBook Pro M5, 16 GB bộ nhớ hợp nhất",
-  "vt_num_note": "Độ chính xác ký tự = 100 − tỷ lệ lỗi ký tự; điểm dấu câu = F1 của các dấu. 25 câu tiếng Hoa Đài Loan do một người đọc, MacBook M5, tháng 11/2026; đọc chính tả của macOS là bộ nhận dạng trên máy của macOS 26.6, trên cùng các bản ghi. Tiếng Anh (5 câu): độ chính xác 93 so với 92, dấu câu 93 so với 30. Sẽ bổ sung thêm người đọc.",
+  "vt_num_note": "Độ chính xác ký tự = 100 − tỷ lệ lỗi ký tự; điểm dấu câu = F1 của các dấu. 25 câu tiếng Hoa Đài Loan do một người đọc, MacBook Pro M5 (16 GB bộ nhớ hợp nhất), tháng 11/2026; đọc chính tả của macOS là bộ nhận dạng trên máy của macOS 26.6, trên cùng các bản ghi. Tiếng Anh (5 câu): độ chính xác 93 so với 92, dấu câu 93 so với 30. Sẽ bổ sung thêm người đọc.",
   "vt_status": "Sắp ra mắt · Mac dùng chip Apple",
   "vt_n3_cmp": "Thời gian xử lý của engine, từ bản ghi đến văn bản",
   "vt_c1_title": "Độ chính xác ký tự",
