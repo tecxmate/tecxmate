@@ -13,7 +13,7 @@ export function Footer() {
   const { language, t } = useLanguage()
   const { openSettings } = useConsent()
   const cookieSettingsLabel =
-    language === "vi" ? "Cài đặt cookie" : language === "zh" ? "Cookie 設定" : "Cookie settings"
+    language === "zh" ? "Cookie 設定" : "Cookie settings"
   const [live, setLive] = useState<CompanyInfo | null>(null)
 
   useEffect(() => {
@@ -156,7 +156,7 @@ export function Footer() {
           <div className="space-y-4 md:col-span-6">
             <div className="space-y-4 text-sm text-gray-300">
               <div className="space-y-2">
-                <p className="font-medium text-white text-sm sm:text-base">{language === "vi" ? co.legalName.vi : co.legalName.en}</p>
+                <p className="font-medium text-white text-sm sm:text-base">{co.legalName.en}</p>
                 <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">ADD: {displayAddress}</p>
                 <p className="text-gray-300 text-xs sm:text-sm">TAX: {co.taxNumber}</p>
                 <a

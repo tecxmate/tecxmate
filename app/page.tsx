@@ -17,11 +17,11 @@ const StoriesSection = dynamic(() =>
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 const HOME_TITLE = "TECXMATE — Frontier AI-native products"
 const HOME_DESCRIPTION =
-  "TECXMATE builds AI-native products: TECXMAP (Taiwan business map), DATATECX (sovereign AI for Taiwan data), AlphaTecx (Taiwan stock AI) and eTecx."
+  "TECXMATE builds AI-native products: TecxMap (Taiwan business map), DataTecx (sovereign AI for Taiwan data), AlphaTecx (Taiwan stock AI) and eTecx."
 
 const PRODUCTS_JSONLD = [
-  { name: "TECXMAP", url: "https://map.tecxmate.com", description: "A map of about 1.7 million businesses registered in Taiwan, with district data from government open datasets." },
-  { name: "DATATECX", description: "Sovereign AI for Taiwan data: a data layer and a small open AI model, built to run offline on an agency's own servers." },
+  { name: "TecxMap", url: "https://map.tecxmate.com", description: "A map of about 1.7 million businesses registered in Taiwan, with district data from government open datasets." },
+  { name: "DataTecx", description: "Sovereign AI for Taiwan data: a data layer and a small open AI model, built to run offline on an agency's own servers." },
   { name: "AlphaTecx", description: "Taiwan Stock AI Connector: connects Claude to Taiwan stock-market open data for sourced answers." },
   { name: "eTecx", description: "A power-electronics circuit simulator, desktop and web, with built-in AI design help." },
 ]
@@ -137,8 +137,6 @@ export async function generateMetadata(): Promise<Metadata> {
         'en-VN': baseUrl,
         'en-CN': baseUrl,
         // Note: Language routes don't exist yet - pointing to English for now
-        'vi': baseUrl, // Will be `${baseUrl}/vi` when route exists
-        'vi-VN': baseUrl,
         'zh': baseUrl, // Will be `${baseUrl}/zh` when route exists
         'zh-TW': baseUrl,
         'zh-CN': baseUrl,
@@ -151,7 +149,7 @@ export async function generateMetadata(): Promise<Metadata> {
       url: baseUrl,
       siteName: "Tecxmate",
       locale: "en_US",
-      alternateLocale: ["en_TW", "en_VN", "en_CN", "vi_VN", "zh_TW", "zh_CN"],
+      alternateLocale: ["en_TW", "en_VN", "en_CN", "zh_TW", "zh_CN"],
       type: "website",
       images: [
         {

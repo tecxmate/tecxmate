@@ -54,8 +54,6 @@ export async function generateMetadata(): Promise<Metadata> {
       'en-VN': baseUrl,
       'en-CN': baseUrl,
       // Note: Language routes don't exist yet - pointing to English for now
-      'vi': baseUrl, // Will be `${baseUrl}/vi` when route exists
-      'vi-VN': baseUrl,
       'zh': baseUrl, // Will be `${baseUrl}/zh` when route exists
       'zh-TW': baseUrl,
       'zh-CN': baseUrl,
@@ -68,7 +66,7 @@ export async function generateMetadata(): Promise<Metadata> {
     url: baseUrl,
     siteName: "Tecxmate",
     locale: "en_US",
-    alternateLocale: ["en_TW", "en_VN", "en_CN", "vi_VN", "zh_TW", "zh_CN"],
+    alternateLocale: ["en_TW", "en_VN", "en_CN", "zh_TW", "zh_CN"],
     type: "website",
     images: [
       {

@@ -7,6 +7,7 @@ import { useLanguage } from "@/components/language-provider"
 import { salesDeck } from "@/lib/sales-deck"
 import { useSiteContent } from "@/lib/use-site-content"
 import { SHOW_PRODUCTS } from "@/lib/features"
+import { ProductWordmark, type ProductName } from "@/components/brand/product-wordmark"
 
 /**
  * The product-first homepage sections. They reuse the hero background, the
@@ -18,7 +19,7 @@ type Key = Parameters<T>[0]
 
 type ProductCardData = {
   id: string
-  name: string
+  name: ProductName
   sub: Key
   status: Key
   line: Key
@@ -29,21 +30,21 @@ type ProductCardData = {
 const PRODUCTS: ProductCardData[] = [
   {
     id: "tecxmap",
-    name: "TECXMAP",
+    name: "TecxMap",
     sub: "ph_tecxmap_sub",
     status: "ph_status_live",
     line: "ph_tecxmap_line",
     points: ["ph_tecxmap_p1", "ph_tecxmap_p2", "ph_tecxmap_p3"],
-    link: { label: "ph_tecxmap_link", href: "https://map.tecxmate.com" },
+    link: { label: "ph_read_more", href: "/products/tecxmap", internal: true },
   },
   {
     id: "datatecx",
-    name: "DATATECX",
+    name: "DataTecx",
     sub: "ph_datatecx_sub",
     status: "ph_status_pilot",
     line: "ph_datatecx_line",
     points: ["ph_datatecx_p1", "ph_datatecx_p3"],
-    link: { label: "ph_datatecx_link", href: salesDeck.bookingUrl },
+    link: { label: "ph_read_more", href: "/products/datatecx", internal: true },
   },
   {
     id: "alphatecx",
@@ -52,7 +53,7 @@ const PRODUCTS: ProductCardData[] = [
     status: "ph_status_preview",
     line: "ph_alphatecx_line",
     points: ["ph_alphatecx_p1", "ph_alphatecx_p2"],
-    link: { label: "ph_contact_link", href: "/quote?product=alphatecx", internal: true },
+    link: { label: "ph_read_more", href: "/products/alphatecx", internal: true },
   },
   {
     id: "etecx",
@@ -61,13 +62,13 @@ const PRODUCTS: ProductCardData[] = [
     status: "ph_status_dev",
     line: "ph_etecx_line",
     points: ["ph_etecx_p1", "ph_etecx_p2"],
-    link: { label: "ph_contact_link", href: "/quote?product=etecx", internal: true },
+    link: { label: "ph_read_more", href: "/products/etecx", internal: true },
   },
   {
     id: "voicetecx",
     name: "VoiceTecx",
     sub: "ph_voicetecx_sub",
-    status: "ph_status_dev",
+    status: "ph_status_preview",
     line: "ph_voicetecx_line",
     points: ["ph_voicetecx_p1", "ph_voicetecx_p2"],
     link: { label: "ph_voicetecx_link", href: "/products/voicetecx", internal: true },
@@ -118,7 +119,7 @@ function ProductCard({ product }: { product: ProductCardData }) {
   return (
     <article id={`product-${product.id}`} className="bg-card border border-border shadow-sm overflow-hidden h-full flex flex-col scroll-mt-20">
       <div className="aspect-video w-full flex items-center justify-center bg-primary/5 relative">
-        <span className="text-3xl md:text-4xl font-bold tracking-tight text-primary/60">{product.name}</span>
+        <ProductWordmark name={product.name} className="h-9 md:h-11 w-auto max-w-[70%] text-foreground/70" />
         <span className="absolute top-4 left-4 whitespace-nowrap text-xs font-semibold px-2.5 py-1 rounded-full border border-primary/30 bg-background/80 text-primary">
           {t(product.status)}
         </span>

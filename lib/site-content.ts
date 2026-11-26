@@ -530,7 +530,7 @@ export const defaultContent: SiteContent = {
     // Kept under ~60 characters so Google does not truncate it in results.
     title: "TECXMATE — Frontier AI-native products",
     description:
-      "TECXMATE builds AI-native products: TECXMAP (Taiwan business map), DATATECX (sovereign AI for Taiwan data), AlphaTecx (Taiwan stock AI) and eTecx.",
+      "TECXMATE builds AI-native products: TecxMap (Taiwan business map), DataTecx (sovereign AI for Taiwan data), AlphaTecx (Taiwan stock AI) and eTecx.",
     keywords: [
       "AI-native products",
       "Taiwan business map",
@@ -543,7 +543,7 @@ export const defaultContent: SiteContent = {
       "app development",
     ],
     ogTitle: "TECXMATE — Frontier AI-native products",
-    ogDescription: "TECXMATE builds AI-native products: TECXMAP (Taiwan business map), DATATECX (sovereign AI for Taiwan data), AlphaTecx (Taiwan stock AI) and eTecx.",
+    ogDescription: "TECXMATE builds AI-native products: TecxMap (Taiwan business map), DataTecx (sovereign AI for Taiwan data), AlphaTecx (Taiwan stock AI) and eTecx.",
     twitterDescription: "AI-native products for Taiwan data, stock markets and circuit design.",
     twitterCreator: "@tecxmate",
   },

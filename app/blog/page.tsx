@@ -33,8 +33,6 @@ export const metadata: Metadata = {
       'en-VN': `${baseUrl}/blog`,
       'en-CN': `${baseUrl}/blog`,
       // Note: Language routes don't exist yet - pointing to English for now
-      'vi': `${baseUrl}/blog`, // Will be `${baseUrl}/vi/blog` when route exists
-      'vi-VN': `${baseUrl}/blog`,
       'zh': `${baseUrl}/blog`, // Will be `${baseUrl}/zh/blog` when route exists
       'zh-TW': `${baseUrl}/blog`,
       'zh-CN': `${baseUrl}/blog`,
@@ -50,7 +48,7 @@ export const metadata: Metadata = {
     url: `${baseUrl}/blog`,
     siteName: "Tecxmate",
     locale: "en_US",
-    alternateLocale: ["en_TW", "en_VN", "en_CN", "vi_VN", "zh_TW", "zh_CN"],
+    alternateLocale: ["en_TW", "en_VN", "en_CN", "zh_TW", "zh_CN"],
     type: "website",
     images: [
       {

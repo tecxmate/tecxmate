@@ -5,7 +5,7 @@
  * public on its project's site, with the title and finding that site uses.
  */
 
-export type ResearchProject = "TECXMAP" | "DATATECX" | "AlphaTecx" | "eTecx"
+export type ResearchProject = "TecxMap" | "DataTecx" | "AlphaTecx" | "eTecx"
 
 type Bi = { en: string; zh: string }
 
@@ -27,7 +27,7 @@ export type Study = {
 export const STUDIES: Study[] = [
   {
     id: "cafe-zhongxiao",
-    project: "TECXMAP",
+    project: "TecxMap",
     title: { zh: "忠孝東路二段咖啡店位置研究", en: "Café Positions on Zhongxiao East Road, Section 2" },
     finding: {
       zh: "辦公客人多，但咖啡店也特別密集",
@@ -41,7 +41,7 @@ export const STUDIES: Study[] = [
   },
   {
     id: "pharmacy-access",
-    project: "TECXMAP",
+    project: "TecxMap",
     title: { zh: "臺灣藥局可近性偏低鄉鎮研究", en: "Townships with Low Pharmacy Access in Taiwan" },
     finding: {
       zh: "47 個鄉鎮沒有健保藥局，約 28 萬人住在那裡",
@@ -75,4 +75,4 @@ export const STUDIES: Study[] = [
   },
 ]
 
-export const PROJECTS: ResearchProject[] = ["TECXMAP", "DATATECX", "AlphaTecx", "eTecx"]
+export const PROJECTS: ResearchProject[] = ["TecxMap", "DataTecx", "AlphaTecx", "eTecx"]

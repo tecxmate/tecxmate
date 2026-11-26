@@ -299,10 +299,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         'en-TW': canonicalUrl,
         'en-VN': canonicalUrl,
         'en-CN': canonicalUrl,
-        // Note: Language routes (/vi/blog/, /zh/blog/) don't exist yet
+        // Note: Language routes (/zh/blog/) don't exist yet
         // When implemented, update these URLs to point to actual language routes
-        'vi': canonicalUrl, // Will be `${baseUrl}/vi/blog/${slug}` when route exists
-        'vi-VN': canonicalUrl,
         'zh': canonicalUrl, // Will be `${baseUrl}/zh/blog/${slug}` when route exists
         'zh-TW': canonicalUrl,
         'zh-CN': canonicalUrl,
@@ -318,7 +316,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: canonicalUrl,
       siteName: 'Tecxmate',
       locale: 'en_US',
-      alternateLocale: ['en_TW', 'en_VN', 'en_CN', 'vi_VN', 'zh_TW', 'zh_CN'],
+      alternateLocale: ['en_TW', 'en_VN', 'en_CN', 'zh_TW', 'zh_CN'],
       type: 'article',
       publishedTime: publishedDate,
       modifiedTime: modifiedDate || publishedDate,
