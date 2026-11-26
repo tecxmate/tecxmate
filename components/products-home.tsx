@@ -116,7 +116,7 @@ export function ProductsHero() {
 function ProductCard({ product }: { product: ProductCardData }) {
   const { t } = useLanguage()
   return (
-    <article className="bg-card border border-border shadow-sm overflow-hidden h-full flex flex-col">
+    <article id={`product-${product.id}`} className="bg-card border border-border shadow-sm overflow-hidden h-full flex flex-col scroll-mt-20">
       <div className="aspect-video w-full flex items-center justify-center bg-primary/5 relative">
         <span className="text-3xl md:text-4xl font-bold tracking-tight text-primary/60">{product.name}</span>
         <span className="absolute top-4 left-4 whitespace-nowrap text-xs font-semibold px-2.5 py-1 rounded-full border border-primary/30 bg-background/80 text-primary">

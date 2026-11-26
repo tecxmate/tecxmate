@@ -36,6 +36,10 @@ const nextConfig = {
   // SEO and performance optimizations
   compress: true,
   poweredByHeader: false,
+  // Careers lives on TECXWORK itself; the old /careers page is retired.
+  async redirects() {
+    return [{ source: "/careers", destination: "https://work.tecxmate.com", permanent: false }]
+  },
   reactStrictMode: true,
   // NOTE: no `webpack()` hook here. `npm run dev` uses `next dev --turbo`, and
   // Turbopack never calls that hook, so a watchOptions ignore list configured

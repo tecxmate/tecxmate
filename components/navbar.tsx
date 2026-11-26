@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from "react"
 import Link from "next/link"
 import { Wordmark } from "@/components/brand/logo"
-import { Menu, X, Globe } from "lucide-react"
+import { Menu, X, Globe, ChevronDown, ArrowUpRight } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
@@ -11,6 +11,7 @@ import { AVAILABLE_LANGUAGES, useLanguage, type Language } from "@/components/la
 import { ThemeToggle } from "@/components/theme-toggle"
 import type { SectionVisibility } from "@/lib/site-content"
 import { SHOW_PRODUCTS } from "@/lib/features"
+import { CAREERS_URL, NAV_PRODUCTS } from "@/lib/products-nav"
 
 const DEFAULT_SECTIONS: SectionVisibility = {
   hero: true,
@@ -111,12 +112,33 @@ export function Navbar() {
             </Link>
           )}
           {SHOW_PRODUCTS && sections.products && (
-            <Link
-              href="/#products"
-              className={`text-sm font-medium transition-colors ${isActive("/#products") ? "text-primary" : "hover:text-primary"}`}
-            >
-              {t("nav_products")}
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="inline-flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary outline-none">
+                {t("nav_products")}
+                <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-72 p-1.5">
+                {NAV_PRODUCTS.map((p) => (
+                  <DropdownMenuItem key={p.id} asChild className="cursor-pointer flex-col items-start gap-0.5 px-2.5 py-2 text-left">
+                    <a
+                      href={p.href}
+                      {...(p.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    >
+                      <span className="flex items-center gap-1 text-sm font-semibold text-foreground">
+                        {p.name}
+                        {p.external && <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />}
+                      </span>
+                      <span className="text-xs text-muted-foreground">{t(p.sub)}</span>
+                    </a>
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuItem asChild className="cursor-pointer border-t border-border mt-1 rounded-none px-2.5 py-2 font-medium text-primary">
+                  <a href="/#products">
+                    {t("nav_all_products")}
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
           {sections.team && (
             <Link
@@ -140,12 +162,9 @@ export function Navbar() {
           >
             {t("nav_research")}
           </Link>
-          <Link
-            href="/careers"
-            className={`text-sm font-medium transition-colors ${isActive("/careers") ? "text-primary" : "hover:text-primary"}`}
-          >
+          <a href={CAREERS_URL} className="text-sm font-medium transition-colors hover:text-primary">
             {t("nav_careers")}
-          </Link>
+          </a>
         </nav>
         <div className="flex items-center gap-2">
           <div className="hidden md:flex">
@@ -196,13 +215,24 @@ export function Navbar() {
               </Link>
             )}
             {SHOW_PRODUCTS && sections.products && (
-              <Link
-                href="/#products"
-                className={`text-sm font-medium transition-colors ${isActive("/#products") ? "text-primary" : "hover:text-primary"}`}
-                onClick={closeMenu}
-              >
-                {t("nav_products")}
-              </Link>
+              <div className="flex flex-col gap-3">
+                <Link href="/#products" className="text-sm font-medium transition-colors hover:text-primary" onClick={closeMenu}>
+                  {t("nav_products")}
+                </Link>
+                <div className="flex flex-col gap-3 pl-4 border-l border-border">
+                  {NAV_PRODUCTS.map((p) => (
+                    <a
+                      key={p.id}
+                      href={p.href}
+                      {...(p.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                      onClick={closeMenu}
+                    >
+                      {p.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
             )}
             {sections.team && (
               <Link
@@ -229,13 +259,9 @@ export function Navbar() {
             >
               {t("nav_research")}
             </Link>
-            <Link
-              href="/careers"
-              className={`text-sm font-medium transition-colors ${isActive("/careers") ? "text-primary" : "hover:text-primary"}`}
-              onClick={closeMenu}
-            >
+            <a href={CAREERS_URL} className="text-sm font-medium transition-colors hover:text-primary" onClick={closeMenu}>
               {t("nav_careers")}
-            </Link>
+            </a>
             <div className="flex items-center gap-2">
               <ThemeToggle />
               <span className="text-sm text-muted-foreground">Toggle theme</span>

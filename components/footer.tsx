@@ -125,9 +125,9 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/careers" className="hover:text-white transition-colors duration-200">
+                <a href="https://work.tecxmate.com" className="hover:text-white transition-colors duration-200">
                   {t("nav_careers")}
-                </Link>
+                </a>
               </li>
               <li>
                 <Link href="/blog" className="hover:text-white transition-colors duration-200">
