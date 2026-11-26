@@ -19,13 +19,13 @@ export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
     : { products: "Products", specs: "Specifications", expand: "Expand all", collapse: "Collapse all" }
 
   return (
-    <div className="container px-4 md:px-6 max-w-6xl pt-24 pb-20 md:pt-28 md:pb-24">
+    <div className="container px-4 md:px-6 max-w-6xl pt-6 pb-20 md:pt-10 md:pb-24">
       <p className="text-sm text-muted-foreground mb-6">
         <a href="/#products" className="hover:underline">{L.products}</a> › <span className="font-semibold text-foreground">{spec.name}</span>
       </p>
 
       <section className="grid grid-cols-1 md:grid-cols-[5fr_7fr] gap-8 md:gap-14 items-center pb-12">
-        <div className="relative aspect-square w-full max-w-[340px] md:max-w-none bg-[#1d1d1f] dark:bg-[#1c1c1e] border border-[#3a3a3c] grid place-items-center overflow-hidden">
+        <div className="relative aspect-square w-full max-w-[240px] md:max-w-none bg-[#1d1d1f] dark:bg-[#1c1c1e] border border-[#3a3a3c] grid place-items-center overflow-hidden">
           <div className="absolute inset-[9%] border border-[#3a3a3c]" aria-hidden="true" />
           <div className="relative w-full px-[16%] text-center">
             <ProductWordmark name={spec.name} className="block w-full h-auto text-white" />
