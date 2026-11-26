@@ -2,7 +2,6 @@
 
 import { Briefcase, Feather, Keyboard, Languages, Lock, Mic, Scale, Stethoscope, Subtitles, BookOpen } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import ShaderBackground from "@/components/shader-background"
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { useLanguage } from "@/components/language-provider"
@@ -123,27 +122,10 @@ export function VoiceTecxContent() {
   const { t } = useLanguage()
   return (
     <>
-      <ShaderBackground>
-        <div className="absolute inset-0 flex flex-col items-start justify-center px-8 pt-20 pb-24 z-10">
-          <div className="max-w-xl text-left">
-            <p className="text-sm font-semibold uppercase tracking-wider text-primary mb-4">VoiceTecx</p>
-            <h1
-              className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-gray-900 dark:text-white leading-[1.1] mb-6"
-              suppressHydrationWarning
-            >
-              {t("vt_title")}
-            </h1>
-            <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">{t("vt_body")}</p>
-            <p className="text-sm font-medium text-muted-foreground mb-8">{t("vt_status")}</p>
-            <Cta />
-            <p className="mt-4 text-sm text-muted-foreground">{t("vt_price_hint")}</p>
-          </div>
-        </div>
-      </ShaderBackground>
 
       {/* TODO(Niko): a 15-second screen recording here (dictating mixed Mandarin and English into LINE, Notes, Mail). */}
 
-      <section className="py-20 md:py-24">
+      <section className="py-20 md:py-24 scroll-mt-20" id="results">
         <div className="container px-4 md:px-6 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-3">{t("vt_num_title")}</h2>
           <p className="text-lg text-muted-foreground mb-10 max-w-3xl">{t("vt_num_lead")}</p>
