@@ -43,8 +43,12 @@ VoiceTecx is provided "as is". To the extent the law allows, we give no warranty
 for a particular purpose, and our total liability is limited to the amount you paid for your licence. Nothing here
 limits rights you have as a consumer under Taiwan's Consumer Protection Act or other law that cannot be waived.
 
-## 9. Refunds
-See the Refund Policy.
+## 9. Buying, prices and refunds
+- **In Taiwan** you buy from us. Prices are in NT$ and include VAT (營業稅). Payment is provided by ECPay
+  (綠界科技股份有限公司), and we issue an electronic uniform invoice (電子發票).
+- **Outside Taiwan** our order process is conducted by our online reseller **Paddle.com**. Paddle.com is the Merchant
+  of Record for all those orders, and handles customer service enquiries about payment and returns.
+- Refunds: see the Refund Policy (14 days, no questions asked).
 
 ## 10. Ending this agreement
 You may stop using VoiceTecx at any time (Settings › 語言包 › 刪除所有資料⋯, then move the app to the Trash). If
