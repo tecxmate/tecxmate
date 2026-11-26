@@ -28,7 +28,14 @@ export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
         <div className="relative aspect-square w-full max-w-[240px] md:max-w-none bg-[#1d1d1f] dark:bg-[#1c1c1e] border border-[#3a3a3c] grid place-items-center overflow-hidden">
           <div className="absolute inset-[9%] border border-[#3a3a3c]" aria-hidden="true" />
           <div className="relative w-full px-[16%] text-center">
-            <ProductWordmark name={spec.name} className="block w-full h-auto text-white" />
+            {spec.icon ? (
+              // the app's own icon: its mark on the app's dark rounded square (VoiceTecx: Resources/AppIcon.icon)
+              <span className="mx-auto block w-[62%] aspect-square rounded-[22.5%] bg-[#141414] shadow-[0_8px_32px_rgba(0,0,0,0.45)] ring-1 ring-white/10 p-[3%]">
+                <img src={spec.icon} alt={`${spec.name} app icon`} className="block w-full h-full" />
+              </span>
+            ) : (
+              <ProductWordmark name={spec.name} className="block w-full h-auto text-white" />
+            )}
             <p className="mt-3 text-xs md:text-sm uppercase tracking-[0.12em] text-[#a1a1a6]">{tx(spec.sub)}</p>
           </div>
           <div className="absolute left-[9%] right-[9%] bottom-[4%] flex justify-between" aria-hidden="true">
