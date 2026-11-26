@@ -18,11 +18,62 @@ const FEATURES: { icon: LucideIcon; title: Key; body: Key }[] = [
   { icon: Subtitles, title: "vt_f5_t", body: "vt_f5_d" },
   { icon: Lock, title: "vt_f6_t", body: "vt_f6_d" },
 ]
-const NUMBERS: { figure: string; text: Key }[] = [
-  { figure: "26%", text: "vt_n1" },
-  { figure: "84", text: "vt_n2" },
-  { figure: "0.75 s", text: "vt_n3" },
+// Figures from tecxmate/voicetecx eval/results-niko.md (500d4e3), agreed with the VoiceTecx session:
+// VoiceTecx against the two models it builds on (MediaTek shown at Niko's request, 2026-11-26);
+// no other app until it is measured; bars start at 0.
+const CHARTS: { title: Key; rows: { label: Key | "VoiceTecx"; value: number; display: string; ours?: boolean }[] }[] = [
+  {
+    title: "vt_c1_title",
+    rows: [
+      { label: "VoiceTecx", value: 92.8, display: "~93", ours: true },
+      { label: "vt_c_mediatek", value: 92.8, display: "~93" },
+      { label: "vt_c_whisper", value: 90.3, display: "~90" },
+    ],
+  },
+  {
+    title: "vt_c2_title",
+    rows: [
+      { label: "VoiceTecx", value: 84, display: "84", ours: true },
+      { label: "vt_c_mediatek", value: 9, display: "9" },
+      { label: "vt_c_whisper", value: 76, display: "76" },
+    ],
+  },
 ]
+
+function BarChart({ title, rows }: (typeof CHARTS)[number]) {
+  const { t } = useLanguage()
+  const name = (l: Key | "VoiceTecx") => (l === "VoiceTecx" ? "VoiceTecx" : t(l))
+  return (
+    <figure className="border border-border p-6 m-0">
+      <figcaption className="mb-5">
+        <span className="block text-lg font-semibold text-foreground">{t(title)}</span>
+        <span className="block text-sm text-muted-foreground">{t("vt_c_scale")}</span>
+      </figcaption>
+      <div className="space-y-4" role="list">
+        {rows.map((r) => (
+          <div key={r.display + r.label} role="listitem" title={`${name(r.label)}: ${r.display}/100`}>
+            <div className="flex items-baseline justify-between gap-3 mb-1.5">
+              <span className={`text-sm ${r.ours ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{name(r.label)}</span>
+              <span className={`text-sm tabular-nums ${r.ours ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{r.display}/100</span>
+            </div>
+            {/* The track is the full 0–100 scale, so a 93 against a 90 looks like the small gap it is. */}
+            <div className="h-3 w-full bg-muted rounded-r-[4px]">
+              <div
+                className={`h-3 rounded-r-[4px] ${r.ours ? "bg-primary" : "bg-[#AEAEB2] dark:bg-[#636366]"}`}
+                style={{ width: `${r.value}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-2 flex justify-between text-xs text-muted-foreground tabular-nums" aria-hidden="true">
+        <span>0</span>
+        <span>50</span>
+        <span>100</span>
+      </div>
+    </figure>
+  )
+}
 
 export function VoiceTecxContent() {
   const { t } = useLanguage()
@@ -70,12 +121,17 @@ export function VoiceTecxContent() {
         <div className="container px-4 md:px-6 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-10">{t("vt_num_title")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {NUMBERS.map(({ figure, text }) => (
-              <div key={text} className="border border-border p-6">
-                <p className="text-5xl font-semibold tracking-tight text-primary mb-3">{figure}</p>
-                <p className="text-foreground leading-relaxed">{t(text)}</p>
-              </div>
+            {CHARTS.map((c) => (
+              <BarChart key={c.title} {...c} />
             ))}
+            <div className="border border-border p-6">
+              <p className="text-lg font-semibold text-foreground mb-5">{t("vt_n3_title")}</p>
+              <p className="text-5xl font-semibold tracking-tight text-primary mb-2 whitespace-nowrap">
+                ~0.75<span className="text-2xl font-medium text-muted-foreground"> s</span>
+              </p>
+              <p className="text-foreground mb-3">{t("vt_n3")}</p>
+              <p className="text-sm text-muted-foreground border-t border-border pt-3">{t("vt_n3_cmp")}</p>
+            </div>
           </div>
           <p className="mt-6 text-sm text-muted-foreground max-w-3xl">{t("vt_num_note")}</p>
         </div>
