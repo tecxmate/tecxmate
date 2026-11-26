@@ -1,4 +1,4 @@
-import { list, put } from "@vercel/blob"
+import { putStored, readStoredJSON, storageConfigured } from "./storage"
 import type { WPBlogPost } from "./wordpress"
 
 const BLOG_POSTS_PATHNAME = "blog/posts.json"
@@ -17,18 +17,7 @@ type BlogPostStore = {
 }
 
 function isBlobConfigured(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim())
-}
-
-async function findPostsUrl(): Promise<string | null> {
-  if (!isBlobConfigured()) return null
-
-  try {
-    const { blobs } = await list({ prefix: BLOG_POSTS_PATHNAME, limit: 1 })
-    return blobs[0]?.url ?? null
-  } catch {
-    return null
-  }
+  return storageConfigured()
 }
 
 function normalizeStore(store: Partial<BlogPostStore> | StoredBlogPost[]): BlogPostStore {
@@ -42,23 +31,11 @@ function normalizeStore(store: Partial<BlogPostStore> | StoredBlogPost[]): BlogP
 }
 
 export async function readStoredBlogPosts(opts?: { revalidate?: number }): Promise<StoredBlogPost[]> {
-  const url = await findPostsUrl()
-  if (!url) return []
-
-  try {
-    const res = await fetch(
-      url,
-      opts?.revalidate != null ? { next: { revalidate: opts.revalidate } } : { cache: "no-store" },
-    )
-    if (!res.ok) return []
-
-    const store = normalizeStore((await res.json()) as Partial<BlogPostStore> | StoredBlogPost[])
-    return store.posts
-      .filter((post) => post?.slug && post?.title)
-      .sort((a, b) => Date.parse(b.publishedAt || b.updatedAt) - Date.parse(a.publishedAt || a.updatedAt))
-  } catch {
-    return []
-  }
+  const raw = await readStoredJSON<Partial<BlogPostStore> | StoredBlogPost[]>(BLOG_POSTS_PATHNAME, opts)
+  if (!raw) return []
+  return normalizeStore(raw)
+    .posts.filter((post) => post?.slug && post?.title)
+    .sort((a, b) => Date.parse(b.publishedAt || b.updatedAt) - Date.parse(a.publishedAt || a.updatedAt))
 }
 
 export async function getStoredBlogPostBySlug(slug: string): Promise<StoredBlogPost | null> {
@@ -77,12 +54,8 @@ export async function upsertStoredBlogPost(post: StoredBlogPost): Promise<Stored
     ...current.filter((existing) => existing.slug !== post.slug),
   ].sort((a, b) => Date.parse(b.publishedAt || b.updatedAt) - Date.parse(a.publishedAt || a.updatedAt))
 
-  await put(BLOG_POSTS_PATHNAME, JSON.stringify({ posts: next }, null, 2), {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-    cacheControlMaxAge: 60,
+  await putStored(BLOG_POSTS_PATHNAME, JSON.stringify({ posts: next }, null, 2), "application/json", {
+    cacheSeconds: 60,
   })
 
   return next

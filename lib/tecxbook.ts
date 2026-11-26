@@ -1,4 +1,4 @@
-import { put, del, list } from "@vercel/blob"
+import { deleteStored, putStored, readStoredJSON, storageConfigured } from "./storage"
 
 export type TecxbookEntry = {
   slug: string
@@ -14,42 +14,18 @@ export type TecxbookEntry = {
 const INDEX_PATHNAME = "tecxbook/index.json"
 
 export function isBlobConfigured(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim())
-}
-
-async function findIndexUrl(): Promise<string | null> {
-  if (!isBlobConfigured()) return null
-  try {
-    const { blobs } = await list({ prefix: INDEX_PATHNAME, limit: 1 })
-    return blobs[0]?.url ?? null
-  } catch {
-    return null
-  }
+  return storageConfigured()
 }
 
 export async function readIndex(): Promise<TecxbookEntry[]> {
-  const url = await findIndexUrl()
-  if (!url) return []
-  try {
-    const res = await fetch(url, { cache: "no-store" })
-    if (!res.ok) return []
-    return (await res.json()) as TecxbookEntry[]
-  } catch {
-    return []
-  }
+  return (await readStoredJSON<TecxbookEntry[]>(INDEX_PATHNAME)) ?? []
 }
 
 export async function writeIndex(entries: TecxbookEntry[]): Promise<void> {
   if (!isBlobConfigured()) {
     throw new Error("BLOB storage is not configured: BLOB_READ_WRITE_TOKEN is missing.")
   }
-  await put(INDEX_PATHNAME, JSON.stringify(entries), {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-    cacheControlMaxAge: 60,
-  })
+  await putStored(INDEX_PATHNAME, JSON.stringify(entries), "application/json", { cacheSeconds: 60 })
 }
 
 export async function getEntry(slug: string): Promise<TecxbookEntry | null> {
@@ -65,19 +41,13 @@ export async function uploadHtml(
     throw new Error("BLOB storage is not configured: BLOB_READ_WRITE_TOKEN is missing.")
   }
   const pathname = `tecxbook/${slug}-${Date.now()}.html`
-  const result = await put(pathname, body, {
-    access: "public",
-    contentType: "text/html; charset=utf-8",
-    addRandomSuffix: false,
-    allowOverwrite: false,
-  })
-  return { url: result.url }
+  return putStored(pathname, body, "text/html; charset=utf-8", { overwrite: false })
 }
 
 export async function deleteFile(url: string): Promise<void> {
   if (!isBlobConfigured()) return
   try {
-    await del(url)
+    await deleteStored(url)
   } catch {
     // file may already be gone; ignore
   }

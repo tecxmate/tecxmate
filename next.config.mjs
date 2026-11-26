@@ -7,6 +7,8 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    // On Cloudflare Workers there is no Next.js image optimizer; serve images as they are.
+    unoptimized: process.env.NEXT_BUILD_TARGET === 'cloudflare',
     // Enable Next.js image optimization for better performance
     formats: ['image/avif', 'image/webp'],
     // Allow images from WordPress domains

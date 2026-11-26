@@ -62,3 +62,7 @@ next-env.d.ts
 *.pptx
 *.xlsx
 ~$*
+
+# Cloudflare (OpenNext) build output
+.open-next/
+.wrangler/

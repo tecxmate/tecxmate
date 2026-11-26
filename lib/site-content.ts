@@ -1,4 +1,4 @@
-import { put, list } from "@vercel/blob"
+import { putStored, readStoredJSON, storageConfigured } from "./storage"
 import { company } from "./company"
 
 export type Locale = "en" | "vi" | "zh"
@@ -186,7 +186,7 @@ export type SiteContent = {
 const CONTENT_PATHNAME = "site-content/content.json"
 
 export function isBlobConfigured(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim())
+  return storageConfigured()
 }
 
 /** Build a Localized value from a single string (used for current English-only defaults). */
@@ -776,55 +776,22 @@ export function homepageSectionOrder(content: SiteContent): HomepageSectionKey[]
   return ordered
 }
 
-async function findContentUrl(): Promise<string | null> {
-  if (!isBlobConfigured()) return null
-  try {
-    const { blobs } = await list({ prefix: CONTENT_PATHNAME, limit: 1 })
-    return blobs[0]?.url ?? null
-  } catch {
-    return null
-  }
-}
-
 /**
- * Read stored content merged over defaults. Falls back to defaults when Blob is empty/unconfigured.
+ * Read stored content merged over defaults. Falls back to defaults when storage is empty/unconfigured.
  * Pass `{ revalidate: n }` to ISR-cache the read (used by layout metadata so reading SEO content
  * doesn't force every page dynamic); the default no-store read is for always-fresh consumers.
  */
 export async function readContent(opts?: { revalidate?: number }): Promise<SiteContent> {
-  const url = await findContentUrl()
-  if (!url) return defaultContent
-  try {
-    const res = await fetch(
-      url,
-      opts?.revalidate != null ? { next: { revalidate: opts.revalidate } } : { cache: "no-store" },
-    )
-    if (!res.ok) return defaultContent
-    const stored = (await res.json()) as Partial<SiteContent>
-    return mergeContent(stored)
-  } catch {
-    return defaultContent
-  }
+  const stored = await readStoredJSON<Partial<SiteContent>>(CONTENT_PATHNAME, opts)
+  return stored ? mergeContent(stored) : defaultContent
 }
 
 export async function writeContent(content: SiteContent): Promise<void> {
-  if (!isBlobConfigured()) {
-    throw new Error("BLOB storage is not configured: BLOB_READ_WRITE_TOKEN is missing.")
-  }
-  await put(CONTENT_PATHNAME, JSON.stringify(content), {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-    cacheControlMaxAge: 60,
-  })
+  await putStored(CONTENT_PATHNAME, JSON.stringify(content), "application/json", { cacheSeconds: 60 })
 }
 
 /** Upload an image (team avatar, etc.) to Blob and return its public URL. */
 export async function uploadImage(prefix: string, body: Blob): Promise<{ url: string }> {
-  if (!isBlobConfigured()) {
-    throw new Error("BLOB storage is not configured: BLOB_READ_WRITE_TOKEN is missing.")
-  }
   const ext = body.type.includes("png")
     ? "png"
     : body.type.includes("webp")
@@ -833,11 +800,5 @@ export async function uploadImage(prefix: string, body: Blob): Promise<{ url: st
         ? "svg"
         : "jpg"
   const pathname = `site-content/images/${prefix}-${Date.now()}.${ext}`
-  const result = await put(pathname, body, {
-    access: "public",
-    contentType: body.type || "image/jpeg",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-  })
-  return { url: result.url }
+  return putStored(pathname, body, body.type || "image/jpeg")
 }

@@ -151,8 +151,8 @@ export default function RootLayout({
           <GoogleTagManager />
           <GoogleAnalytics />
           <FirebaseAnalytics />
-          {/* Vercel Analytics is cookieless, so it needs no consent gate. */}
-          <Analytics />
+          {/* Vercel Analytics is cookieless, so it needs no consent gate. Only on Vercel. */}
+          {process.env.VERCEL && <Analytics />}
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <LanguageProvider>
               {children}
