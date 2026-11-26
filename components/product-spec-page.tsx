@@ -25,17 +25,19 @@ export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
       </p>
 
       <section className="grid grid-cols-1 md:grid-cols-[5fr_7fr] gap-8 md:gap-14 items-center pb-12">
+        {spec.icon ? (
+          // the app's own icon, as in the Mac's Dock: its mark on the app's dark rounded square (VoiceTecx:
+          // Resources/AppIcon.icon); nothing around it
+          <div className="w-[42%] max-w-[180px] md:w-[78%] md:max-w-[400px] md:mx-auto">
+            <div className="aspect-square rounded-[22.5%] bg-[#141414] shadow-[0_12px_40px_rgba(0,0,0,0.35)] ring-1 ring-black/5 dark:ring-white/10 overflow-hidden">
+              <img src={spec.icon} alt={`${spec.name} app icon`} className="block w-full h-full object-contain" />
+            </div>
+          </div>
+        ) : (
         <div className="relative aspect-square w-full max-w-[240px] md:max-w-none bg-[#1d1d1f] dark:bg-[#1c1c1e] border border-[#3a3a3c] grid place-items-center overflow-hidden">
           <div className="absolute inset-[9%] border border-[#3a3a3c]" aria-hidden="true" />
           <div className="relative w-full px-[16%] text-center">
-            {spec.icon ? (
-              // the app's own icon: its mark on the app's dark rounded square (VoiceTecx: Resources/AppIcon.icon)
-              <span className="mx-auto block w-[62%] aspect-square rounded-[22.5%] bg-[#141414] shadow-[0_8px_32px_rgba(0,0,0,0.45)] ring-1 ring-white/10 p-[3%]">
-                <img src={spec.icon} alt={`${spec.name} app icon`} className="block w-full h-full" />
-              </span>
-            ) : (
-              <ProductWordmark name={spec.name} className="block w-full h-auto text-white" />
-            )}
+            <ProductWordmark name={spec.name} className="block w-full h-auto text-white" />
             <p className="mt-3 text-xs md:text-sm uppercase tracking-[0.12em] text-[#a1a1a6]">{tx(spec.sub)}</p>
           </div>
           <div className="absolute left-[9%] right-[9%] bottom-[4%] flex justify-between" aria-hidden="true">
@@ -44,6 +46,7 @@ export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
             ))}
           </div>
         </div>
+        )}
 
         <div className="min-w-0">
           <h1 className="mb-4 text-4xl md:text-5xl">
