@@ -1,6 +1,8 @@
 {
   // Cloudflare Workers config for www.tecxmate.com, built with @opennextjs/cloudflare.
-  // Staging runs at tecxmate-site.<account>.workers.dev; the tecxmate.com DNS is not pointed here yet.
+  // Live at www.tecxmate.com since 2026-11-26 (the route below keeps the domain attached on every deploy).
+  // Workers Builds deploys each merge to main: build `pnpm cf:build`, deploy `npx opennextjs-cloudflare deploy`.
+  // The NEXT_PUBLIC_* values are build variables in the Builds settings; secrets are runtime (wrangler secret).
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "tecxmate-site",
   "main": ".open-next/worker.js",
@@ -9,5 +11,6 @@
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   "r2_buckets": [{ "binding": "SITE_BUCKET", "bucket_name": "tecxmate-site" }],
   "vars": { "STORAGE_BACKEND": "r2" },
+  "routes": [{ "pattern": "www.tecxmate.com", "custom_domain": true }],
   "observability": { "enabled": true }
 }
