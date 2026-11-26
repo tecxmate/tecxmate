@@ -2,23 +2,16 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import en from '@/app/lang/en.json'
-import vi from '@/app/lang/vi.json'
 import zh from '@/app/lang/zh.json'
 
 const dictionaries = {
   en,
-  vi,
   zh,
 }
 
 type Language = keyof typeof dictionaries
 
-/**
- * Languages actually offered on the site. Vietnamese copy still exists
- * throughout the content files — dropping it from this list hides it
- * everywhere without deleting a single translation, so it can be turned
- * back on by adding "vi" here.
- */
+/** Languages offered on the site: English and Chinese only (no Vietnamese version, Niko 2026-11-26). */
 export const AVAILABLE_LANGUAGES = ["en", "zh"] as const satisfies readonly Language[]
 
 function isAvailableLanguage(value: string): value is Language {

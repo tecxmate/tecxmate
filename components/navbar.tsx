@@ -57,7 +57,6 @@ export function Navbar() {
 
   const languageLabels: Record<Language, string> = {
     en: "English",
-    vi: "Tiếng Việt",
     zh: "中文",
   }
 
