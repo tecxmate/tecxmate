@@ -280,11 +280,11 @@ export const PRODUCT_SPECS: ProductSpec[] = [
         rows: [
           [b("Character accuracy", "字元正確率"), b("About 93 of 100 (macOS dictation: about 87)", "約 93／100（macOS 內建聽寫：約 87）")],
           [b("Punctuation", "標點分數"), b("84 of 100 (macOS dictation: 32)", "84／100（macOS 內建聽寫：32）")],
-          [b("Speed", "速度"), b("About 0.75 s per sentence (engine time, M5 MacBook)", "每句約 0.75 秒（引擎處理時間，M5 MacBook）")],
+          [b("Speed", "速度"), b("About 0.75 s per sentence (engine time, M5 MacBook Pro, 16 GB unified memory)", "每句約 0.75 秒（引擎處理時間，M5 MacBook Pro，16 GB 統一記憶體）")],
         ],
         note: b(
-          "25 Taiwan Mandarin sentences read by one speaker, M5 MacBook, November 2026; macOS dictation on the same recordings.",
-          "25 句臺灣華語由一位說話者朗讀，M5 MacBook，2026 年 11 月；macOS 內建聽寫使用同一批錄音。",
+          "25 Taiwan Mandarin sentences read by one speaker, M5 MacBook Pro (16 GB unified memory), November 2026; macOS dictation on the same recordings.",
+          "25 句臺灣華語由一位說話者朗讀，M5 MacBook Pro（16 GB 統一記憶體），2026 年 11 月；macOS 內建聽寫使用同一批錄音。",
         ),
       },
       {
