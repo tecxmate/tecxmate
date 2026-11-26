@@ -68,7 +68,7 @@ const PRODUCTS: ProductCardData[] = [
     id: "voicetecx",
     name: "VoiceTecx",
     sub: "ph_voicetecx_sub",
-    status: "ph_status_dev",
+    status: "ph_status_preview",
     line: "ph_voicetecx_line",
     points: ["ph_voicetecx_p1", "ph_voicetecx_p2"],
     link: { label: "ph_voicetecx_link", href: "/products/voicetecx", internal: true },

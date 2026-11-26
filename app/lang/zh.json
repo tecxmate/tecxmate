@@ -128,7 +128,7 @@
   "vt_num_title": "比 Mac 內建的聽寫更準",
   "vt_n3": "在 M5 MacBook 上每句",
   "vt_num_note": "字元正確率 = 100 − 字元錯誤率；標點分數為標點的 F1。25 句臺灣華語由一位說話者朗讀，M5 MacBook，2026 年 11 月；macOS 內建聽寫為 macOS 26.6 的裝置端聽寫，使用同一批錄音。英文（5 句）：正確率 93 比 92，標點 93 比 30。之後會加入更多說話者。",
-  "vt_status": "即將推出 · 搭載 Apple 晶片的 Mac",
+  "vt_status": "公開測試中 · 搭載 Apple 晶片的 Mac",
   "vt_n3_cmp": "引擎處理時間，從錄音到文字",
   "vt_c1_title": "字元正確率",
   "vt_c2_title": "標點分數",
@@ -173,5 +173,7 @@
   "vt_q6": "公司可以開發票嗎？",
   "vt_q6_a": "可以。企業版授權會開立電子發票。團隊授權歡迎與我們聯繫。",
   "vt_q7": "VoiceTecx 用了哪些技術？",
-  "vt_q7_a": "VoiceTecx 以開放模型為基礎：聯發創新基地的 Breeze-ASR-25（Apache 2.0）與 OpenAI 的 Whisper large-v3-turbo（MIT），透過 whisper.cpp（MIT）執行，由 TECXMATE 結合並針對臺灣的書寫方式調校。"
+  "vt_q7_a": "VoiceTecx 以開放模型為基礎：聯發創新基地的 Breeze-ASR-25（Apache 2.0）與 OpenAI 的 Whisper large-v3-turbo（MIT），透過 whisper.cpp（MIT）執行，由 TECXMATE 結合並針對臺灣的書寫方式調校。",
+  "vt_download": "下載測試版",
+  "vt_download_note": "免費測試版 · macOS 14 或更新版本 · 搭載 Apple 晶片的 Mac（M1 或更新）· 6 MB，語言檔在 App 內下載"
 }

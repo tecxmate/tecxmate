@@ -128,7 +128,7 @@
   "vt_num_title": "Chính xác hơn tính năng đọc chính tả có sẵn trên Mac",
   "vt_n3": "mỗi câu trên MacBook M5",
   "vt_num_note": "Độ chính xác ký tự = 100 − tỷ lệ lỗi ký tự; điểm dấu câu = F1 của các dấu. 25 câu tiếng Hoa Đài Loan do một người đọc, MacBook M5, tháng 11/2026; đọc chính tả của macOS là bộ nhận dạng trên máy của macOS 26.6, trên cùng các bản ghi. Tiếng Anh (5 câu): độ chính xác 93 so với 92, dấu câu 93 so với 30. Sẽ bổ sung thêm người đọc.",
-  "vt_status": "Sắp ra mắt · Mac dùng chip Apple",
+  "vt_status": "Bản beta công khai · Mac dùng chip Apple",
   "vt_n3_cmp": "Thời gian xử lý của engine, từ bản ghi đến văn bản",
   "vt_c1_title": "Độ chính xác ký tự",
   "vt_c2_title": "Điểm dấu câu",
@@ -173,5 +173,7 @@
   "vt_q6": "Công ty có được xuất hóa đơn không?",
   "vt_q6_a": "Có. Giấy phép doanh nghiệp kèm hóa đơn điện tử Đài Loan (電子發票). Hãy liên hệ để mua giấy phép cho nhóm.",
   "vt_q7": "VoiceTecx được xây dựng trên gì?",
-  "vt_q7_a": "VoiceTecx dựa trên các mô hình mở — Breeze-ASR-25 của MediaTek Research (Apache 2.0) và Whisper large-v3-turbo của OpenAI (MIT), chạy bằng whisper.cpp (MIT) — được TECXMATE kết hợp và tinh chỉnh cho cách viết của Đài Loan."
+  "vt_q7_a": "VoiceTecx dựa trên các mô hình mở — Breeze-ASR-25 của MediaTek Research (Apache 2.0) và Whisper large-v3-turbo của OpenAI (MIT), chạy bằng whisper.cpp (MIT) — được TECXMATE kết hợp và tinh chỉnh cho cách viết của Đài Loan.",
+  "vt_download": "Tải bản beta",
+  "vt_download_note": "Bản beta miễn phí · macOS 14 trở lên · Mac dùng chip Apple (M1 trở lên) · 6 MB, sau đó tải tệp ngôn ngữ trong ứng dụng"
 }

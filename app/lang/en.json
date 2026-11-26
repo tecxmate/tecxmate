@@ -128,7 +128,7 @@
   "vt_num_title": "Better than the dictation already on your Mac",
   "vt_n3": "per sentence on an M5 MacBook",
   "vt_num_note": "Character accuracy = 100 − character error rate; punctuation score = F1 of the marks. 25 Taiwan Mandarin sentences read by one speaker on an M5 MacBook, November 2026; macOS dictation is Apple's on-device dictation in macOS 26.6, on the same recordings. In English (5 sentences): accuracy 93 vs 92, punctuation 93 vs 30. More speakers will be added.",
-  "vt_status": "Coming soon · Mac with Apple silicon",
+  "vt_status": "Public beta · Mac with Apple silicon",
   "vt_n3_cmp": "Engine time, from recording to text",
   "vt_c1_title": "Character accuracy",
   "vt_c2_title": "Punctuation score",
@@ -173,5 +173,7 @@
   "vt_q6": "Can my company get an invoice?",
   "vt_q6_a": "Yes. Business licences come with a Taiwan e-invoice (電子發票). Ask us about licences for a team.",
   "vt_q7": "What is it built on?",
-  "vt_q7_a": "VoiceTecx builds on open models — Breeze-ASR-25 by MediaTek Research (Apache 2.0) and Whisper large-v3-turbo by OpenAI (MIT), run with whisper.cpp (MIT) — combined and tuned by TECXMATE for the way Taiwan writes."
+  "vt_q7_a": "VoiceTecx builds on open models — Breeze-ASR-25 by MediaTek Research (Apache 2.0) and Whisper large-v3-turbo by OpenAI (MIT), run with whisper.cpp (MIT) — combined and tuned by TECXMATE for the way Taiwan writes.",
+  "vt_download": "Download the beta",
+  "vt_download_note": "Free beta · macOS 14 or later · Mac with Apple silicon (M1 or later) · 6 MB, then the language files in the app"
 }
