@@ -2,7 +2,6 @@
 
 import { Briefcase, Feather, Keyboard, Languages, Lock, Mic, Scale, Stethoscope, Subtitles, BookOpen } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { useLanguage } from "@/components/language-provider"
 
@@ -105,38 +104,11 @@ function Cards({ items }: { items: typeof FEATURES }) {
   )
 }
 
-// The notarized beta (tecxmate/voicetecx tools/release.sh): VoiceTecx.dmg is always the latest release.
-const DOWNLOAD_URL = "https://huggingface.co/nikolas-doan/VoiceTecx-releases/resolve/main/VoiceTecx.dmg"
-
-function Cta() {
+/** The test results against macOS dictation: shown right after the spec sheet's hero (Niko, 2026-11-26). */
+export function VoiceTecxResults() {
   const { t } = useLanguage()
   return (
-    <div>
-      <div className="flex flex-wrap items-center gap-3">
-        <Button
-          size="lg"
-          className="bg-primary hover:bg-primary/90 text-white text-base px-8 py-6 rounded-full shadow-lg whitespace-nowrap"
-          asChild
-        >
-          <a href={DOWNLOAD_URL}>{t("vt_download")}</a>
-        </Button>
-        <Button size="lg" variant="outline" className="text-base px-8 py-6 rounded-full whitespace-nowrap" asChild>
-          <a href="/quote?product=voicetecx">{t("vt_cta")}</a>
-        </Button>
-      </div>
-      <p className="mt-3 text-sm text-muted-foreground">{t("vt_download_note")}</p>
-    </div>
-  )
-}
-
-export function VoiceTecxContent() {
-  const { t } = useLanguage()
-  return (
-    <>
-
-      {/* TODO(Niko): a 15-second screen recording here (dictating mixed Mandarin and English into LINE, Notes, Mail). */}
-
-      <section className="py-20 md:py-24 scroll-mt-20" id="results">
+    <section className="py-20 md:py-24 scroll-mt-20" id="results">
         <div className="container px-4 md:px-6 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-3">{t("vt_num_title")}</h2>
           <p className="text-lg text-muted-foreground mb-10 max-w-3xl">{t("vt_num_lead")}</p>
@@ -156,6 +128,16 @@ export function VoiceTecxContent() {
           <p className="mt-6 text-sm text-muted-foreground max-w-3xl">{t("vt_num_note")}</p>
         </div>
       </section>
+  )
+}
+
+export function VoiceTecxContent() {
+  const { t } = useLanguage()
+  return (
+    <>
+
+      {/* TODO(Niko): a 15-second screen recording here (dictating mixed Mandarin and English into LINE, Notes, Mail). */}
+
 
       <section className="bg-muted py-20 md:py-24">
         <div className="container px-4 md:px-6 max-w-6xl">
@@ -203,9 +185,6 @@ export function VoiceTecxContent() {
           </div>
           <p className="mt-6 text-sm font-medium text-foreground max-w-3xl">{t("vt_req")}</p>
           <p className="mt-2 text-sm text-muted-foreground max-w-3xl">{t("vt_price_cmp")}</p>
-          <div className="mt-8">
-            <Cta />
-          </div>
         </div>
       </section>
 

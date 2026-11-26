@@ -1,13 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type ReactNode } from "react"
 import { ChevronDown } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { ProductWordmark } from "@/components/brand/product-wordmark"
 import type { Bi, ProductSpec } from "@/lib/product-specs"
 
 /** A product page in the spec-sheet layout. Chinese for zh readers, English for everyone else. */
-export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
+/** `afterHero`: a product's own section between the hero and the specifications (VoiceTecx: its test results). */
+export function ProductSpecPage({ spec, afterHero }: { spec: ProductSpec; afterHero?: ReactNode }) {
   const { language } = useLanguage()
   const lang = language === "zh" ? "zh" : "en"
   const tx = (v: Bi) => v[lang]
@@ -19,17 +20,29 @@ export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
     : { products: "Products", specs: "Specifications", expand: "Expand all", collapse: "Collapse all" }
 
   return (
-    <div className="container px-4 md:px-6 max-w-6xl pt-24 pb-20 md:pt-28 md:pb-24">
+    <>
+    <div className="container px-4 md:px-6 max-w-6xl pt-6 md:pt-10">
       <p className="text-sm text-muted-foreground mb-6">
         <a href="/#products" className="hover:underline">{L.products}</a> › <span className="font-semibold text-foreground">{spec.name}</span>
       </p>
 
       <section className="grid grid-cols-1 md:grid-cols-[5fr_7fr] gap-8 md:gap-14 items-center pb-12">
-        <div className="relative aspect-square w-full max-w-[340px] md:max-w-none bg-[#1d1d1f] dark:bg-[#1c1c1e] border border-[#3a3a3c] grid place-items-center overflow-hidden">
+        {spec.icon ? (
+          // the app's own icon, as in the Mac's Dock: its mark on the app's dark rounded square (VoiceTecx:
+          // Resources/AppIcon.icon); nothing around it
+          <div className="w-[42%] max-w-[180px] md:w-[78%] md:max-w-[400px] md:mx-auto">
+            <div className="aspect-square rounded-[22.5%] bg-[#141414] shadow-[0_12px_40px_rgba(0,0,0,0.35)] ring-1 ring-black/5 dark:ring-white/10 overflow-hidden">
+              <img src={spec.icon} alt={`${spec.name} app icon`} className="block w-full h-full object-contain" />
+            </div>
+          </div>
+        ) : (
+        <div className="relative aspect-square w-full max-w-[240px] md:max-w-none bg-[#1d1d1f] dark:bg-[#1c1c1e] border border-[#3a3a3c] grid place-items-center overflow-hidden">
           <div className="absolute inset-[9%] border border-[#3a3a3c]" aria-hidden="true" />
-          <div className="relative w-full px-[16%] text-center">
-            <ProductWordmark name={spec.name} className="block w-full h-auto text-white" />
-            <p className="mt-3 text-xs md:text-sm uppercase tracking-[0.12em] text-[#a1a1a6]">{tx(spec.sub)}</p>
+          <div className="relative w-full text-center">
+            <div className="px-[16%]">
+              <ProductWordmark name={spec.name} className="block w-full h-auto text-white" />
+            </div>
+            <p className="mt-3 px-[11%] whitespace-nowrap text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.04em] sm:tracking-[0.12em] text-[#a1a1a6]">{tx(spec.sub)}</p>
           </div>
           <div className="absolute left-[9%] right-[9%] bottom-[4%] flex justify-between" aria-hidden="true">
             {Array.from({ length: 14 }, (_, i) => (
@@ -37,6 +50,7 @@ export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
             ))}
           </div>
         </div>
+        )}
 
         <div className="min-w-0">
           <h1 className="mb-4 text-4xl md:text-5xl">
@@ -71,7 +85,11 @@ export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
           </div>
         </div>
       </section>
+      </div>
 
+      {afterHero}
+
+      <div className="container px-4 md:px-6 max-w-6xl pb-20 md:pb-24">
       <section className="grid grid-cols-1 md:grid-cols-[5fr_7fr] gap-6 md:gap-14">
         <aside>
           <h2 className="text-2xl font-semibold text-foreground mb-2">{L.specs}</h2>
@@ -116,5 +134,6 @@ export function ProductSpecPage({ spec }: { spec: ProductSpec }) {
         </div>
       </section>
     </div>
+    </>
   )
 }

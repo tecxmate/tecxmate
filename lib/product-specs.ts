@@ -16,6 +16,8 @@ export type SpecGroup = { title: Bi; rows: [Bi, Bi][]; note?: Bi }
 export type ProductSpec = {
   id: string
   name: ProductName
+  /** The product's own app icon mark (an SVG in /public), shown in the tile instead of the wordmark. */
+  icon?: string
   sub: Bi
   line: Bi
   /** Shown under the line: "<status> at <link>" or "<status> · <link>", or the status alone. */
@@ -28,6 +30,8 @@ export type ProductSpec = {
 }
 
 const b = (en: string, zh: string): Bi => ({ en, zh })
+
+const VOICETECX_DMG = "https://huggingface.co/nikolas-doan/VoiceTecx-releases/resolve/main/VoiceTecx.dmg"
 
 export const PRODUCT_SPECS: ProductSpec[] = [
   {
@@ -234,29 +238,31 @@ export const PRODUCT_SPECS: ProductSpec[] = [
     // Every row traces to tecxmate/voicetecx (WEBSITE-FACTCHECK.md, eval/results-apple-niko.md); owned by the VoiceTecx session.
     id: "voicetecx",
     name: "VoiceTecx",
+    icon: "/products/voicetecx-mark.svg",
     sub: b("On-device dictation for the Mac", "Mac 裝置端語音輸入"),
     line: b(
-      "Speak into any app on your Mac, in Taiwan Mandarin or English. Your voice and text never leave your Mac.",
-      "在 Mac 上的任何 App 用說的輸入，臺灣華語或英文都可以。你的聲音與文字不會離開你的 Mac。",
+      "Speak to type in any app and on the web. Traditional Chinese and English, even mixed in one sentence. Fully offline, private and secure.",
+      "用說的打字，任何 App 和網頁都能用。支援繁體中文與英文，一句話中英夾雜也行。完全離線，私密又安全。",
     ),
-    status: b("Coming soon", "即將推出"),
-    statusLink: { label: b("Join the early-bird list", "加入早鳥名單"), href: "/quote?product=voicetecx", joiner: "dot" },
+    // The notarized beta (#60): VoiceTecx.dmg is always the latest release.
+    status: b("Free public beta · Mac with Apple silicon", "免費公開測試中 · 搭載 Apple 晶片的 Mac"),
     ctas: [
-      { label: b("Join the early-bird list", "加入早鳥名單"), href: "/quote?product=voicetecx", primary: true },
-      { label: b("See the test results", "看測試結果"), href: "#results" },
+      { label: b("Download the beta", "下載測試版"), href: VOICETECX_DMG, primary: true },
+      { label: b("Join the early-bird list", "加入早鳥名單"), href: "/quote?product=voicetecx" },
     ],
     summary: b(
-      "Built for Traditional Chinese and Taiwan's way of writing. No account and no subscription.",
-      "為繁體中文與臺灣的書寫習慣打造。不需帳號，不用訂閱。",
+      "Dictation built for Taiwan: Traditional Chinese with the punctuation in place, English names spelled right, and nothing ever uploaded. No account, no subscription.",
+      "為臺灣打造的語音輸入：繁體中文標點一次到位、英文名稱拼得正確，什麼都不上傳。不需帳號，不用訂閱。",
     ),
     groups: [
       {
         title: b("General specifications", "基本規格"),
         rows: [
-          [b("Product type", "產品類型"), b("Dictation and transcription app", "語音輸入與轉寫 App")],
+          [b("Product type", "產品類型"), b("AI dictation and transcription, on your Mac", "AI 語音輸入與轉寫，在你的 Mac 上")],
           [b("Supported platforms", "支援平台"), b("Mac with Apple silicon (M1 or later), macOS 14 or later", "搭載 Apple 晶片（M1 或更新）的 Mac，macOS 14 或更新版本")],
-          [b("Not supported", "不支援"), b("Intel Macs, Windows, iPhone, Android", "Intel 處理器的 Mac、Windows、iPhone、Android")],
-          [b("Memory", "記憶體"), b("16 GB recommended for the fastest results", "建議 16 GB，速度最快")],
+          [b("Coming soon", "即將推出"), b("Windows and Linux", "Windows 與 Linux")],
+          [b("Not supported", "不支援"), b("Intel Macs", "Intel 處理器的 Mac")],
+          [b("Memory", "記憶體"), b("16 GB minimum · 24 GB good · 32 GB best", "最低 16 GB・24 GB 佳・32 GB 最佳")],
           [b("Languages", "語言"), b("Taiwan Mandarin, English, or both in one sentence", "臺灣華語、英文，或一句話裡中英夾雜")],
           [b("Download", "下載大小"), b("About 3.3 GB for Chinese (English included); 1.6 GB for English only", "中文約 3.3 GB（含英文）；只要英文約 1.6 GB")],
           [b("Price", "價格"), b("NT$1,490 incl. VAT, pay once (personal); NT$2,990 a seat (business)", "個人版 NT$1,490（含稅），一次買斷；企業版每席 NT$2,990")],
@@ -266,9 +272,9 @@ export const PRODUCT_SPECS: ProductSpec[] = [
       {
         title: b("Features", "功能"),
         rows: [
-          [b("Dictation", "語音輸入"), b("Into any app on your Mac; tap or hold", "任何 App 都能用；點一下或按住說話")],
-          [b("File transcription", "錄音檔轉寫"), b("Audio files (mp3, wav, m4a…) to text or subtitles (.srt)", "音訊檔（mp3、wav、m4a⋯）轉成文字或字幕（.srt）")],
-          [b("Learning", "學習"), b("Fix a mistake in History and it learns the fix", "在紀錄裡修正一次，就會學起來")],
+          [b("Dictation", "語音輸入"), b("Speak into any app or web page; tap to start, or hold to talk", "任何 App 或網頁都能用說的輸入；點一下開始，或按住說話")],
+          [b("File transcription", "錄音檔轉寫"), b("Turn recordings (mp3, wav, m4a…) into text or subtitles (.srt)", "把錄音（mp3、wav、m4a⋯）變成文字或字幕（.srt）")],
+          [b("Learning", "學習"), b("Learns your names and words; fix a mistake once and it remembers", "記得你的名字與用詞；錯字改一次就會記住")],
         ],
       },
       {
@@ -276,17 +282,17 @@ export const PRODUCT_SPECS: ProductSpec[] = [
         rows: [
           [b("Character accuracy", "字元正確率"), b("About 93 of 100 (macOS dictation: about 87)", "約 93／100（macOS 內建聽寫：約 87）")],
           [b("Punctuation", "標點分數"), b("84 of 100 (macOS dictation: 32)", "84／100（macOS 內建聽寫：32）")],
-          [b("Speed", "速度"), b("About 0.75 s per sentence (engine time, M5 MacBook)", "每句約 0.75 秒（引擎處理時間，M5 MacBook）")],
+          [b("Speed", "速度"), b("About 0.75 s per sentence (engine time, M5 MacBook Pro, 16 GB unified memory)", "每句約 0.75 秒（引擎處理時間，M5 MacBook Pro，16 GB 統一記憶體）")],
         ],
         note: b(
-          "25 Taiwan Mandarin sentences read by one speaker, M5 MacBook, November 2026; macOS dictation on the same recordings.",
-          "25 句臺灣華語由一位說話者朗讀，M5 MacBook，2026 年 11 月；macOS 內建聽寫使用同一批錄音。",
+          "25 Taiwan Mandarin sentences read by one speaker, M5 MacBook Pro (16 GB unified memory), November 2026; macOS dictation on the same recordings.",
+          "25 句臺灣華語由一位說話者朗讀，M5 MacBook Pro（16 GB 統一記憶體），2026 年 11 月；macOS 內建聽寫使用同一批錄音。",
         ),
       },
       {
         title: b("Privacy", "隱私"),
         rows: [
-          [b("Where it runs", "在哪裡執行"), b("Entirely on your Mac", "完全在你的 Mac 上")],
+          [b("Where it runs", "在哪裡執行"), b("Entirely on your Mac; works offline", "完全在你的 Mac 上，離線也能用")],
           [b("Your voice and text", "你的聲音與文字"), b("Never leave your Mac", "不會離開你的 Mac")],
           [b("Recordings", "錄音"), b("Not kept", "不保留")],
           [b("Account", "帳號"), b("None needed", "不需要")],

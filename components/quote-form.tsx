@@ -121,7 +121,7 @@ function Label({ children, note }: { children: string; note?: string }) {
 
 export function QuoteForm({ conversationId, product }: { conversationId?: string; product?: string }) {
   const { language } = useLanguage()
-  const locale = (language === "vi" || language === "zh" ? language : "en") as Locale
+  const locale = (language === "zh" ? "zh" : "en") as Locale
   const c = COPY[locale]
 
   const [status, setStatus] = useState<"idle" | "sending" | "done">("idle")
