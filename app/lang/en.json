@@ -146,12 +146,13 @@
   "vt_f6_t": "Private by design",
   "vt_f6_d": "Your voice and text stay on your Mac, with no account. Recordings are never kept, and each model is checked against a fixed fingerprint before it runs.",
   "vt_num_title": "Test results",
-  "vt_n1": "of characters right",
-  "vt_n2": "punctuation score",
   "vt_n3": "per sentence on an M5 MacBook",
   "vt_num_note": "Character accuracy = 100 − character error rate, on VoiceTecx's 30-sentence test set (25 Taiwan Mandarin, 5 English), read by one speaker, M5 MacBook, November 2026. Comparisons with other dictation apps will be added once they are measured on the same set.",
   "vt_status": "In development · Mac with Apple silicon",
-  "vt_n1_cmp": "Whisper large-v3-turbo alone: about 90%",
-  "vt_n2_cmp": "Whisper alone: 76/100 · Breeze alone: 9/100",
-  "vt_n3_cmp": "Engine time, from recording to text"
+  "vt_n3_cmp": "Engine time, from recording to text",
+  "vt_c1_title": "Character accuracy",
+  "vt_c2_title": "Punctuation score",
+  "vt_c_whisper": "OpenAI Whisper (large-v3-turbo)",
+  "vt_c_scale": "Out of 100, higher is better",
+  "vt_n3_title": "Speed"
 }

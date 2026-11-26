@@ -146,12 +146,13 @@
   "vt_f6_t": "Riêng tư từ thiết kế",
   "vt_f6_d": "Giọng nói và văn bản ở lại trên Mac, không cần tài khoản. Bản ghi không bao giờ được giữ, mỗi mô hình được kiểm tra dấu vân tay cố định trước khi chạy.",
   "vt_num_title": "Kết quả thử nghiệm",
-  "vt_n1": "ký tự đúng",
-  "vt_n2": "điểm dấu câu",
   "vt_n3": "mỗi câu trên MacBook M5",
   "vt_num_note": "Độ chính xác ký tự = 100 − tỷ lệ lỗi ký tự, trên bộ 30 câu thử của VoiceTecx (25 câu tiếng Hoa Đài Loan, 5 câu tiếng Anh), một người đọc, MacBook M5, tháng 11/2026. So sánh với các ứng dụng khác sẽ được thêm khi đo trên cùng bộ câu.",
   "vt_status": "Đang phát triển · Mac dùng chip Apple",
-  "vt_n1_cmp": "Chỉ dùng Whisper large-v3-turbo: khoảng 90%",
-  "vt_n2_cmp": "Chỉ Whisper: 76/100 · Chỉ Breeze: 9/100",
-  "vt_n3_cmp": "Thời gian xử lý của engine, từ bản ghi đến văn bản"
+  "vt_n3_cmp": "Thời gian xử lý của engine, từ bản ghi đến văn bản",
+  "vt_c1_title": "Độ chính xác ký tự",
+  "vt_c2_title": "Điểm dấu câu",
+  "vt_c_whisper": "OpenAI Whisper (large-v3-turbo)",
+  "vt_c_scale": "Trên thang 100, cao hơn là tốt hơn",
+  "vt_n3_title": "Tốc độ"
 }

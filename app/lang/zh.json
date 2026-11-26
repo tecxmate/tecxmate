@@ -146,12 +146,13 @@
   "vt_f6_t": "從設計就重視隱私",
   "vt_f6_d": "聲音與文字留在你的 Mac，不需帳號。錄音從不保留，每個模型執行前都會比對固定的指紋。",
   "vt_num_title": "測試結果",
-  "vt_n1": "的字元正確",
-  "vt_n2": "標點分數",
   "vt_n3": "在 M5 MacBook 上每句",
   "vt_num_note": "字元正確率 = 100 − 字元錯誤率，以 VoiceTecx 的 30 句測試集（25 句臺灣華語、5 句英文）由一位說話者朗讀，M5 MacBook，2026 年 11 月。與其他語音輸入 App 的比較，會在以同一測試集實測後加入。",
   "vt_status": "開發中 · 搭載 Apple 晶片的 Mac",
-  "vt_n1_cmp": "單用 Whisper large-v3-turbo：約 90%",
-  "vt_n2_cmp": "單用 Whisper：76/100 · 單用 Breeze：9/100",
-  "vt_n3_cmp": "引擎處理時間，從錄音到文字"
+  "vt_n3_cmp": "引擎處理時間，從錄音到文字",
+  "vt_c1_title": "字元正確率",
+  "vt_c2_title": "標點分數",
+  "vt_c_whisper": "OpenAI Whisper（large-v3-turbo）",
+  "vt_c_scale": "滿分 100，越高越好",
+  "vt_n3_title": "速度"
 }
