@@ -63,6 +63,15 @@ const PRODUCTS: ProductCardData[] = [
     points: ["ph_etecx_p1", "ph_etecx_p2"],
     link: { label: "ph_contact_link", href: "/quote?product=etecx", internal: true },
   },
+  {
+    id: "voicetecx",
+    name: "VoiceTecx",
+    sub: "ph_voicetecx_sub",
+    status: "ph_status_dev",
+    line: "ph_voicetecx_line",
+    points: ["ph_voicetecx_p1", "ph_voicetecx_p2"],
+    link: { label: "ph_voicetecx_link", href: "/products/voicetecx", internal: true },
+  },
 ]
 
 export function ProductsHero() {
