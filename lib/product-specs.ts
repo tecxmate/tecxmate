@@ -255,9 +255,7 @@ export const PRODUCT_SPECS: ProductSpec[] = [
         title: b("General specifications", "基本規格"),
         rows: [
           [b("Product type", "產品類型"), b("AI dictation and transcription, on your Mac", "AI 語音輸入與轉寫，在你的 Mac 上")],
-          [b("Supported platforms", "支援平台"), b("Mac with Apple silicon (M1 or later), macOS 14 or later", "搭載 Apple 晶片（M1 或更新）的 Mac，macOS 14 或更新版本")],
-          [b("Coming soon", "即將推出"), b("Windows and Linux", "Windows 與 Linux")],
-          [b("Not supported", "不支援"), b("Intel Macs", "Intel 處理器的 Mac")],
+          [b("Supported platforms", "支援平台"), b("Exclusively for Mac with Apple silicon (M1 or later), macOS 14 or later", "專為搭載 Apple 晶片（M1 或更新）的 Mac 打造，macOS 14 或更新版本")],
           [b("Memory", "記憶體"), b("16 GB minimum · 24 GB good · 32 GB best", "最低 16 GB・24 GB 佳・32 GB 最佳")],
           [b("Languages", "語言"), b("Taiwan Mandarin, English, or both in one sentence", "臺灣華語、英文，或一句話裡中英夾雜")],
           [b("Download", "下載大小"), b("About 2.5 GB for Chinese (English included); about 0.9 GB for English only", "中文約 2.5 GB（含英文）；只要英文約 0.9 GB")],
