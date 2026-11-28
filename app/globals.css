@@ -7,7 +7,7 @@
   :root {
     /* Apple-inspired color palette */
     /* Primary colors - Purple */
-    --primary: 271 76% 53% !important; /* #8c52ff - Force purple to override cache */
+    --primary: 260 100% 66% !important; /* #8c52ff, the brand purple (same as theme-color) */
     --primary-light: 271 85% 65%; /* #a978ff */
     --primary-dark: 271 70% 40%; /* #6b3fcc */
     --primary-foreground: 0 0% 100%;
@@ -75,7 +75,7 @@
     --popover: 0 0% 12%;
     --popover-foreground: 0 0% 98%;
     
-    --primary: 271 76% 53%;
+    --primary: 260 100% 66%; /* #8c52ff */
     --primary-foreground: 0 0% 100%;
     
     --secondary: 0 0% 15%;
