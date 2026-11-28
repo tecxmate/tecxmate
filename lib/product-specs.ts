@@ -250,7 +250,7 @@ export const PRODUCT_SPECS: ProductSpec[] = [
     status: b("Free public beta · Mac with Apple silicon", "免費公開測試中 · 搭載 Apple 晶片的 Mac"),
     ctas: [
       { label: b("Download the beta", "下載測試版"), href: VOICETECX_DMG, primary: true },
-      { label: b("Join the early-bird list", "加入早鳥名單"), href: "/quote?product=voicetecx" },
+      { label: b("Join the early-bird list", "加入早鳥名單"), href: "/products/voicetecx/early-bird" },
     ],
     summary: b(
       "Dictation built for Taiwan: Traditional Chinese with the punctuation in place, English names spelled right, and nothing ever uploaded. No account, no subscription.",
