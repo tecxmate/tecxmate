@@ -5,7 +5,7 @@
  * public on its project's site, with the title and finding that site uses.
  */
 
-export type ResearchProject = "TecxMap" | "DataTecx" | "AlphaTecx" | "eTecx"
+export type ResearchProject = "TecxMap" | "DataTecx" | "AlphaTecx" | "eTecx" | "VoiceTecx"
 
 type Bi = { en: string; zh: string }
 
@@ -68,6 +68,36 @@ export const STUDIES: Study[] = [
     image: { en: "/research/etecx-accuracy-en.png", zh: "/research/etecx-accuracy-zh.png" },
     public: true,
   },
+  // VoiceTecx: the study's home is the product page's results (tecxmate/voicetecx docs/BENCHMARK-REPORT.md, claims
+  // marked "Ads OK" or "On the website" only); the images are screenshots of those charts.
+  {
+    id: "voicetecx-benchmark",
+    project: "VoiceTecx",
+    title: { zh: "同一批錄音，五套離線語音辨識", en: "Five Offline Speech Tools, Same Recordings" },
+    finding: {
+      zh: "我們的測試，一位說話者：臺灣華語錯字比 Mac 內建聽寫少約 44%，標點也更好（89 比 34）。Apple 比較快",
+      en: "Our test, one speaker: about 44% fewer mistakes in Taiwan Mandarin than Mac dictation, and better punctuation (89 vs 34). Apple is faster",
+    },
+    topic: { zh: "語音辨識", en: "Speech recognition" },
+    month: "2026-11",
+    url: "/products/voicetecx#results",
+    image: { en: "/research/voicetecx-benchmark-en.png", zh: "/research/voicetecx-benchmark-zh.png" },
+    public: true,
+  },
+  {
+    id: "voicetecx-taiwan-names",
+    project: "VoiceTecx",
+    title: { zh: "自動改對臺灣地名和機關名", en: "Fixing Taiwan Place and Office Names" },
+    finding: {
+      zh: "368 個鄉鎮市區、35,798 條路名、367 個車站、117 個政府機關。在 172,221 段正確文字上，0 次改錯",
+      en: "368 districts, 35,798 roads, 367 stations, 117 government offices. 0 wrong changes on 172,221 passages of correct text",
+    },
+    topic: { zh: "語音辨識", en: "Speech recognition" },
+    month: "2026-11",
+    url: "/products/voicetecx#taiwan",
+    image: { en: "/research/voicetecx-taiwan-en.png", zh: "/research/voicetecx-taiwan-zh.png" },
+    public: true,
+  },
 ]
 
-export const PROJECTS: ResearchProject[] = ["TecxMap", "DataTecx", "AlphaTecx", "eTecx"]
+export const PROJECTS: ResearchProject[] = ["TecxMap", "DataTecx", "AlphaTecx", "eTecx", "VoiceTecx"]
