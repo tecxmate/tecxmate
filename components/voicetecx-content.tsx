@@ -46,12 +46,15 @@ const CHARTS: Chart[] = [
   { title: "vt_c2_title", scale: "vt_c_scale", max: 100, rows: SYSTEMS([89, 9, 74, 34, 70], String) },
   {
     title: "vt_c3_title", scale: "vt_c_scale_s_acc", max: 2, unit: " s", lower: true,
+    // tecxmate/voicetecx eval/results-modes-niko.md: every VoiceTecx mode in one run on battery, Low Power Mode (Apple's
+    // conditions); accuracy from its "without the fitted fixes" table, the one to put next to Apple's. The original
+    // MediaTek and OpenAI rows and Apple's are the 2026-11-27 run in the same conditions (eval/results-latency-apple.md).
     rows: [
-      ...SYSTEMS([1.78, 1.08, 0.73, 0.08, 0.05], (v) => v.toFixed(2)).map((row, i) => ({ ...row, acc: [92.8, 92.8, 90.2, 87.2, 84.5][i] })),
-      // VoiceTecx's fast modes: dashed until the M5's run on battery in Low Power Mode (eval/results-modes-niko.md)
-      // gives their time and accuracy under the same conditions as the rows above.
-      { label: "vt_m_speed" },
-      { label: "vt_c_fast_test" },
+      { label: "vt_m_std", value: 1.92, display: "1.92", acc: 92.8 },
+      { label: "vt_m_speed", value: 1.40, display: "1.40", acc: 92.5 },
+      { label: "vt_c_light_test", value: 1.16, display: "1.16", acc: 92.8 },
+      { label: "vt_c_fast_test", value: 0.75, display: "0.75", acc: 90.8 },
+      ...SYSTEMS([0, 1.08, 0.73, 0.08, 0.05], (v) => v.toFixed(2)).slice(1).map((row, i) => ({ ...row, acc: [92.8, 90.2, 87.2, 84.5][i] })),
     ],
   },
 ]
