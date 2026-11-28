@@ -9,6 +9,7 @@ export const NAV_PRODUCTS: { id: string; name: string; sub: Key; href: string; e
   { id: "alphatecx", name: "AlphaTecx", sub: "ph_alphatecx_sub", href: "/products/alphatecx" },
   { id: "etecx", name: "eTecx", sub: "ph_etecx_sub", href: "/products/etecx" },
   { id: "voicetecx", name: "VoiceTecx", sub: "ph_voicetecx_sub", href: "/products/voicetecx" },
+  { id: "tecxwork", name: "TecxWork", sub: "ph_tecxwork_sub", href: "/products/tecxwork" },
 ]
 
 export const CAREERS_URL = "https://work.tecxmate.com"

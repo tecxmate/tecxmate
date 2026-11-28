@@ -115,13 +115,13 @@ export function Footer() {
           <div className="space-y-3 md:col-span-2">
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
-                <Link href="/about" className="hover:text-white transition-colors duration-200">
-                  {t("about")}
+                <Link href="/research" className="hover:text-white transition-colors duration-200">
+                  {t("nav_research")}
                 </Link>
               </li>
               <li>
-                <Link href="/research" className="hover:text-white transition-colors duration-200">
-                  {t("nav_research")}
+                <Link href="/about" className="hover:text-white transition-colors duration-200">
+                  {t("about")}
                 </Link>
               </li>
               <li>
