@@ -13,7 +13,7 @@ export const revalidate = 3600
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tecxmate.com'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Tecxmate',
+  title: 'Privacy Policy',
   description: 'Read our privacy policy to understand how tecxmate collects, uses, and protects your personal information.',
   alternates: {
     canonical: `${baseUrl}/privacy-policy`,

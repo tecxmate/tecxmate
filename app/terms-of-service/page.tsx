@@ -13,7 +13,7 @@ export const revalidate = 3600
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.tecxmate.com'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Tecxmate',
+  title: 'Terms of Service',
   description: 'Read our terms of service to understand the terms and conditions for using tecxmate services.',
   alternates: {
     canonical: `${baseUrl}/terms-of-service`,

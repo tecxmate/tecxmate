@@ -277,7 +277,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   ]
   
   return {
-    title: `${post.title} | Tecxmate Blog`,
+    title: { absolute: `${post.title} | Tecxmate Blog` },
     description,
     keywords: generateCountryKeywords(baseKeywords),
     creator: 'Tecxmate',
