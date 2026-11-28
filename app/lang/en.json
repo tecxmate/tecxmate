@@ -197,6 +197,7 @@
   "vt_m_compact_models": "Breeze q5_0 + Whisper turbo q4_k + B2",
   "vt_m_fast_models": "Whisper turbo q4_k only",
   "vt_c_best": "Best",
+  "vt_c_more": "{n} more modes are being measured.",
   "vt_s_title": "Where VoiceTecx does better",
   "vt_s_lead": "Taiwan names and numbers, long dictation, and audio files.",
   "vt_s_ba_title": "Taiwan names and numbers",

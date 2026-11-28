@@ -197,6 +197,7 @@
   "vt_m_compact_models": "Breeze q5_0 + Whisper turbo q4_k + B2",
   "vt_m_fast_models": "只用 Whisper turbo q4_k",
   "vt_c_best": "最好",
+  "vt_c_more": "另外 {n} 個模式測量中。",
   "vt_s_title": "VoiceTecx 做得更好的地方",
   "vt_s_lead": "臺灣的名稱和數字、長段口述、錄音檔。",
   "vt_s_ba_title": "臺灣的名稱和數字",

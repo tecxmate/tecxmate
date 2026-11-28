@@ -107,6 +107,7 @@ function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: C
   const name = (l: Row["label"]) => (l === "VoiceTecx" ? "VoiceTecx" : t(l))
   const values = rows.flatMap((r) => (r.value === undefined ? [] : [r.value]))
   const best = lower ? Math.min(...values) : Math.max(...values)
+  const pending = rows.length - values.length
   return (
     <figure className="border border-border p-6 m-0">
       <figcaption className="mb-5">
@@ -117,12 +118,13 @@ function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: C
         {rows.map((r) => {
           const win = r.value === best
           return (
-          <div key={String(r.label)} role="listitem" title={`${name(r.label)}: ${r.display ?? t("vt_c_pending")}${r.display ? unit : ""}`}>
+          // Phones get a minimal chart (Niko): rows still being measured, model lines and the axis show from md up.
+          <div key={String(r.label)} role="listitem" className={r.value === undefined ? "hidden md:block" : undefined} title={`${name(r.label)}: ${r.display ?? t("vt_c_pending")}${r.display ? unit : ""}`}>
             {/* The name has the whole width, on one line; the value and the Best tag sit in a fixed column at the
                 end of the bar, so they line up on every row and never wrap (Niko, 2026-11-28). */}
-            <p className={`truncate text-sm ${r.sub ? "" : "mb-1.5 "}${win ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{name(r.label)}</p>
+            <p className={`truncate text-sm ${r.sub ? "mb-1.5 md:mb-0 " : "mb-1.5 "}${win ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{name(r.label)}</p>
             {/* Each mode's models and quantisation (tecxmate/voicetecx eval/results-compact.md, NOTES-FOR-M5.md). */}
-            {r.sub && <p className="mb-1.5 truncate text-xs text-muted-foreground">{t(r.sub)}</p>}
+            {r.sub && <p className="hidden md:block mb-1.5 truncate text-xs text-muted-foreground">{t(r.sub)}</p>}
             <div className="flex items-center gap-3">
               {/* The track is the full scale, so the gap looks as large as it is, no larger. */}
               <div className={`h-3 flex-1 rounded-r-[4px] ${r.value === undefined ? "border border-dashed border-border" : "bg-muted"}`}>
@@ -142,7 +144,7 @@ function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: C
           )
         })}
       </div>
-      <div className="mt-2 flex gap-3 text-xs text-muted-foreground tabular-nums" aria-hidden="true">
+      <div className="mt-2 hidden md:flex gap-3 text-xs text-muted-foreground tabular-nums" aria-hidden="true">
         <div className="flex flex-1 justify-between">
           <span>0</span>
           <span>{max / 2}</span>
@@ -150,6 +152,7 @@ function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: C
         </div>
         <span className={VALUE_COL} />
       </div>
+      {pending > 0 && <p className="md:hidden mt-4 text-xs text-muted-foreground">{t("vt_c_more").replace("{n}", String(pending))}</p>}
       {children}
     </figure>
   )
