@@ -61,8 +61,9 @@ export function ProductSpecPage({ spec, afterHero }: { spec: ProductSpec; afterH
         <div className="min-w-0">
           <h1 className="mb-4 text-4xl md:text-5xl">
             <ProductWordmark name={spec.name} className="block h-[0.78em] w-auto max-w-full text-foreground" />
-            <span className="sr-only">{spec.name}</span>
+            <span className="sr-only">{spec.name}{spec.tagline ? ` – ${tx(spec.tagline)}` : ""}</span>
           </h1>
+          {spec.tagline && <p className="-mt-1 mb-4 text-xl md:text-2xl font-semibold text-foreground">{tx(spec.tagline)}</p>}
           <p className="text-lg md:text-xl text-foreground max-w-[34em] mb-5">{tx(spec.line)}</p>
           {spec.statusLink ? (
             <a href={spec.statusLink.href} {...ext(spec.statusLink.href)} className="text-base md:text-lg font-semibold text-primary hover:underline">

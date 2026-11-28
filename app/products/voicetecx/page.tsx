@@ -9,12 +9,15 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tecxmate.com"
 const description =
   "VoiceTecx: on-device dictation for the Mac, built for Taiwan Mandarin, English and Traditional Chinese. Your voice and text never leave your Mac."
 
+// Niko's tagline (tecxmate/voicetecx NOTES-FOR-CLOUD.md, 59d34d0).
+const title = "VoiceTecx – Private Voice Typing and Transcription"
+
 export const metadata: Metadata = {
-  title: "VoiceTecx",
+  title,
   description,
   alternates: { canonical: `${baseUrl}/products/voicetecx` },
   openGraph: {
-    title: "VoiceTecx · On-device dictation for the Mac",
+    title,
     description,
     url: `${baseUrl}/products/voicetecx`,
     siteName: "Tecxmate",
