@@ -43,7 +43,7 @@ const SYSTEMS = (rows: [number, number, number, number, number], d: (v: number) 
   }))
 const CHARTS: Chart[] = [
   { title: "vt_c1_title", scale: "vt_c_scale", max: 100, rows: SYSTEMS([92.8, 92.8, 90.2, 87.2, 84.5], (v) => v.toFixed(1)) },
-  { title: "vt_c2_title", scale: "vt_c_scale", max: 100, rows: SYSTEMS([89, 9, 74, 34, 70], String) },
+  { title: "vt_c2_title", scale: "vt_c_scale", max: 100, rows: SYSTEMS([85, 9, 74, 34, 70], String) },
   {
     title: "vt_c3_title", scale: "vt_c_scale_s_acc", max: 2, unit: " s", lower: true,
     // tecxmate/voicetecx eval/results-modes-niko.md: every VoiceTecx mode in one run on battery, Low Power Mode (Apple's
