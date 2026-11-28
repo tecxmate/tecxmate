@@ -8,6 +8,9 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-11-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  // No esbuild keepNames: it wraps functions in __name(), which breaks inline scripts made from a function's text
+  // (next-themes' theme script threw "__name is not defined" on every page, so dark mode flashed light first).
+  "keep_names": false,
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   "r2_buckets": [{ "binding": "SITE_BUCKET", "bucket_name": "tecxmate-site" }],
   "vars": { "STORAGE_BACKEND": "r2" },
