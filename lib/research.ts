@@ -75,8 +75,8 @@ export const STUDIES: Study[] = [
     project: "VoiceTecx",
     title: { zh: "同一批錄音，五套離線語音辨識", en: "Five Offline Speech Tools, Same Recordings" },
     finding: {
-      zh: "我們的測試，一位說話者：臺灣華語錯字比 Mac 內建聽寫少約 44%，標點也更好（89 比 34）。Apple 比較快",
-      en: "Our test, one speaker: about 44% fewer mistakes in Taiwan Mandarin than Mac dictation, and better punctuation (89 vs 34). Apple is faster",
+      zh: "我們的測試，一位說話者：臺灣華語錯字比 Mac 內建聽寫少約 44%，標點也更好（85 比 34）。Apple 比較快",
+      en: "Our test, one speaker: about 44% fewer mistakes in Taiwan Mandarin than Mac dictation, and better punctuation (85 vs 34). Apple is faster",
     },
     topic: { zh: "語音辨識", en: "Speech recognition" },
     month: "2026-11",

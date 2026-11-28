@@ -18,6 +18,8 @@ export type ProductSpec = {
   name: ProductName
   /** The product's own app icon mark (an SVG in /public), shown in the tile instead of the wordmark. */
   icon?: string
+  /** A rendered app icon set (tile included): a folder with {light,dark}-{64,128,256,512}.{webp,png}. Wins over `icon`. */
+  iconSet?: string
   sub: Bi
   line: Bi
   /** Shown under the line: "<status> at <link>" or "<status> · <link>", or the status alone. */
@@ -234,7 +236,8 @@ export const PRODUCT_SPECS: ProductSpec[] = [
     // Every row traces to tecxmate/voicetecx (WEBSITE-FACTCHECK.md, eval/results-apple-niko.md); owned by the VoiceTecx session.
     id: "voicetecx",
     name: "VoiceTecx",
-    icon: "/products/voicetecx-mark.svg",
+    // Apple's Liquid Glass export, light and dark (tecxmate/voicetecx docs/brand, cb450c5).
+    iconSet: "/products/voicetecx-icon",
     sub: b("On-device dictation for the Mac", "Mac 裝置端語音輸入"),
     line: b(
       "Speak to type in any app and on the web. Traditional Chinese and English, even mixed in one sentence. Fully offline, private and secure.",
@@ -274,13 +277,13 @@ export const PRODUCT_SPECS: ProductSpec[] = [
       {
         title: b("Test results", "測試結果"),
         rows: [
-          [b("Character accuracy", "字元正確率"), b("About 93 of 100 (macOS dictation: about 87)", "約 93／100（macOS 內建聽寫：約 87）")],
-          [b("Punctuation", "標點分數"), b("84 of 100 (macOS dictation: 32)", "84／100（macOS 內建聽寫：32）")],
-          [b("Speed", "速度"), b("About 0.75 s per sentence (engine time, M5 MacBook Pro, 16 GB unified memory)", "每句約 0.75 秒（引擎處理時間，M5 MacBook Pro，16 GB 統一記憶體）")],
+          [b("Character accuracy", "字元正確率"), b("About 93 of 100 (Apple macOS Dictation: about 87)", "約 93／100（Apple macOS 內建聽寫：約 87）")],
+          [b("Punctuation", "標點分數"), b("85 of 100 (Apple macOS Dictation: 34)", "85／100（Apple macOS 內建聽寫：34）")],
+          [b("Speed", "速度"), b("Standard: 1.31 s after you stop, plugged in; 1.92 s on battery in Low Power Mode (Apple macOS Dictation: 0.08 s)", "標準模式：說完後 1.31 秒（插電）；用電池、省電模式 1.92 秒（Apple macOS 內建聽寫：0.08 秒）")],
         ],
         note: b(
-          "25 Taiwan Mandarin sentences read by one speaker, M5 MacBook Pro (16 GB unified memory), November 2026; macOS dictation on the same recordings.",
-          "25 句臺灣華語由一位說話者朗讀，M5 MacBook Pro（16 GB 統一記憶體），2026 年 11 月；macOS 內建聽寫使用同一批錄音。",
+          "25 Taiwan Mandarin sentences read by one speaker, M5 MacBook Pro (16 GB unified memory), November 2026; Apple macOS Dictation on the same recordings.",
+          "25 句臺灣華語由一位說話者朗讀，M5 MacBook Pro（16 GB 統一記憶體），2026 年 11 月；Apple macOS 內建聽寫使用同一批錄音。",
         ),
       },
       {
