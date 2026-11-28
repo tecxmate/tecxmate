@@ -4,7 +4,6 @@ import { useState, type ReactNode } from "react"
 import { ChevronDown } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { ProductWordmark } from "@/components/brand/product-wordmark"
-import { AppIcon } from "@/components/app-icon"
 import type { Bi, ProductSpec } from "@/lib/product-specs"
 
 /** A product page in the spec-sheet layout. Chinese for zh readers, English for everyone else. */
@@ -28,12 +27,7 @@ export function ProductSpecPage({ spec, afterHero }: { spec: ProductSpec; afterH
       </p>
 
       <section className="grid grid-cols-1 md:grid-cols-[5fr_7fr] gap-8 md:gap-14 items-center pb-12">
-        {spec.iconSet ? (
-          // the app's rendered icon, tile and glass included, as in the Mac's Dock; light or dark with the site theme
-          <div className="w-[42%] max-w-[180px] md:w-[78%] md:max-w-[400px] md:mx-auto drop-shadow-[0_12px_28px_rgba(0,0,0,0.28)]">
-            <AppIcon base={spec.iconSet} alt={`${spec.name} app icon`} sizes="(min-width: 768px) 400px, 180px" />
-          </div>
-        ) : spec.icon ? (
+        {spec.icon ? (
           // the app's own icon, as in the Mac's Dock: its mark on the app's dark rounded square (VoiceTecx:
           // Resources/AppIcon.icon); nothing around it
           <div className="w-[42%] max-w-[180px] md:w-[78%] md:max-w-[400px] md:mx-auto">

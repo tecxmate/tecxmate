@@ -18,8 +18,6 @@ export type ProductSpec = {
   name: ProductName
   /** The product's own app icon mark (an SVG in /public), shown in the tile instead of the wordmark. */
   icon?: string
-  /** A rendered app icon set (tile included): a folder with {light,dark}-{64,128,256,512}.{webp,png}. Wins over `icon`. */
-  iconSet?: string
   /** A product's tagline, shown under its name in the hero. */
   tagline?: Bi
   sub: Bi
@@ -238,8 +236,8 @@ export const PRODUCT_SPECS: ProductSpec[] = [
     // Every row traces to tecxmate/voicetecx (WEBSITE-FACTCHECK.md, eval/results-apple-niko.md); owned by the VoiceTecx session.
     id: "voicetecx",
     name: "VoiceTecx",
-    // Apple's Liquid Glass export, light and dark (tecxmate/voicetecx docs/brand, cb450c5).
-    iconSet: "/products/voicetecx-icon",
+    // The white mark on the app's dark tile (Niko, 2026-11-29: the Liquid Glass PNG showed a box in Safari).
+    icon: "/products/voicetecx-mark.svg",
     // Niko's tagline (tecxmate/voicetecx NOTES-FOR-CLOUD.md, 59d34d0). "Transcription" = audio files (.txt, .srt);
     // "Meeting" comes back only when the app records and transcribes meetings itself.
     tagline: b("Private Voice Typing and Transcription", "私密語音輸入・逐字稿"),

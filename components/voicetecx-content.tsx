@@ -8,7 +8,6 @@ import type { LucideIcon } from "lucide-react"
 import type { ReactNode } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { useLanguage } from "@/components/language-provider"
-import { AppIcon } from "@/components/app-icon"
 
 type T = ReturnType<typeof useLanguage>["t"]
 type Key = Parameters<T>[0]
@@ -387,8 +386,9 @@ function VoiceTecxStrengths() {
                   ))}
                 </div>
                 <ArrowRight className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
-                <div className="w-16 sm:w-20 drop-shadow-sm">
-                  <AppIcon base="/products/voicetecx-icon" alt="VoiceTecx" sizes="80px" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-[22.5%] bg-[#141414] shadow-sm overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/products/voicetecx-mark.svg" alt="VoiceTecx" className="block w-full h-full" />
                 </div>
                 <ArrowRight className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
                 <div className="space-y-2">
