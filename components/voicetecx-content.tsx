@@ -25,24 +25,28 @@ const AUDIENCE: { icon: LucideIcon; title: Key; body: Key }[] = [
   { icon: Briefcase, title: "vt_a3_t", body: "vt_a3_d" },
   { icon: Feather, title: "vt_a4_t", body: "vt_a4_d" },
 ]
-// tecxmate/voicetecx eval/results-apple-niko.md (4282fd9): the same 30 recordings, VoiceTecx against macOS's own
-// dictation (DictationTranscriber, macOS 26.6, on-device). VoiceTecx without the sound-alike pairs made from these
-// recordings, so it is not flattered. Bars start at 0.
-const CHARTS: { title: Key; rows: { label: Key | "VoiceTecx"; value: number; display: string; ours?: boolean }[] }[] = [
-  {
-    title: "vt_c1_title",
-    rows: [
-      { label: "VoiceTecx", value: 92.8, display: "~93", ours: true },
-      { label: "vt_c_macos", value: 87.1, display: "~87" },
-    ],
-  },
-  {
-    title: "vt_c2_title",
-    rows: [
-      { label: "VoiceTecx", value: 84, display: "84", ours: true },
-      { label: "vt_c_macos", value: 32, display: "32" },
-    ],
-  },
+// tecxmate/voicetecx eval/results-latency-apple.md and eval/results-apple-niko.md: the same 25 Taiwan Mandarin
+// recordings (one speaker) through every system on one M5 MacBook Pro. MediaTek and OpenAI are the original models
+// run with whisper.cpp; Apple's are macOS 26's on-device dictation and SpeechAnalyzer. No sound-alike pairs made from
+// these recordings (not flattered). Bars start at 0. pending = a mode still being measured on the same recordings.
+type Row = { label: Key | "VoiceTecx"; value?: number; display?: string; ours?: boolean }
+type Chart = { title: Key; scale: Key; max: number; unit?: string; rows: Row[] }
+const SYSTEMS = (rows: [number, number, number, number, number], d: (v: number) => string): Row[] =>
+  (["VoiceTecx", "vt_c_breeze", "vt_c_whisper", "vt_c_macos", "vt_c_apple_sa"] as const).map((label, i) => ({
+    label, value: rows[i], display: d(rows[i]), ours: i === 0,
+  }))
+const CHARTS: Chart[] = [
+  { title: "vt_c1_title", scale: "vt_c_scale", max: 100, rows: SYSTEMS([92.8, 92.8, 90.2, 87.2, 84.5], (v) => v.toFixed(1)) },
+  { title: "vt_c2_title", scale: "vt_c_scale", max: 100, rows: SYSTEMS([89, 9, 74, 34, 70], String) },
+  { title: "vt_c3_title", scale: "vt_c_scale_s", max: 2, unit: " s", rows: SYSTEMS([1.78, 1.08, 0.73, 0.08, 0.05], (v) => v.toFixed(2)) },
+]
+const MODE_ROWS = (vals: (number | undefined)[], d: (v: number) => string = (v) => v.toFixed(1)): Row[] =>
+  (["vt_m_std", "vt_m_words", "vt_m_speed", "vt_m_light", "vt_m_compact", "vt_m_fast"] as const).map((label, i) => ({
+    label, value: vals[i], display: vals[i] === undefined ? undefined : d(vals[i]!), ours: i === 0,
+  }))
+const MODES: Chart[] = [
+  { title: "vt_c1_title", scale: "vt_c_scale", max: 100, rows: MODE_ROWS([92.8, 93.2]) },
+  { title: "vt_c2_title", scale: "vt_c_scale", max: 100, rows: MODE_ROWS([89, 86], String) },
 ]
 const FAQ: { q: Key; a: Key }[] = [
   { q: "vt_q1", a: "vt_q1_a" },
@@ -54,36 +58,40 @@ const FAQ: { q: Key; a: Key }[] = [
   { q: "vt_q7", a: "vt_q7_a" },
 ]
 
-function BarChart({ title, rows }: (typeof CHARTS)[number]) {
+function BarChart({ title, scale, max, unit = "/100", rows }: Chart) {
   const { t } = useLanguage()
-  const name = (l: Key | "VoiceTecx") => (l === "VoiceTecx" ? "VoiceTecx" : t(l))
+  const name = (l: Row["label"]) => (l === "VoiceTecx" ? "VoiceTecx" : t(l))
   return (
     <figure className="border border-border p-6 m-0">
       <figcaption className="mb-5">
         <span className="block text-lg font-semibold text-foreground">{t(title)}</span>
-        <span className="block text-sm text-muted-foreground">{t("vt_c_scale")}</span>
+        <span className="block text-sm text-muted-foreground">{t(scale)}</span>
       </figcaption>
       <div className="space-y-4" role="list">
         {rows.map((r) => (
-          <div key={r.display + r.label} role="listitem" title={`${name(r.label)}: ${r.display}/100`}>
+          <div key={String(r.label)} role="listitem" title={`${name(r.label)}: ${r.display ?? t("vt_c_pending")}${r.display ? unit : ""}`}>
             <div className="flex items-baseline justify-between gap-3 mb-1.5">
               <span className={`text-sm ${r.ours ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{name(r.label)}</span>
-              <span className={`text-sm tabular-nums ${r.ours ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{r.display}/100</span>
+              <span className={`text-sm tabular-nums whitespace-nowrap ${r.ours ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+                {r.display ? r.display + unit : t("vt_c_pending")}
+              </span>
             </div>
-            {/* The track is the full 0–100 scale, so the gap looks as large as it is, no larger. */}
-            <div className="h-3 w-full bg-muted rounded-r-[4px]">
-              <div
-                className={`h-3 rounded-r-[4px] ${r.ours ? "bg-primary" : "bg-[#AEAEB2] dark:bg-[#636366]"}`}
-                style={{ width: `${r.value}%` }}
-              />
+            {/* The track is the full scale, so the gap looks as large as it is, no larger. */}
+            <div className={`h-3 w-full rounded-r-[4px] ${r.value === undefined ? "border border-dashed border-border" : "bg-muted"}`}>
+              {r.value !== undefined && (
+                <div
+                  className={`h-3 rounded-r-[4px] ${r.ours ? "bg-primary" : "bg-[#AEAEB2] dark:bg-[#636366]"}`}
+                  style={{ width: `${Math.max(1, (r.value / max) * 100)}%` }}
+                />
+              )}
             </div>
           </div>
         ))}
       </div>
       <div className="mt-2 flex justify-between text-xs text-muted-foreground tabular-nums" aria-hidden="true">
         <span>0</span>
-        <span>50</span>
-        <span>100</span>
+        <span>{max / 2}</span>
+        <span>{max}</span>
       </div>
     </figure>
   )
@@ -116,14 +124,13 @@ export function VoiceTecxResults() {
             {CHARTS.map((c) => (
               <BarChart key={c.title} {...c} />
             ))}
-            <div className="border border-border p-6">
-              <p className="text-lg font-semibold text-foreground mb-5">{t("vt_n3_title")}</p>
-              <p className="text-5xl font-semibold tracking-tight text-primary mb-2 whitespace-nowrap">
-                ~0.75<span className="text-2xl font-medium text-muted-foreground"> s</span>
-              </p>
-              <p className="text-foreground mb-3">{t("vt_n3")}</p>
-              <p className="text-sm text-muted-foreground border-t border-border pt-3">{t("vt_n3_cmp")}</p>
-            </div>
+          </div>
+          <h3 className="mt-16 text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">{t("vt_modes_title")}</h3>
+          <p className="text-lg text-muted-foreground mb-8 max-w-3xl">{t("vt_modes_lead")}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {MODES.map((c) => (
+              <BarChart key={"m" + c.title} {...c} />
+            ))}
           </div>
           <p className="mt-6 text-sm text-muted-foreground max-w-3xl">{t("vt_num_note")}</p>
         </div>
