@@ -34,7 +34,7 @@ const AUDIENCE: { icon: LucideIcon; title: Key; body: Key }[] = [
 // run with whisper.cpp; Apple's are macOS 26's on-device dictation and SpeechAnalyzer. No sound-alike pairs made from
 // these recordings (not flattered). Bars start at 0. pending = a mode still being measured on the same recordings.
 // The winner of each chart is highlighted, whoever it is (Niko, 2026-11-28): on speed that is Apple.
-type Row = { label: Key | "VoiceTecx"; value?: number; display?: string }
+type Row = { label: Key | "VoiceTecx"; sub?: Key; value?: number; display?: string }
 type Chart = { title: Key; scale: Key; max: number; unit?: string; lower?: boolean; rows: Row[] }
 const SYSTEMS = (rows: [number, number, number, number, number], d: (v: number) => string): Row[] =>
   (["VoiceTecx", "vt_c_breeze", "vt_c_whisper", "vt_c_macos", "vt_c_apple_sa"] as const).map((label, i) => ({
@@ -47,7 +47,7 @@ const CHARTS: Chart[] = [
 ]
 const MODE_ROWS = (vals: (number | undefined)[], d: (v: number) => string = (v) => v.toFixed(1)): Row[] =>
   (["vt_m_std", "vt_m_words", "vt_m_speed", "vt_m_light", "vt_m_compact", "vt_m_fast"] as const).map((label, i) => ({
-    label, value: vals[i], display: vals[i] === undefined ? undefined : d(vals[i]!),
+    label, sub: `${label}_models` as Key, value: vals[i], display: vals[i] === undefined ? undefined : d(vals[i]!),
   }))
 // eval/results-latency-apple.md, third run: 5 long takes (31–51 s), Niko's voice, M5 on power. LiveTake is in the
 // app behind a setting, off by default (NOTES-FOR-M5.md, 2026-11-27 22:15).
@@ -120,7 +120,9 @@ function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: C
           <div key={String(r.label)} role="listitem" title={`${name(r.label)}: ${r.display ?? t("vt_c_pending")}${r.display ? unit : ""}`}>
             {/* The name has the whole width, on one line; the value and the Best tag sit in a fixed column at the
                 end of the bar, so they line up on every row and never wrap (Niko, 2026-11-28). */}
-            <p className={`mb-1.5 truncate text-sm ${win ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{name(r.label)}</p>
+            <p className={`truncate text-sm ${r.sub ? "" : "mb-1.5 "}${win ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{name(r.label)}</p>
+            {/* Each mode's models and quantisation (tecxmate/voicetecx eval/results-compact.md, NOTES-FOR-M5.md). */}
+            {r.sub && <p className="mb-1.5 truncate text-xs text-muted-foreground">{t(r.sub)}</p>}
             <div className="flex items-center gap-3">
               {/* The track is the full scale, so the gap looks as large as it is, no larger. */}
               <div className={`h-3 flex-1 rounded-r-[4px] ${r.value === undefined ? "border border-dashed border-border" : "bg-muted"}`}>
