@@ -85,6 +85,10 @@ const MODES: Chart[] = [
   { title: "vt_c1_title", scale: "vt_c_scale", max: 100, rows: MODE_ROWS([92.8, 93.2]) },
   { title: "vt_c2_title", scale: "vt_c_scale", max: 100, rows: MODE_ROWS([89, 86], String) },
 ]
+// On phones, rows of cards and charts scroll sideways instead of stacking, so the page stays short (Niko,
+// 2026-11-28: "mobile is too long"); from md up they are a grid again.
+const SWIPE = "flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-4 px-4 pb-3 md:mx-0 md:px-0 md:pb-0 md:overflow-visible md:grid"
+const ITEM = "shrink-0 w-[85%] snap-start md:w-auto"
 const FAQ: { q: Key; a: Key }[] = [
   { q: "vt_q1", a: "vt_q1_a" },
   { q: "vt_q2", a: "vt_q2_a" },
@@ -114,7 +118,7 @@ function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: C
             <div className="flex items-baseline justify-between gap-3 mb-1.5">
               <span className={`text-sm ${win ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
                 {name(r.label)}
-                {win && <span className="ml-2 text-xs font-semibold uppercase tracking-wider text-primary">{t("vt_c_best")}</span>}
+                {win && <span className="ml-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wider text-primary">{t("vt_c_best")}</span>}
               </span>
               <span className={`text-sm tabular-nums whitespace-nowrap ${win ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
                 {r.display ? r.display + unit : t("vt_c_pending")}
@@ -146,9 +150,9 @@ function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: C
 function Cards({ items }: { items: typeof FEATURES }) {
   const { t } = useLanguage()
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className={`${SWIPE} md:grid-cols-2 lg:grid-cols-3 md:gap-6`}>
       {items.map(({ icon: Icon, title, body }) => (
-        <article key={title} className="bg-card border border-border shadow-sm p-6">
+        <article key={title} className={`${ITEM} bg-card border border-border shadow-sm p-6`}>
           <Icon className="h-6 w-6 text-primary mb-4" strokeWidth={1.75} aria-hidden="true" />
           <h3 className="text-lg font-semibold text-foreground mb-2">{t(title)}</h3>
           <p className="text-sm text-muted-foreground leading-relaxed">{t(body)}</p>
@@ -162,20 +166,24 @@ function Cards({ items }: { items: typeof FEATURES }) {
 export function VoiceTecxResults() {
   const { t } = useLanguage()
   return (
-    <section className="py-20 md:py-24 scroll-mt-20" id="results">
+    <section className="py-14 md:py-24 scroll-mt-20" id="results">
         <div className="container px-4 md:px-6 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-3">{t("vt_num_title")}</h2>
           <p className="text-lg text-muted-foreground mb-10 max-w-3xl">{t("vt_num_lead")}</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className={`${SWIPE} md:grid-cols-3 md:gap-6`}>
             {CHARTS.map((c) => (
-              <BarChart key={c.title} {...c} />
+              <div key={c.title} className={ITEM}>
+                <BarChart {...c} />
+              </div>
             ))}
           </div>
-          <h3 className="mt-16 text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">{t("vt_modes_title")}</h3>
+          <h3 className="mt-12 md:mt-16 text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">{t("vt_modes_title")}</h3>
           <p className="text-lg text-muted-foreground mb-8 max-w-3xl">{t("vt_modes_lead")}</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className={`${SWIPE} md:grid-cols-2 md:gap-6`}>
             {MODES.map((c) => (
-              <BarChart key={"m" + c.title} {...c} />
+              <div key={"m" + c.title} className={ITEM}>
+                <BarChart {...c} />
+              </div>
             ))}
           </div>
           <p className="mt-6 text-sm text-muted-foreground max-w-3xl">{t("vt_num_note")}</p>
@@ -189,7 +197,7 @@ function BeforeAfter({ kind, heard, wrote, mark }: (typeof BEFORE_AFTER)[number]
   const { t } = useLanguage()
   const [pre, post] = wrote.split(mark)
   return (
-    <article className="bg-card border border-border shadow-sm p-5 flex flex-col">
+    <article className="w-full bg-card border border-border shadow-sm p-5 flex flex-col">
       <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-3">{t(kind)}</p>
       <p className="text-xs text-muted-foreground mb-1">{t("vt_s_heard")}</p>
       <p className="text-base text-muted-foreground line-through decoration-[#AEAEB2] break-words">{heard}</p>
@@ -273,24 +281,26 @@ function LiveTakeTimeline() {
 function VoiceTecxStrengths() {
   const { t } = useLanguage()
   return (
-    <section className="py-20 md:py-24 scroll-mt-20" id="taiwan">
+    <section className="py-14 md:py-24 scroll-mt-20" id="taiwan">
       <div className="container px-4 md:px-6 max-w-6xl">
         <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-3">{t("vt_s_title")}</h2>
-        <p className="text-lg text-muted-foreground mb-12 max-w-3xl">{t("vt_s_lead")}</p>
+        <p className="text-lg text-muted-foreground mb-8 md:mb-12 max-w-3xl">{t("vt_s_lead")}</p>
 
         <h3 className="text-2xl font-semibold tracking-tight text-foreground mb-6">{t("vt_s_ba_title")}</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className={`${SWIPE} items-start md:items-stretch md:grid-cols-2 lg:grid-cols-4`}>
           {BEFORE_AFTER.map((b) => (
-            <BeforeAfter key={b.kind} {...b} />
+            <div key={b.kind} className={`${ITEM} !w-[70%] md:!w-auto flex`}>
+              <BeforeAfter {...b} />
+            </div>
           ))}
-          <article className="bg-primary text-white p-5 flex flex-col justify-center">
+          <article className={`${ITEM} !w-[70%] md:!w-auto bg-primary text-white p-5 flex flex-col justify-center`}>
             <p className="text-5xl font-semibold tracking-tight tabular-nums">0</p>
             <p className="text-lg font-semibold mb-2">{t("vt_s_zero_t")}</p>
             <p className="text-sm leading-relaxed text-white/85">{t("vt_s_zero_d")}</p>
           </article>
         </div>
 
-        <h3 className="mt-16 text-2xl font-semibold tracking-tight text-foreground mb-2">{t("vt_s_scale_title")}</h3>
+        <h3 className="mt-12 md:mt-16 text-2xl font-semibold tracking-tight text-foreground mb-2">{t("vt_s_scale_title")}</h3>
         <p className="text-muted-foreground mb-6 max-w-3xl">{t("vt_s_scale_lead")}</p>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {SCALE.map(({ n, label }) => (
@@ -319,12 +329,14 @@ function VoiceTecxStrengths() {
           </figure>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
             <h3 className="text-2xl font-semibold tracking-tight text-foreground mb-2">{t("vt_s_live_title")}</h3>
             <p className="text-muted-foreground mb-6">{t("vt_s_live_lead")}</p>
             <BarChart {...LIVETAKE}>
-              <LiveTakeTimeline />
+              <div className="hidden sm:block">
+                <LiveTakeTimeline />
+              </div>
               <p className="mt-6 text-xs text-muted-foreground leading-relaxed">{t("vt_s_live_note")}</p>
             </BarChart>
           </div>
@@ -395,19 +407,19 @@ export function VoiceTecxContent() {
       {/* TODO(Niko): a 15-second screen recording here (dictating mixed Mandarin and English into LINE, Notes, Mail). */}
 
 
-      <section className="bg-muted py-20 md:py-24">
+      <section className="bg-muted py-14 md:py-24">
         <div className="container px-4 md:px-6 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-10">{t("vt_feat_title")}</h2>
           <Cards items={FEATURES} />
         </div>
       </section>
 
-      <section className="py-20 md:py-24">
+      <section className="py-14 md:py-24">
         <div className="container px-4 md:px-6 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-10">{t("vt_aud_title")}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className={`${SWIPE} md:grid-cols-2 lg:grid-cols-4 md:gap-6`}>
             {AUDIENCE.map(({ icon: Icon, title, body }) => (
-              <article key={title} className="border-t-2 border-primary pt-5">
+              <article key={title} className={`${ITEM} border-t-2 border-primary pt-5`}>
                 <Icon className="h-6 w-6 text-primary mb-3" strokeWidth={1.75} aria-hidden="true" />
                 <h3 className="text-lg font-semibold text-foreground mb-2">{t(title)}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{t(body)}</p>
@@ -417,7 +429,7 @@ export function VoiceTecxContent() {
         </div>
       </section>
 
-      <section className="bg-muted py-20 md:py-24" id="pricing">
+      <section className="bg-muted py-14 md:py-24" id="pricing">
         <div className="container px-4 md:px-6 max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-3">{t("vt_price_title")}</h2>
           <p className="text-lg text-muted-foreground mb-10 max-w-3xl">{t("vt_price_lead")}</p>
@@ -444,7 +456,7 @@ export function VoiceTecxContent() {
         </div>
       </section>
 
-      <section className="py-20 md:py-24">
+      <section className="py-14 md:py-24">
         <div className="container px-4 md:px-6 max-w-3xl">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-8">{t("vt_faq_title")}</h2>
           <Accordion type="single" collapsible>
