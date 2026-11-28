@@ -37,25 +37,27 @@ const AUDIENCE: { icon: LucideIcon; title: Key; body: Key }[] = [
 // acc: the row's character accuracy, shown beside a speed so fast never reads as same quality (the lead, 2026-11-28).
 type Row = { label: Key | "VoiceTecx"; sub?: Key; value?: number; display?: string; acc?: number }
 type Chart = { title: Key; scale: Key; max: number; unit?: string; lower?: boolean; rows: Row[] }
-const SYSTEMS = (rows: [number, number, number, number, number], d: (v: number) => string): Row[] =>
-  (["VoiceTecx", "vt_c_breeze", "vt_c_whisper", "vt_c_macos", "vt_c_apple_sa"] as const).map((label, i) => ({
-    label, value: rows[i], display: d(rows[i]),
-  }))
+// One table for all three comparison charts (Niko, 2026-11-28: every VoiceTecx mode, named; sorted best first).
+// VoiceTecx rows: tecxmate/voicetecx eval/results-modes-niko.md, one run on Niko's 25 recordings; accuracy and
+// punctuation from its "without the fitted fixes" table (the one to put next to Apple's), seconds on battery in Low
+// Power Mode (Apple's conditions). The original MediaTek and OpenAI rows and Apple's: the 2026-11-27 run on the same
+// recordings in the same conditions (eval/results-latency-apple.md, eval/results-apple-niko.md).
+const COMPARE: { label: Row["label"]; acc: number; punct: number; sec: number }[] = [
+  { label: "vt_m_std", acc: 92.8, punct: 85, sec: 1.92 },
+  { label: "vt_m_speed", acc: 92.5, punct: 85, sec: 1.40 },
+  { label: "vt_c_light_test", acc: 92.8, punct: 86, sec: 1.16 },
+  { label: "vt_c_fast_test", acc: 90.8, punct: 82, sec: 0.75 },
+  { label: "vt_c_breeze", acc: 92.8, punct: 9, sec: 1.08 },
+  { label: "vt_c_whisper", acc: 90.2, punct: 74, sec: 0.73 },
+  { label: "vt_c_macos", acc: 87.2, punct: 34, sec: 0.08 },
+  { label: "vt_c_apple_sa", acc: 84.5, punct: 70, sec: 0.05 },
+]
 const CHARTS: Chart[] = [
-  { title: "vt_c1_title", scale: "vt_c_scale", max: 100, rows: SYSTEMS([92.8, 92.8, 90.2, 87.2, 84.5], (v) => v.toFixed(1)) },
-  { title: "vt_c2_title", scale: "vt_c_scale", max: 100, rows: SYSTEMS([85, 9, 74, 34, 70], String) },
+  { title: "vt_c1_title", scale: "vt_c_scale", max: 100, rows: COMPARE.map((c) => ({ label: c.label, value: c.acc, display: c.acc.toFixed(1) })) },
+  { title: "vt_c2_title", scale: "vt_c_scale", max: 100, rows: COMPARE.map((c) => ({ label: c.label, value: c.punct, display: String(c.punct) })) },
   {
     title: "vt_c3_title", scale: "vt_c_scale_s_acc", max: 2, unit: " s", lower: true,
-    // tecxmate/voicetecx eval/results-modes-niko.md: every VoiceTecx mode in one run on battery, Low Power Mode (Apple's
-    // conditions); accuracy from its "without the fitted fixes" table, the one to put next to Apple's. The original
-    // MediaTek and OpenAI rows and Apple's are the 2026-11-27 run in the same conditions (eval/results-latency-apple.md).
-    rows: [
-      { label: "vt_m_std", value: 1.92, display: "1.92", acc: 92.8 },
-      { label: "vt_m_speed", value: 1.40, display: "1.40", acc: 92.5 },
-      { label: "vt_c_light_test", value: 1.16, display: "1.16", acc: 92.8 },
-      { label: "vt_c_fast_test", value: 0.75, display: "0.75", acc: 90.8 },
-      ...SYSTEMS([0, 1.08, 0.73, 0.08, 0.05], (v) => v.toFixed(2)).slice(1).map((row, i) => ({ ...row, acc: [92.8, 90.2, 87.2, 84.5][i] })),
-    ],
+    rows: COMPARE.map((c) => ({ label: c.label, value: c.sec, display: c.sec.toFixed(2), acc: c.acc })),
   },
 ]
 const MODE_ROWS = (vals: (number | undefined)[], d: (v: number) => string = (v) => v.toFixed(1)): Row[] =>
@@ -121,6 +123,9 @@ function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: C
   const { t } = useLanguage()
   const name = (l: Row["label"]) => (l === "VoiceTecx" ? "VoiceTecx" : t(l))
   const values = rows.flatMap((r) => (r.value === undefined ? [] : [r.value]))
+  // Best first (Niko, 2026-11-28); Array.sort is stable, so ties keep the listed order, VoiceTecx first.
+  const sorted = [...rows].sort((a, b) =>
+    a.value === undefined ? (b.value === undefined ? 0 : 1) : b.value === undefined ? -1 : lower ? a.value - b.value : b.value - a.value)
   const best = lower ? Math.min(...values) : Math.max(...values)
   const pending = rows.length - values.length
   return (
@@ -130,7 +135,7 @@ function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: C
         <span className="block text-sm text-muted-foreground">{t(scale)}</span>
       </figcaption>
       <div className="space-y-4" role="list">
-        {rows.map((r) => {
+        {sorted.map((r) => {
           const win = r.value === best
           return (
           // Phones get a minimal chart (Niko): rows still being measured, model lines and the axis show from md up.
