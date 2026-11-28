@@ -95,8 +95,10 @@ const STEPS: { label: Key; values: number[] }[] = [
   { label: "vt_s_st_agencies", values: [129, 52, 1, 0] },
 ]
 const MODES: Chart[] = [
-  { title: "vt_c1_title", scale: "vt_c_scale", max: 100, rows: MODE_ROWS([92.8, 93.2]) },
-  { title: "vt_c2_title", scale: "vt_c_scale", max: 100, rows: MODE_ROWS([89, 86], String) },
+  // tecxmate/voicetecx eval/results-modes-niko.md, "without the fitted fixes" table: every mode in one run on Niko's 25
+  // recordings (accuracy = 100 − CER). With your Vocabulary is not in that run, so it waits for the next one.
+  { title: "vt_c1_title", scale: "vt_c_scale", max: 100, rows: MODE_ROWS([92.8, undefined, 92.5, 92.8, 92.8, 90.8]) },
+  { title: "vt_c2_title", scale: "vt_c_scale", max: 100, rows: MODE_ROWS([85, undefined, 85, 86, 83, 82], String) },
 ]
 // On phones, rows of cards and charts scroll sideways instead of stacking, so the page stays short (Niko,
 // 2026-11-28: "mobile is too long"); from md up they are a grid again.
