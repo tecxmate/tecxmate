@@ -177,7 +177,7 @@
   "vt_download": "Download the beta",
   "vt_download_note": "Free beta · macOS 14 or later · Mac with Apple silicon (M1 or later) · 6 MB, then the language files in the app",
   "vt_c_breeze": "MediaTek Breeze-ASR-25 (original)",
-  "vt_c_whisper": "OpenAI Whisper large-v3-turbo (original)",
+  "vt_c_whisper": "OpenAI Whisper turbo (original)",
   "vt_c_apple_sa": "Apple SpeechAnalyzer (macOS 26)",
   "vt_c3_title": "Time to text after you stop",
   "vt_c_scale_s": "Seconds, shorter is better",

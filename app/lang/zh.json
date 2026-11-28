@@ -177,7 +177,7 @@
   "vt_download": "下載測試版",
   "vt_download_note": "免費測試版 · macOS 14 或更新版本 · 搭載 Apple 晶片的 Mac（M1 或更新）· 6 MB，語言檔在 App 內下載",
   "vt_c_breeze": "聯發科 Breeze-ASR-25（原版）",
-  "vt_c_whisper": "OpenAI Whisper large-v3-turbo（原版）",
+  "vt_c_whisper": "OpenAI Whisper turbo（原版）",
   "vt_c_apple_sa": "Apple SpeechAnalyzer（macOS 26）",
   "vt_c3_title": "說完到出字",
   "vt_c_scale_s": "秒，越短越好",

@@ -99,6 +99,9 @@ const FAQ: { q: Key; a: Key }[] = [
   { q: "vt_q7", a: "vt_q7_a" },
 ]
 
+// Wide enough for "Best 92.8/100" and "Measuring", so every bar ends at the same place.
+const VALUE_COL = "w-[6.75rem] shrink-0"
+
 function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: Chart & { children?: ReactNode }) {
   const { t } = useLanguage()
   const name = (l: Row["label"]) => (l === "VoiceTecx" ? "VoiceTecx" : t(l))
@@ -115,32 +118,35 @@ function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: C
           const win = r.value === best
           return (
           <div key={String(r.label)} role="listitem" title={`${name(r.label)}: ${r.display ?? t("vt_c_pending")}${r.display ? unit : ""}`}>
-            <div className="flex items-baseline justify-between gap-3 mb-1.5">
-              <span className={`text-sm ${win ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
-                {name(r.label)}
-                {win && <span className="ml-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wider text-primary">{t("vt_c_best")}</span>}
-              </span>
-              <span className={`text-sm tabular-nums whitespace-nowrap ${win ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+            {/* The name has the whole width, on one line; the value and the Best tag sit in a fixed column at the
+                end of the bar, so they line up on every row and never wrap (Niko, 2026-11-28). */}
+            <p className={`mb-1.5 truncate text-sm ${win ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{name(r.label)}</p>
+            <div className="flex items-center gap-3">
+              {/* The track is the full scale, so the gap looks as large as it is, no larger. */}
+              <div className={`h-3 flex-1 rounded-r-[4px] ${r.value === undefined ? "border border-dashed border-border" : "bg-muted"}`}>
+                {r.value !== undefined && (
+                  <div
+                    className={`h-3 rounded-r-[4px] ${win ? "bg-primary" : "bg-[#AEAEB2] dark:bg-[#636366]"}`}
+                    style={{ width: `${Math.max(1, (r.value / max) * 100)}%` }}
+                  />
+                )}
+              </div>
+              <span className={`${VALUE_COL} text-right text-sm tabular-nums whitespace-nowrap ${win ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+                {win && <span className="mr-1.5 text-xs font-semibold uppercase tracking-wider text-primary">{t("vt_c_best")}</span>}
                 {r.display ? r.display + unit : t("vt_c_pending")}
               </span>
-            </div>
-            {/* The track is the full scale, so the gap looks as large as it is, no larger. */}
-            <div className={`h-3 w-full rounded-r-[4px] ${r.value === undefined ? "border border-dashed border-border" : "bg-muted"}`}>
-              {r.value !== undefined && (
-                <div
-                  className={`h-3 rounded-r-[4px] ${win ? "bg-primary" : "bg-[#AEAEB2] dark:bg-[#636366]"}`}
-                  style={{ width: `${Math.max(1, (r.value / max) * 100)}%` }}
-                />
-              )}
             </div>
           </div>
           )
         })}
       </div>
-      <div className="mt-2 flex justify-between text-xs text-muted-foreground tabular-nums" aria-hidden="true">
-        <span>0</span>
-        <span>{max / 2}</span>
-        <span>{max}</span>
+      <div className="mt-2 flex gap-3 text-xs text-muted-foreground tabular-nums" aria-hidden="true">
+        <div className="flex flex-1 justify-between">
+          <span>0</span>
+          <span>{max / 2}</span>
+          <span>{max}</span>
+        </div>
+        <span className={VALUE_COL} />
       </div>
       {children}
     </figure>
