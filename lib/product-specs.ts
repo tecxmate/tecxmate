@@ -20,6 +20,8 @@ export type ProductSpec = {
   icon?: string
   /** A rendered app icon set (tile included): a folder with {light,dark}-{64,128,256,512}.{webp,png}. Wins over `icon`. */
   iconSet?: string
+  /** A product's tagline, shown under its name in the hero. */
+  tagline?: Bi
   sub: Bi
   line: Bi
   /** Shown under the line: "<status> at <link>" or "<status> · <link>", or the status alone. */
@@ -238,6 +240,9 @@ export const PRODUCT_SPECS: ProductSpec[] = [
     name: "VoiceTecx",
     // Apple's Liquid Glass export, light and dark (tecxmate/voicetecx docs/brand, cb450c5).
     iconSet: "/products/voicetecx-icon",
+    // Niko's tagline (tecxmate/voicetecx NOTES-FOR-CLOUD.md, 59d34d0). "Transcription" = audio files (.txt, .srt);
+    // "Meeting" comes back only when the app records and transcribes meetings itself.
+    tagline: b("Private Voice Typing and Transcription", "私密語音輸入・逐字稿"),
     sub: b("On-device dictation for the Mac", "Mac 裝置端語音輸入"),
     line: b(
       "Speak to type in any app and on the web. Traditional Chinese and English, even mixed in one sentence. Fully offline, private and secure.",
