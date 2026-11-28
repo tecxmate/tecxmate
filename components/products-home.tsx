@@ -73,6 +73,15 @@ const PRODUCTS: ProductCardData[] = [
     points: ["ph_voicetecx_p1", "ph_voicetecx_p2"],
     link: { label: "ph_voicetecx_link", href: "/products/voicetecx", internal: true },
   },
+  {
+    id: "tecxwork",
+    name: "TecxWork",
+    sub: "ph_tecxwork_sub",
+    status: "ph_status_live",
+    line: "ph_tecxwork_line",
+    points: ["ph_tecxwork_p1", "ph_tecxwork_p2"],
+    link: { label: "ph_read_more", href: "/products/tecxwork", internal: true },
+  },
 ]
 
 export function ProductsHero() {

@@ -63,10 +63,9 @@ export const STUDIES: Study[] = [
     },
     topic: { zh: "電力電子", en: "Power electronics" },
     month: "2026-11",
-    // The product's own site is not public yet: the study links to its product page here, and the image is a local copy.
+    // Hidden (Niko, 2026-11-28) until the product's own site is public.
     url: "/products/etecx",
-    image: { en: "/research/etecx-accuracy-en.png", zh: "/research/etecx-accuracy-zh.png" },
-    public: true,
+    public: false,
   },
 ]
 

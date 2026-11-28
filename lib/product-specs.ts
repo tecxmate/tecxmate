@@ -202,10 +202,9 @@ export const PRODUCT_SPECS: ProductSpec[] = [
       "給設計電源轉換器的工程師使用的電路模擬器，有桌面版與網頁版。",
     ),
     status: b("In development", "開發中"),
-    statusLink: { label: b("Talk with us", "與我們聊聊"), href: salesDeck.bookingUrl, joiner: "dot" },
     ctas: [
       { label: b("Contact us", "聯絡我們"), href: "/quote?product=etecx", primary: true },
-      { label: b("See the research", "看研究"), href: "/research" },
+      { label: b("Book a call", "預約通話"), href: salesDeck.bookingUrl },
     ],
     summary: b("Built-in AI design help, on the desktop and in the browser.", "內建 AI 設計協助，桌面版與網頁版都有。"),
     groups: [
@@ -225,7 +224,6 @@ export const PRODUCT_SPECS: ProductSpec[] = [
           [b("Compared against", "比對對象"), b("Analytic results, ngspice, data-sheet values", "解析解、ngspice、規格書數值")],
           [b("Published", "發表"), b("November 2026", "2026 年 11 月")],
         ],
-        note: b("From the eTecx accuracy report on the Research page.", "出自研究頁面上的 eTecx 準確度報告。"),
       },
     ],
     metaDescription: "eTecx: a power-electronics circuit simulator, desktop and web, for engineers who design power converters.",
@@ -296,6 +294,62 @@ export const PRODUCT_SPECS: ProductSpec[] = [
     ],
     metaDescription:
       "VoiceTecx: on-device dictation for the Mac, built for Taiwan Mandarin, English and Traditional Chinese. Your voice and text never leave your Mac.",
+  },
+  {
+    id: "tecxwork",
+    name: "TecxWork",
+    sub: b("Hiring platform for career fairs", "徵才博覽會招募平台"),
+    line: b(
+      "Job seekers find jobs and book interviews, recruiters move candidates through their pipeline, and organizers run the event, all in one place.",
+      "求職者找職缺、預約面試，招募人員推進候選人流程，主辦單位管理整場活動，全部在同一個平台。",
+    ),
+    status: b("Live", "已上線"),
+    statusLink: { label: b("work.tecxmate.com", "work.tecxmate.com"), href: "https://work.tecxmate.com", joiner: "at" },
+    ctas: [
+      { label: b("Open TecxWork", "開啟 TecxWork"), href: "https://work.tecxmate.com", primary: true },
+      { label: b("Book a demo", "預約展示"), href: salesDeck.bookingUrl },
+    ],
+    summary: b(
+      "Built for hiring international talent in Taiwan, in English, 繁體中文 and Tiếng Việt. TECXMATE's own openings are posted on TecxWork too.",
+      "為在臺灣招募國際人才打造，支援英文、繁體中文與越南文。TECXMATE 自己的職缺也刊登在 TecxWork。",
+    ),
+    groups: [
+      {
+        title: b("General specifications", "基本規格"),
+        rows: [
+          [b("Product type", "產品類型"), b("Web app for career fairs and recruiting", "徵才博覽會與招募網頁應用程式")],
+          [b("Supported platforms", "支援平台"), b("Any web browser, desktop and phone", "任何網頁瀏覽器，電腦與手機皆可")],
+          [b("Languages", "語言"), b("English, 繁體中文, Tiếng Việt", "英文、繁體中文、越南文")],
+          [b("Time zone", "時區"), b("Events run on Taipei time", "活動以臺北時間為準")],
+        ],
+      },
+      {
+        title: b("For job seekers", "給求職者"),
+        rows: [
+          [b("Jobs", "職缺"), b("Browse jobs and companies", "瀏覽職缺與公司")],
+          [b("Interviews", "面試"), b("Book interview time slots with recruiters", "向招募人員預約面試時段")],
+          [b("Schools", "學校"), b("Taiwan school lookup, in Chinese and English", "臺灣學校查詢，中英文皆可")],
+        ],
+      },
+      {
+        title: b("For recruiters", "給招募人員"),
+        rows: [
+          [b("Pipeline", "招募看板"), b("Move candidates from application to hire on a board", "在看板上把候選人從收到履歷推進到錄用")],
+          [b("AI screening", "AI 初篩"), b("An AI interviewer runs a first screening and writes a report", "AI 面試官進行初步篩選並寫出報告")],
+          [b("Notifications", "通知"), b("Push notifications for new activity", "新動態推播通知")],
+        ],
+      },
+      {
+        title: b("For organizers", "給主辦單位"),
+        rows: [
+          [b("Event admin", "活動管理"), b("Companies, schedule and bookings in one admin panel", "在同一個後台管理公司、時程與預約")],
+          [b("Your own site", "專屬網址"), b("Each organization can run on its own subdomain", "每個單位都能有自己的子網域")],
+          [b("AI connector (MCP)", "AI 連接器（MCP）"), b("Connect an AI agent with OAuth 2.1 or an API key", "以 OAuth 2.1 或 API 金鑰連接 AI 代理")],
+        ],
+      },
+    ],
+    metaDescription:
+      "TecxWork: a hiring platform for career fairs. Job seekers book interviews, recruiters run their pipeline, organizers run the event. English, Chinese and Vietnamese.",
   },
 ]
 

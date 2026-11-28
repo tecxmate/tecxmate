@@ -11,7 +11,7 @@ import { AVAILABLE_LANGUAGES, useLanguage, type Language } from "@/components/la
 import { ThemeToggle } from "@/components/theme-toggle"
 import type { SectionVisibility } from "@/lib/site-content"
 import { SHOW_PRODUCTS } from "@/lib/features"
-import { CAREERS_URL, NAV_PRODUCTS } from "@/lib/products-nav"
+import { NAV_PRODUCTS } from "@/lib/products-nav"
 
 const DEFAULT_SECTIONS: SectionVisibility = {
   hero: true,
@@ -147,6 +147,12 @@ export function Navbar() {
               {t("team")}
             </Link>
           )}
+          <Link
+            href="/research"
+            className={`text-sm font-medium transition-colors ${isActive("/research") ? "text-primary" : "hover:text-primary"}`}
+          >
+            {t("nav_research")}
+          </Link>
           {sections.about && (
             <Link
               href="/about"
@@ -155,15 +161,6 @@ export function Navbar() {
               {t("about")}
             </Link>
           )}
-          <Link
-            href="/research"
-            className={`text-sm font-medium transition-colors ${isActive("/research") ? "text-primary" : "hover:text-primary"}`}
-          >
-            {t("nav_research")}
-          </Link>
-          <a href={CAREERS_URL} className="text-sm font-medium transition-colors hover:text-primary">
-            {t("nav_careers")}
-          </a>
         </nav>
         <div className="flex items-center gap-2">
           <div className="hidden md:flex">
@@ -242,6 +239,13 @@ export function Navbar() {
                 {t("team")}
               </Link>
             )}
+            <Link
+              href="/research"
+              className={`text-sm font-medium transition-colors ${isActive("/research") ? "text-primary" : "hover:text-primary"}`}
+              onClick={closeMenu}
+            >
+              {t("nav_research")}
+            </Link>
             {sections.about && (
               <Link
                 href="/about"
@@ -251,16 +255,6 @@ export function Navbar() {
                 {t("about")}
               </Link>
             )}
-            <Link
-              href="/research"
-              className={`text-sm font-medium transition-colors ${isActive("/research") ? "text-primary" : "hover:text-primary"}`}
-              onClick={closeMenu}
-            >
-              {t("nav_research")}
-            </Link>
-            <a href={CAREERS_URL} className="text-sm font-medium transition-colors hover:text-primary" onClick={closeMenu}>
-              {t("nav_careers")}
-            </a>
             <div className="flex items-center gap-2">
               <ThemeToggle />
               <span className="text-sm text-muted-foreground">Toggle theme</span>
