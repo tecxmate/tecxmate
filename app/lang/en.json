@@ -125,7 +125,7 @@
   "vt_f5_d": "Choose an audio file (mp3, wav, m4a…) and get a transcript with times, as text or subtitles (.srt).",
   "vt_f6_t": "Private by design",
   "vt_f6_d": "Your voice and text stay on your Mac, with no account. Recordings are never kept, and each language file is checked against a fixed fingerprint when it is downloaded.",
-  "vt_num_title": "Same recordings, five systems",
+  "vt_num_title": "Our Benchmarks",
   "vt_n3": "per sentence on an M5 MacBook Pro, 16 GB unified memory",
   "vt_num_note": "Accuracy = 100 minus errors per 100 characters. Punctuation score = how many marks are right (F1). One speaker, 25 sentences, MacBook Pro M5 16 GB, on battery in Low Power Mode, November 2026. All VoiceTecx rows come from one run (28 November), with no fixes tuned on these recordings. The MediaTek, OpenAI and Apple rows are from an earlier run on the same recordings, in the same conditions (27 November). Plugged in, VoiceTecx is faster: Standard 1.31 s, Fast 0.49 s. Apple writes while you talk, so it finishes almost at once. VoiceTecx writes after you stop, with fewer mistakes and full punctuation. We will add more speakers.",
   "vt_status": "Public beta · Mac with Apple silicon",

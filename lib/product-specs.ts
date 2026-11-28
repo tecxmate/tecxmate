@@ -18,6 +18,8 @@ export type ProductSpec = {
   name: ProductName
   /** The product's own app icon mark (an SVG in /public), shown in the tile instead of the wordmark. */
   icon?: string
+  /** A rendered app icon set (tile included): a folder with {light,dark}-{64,128,256,512}.{webp,png}. Wins over `icon`. */
+  iconSet?: string
   sub: Bi
   line: Bi
   /** Shown under the line: "<status> at <link>" or "<status> · <link>", or the status alone. */
@@ -234,7 +236,8 @@ export const PRODUCT_SPECS: ProductSpec[] = [
     // Every row traces to tecxmate/voicetecx (WEBSITE-FACTCHECK.md, eval/results-apple-niko.md); owned by the VoiceTecx session.
     id: "voicetecx",
     name: "VoiceTecx",
-    icon: "/products/voicetecx-mark.svg",
+    // Apple's Liquid Glass export, light and dark (tecxmate/voicetecx docs/brand, cb450c5).
+    iconSet: "/products/voicetecx-icon",
     sub: b("On-device dictation for the Mac", "Mac 裝置端語音輸入"),
     line: b(
       "Speak to type in any app and on the web. Traditional Chinese and English, even mixed in one sentence. Fully offline, private and secure.",
