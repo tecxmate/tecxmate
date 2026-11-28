@@ -34,7 +34,8 @@ const AUDIENCE: { icon: LucideIcon; title: Key; body: Key }[] = [
 // run with whisper.cpp; Apple's are macOS 26's on-device dictation and SpeechAnalyzer. No sound-alike pairs made from
 // these recordings (not flattered). Bars start at 0. pending = a mode still being measured on the same recordings.
 // The winner of each chart is highlighted, whoever it is (Niko, 2026-11-28): on speed that is Apple.
-type Row = { label: Key | "VoiceTecx"; sub?: Key; value?: number; display?: string }
+// acc: the row's character accuracy, shown beside a speed so fast never reads as same quality (the lead, 2026-11-28).
+type Row = { label: Key | "VoiceTecx"; sub?: Key; value?: number; display?: string; acc?: number }
 type Chart = { title: Key; scale: Key; max: number; unit?: string; lower?: boolean; rows: Row[] }
 const SYSTEMS = (rows: [number, number, number, number, number], d: (v: number) => string): Row[] =>
   (["VoiceTecx", "vt_c_breeze", "vt_c_whisper", "vt_c_macos", "vt_c_apple_sa"] as const).map((label, i) => ({
@@ -43,7 +44,16 @@ const SYSTEMS = (rows: [number, number, number, number, number], d: (v: number) 
 const CHARTS: Chart[] = [
   { title: "vt_c1_title", scale: "vt_c_scale", max: 100, rows: SYSTEMS([92.8, 92.8, 90.2, 87.2, 84.5], (v) => v.toFixed(1)) },
   { title: "vt_c2_title", scale: "vt_c_scale", max: 100, rows: SYSTEMS([89, 9, 74, 34, 70], String) },
-  { title: "vt_c3_title", scale: "vt_c_scale_s", max: 2, unit: " s", lower: true, rows: SYSTEMS([1.78, 1.08, 0.73, 0.08, 0.05], (v) => v.toFixed(2)) },
+  {
+    title: "vt_c3_title", scale: "vt_c_scale_s_acc", max: 2, unit: " s", lower: true,
+    rows: [
+      ...SYSTEMS([1.78, 1.08, 0.73, 0.08, 0.05], (v) => v.toFixed(2)).map((row, i) => ({ ...row, acc: [92.8, 92.8, 90.2, 87.2, 84.5][i] })),
+      // VoiceTecx's fast modes: dashed until the M5's run on battery in Low Power Mode (eval/results-modes-niko.md)
+      // gives their time and accuracy under the same conditions as the rows above.
+      { label: "vt_m_speed" },
+      { label: "vt_c_fast_test" },
+    ],
+  },
 ]
 const MODE_ROWS = (vals: (number | undefined)[], d: (v: number) => string = (v) => v.toFixed(1)): Row[] =>
   (["vt_m_std", "vt_m_words", "vt_m_speed", "vt_m_light", "vt_m_compact", "vt_m_fast"] as const).map((label, i) => ({
@@ -138,6 +148,7 @@ function BarChart({ title, scale, max, unit = "/100", lower, rows, children }: C
               <span className={`${VALUE_COL} text-right text-sm tabular-nums whitespace-nowrap ${win ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
                 {win && <span className="mr-1.5 text-xs font-semibold uppercase tracking-wider text-primary">{t("vt_c_best")}</span>}
                 {r.display ? r.display + unit : t("vt_c_pending")}
+                {r.acc !== undefined && <span className="block text-xs font-normal text-muted-foreground">{r.acc.toFixed(1)}/100</span>}
               </span>
             </div>
           </div>

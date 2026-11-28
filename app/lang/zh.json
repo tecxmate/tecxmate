@@ -181,6 +181,8 @@
   "vt_c_apple_sa": "Apple SpeechAnalyzer（macOS 26）",
   "vt_c3_title": "說完到出字",
   "vt_c_scale_s": "秒，越短越好",
+  "vt_c_scale_s_acc": "秒，越短越好。灰色小字：字元正確率（滿分 100）",
+  "vt_c_fast_test": "VoiceTecx 快速（測試中）",
   "vt_c_pending": "測量中",
   "vt_modes_title": "VoiceTecx 的各種模式",
   "vt_modes_lead": "選適合你的 Mac 和工作的模式。全部用同一批錄音測試。",

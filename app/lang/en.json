@@ -181,6 +181,8 @@
   "vt_c_apple_sa": "Apple SpeechAnalyzer (macOS 26)",
   "vt_c3_title": "Time to text after you stop",
   "vt_c_scale_s": "Seconds, shorter is better",
+  "vt_c_scale_s_acc": "Seconds, shorter is better. Small grey number: character accuracy out of 100",
+  "vt_c_fast_test": "VoiceTecx Fast (in testing)",
   "vt_c_pending": "Measuring",
   "vt_modes_title": "VoiceTecx modes",
   "vt_modes_lead": "Pick the one that fits your Mac and your work. All are tested on the same recordings.",
