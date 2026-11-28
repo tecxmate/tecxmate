@@ -471,7 +471,7 @@ export function VoiceTecxContent() {
               <p className="text-4xl font-semibold tracking-tight text-foreground mb-1">
                 NT$1,490<span className="text-base font-medium text-muted-foreground"> {t("vt_p_once")}</span>
               </p>
-              <p className="text-sm font-medium text-primary mb-5">{t("vt_p1_early")}</p>
+              <a href="/products/voicetecx/early-bird" className="block text-sm font-medium text-primary mb-5 hover:underline">{t("vt_p1_early")} ›</a>
               <p className="text-sm text-muted-foreground leading-relaxed">{t("vt_p1_d")}</p>
             </article>
             <article className="bg-card border border-border shadow-sm p-8">
